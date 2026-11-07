@@ -25,8 +25,12 @@ import {
   Send,
   Lock,
   ArrowUpRight,
+  Video,
 } from 'lucide-react';
 import { PortalCard } from './PortalCard';
+import { BroadcastTab } from './Tabs/BroadcastTab';
+import { Contact, SalonProfile } from '../types';
+import { generate214Contacts } from '../data/mockData';
 
 interface BookingRecord {
   id: string;
@@ -73,7 +77,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
   const [selectedSalonId, setSelectedSalonId] = useState<string>('1');
   const currentSalon = CLIENT_SALONS.find((s) => s.id === selectedSalonId) || CLIENT_SALONS[0];
 
-  const [activeTab, setActiveTab] = useState<'QUEUE' | 'BOT_CHAT' | 'MENU' | 'MAINTENANCE' | 'REVIEWS'>('QUEUE');
+  const [activeTab, setActiveTab] = useState<'QUEUE' | 'BOT_CHAT' | 'MENU' | 'BROADCAST' | 'MAINTENANCE' | 'REVIEWS'>('QUEUE');
   const [isPwaPromptOpen, setIsPwaPromptOpen] = useState(false);
   const [isPwaInstalled, setIsPwaInstalled] = useState(true);
 
@@ -84,6 +88,58 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
   const [isPayingMaint, setIsPayingMaint] = useState(false);
   const [maintPaidDate, setMaintPaidDate] = useState<string | null>(null);
   const [maintToast, setMaintToast] = useState<string | null>(null);
+
+  // Audience Contacts for this Salon's Broadcast Engine with Multi-Prefix Distribution
+  const [salonContacts] = useState<Contact[]>(() => {
+    const all = generate214Contacts();
+    const pk = all.filter((c) => c.phone.startsWith('+92'));
+    const uae = all.filter((c) => c.phone.startsWith('+971'));
+    
+    // Curated regional contacts for instant prefix auto-routing verification
+    const internationalSamples: Contact[] = [
+      { id: 'cnt-intl-1', name: 'Zayed Al-Hashmi', phone: '+971 50 8923411', city: 'Dubai', country: 'AE', language: 'ar', tags: ['VIP Lounge'], optOut: false, lastVisit: '2026-10-24', totalVisits: 14 },
+      { id: 'cnt-intl-2', name: 'Omar Al-Ameri', phone: '+966 54 1122334', city: 'Riyadh', country: 'AE', language: 'ar', tags: ['Executive'], optOut: false, lastVisit: '2026-10-22', totalVisits: 9 },
+      { id: 'cnt-intl-3', name: 'Rashid Al-Falasi', phone: '+965 99 887766', city: 'Kuwait City', country: 'AE', language: 'ar', tags: ['Regular'], optOut: false, lastVisit: '2026-10-20', totalVisits: 6 },
+      { id: 'cnt-intl-4', name: 'Oliver James', phone: '+44 7911 123456', city: 'London', country: 'PK', language: 'en', tags: ['Expat Client'], optOut: false, lastVisit: '2026-10-18', totalVisits: 4 },
+      { id: 'cnt-intl-5', name: 'Alexander Wright', phone: '+1 212 555 0198', city: 'New York', country: 'PK', language: 'en', tags: ['VIP Diplomat'], optOut: false, lastVisit: '2026-10-17', totalVisits: 5 },
+      { id: 'cnt-intl-6', name: 'Fahad Mehmood', phone: '+91 98200 12345', city: 'Mumbai', country: 'PK', language: 'ur', tags: ['Hinglish Dialect'], optOut: false, lastVisit: '2026-10-16', totalVisits: 3 },
+    ];
+
+    return [
+      pk[0] || { id: 'c-1', name: 'Bilal Ahmed', phone: '+92 300 1234567', city: 'Lahore', country: 'PK', language: 'ur', tags: ['VIP Regular'], optOut: false, lastVisit: '2026-10-25', totalVisits: 8 },
+      internationalSamples[0], // Zayed (+971)
+      internationalSamples[3], // Oliver (+44)
+      pk[1] || { id: 'c-2', name: 'Hamza Malik', phone: '+92 321 9876543', city: 'Islamabad', country: 'PK', language: 'ur', tags: ['Weekend Grooming'], optOut: false, lastVisit: '2026-10-23', totalVisits: 11 },
+      internationalSamples[1], // Omar (+966)
+      internationalSamples[4], // Alexander (+1)
+      internationalSamples[5], // Fahad (+91)
+      internationalSamples[2], // Rashid (+965)
+      ...pk.slice(2, 24),
+      ...uae.slice(0, 12),
+    ];
+  });
+
+  // SalonProfile adapter for modular tab interoperability
+  const activeSalonProfile: SalonProfile = {
+    id: `salon-${currentSalon.id}`,
+    name: currentSalon.name,
+    branch: currentSalon.location,
+    city: currentSalon.location.includes('Karachi') ? 'Karachi' : currentSalon.location.includes('Islamabad') ? 'Islamabad' : 'Lahore',
+    country: 'Pakistan',
+    currency: 'PKR',
+    phone: currentSalon.phone,
+    ownerName: currentSalon.owner,
+    ownerPhone: currentSalon.phone,
+    packageTier: currentSalon.plan.toLowerCase().includes('starter') ? 'essential' : currentSalon.plan.toLowerCase().includes('vip') ? 'enterprise' : 'growth',
+    setupFeePaid: true,
+    monthlyFee: currentSalon.maint,
+    paymentStatus: isMaintenanceOverdue ? 'overdue_red_alert' : 'paid',
+    dueDate: '2026-11-30',
+    lastPaymentDate: maintPaidDate || '2026-10-30',
+    daysOverdue: isMaintenanceOverdue ? 4 : 0,
+    gracePeriodDaysLeft: isMaintenanceOverdue ? 0 : 3,
+    isLockedOut: false,
+  };
 
   const handleAutoClearMaintenance = () => {
     setIsPayingMaint(true);
@@ -468,6 +524,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           { id: 'QUEUE' as const, label: "Today's Live Queue", icon: Calendar, badge: bookings.length },
           { id: 'BOT_CHAT' as const, label: '24/7 Bot Simulator', icon: MessageSquare, badge: 'Live' },
           { id: 'MENU' as const, label: 'Service Rates & Menu', icon: Scissors, badge: `${services.length} items` },
+          { id: 'BROADCAST' as const, label: 'Video Deals Broadcast', icon: Video, badge: '4–9s Safe' },
           { id: 'MAINTENANCE' as const, label: '10% Maintenance SLA', icon: ShieldCheck, badge: 'Due 26d' },
           { id: 'REVIEWS' as const, label: 'Google Review Booster', icon: Star, badge: '4.9 ★' },
         ].map((tab) => {
@@ -968,6 +1025,15 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               </div>
             </div>
           </div>
+        </PortalCard>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 9. TAB 6: PAY-PER-DEAL VIDEO BROADCASTS (DYNAMIC NAME PERSONALIZATION)    */}
+      {/* ========================================================================= */}
+      {activeTab === 'BROADCAST' && (
+        <PortalCard title="Pay-Per-Deal Video Campaign (4s–9s Ban-Safe)" kicker="DYNAMIC NAME PERSONALIZATION">
+          <BroadcastTab salon={activeSalonProfile} contacts={salonContacts} />
         </PortalCard>
       )}
     </div>

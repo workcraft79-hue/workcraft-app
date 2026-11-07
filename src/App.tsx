@@ -572,10 +572,16 @@ export default function App() {
                 </h3>
               </div>
               <button
-                onClick={() => setIsSalonPwaModalOpen(false)}
-                className="p-1.5 rounded-lg text-white/55 hover:text-white transition"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsSalonPwaModalOpen(false);
+                }}
+                className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+                title="Close Simulator"
+                aria-label="Close Simulator"
               >
-                <X className="size-5" />
+                <X className="size-4" />
               </button>
             </div>
 
@@ -607,10 +613,16 @@ export default function App() {
                 <h3 className="text-lg font-bold text-[#F5F2E9]">Terminal Multi-Device QR</h3>
               </div>
               <button
-                onClick={() => setIsPairingModalOpen(false)}
-                className="p-1.5 rounded-lg text-white/55 hover:text-white transition"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsPairingModalOpen(false);
+                }}
+                className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+                title="Close Pairing Modal"
+                aria-label="Close Pairing Modal"
               >
-                <X className="size-5" />
+                <X className="size-4" />
               </button>
             </div>
 

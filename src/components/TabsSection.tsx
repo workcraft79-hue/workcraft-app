@@ -230,10 +230,16 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                     </div>
 
                     <button
-                      onClick={() => setSelectedSalonDetail(null)}
-                      className="rounded-lg p-1.5 text-white/55 hover:text-white transition"
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedSalonDetail(null);
+                      }}
+                      className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+                      title="Close Dossier Modal"
+                      aria-label="Close Dossier Modal"
                     >
-                      <X className="size-5" />
+                      <X className="size-4" />
                     </button>
                   </div>
 

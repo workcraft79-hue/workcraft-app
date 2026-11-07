@@ -127,6 +127,63 @@ export const detectCountryFromPhone = (phoneStr: string): CountryConfig => {
   return { code: 'PK', name: 'Pakistan (Domestic Metro)', currency: 'PKR', prefix: 'PKR ', flag: '🇵🇰', isDomestic: true, region: 'PK' };
 };
 
+export interface EnrollmentLanguageOption {
+  code: 'en' | 'ur_roman' | 'ar';
+  label: string;
+  nativeLabel: string;
+  flag: string;
+  description: string;
+}
+
+/**
+ * Query 1 Compliance: Dynamically gates enrollment languages by regional phone prefix
+ * - PK (+92) / IN (+91): Urdu (اردو) & English ONLY (Arabic hidden)
+ * - MENA / Gulf (+971, +966, +965, etc.): Arabic (العربية) & English ONLY (Urdu hidden)
+ * - Europe / Western (+44, +1, etc.): English ONLY (Urdu & Arabic hidden)
+ */
+export const getEnrollmentLanguagesForPhone = (phoneStr: string): EnrollmentLanguageOption[] => {
+  const clean = (phoneStr || '').replace(/[\s\-\(\)]/g, '');
+  // Pakistan (+92) or India (+91)
+  if (
+    clean.startsWith('+92') ||
+    clean.startsWith('92') ||
+    clean.startsWith('03') ||
+    clean.startsWith('+91') ||
+    clean.startsWith('91')
+  ) {
+    return [
+      { code: 'ur_roman', label: 'Urdu', nativeLabel: 'اردو', flag: '🇵🇰', description: 'اردو میں مکمل فیلڈ اندراج اور تصدیق' },
+      { code: 'en', label: 'English', nativeLabel: 'English', flag: '🌐', description: 'Standard English enrollment wizard' },
+    ];
+  }
+  // MENA Region (+971 UAE, +966 KSA, +965 Kuwait, +968 Oman, +974 Qatar, +973 Bahrain, +20 Egypt, +962 Jordan, etc.)
+  if (
+    clean.startsWith('+971') ||
+    clean.startsWith('971') ||
+    clean.startsWith('+966') ||
+    clean.startsWith('966') ||
+    clean.startsWith('+965') ||
+    clean.startsWith('965') ||
+    clean.startsWith('+968') ||
+    clean.startsWith('968') ||
+    clean.startsWith('+974') ||
+    clean.startsWith('974') ||
+    clean.startsWith('+973') ||
+    clean.startsWith('973') ||
+    clean.startsWith('+20') ||
+    clean.startsWith('+962')
+  ) {
+    return [
+      { code: 'ar', label: 'Arabic', nativeLabel: 'العربية', flag: '🇦🇪', description: 'التسجيل الميداني الكامل باللغة العربية' },
+      { code: 'en', label: 'English', nativeLabel: 'English', flag: '🌐', description: 'Standard English enrollment wizard' },
+    ];
+  }
+  // Europe / Western (+44 UK, +1 US, +49 Germany, +33 France, +39 Italy, etc.) & Global
+  return [
+    { code: 'en', label: 'English', nativeLabel: 'English', flag: '🇬🇧', description: 'Day-1 Enrollment Wizard in English' },
+  ];
+};
+
 export interface DialOption {
   code: string;
   name: string;
@@ -198,7 +255,7 @@ export const ONBOARDING_I18N = {
     boundOwner: 'Registered Payee',
     verifyBtn: 'Verify Digital Settlement Webhook',
     step3Back: 'Back to Service Menu',
-    step3Next: 'Next: Terminal Pairing Mode →',
+    step3Next: 'Confirm Setup Fee & Launch Pairing QR →',
 
     step4Title: 'Step 4: Terminal Multi-Device Pairing & Handshake',
     step4Kicker: 'ON-SITE ACTIVATION',
@@ -274,7 +331,7 @@ export const ONBOARDING_I18N = {
     boundOwner: 'سیلون پارٹنر کا نام',
     verifyBtn: 'ڈیجیٹل ادائیگی ویب ہک تصدیق کریں',
     step3Back: 'واپس سروس مینو',
-    step3Next: 'اگلا مرحلہ: کیو آر پیئرنگ →',
+    step3Next: 'سیٹ اپ فیس تصدیق کریں اور پیئرنگ کیو آر شروع کریں ←',
 
     step4Title: 'چوتھا مرحلہ: واٹس ایپ ڈیوائس لنک اور پیئرنگ',
     step4Kicker: 'آن سائٹ ایکٹیویشن',
@@ -350,7 +407,7 @@ export const ONBOARDING_I18N = {
     boundOwner: 'اسم الشريك المسجل',
     verifyBtn: 'التحقق من إشعار الدفع الرقمي',
     step3Back: 'الرجوع لقائمة الخدمات',
-    step3Next: 'التالي: ربط الجهاز بالباركود ←',
+    step3Next: 'تأكيد رسوم التثبيت وتشغيل باركود الربط ←',
 
     step4Title: 'الخطوة 4: ربط جهاز الصالون بالواتساب والاقتران',
     step4Kicker: 'التفعيل النهائي',
@@ -391,6 +448,17 @@ export const getLocalizedServiceName = (name: string, lang: ClientOnboardingLang
     'Mani-Pedi Spa Package': { ur: 'مینی پیڈی سپا پیکیج', ar: 'باقة سبا للأظافر واليدين' },
     'Keratin Protein Treatment': { ur: 'کیراٹن پروٹین ٹریٹمنٹ', ar: 'جلسة علاج كيراتين بروتين' },
     'Luxury HD Bridal Makeup': { ur: 'لگژری ایچ ڈی برائیڈل میک اپ', ar: 'مكياج عرائس سينمائي فاخر' },
+  };
+  return translations[name]?.[lang] || name;
+};
+
+export const getLocalizedPackageName = (name: string, lang: ClientOnboardingLanguage) => {
+  if (lang === 'en') return name;
+  const translations: Record<string, { ur: string; ar: string }> = {
+    'Starter Setup': { ur: 'اسٹارٹر سیٹ اپ', ar: 'باقة التأسيس الأولى' },
+    'Growth Automation': { ur: 'گروتھ آٹومیشن', ar: 'باقة النمو الآلي' },
+    'VIP Executive': { ur: 'وی آئی پی ایگزیکٹو', ar: 'باقة كبار العملاء VIP' },
+    'Custom Enterprise': { ur: 'کسٹم انٹرپرائز', ar: 'الباقة المخصصة للمؤسسات' },
   };
   return translations[name]?.[lang] || name;
 };
@@ -679,8 +747,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   // Step 4: In-Person Pairing QR State
   const [isPairingSimulated, setIsPairingSimulated] = useState(false);
 
-  // Active Hub View Toggle: 'ONBOARDING' vs 'FLEET' vs 'LEDGER' vs 'PROFILE' vs 'RE_PAIR'
-  const [activeHubView, setActiveHubView] = useState<'ONBOARDING' | 'FLEET' | 'LEDGER' | 'PROFILE' | 'RE_PAIR'>('ONBOARDING');
+  // Active Hub View Toggle: 'ONBOARDING' vs 'FLEET' vs 'LEDGER' vs 'RE_PAIR' (Query 2: Retired redundant Day-1 Profile)
+  const [activeHubView, setActiveHubView] = useState<'ONBOARDING' | 'FLEET' | 'LEDGER' | 'RE_PAIR'>('ONBOARDING');
   const [selectedRePairSalon, setSelectedRePairSalon] = useState('Seven Cuts Studio');
   const [isRePairHandshakeActive, setIsRePairHandshakeActive] = useState(false);
 
@@ -888,6 +956,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
     e.preventDefault();
     setDrawerError(null);
 
+    // Strict Setup Fee Rail Requirement: Transaction ID / Reference is mandatory
+    if (!drawerTid || !drawerTid.trim()) {
+      setDrawerError('Transaction ID (TID) / Raast Reference is strictly required for setup fee settlement verification.');
+      return;
+    }
+
     // Query 7: Strict Biometric Thumbprint Check for Cash
     if (setupPaymentMethod === 'Cash Collection' && !isThumbprintVerified) {
       setDrawerError('Strict Biometric Verification Required: Touch your thumb to the sensor to authorize physical cash receipt.');
@@ -902,7 +976,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
     setDrawerIsSubmitting(true);
 
-    // Simulate 4-Layer Ledger Verification (Anti-replay, checksum, amount check)
+    // Simulate 4-Layer Ledger Verification (Anti-replay, checksum, amount check, status: paid)
     setTimeout(() => {
       setDrawerIsSubmitting(false);
 
@@ -924,7 +998,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       const receiptPayload = {
         method: setupPaymentMethod,
         senderDetails: drawerSenderDetails || ownerName,
-        tid: drawerTid || 'TRX-7829104',
+        tid: drawerTid.trim(),
         amount: activePackage.setupFee,
         currency: activePackage.currency,
         timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
@@ -933,12 +1007,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         commissionAdjusted,
         commissionAmount: commission,
         remainingCashOwed: newRemainingDebt,
+        status: 'paid' as const,
       };
 
       setVerifiedPaymentData(receiptPayload);
-      setIsPaymentVerified(true); // Unlocks the state machine guard!
+      setIsPaymentVerified(true); // Unlocks the state machine guard: status: paid!
       setIsPaymentDrawerOpen(false);
-      setCurrentStep(4); // Seamlessly proceed to Step 4 QR pairing!
+      setCurrentStep(4); // Advance to Step 4 QR pairing!
     }, 1100);
   };
 
@@ -1132,98 +1207,125 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center rounded-xl bg-white/[0.04] border border-white/10 p-1 gap-1">
-            <button
-              onClick={() => setActiveHubView('ONBOARDING')}
-              className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
-                activeHubView === 'ONBOARDING'
-                  ? 'bg-[#D9A441] text-[#12241C] shadow-sm'
-                  : 'text-white/60 hover:text-white'
-              }`}
-            >
-              {agentLanguage === 'ur' ? 'آن بورڈنگ' : agentLanguage === 'ar' ? 'التهيئة' : 'Onboarding'}
-            </button>
-            <button
-              onClick={() => setActiveHubView('FLEET')}
-              className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
-                activeHubView === 'FLEET'
-                  ? 'bg-[#D9A441] text-[#12241C] shadow-sm'
-                  : 'text-white/60 hover:text-white'
-              }`}
-            >
-              <Smartphone className="size-3.5" />
-              <span>{agentLanguage === 'ur' ? 'فلیٹ فورس' : agentLanguage === 'ar' ? 'فريق الميدان' : 'Fleet Force'}</span>
-            </button>
-            <button
-              onClick={() => setActiveHubView('LEDGER')}
-              className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
-                activeHubView === 'LEDGER'
-                  ? 'bg-[#D9A441] text-[#12241C] shadow-sm'
-                  : 'text-white/60 hover:text-white'
-              }`}
-            >
-              {agentLanguage === 'ur' ? 'کمیشن لیجر' : agentLanguage === 'ar' ? 'سجل العمولات' : 'Commission Ledger'}
-            </button>
-            <button
-              onClick={() => setActiveHubView('PROFILE')}
-              className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
-                activeHubView === 'PROFILE'
-                  ? 'bg-[#D9A441] text-[#12241C] shadow-sm'
-                  : 'text-white/60 hover:text-white'
-              }`}
-            >
-              {agentLanguage === 'ur' ? 'پروفائل' : agentLanguage === 'ar' ? 'الملف الشخصي' : 'Day-1 Profile'}
-            </button>
-            <button
-              onClick={() => setActiveHubView('RE_PAIR')}
-              className={`rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold transition flex items-center gap-1 ${
-                activeHubView === 'RE_PAIR'
-                  ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
-                  : 'text-white/60 hover:text-white'
-              }`}
-            >
-              <QrCode className="size-3" />
-              <span>Re-Pair</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsRemoteEnrollmentWizardOpen(true)}
-              className="rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold border border-[#00FFFF]/40 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 text-[#00FFFF] transition flex items-center gap-1"
-              title="Test WhatsApp Day-1 Remote Enrollment Link"
-            >
-              <Sparkles className="size-3" />
-              <span>Day-1 Link</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowPwaInstallModal(true)}
-              className="rounded-lg px-2 py-1.5 text-xs font-mono border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition flex items-center gap-1"
-              title="Add Field Agent Hub to Home Screen"
-            >
-              <Download className="size-3" />
-              <span>PWA</span>
-            </button>
-            <button
-              onClick={() => setIsAgentAuthenticated(false)}
-              className="rounded-lg px-2.5 py-1.5 text-xs font-mono text-white/50 hover:text-amber-300 transition flex items-center gap-1"
-              title="Lock Agent Terminal & Logout"
-            >
-              <Lock className="size-3" />
-              <span>Lock</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsAgentSuspendedByFounder(!isAgentSuspendedByFounder)}
-              className={`rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold transition flex items-center gap-1.5 border ${
-                isAgentSuspendedByFounder
-                  ? 'border-red-500 bg-red-500/20 text-red-300 hover:bg-red-500/30'
-                  : 'border-white/10 text-white/45 hover:text-red-400 hover:border-red-500/30'
-              }`}
-              title="Founder Central Command: Remotely freeze/disconnect agent terminal anytime"
-            >
-              <Power className="size-3 text-red-400" />
-              <span>{isAgentSuspendedByFounder ? 'Suspended' : 'Kill-Switch'}</span>
-            </button>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {/* Primary Action Sequence (Queries 2, 3, 4) */}
+            <div className="flex flex-wrap items-center rounded-xl bg-white/[0.04] border border-white/10 p-1 gap-1">
+              {/* 1. Add New Field Agent Button (Founder Only) */}
+              <button
+                type="button"
+                onClick={() => setIsAddAgentModalOpen(true)}
+                className="rounded-lg px-3 py-1.5 text-xs font-mono font-bold bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] shadow-sm transition active:scale-95 flex items-center gap-1.5"
+                title="Founder: Add New Field Agent & Dispatch WhatsApp Invitation"
+              >
+                <UserPlus className="size-3.5 text-[#12241C]" />
+                <span>+ Add New Field Agent</span>
+              </button>
+
+              {/* 2. Agent Enrollment Link */}
+              <button
+                type="button"
+                onClick={() => setIsRemoteEnrollmentWizardOpen(true)}
+                className="rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold border border-[#00FFFF]/40 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 text-[#00FFFF] transition active:scale-95 flex items-center gap-1"
+                title="Launch Day-1 Remote Agent Enrollment Wizard"
+              >
+                <Sparkles className="size-3 text-[#00FFFF]" />
+                <span>Agent Enrollment Link</span>
+              </button>
+
+              {/* 3. Onboard Salon Wizard */}
+              <button
+                type="button"
+                onClick={() => setActiveHubView('ONBOARDING')}
+                className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
+                  activeHubView === 'ONBOARDING'
+                    ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                {agentLanguage === 'ur' ? 'آن بورڈنگ' : agentLanguage === 'ar' ? 'تهيئة الصالون' : 'Onboard Salon Wizard'}
+              </button>
+
+              {/* 4. Commission Ledger */}
+              <button
+                type="button"
+                onClick={() => setActiveHubView('LEDGER')}
+                className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
+                  activeHubView === 'LEDGER'
+                    ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                {agentLanguage === 'ur' ? 'کمیشن لیجر' : agentLanguage === 'ar' ? 'سجل العمولات' : 'Commission Ledger'}
+              </button>
+
+              {/* 5. Fleet Dossiers */}
+              <button
+                type="button"
+                onClick={() => setActiveHubView('FLEET')}
+                className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+                  activeHubView === 'FLEET'
+                    ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                <Smartphone className="size-3.5" />
+                <span>{agentLanguage === 'ur' ? 'فلیٹ ڈوزیئر' : agentLanguage === 'ar' ? 'ملفات الوكلاء' : 'Fleet Dossiers'}</span>
+              </button>
+
+              {/* 6. Terminal Re-Pair */}
+              <button
+                type="button"
+                onClick={() => setActiveHubView('RE_PAIR')}
+                className={`rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold transition flex items-center gap-1 ${
+                  activeHubView === 'RE_PAIR'
+                    ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                <QrCode className="size-3" />
+                <span>Terminal Re-Pair</span>
+              </button>
+            </div>
+
+            {/* Dedicated Administrative Security & Terminal Control Cluster */}
+            <div className="flex items-center rounded-xl bg-black/50 border border-white/10 p-1 gap-1">
+              {/* Founder Master Kill-Switch */}
+              <button
+                type="button"
+                onClick={() => setIsAgentSuspendedByFounder(!isAgentSuspendedByFounder)}
+                className={`rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold transition flex items-center gap-1.5 border ${
+                  isAgentSuspendedByFounder
+                    ? 'border-red-500 bg-red-500/25 text-red-300 hover:bg-red-500/35 animate-pulse'
+                    : 'border-red-500/30 bg-red-950/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/50'
+                }`}
+                title="Founder Master Kill-Switch: Remotely suspend or restore agent terminal hardware"
+              >
+                <Power className="size-3 text-red-400" />
+                <span>{isAgentSuspendedByFounder ? 'Suspended' : 'Kill-Switch'}</span>
+              </button>
+
+              {/* Lock Terminal */}
+              <button
+                type="button"
+                onClick={() => setIsAgentAuthenticated(false)}
+                className="rounded-lg px-2 py-1.5 text-xs font-mono text-white/50 hover:text-amber-300 transition flex items-center gap-1"
+                title="Lock Agent Terminal & Logout"
+              >
+                <Lock className="size-3" />
+                <span>Lock</span>
+              </button>
+
+              {/* PWA Icon */}
+              <button
+                type="button"
+                onClick={() => setShowPwaInstallModal(true)}
+                className="rounded-lg px-2 py-1.5 text-xs font-mono border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition flex items-center gap-1"
+                title="Add Field Agent Hub to Home Screen"
+              >
+                <Download className="size-3" />
+                <span>PWA</span>
+              </button>
+            </div>
           </div>
           {onClose && (
             <button
@@ -1958,31 +2060,38 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </button>
 
                   {isPaymentVerified ? (
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(4)}
-                      className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-[0_0_15px_rgba(217,164,65,0.4)] animate-in fade-in"
-                    >
-                      <CheckCircle2 className="size-4 text-[#12241C]" />
-                      <span>{t.step3Next}</span>
-                    </button>
-                  ) : (
                     <div className="flex items-center gap-3">
+                      <span className="text-emerald-400 text-xs font-mono font-bold hidden sm:flex items-center gap-1.5 bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-500/30">
+                        <CheckCircle2 className="size-3.5 text-emerald-400" />
+                        <span>Status: Paid ({verifiedPaymentData?.tid})</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentStep(4)}
+                        className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-[0_0_20px_rgba(217,164,65,0.4)] animate-in fade-in"
+                      >
+                        <CheckCircle2 className="size-4 text-[#12241C]" />
+                        <span>{t.step3Next}</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3">
                       <button
                         type="button"
                         onClick={() => handleSelectPaymentMethod(setupPaymentMethod)}
-                        className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20 px-3 py-2 text-xs font-mono font-bold transition"
+                        className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20 px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5"
                       >
-                        {t.verifyBtn}
+                        <CreditCard className="size-3.5" />
+                        <span>{t.verifyBtn}</span>
                       </button>
                       <button
                         type="button"
-                        disabled
-                        className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/10 text-white/35 px-5 py-2.5 text-xs font-mono font-bold uppercase cursor-not-allowed select-none"
-                        title="State Machine Locked: Complete payment verification first"
+                        disabled={true}
+                        className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/10 text-white/30 px-5 py-2.5 text-xs font-mono font-bold uppercase cursor-not-allowed select-none opacity-40 shadow-none"
+                        title="Strict Payment Gating: The 'Confirm Setup Fee & Launch Pairing QR' button remains strictly disabled until backend transaction verification returns status: paid"
                       >
                         <Lock className="size-3.5 text-amber-400" />
-                        <span>Pairing Locked (Awaiting Payment)</span>
+                        <span>Confirm Setup Fee &amp; Launch Pairing QR</span>
                       </button>
                     </div>
                   )}
@@ -2628,677 +2737,6 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* VIEW D: AGENT BIOMETRIC CREDENTIAL & PAYOUT PROFILE (QUERIES 4, 5, 6, 8) */}
-      {/* ========================================================================= */}
-      {activeHubView === 'PROFILE' && (
-        <PortalCard title="Agent Biometric Credential & Day-1 Payout Profile" kicker="AGENT HARDWARE & PAYOUT">
-          <div className="space-y-5">
-            <p className="text-xs text-white/55 font-sans leading-relaxed">
-              Complete and update Day-1 field agent credentials, identity documentation, payout destinations, and legal remittance agreements.
-            </p>
-
-            <div className="grid gap-5 lg:grid-cols-2">
-              {/* Box 1: Queries 4, 5 & 6 - Day-1 Verified Identity & Photo Biometric Capture */}
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-[#00FFFF] text-xs font-mono font-bold uppercase">
-                    <User className="size-4" />
-                    <span>Day-1 Agent Identity (Editable Profile)</span>
-                  </div>
-                  <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
-                    CENTRAL RECORD ACTIVE
-                  </span>
-                </div>
-
-                {/* Live Camera Viewfinder Simulation */}
-                <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-black/40 border border-white/10">
-                  <div className="relative shrink-0">
-                    <div className="size-16 rounded-2xl bg-gradient-to-tr from-[#12241C] to-slate-800 border-2 border-[#00FFFF] grid place-items-center overflow-hidden">
-                      {isCameraCapturing ? (
-                        <div className="text-center animate-pulse">
-                          <Radio className="size-6 text-[#00FFFF] mx-auto animate-spin" />
-                          <span className="text-[7px] font-mono text-[#00FFFF] block mt-0.5">SCANNING</span>
-                        </div>
-                      ) : (
-                        <div className="text-center">
-                          <Camera className="size-6 text-[#00FFFF] mx-auto opacity-80" />
-                          <span className="text-[8px] font-mono text-white/70 block mt-0.5">
-                            {agentFullName.split(' ').map(n => n[0]).join('').slice(0, 2)} PHOTO
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <span className="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-emerald-500 text-black">
-                      <Check className="size-3 stroke-[3]" />
-                    </span>
-                  </div>
-
-                  <div className="space-y-1 min-w-0 flex-1">
-                    <p className="text-xs font-bold text-white flex items-center gap-1.5 font-mono">
-                      <span className="truncate">{agentFullName}</span>
-                      <span className="text-[10px] text-[#D9A441] font-normal shrink-0">#AGT-409</span>
-                    </p>
-                    <p className="text-[10px] text-white/60 font-sans">
-                      Live Selfie verified &amp; encrypted with SHA256 hardware hash
-                    </p>
-                    <div className="flex items-center gap-2 pt-0.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsCameraCapturing(true);
-                          setTimeout(() => {
-                            setIsCameraCapturing(false);
-                            setPayoutSaveStatus('✓ Live selfie re-captured & encrypted into Central Record');
-                          }, 800);
-                        }}
-                        className="text-[10px] font-mono font-bold text-[#00FFFF] hover:underline flex items-center gap-1"
-                      >
-                        <Camera className="size-3" />
-                        <span>{isCameraCapturing ? 'Capturing...' : 'Re-Take Live Selfie'}</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Editable Profile Inputs */}
-                <div className="space-y-3 text-xs font-mono">
-                  <div>
-                    <label className="text-[10px] font-bold text-white/50 block mb-1 uppercase">
-                      AGENT FULL NAME *
-                    </label>
-                    <input
-                      type="text"
-                      value={agentFullName}
-                      onChange={(e) => setAgentFullName(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-sans text-white focus:outline-none focus:border-[#00FFFF]"
-                    />
-                  </div>
-
-                  {/* Operating Jurisdiction & Region Selector (Query 5 & User Refinement) */}
-                  <div>
-                    <label className="text-[10px] font-bold text-white/50 block mb-1 uppercase">
-                      OPERATING JURISDICTION &amp; BANKING REGION *
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1 rounded-xl bg-black/60 border border-white/10">
-                      {[
-                        { id: 'PK', label: '🇵🇰 Pakistan', sub: 'PKR Rail' },
-                        { id: 'EUROPE', label: '🇬🇧 🇪🇺 Europe & UK', sub: 'SEPA / BACS' },
-                        { id: 'MENA_UAE', label: '🇦🇪 UAE', sub: 'AED / MENA' },
-                        { id: 'MENA_SA', label: '🇸🇦 Saudi', sub: 'SAR / MENA' },
-                        { id: 'GLOBAL', label: '🌐 Worldwide', sub: 'USD / Global' },
-                      ].map((reg) => (
-                        <button
-                          key={reg.id}
-                          type="button"
-                          onClick={() => {
-                            setAgentOperatingRegion(reg.id as any);
-                            if (reg.id === 'EUROPE') {
-                              setAgentPayoutMethod('International Bank Wire');
-                              setAgentBankName('Barclays Bank (UK)');
-                              setAgentIban('GB29 BARC 2004 1538 9201 44');
-                              setAgentSwiftCode('BARCGB22');
-                            } else if (reg.id === 'MENA_UAE') {
-                              setAgentPayoutMethod('International Bank Wire');
-                              setAgentBankName('Emirates NBD');
-                              setAgentIban('AE07 0260 0012 3456 7890 123');
-                              setAgentSwiftCode('EBILAEAD');
-                            } else if (reg.id === 'MENA_SA') {
-                              setAgentPayoutMethod('International Bank Wire');
-                              setAgentBankName('Al Rajhi Bank');
-                              setAgentIban('SA03 8000 0000 6080 1016 7519');
-                              setAgentSwiftCode('RJHISARI');
-                            } else if (reg.id === 'PK') {
-                              setAgentPayoutMethod('EasyPaisa');
-                              setAgentBankName('Meezan Bank');
-                              setAgentIban('PK64MEZN0001020304050607');
-                              setAgentSwiftCode('MEZNPKKA');
-                            } else {
-                              setAgentPayoutMethod('International Bank Wire');
-                              setAgentBankName('Wise Business (Multi-Currency)');
-                              setAgentIban('BE12 3456 7890 1234');
-                              setAgentSwiftCode('TRWIBEB1');
-                            }
-                            setPayoutSaveStatus(null);
-                          }}
-                          className={`px-2 py-1.5 rounded-lg text-left transition ${
-                            agentOperatingRegion === reg.id
-                              ? 'bg-[#D9A441] text-[#12241C] font-bold shadow-sm'
-                              : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
-                          }`}
-                        >
-                          <span className="block text-xs font-bold truncate">{reg.label}</span>
-                          <span className="block text-[8px] opacity-75">{reg.sub}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-[10px] font-bold text-white/50 uppercase">
-                          WHATSAPP NUMBER *
-                        </label>
-                        <span className="text-[9px] text-[#00FFFF] font-bold">
-                          {agentDetectedCountry.flag} {agentDetectedCountry.name.split(' ')[0]}
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        value={agentWhatsApp}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          setAgentWhatsApp(val);
-                          const cfg = detectCountryFromPhone(val);
-                          if (cfg.region === 'EUROPE') setAgentOperatingRegion('EUROPE');
-                          else if (cfg.code === 'AE') setAgentOperatingRegion('MENA_UAE');
-                          else if (cfg.code === 'SA') setAgentOperatingRegion('MENA_SA');
-                          else if (cfg.isDomestic) setAgentOperatingRegion('PK');
-                          else setAgentOperatingRegion('GLOBAL');
-                        }}
-                        className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-[10px] font-bold text-white/50 block mb-1 uppercase">
-                        {agentOperatingRegion === 'PK'
-                          ? 'CNIC NUMBER (e.g. 35202-8491023-1) *'
-                          : agentOperatingRegion === 'EUROPE'
-                          ? 'NATIONAL ID / UK NINO / EU ID / PASSPORT *'
-                          : 'NATIONAL ID / EMIRATES ID / PASSPORT *'}
-                      </label>
-                      <input
-                        type="text"
-                        value={agentIdNumber}
-                        onChange={(e) => setAgentIdNumber(e.target.value)}
-                        placeholder={
-                          agentOperatingRegion === 'PK'
-                            ? '35202-8491023-1'
-                            : agentOperatingRegion === 'EUROPE'
-                            ? 'QQ 12 34 56 A / EU-849102'
-                            : '784-1988-1234567-1'
-                        }
-                        className="w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-xs font-mono text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF]"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-[10px] font-bold text-white/50 block mb-1 uppercase">
-                      ASSIGNED METRO TERRITORY
-                    </label>
-                    <input
-                      type="text"
-                      value={agentTerritory}
-                      onChange={(e) => setAgentTerritory(e.target.value)}
-                      placeholder="e.g. Lahore West, London Central, Dubai Marina, Riyadh North"
-                      className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-sans text-white focus:outline-none focus:border-[#00FFFF]"
-                    />
-                  </div>
-
-                  {/* Query 4: Category Authorization Banner */}
-                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-2.5 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-emerald-400 font-bold text-[10px] uppercase flex items-center gap-1.5">
-                        <Scissors className="size-3.5" />
-                        <span>Query 4: Category Authorization</span>
-                      </span>
-                      <span className="text-[9px] font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded">
-                        NON-RESTRICTED
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-white/70 font-sans leading-relaxed">
-                      {agentFullName} is licensed city-wide for <strong>ALL categories</strong>: Men&apos;s Barbershops, Ladies&apos; Beauty Parlors, and Unisex Studios. No gender-based restrictions.
-                    </p>
-                  </div>
-
-                  {/* Hardware Optical Thumbprint Enrollment */}
-                  <div className="rounded-xl border border-white/10 bg-black/30 p-3 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold text-white/50 uppercase flex items-center gap-1.5">
-                        <Fingerprint className="size-3.5 text-[#00FFFF]" />
-                        <span>Hardware Thumbprint Enrollment</span>
-                      </span>
-                      <span className="text-[9px] font-bold text-emerald-400">
-                        {profileThumbHash ? 'ENROLLED' : 'PENDING'}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-[11px] text-white/70 font-mono truncate">
-                        {isProfileThumbScanning ? (
-                          <span className="text-[#00FFFF] animate-pulse">Reading hardware optical sensor...</span>
-                        ) : (
-                          <span>{profileThumbHash}</span>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsProfileThumbScanning(true);
-                          setTimeout(() => {
-                            setIsProfileThumbScanning(false);
-                            setProfileThumbHash('SHA256: 9b8c-02e1-48af-9102-thumb-re-enrolled');
-                            setPayoutSaveStatus('✓ Biometric thumbprint re-authenticated');
-                          }, 900);
-                        }}
-                        className="rounded-lg bg-white/10 hover:bg-white/20 px-2.5 py-1.5 text-[10px] font-mono font-bold text-white transition shrink-0"
-                      >
-                        {isProfileThumbScanning ? 'Scanning...' : 'Re-Scan Thumb'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Box 2: Query 5 & 6 - Payout Destination with Bank Dropdown & "+ Add Custom Bank Name" */}
-              <div className="rounded-2xl border border-[#D9A441]/30 bg-white/[0.04] p-4 sm:p-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-[#D9A441] text-xs font-mono font-bold uppercase">
-                    <DollarSign className="size-4" />
-                    <span>Agent Payout Destination (Query 5 · Worldwide Fit)</span>
-                  </div>
-                  <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
-                    INSTANT AUTO-DISPATCH
-                  </span>
-                </div>
-
-                <div className="space-y-3 text-xs font-mono">
-                  {/* Region Summary Badge */}
-                  <div className="rounded-xl border border-white/10 bg-black/40 p-2.5 flex items-center justify-between">
-                    <span className="text-white/60 text-[11px]">Active Banking Rail:</span>
-                    <span className="font-bold text-[#00FFFF] text-xs">
-                      {agentOperatingRegion === 'PK'
-                        ? '🇵🇰 Pakistan Domestic Rail (1LINK / Raast)'
-                        : agentOperatingRegion === 'EUROPE'
-                        ? '🇬🇧 🇪🇺 Europe Rail (UK BACS & Euro SEPA)'
-                        : agentOperatingRegion === 'MENA_UAE'
-                        ? '🇦🇪 UAE Direct Clearing (CBUAE)'
-                        : agentOperatingRegion === 'MENA_SA'
-                        ? '🇸🇦 Saudi Arabia SARIE Network'
-                        : '🌐 Worldwide SWIFT / IBAN Multi-Currency'}
-                    </span>
-                  </div>
-
-                  <div>
-                    <label className="text-white/50 block text-[10px] mb-1 font-bold uppercase">
-                      SELECT RECEIVING CHANNEL
-                    </label>
-                    <select
-                      value={agentPayoutMethod}
-                      onChange={(e) => {
-                        setAgentPayoutMethod(e.target.value as any);
-                        setPayoutSaveStatus(null);
-                      }}
-                      className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-[#D9A441]"
-                    >
-                      {agentOperatingRegion === 'PK' ? (
-                        <>
-                          <option value="EasyPaisa">EasyPaisa Direct Mobile Wallet</option>
-                          <option value="JazzCash">JazzCash Direct Mobile Wallet</option>
-                          <option value="Bank Transfer (IBFT)">Pakistani Bank Transfer (Direct IBFT)</option>
-                          <option value="Raast Instant Pay">Raast Instant Pay (State Bank ID)</option>
-                        </>
-                      ) : agentOperatingRegion === 'EUROPE' ? (
-                        <>
-                          <option value="International Bank Wire">Euro SEPA IBAN Transfer</option>
-                          <option value="Bank Transfer (IBFT)">UK Faster Payments / BACS Transfer</option>
-                          <option value="International Bank Wire">Wise Business Euro/GBP Virtual Account</option>
-                          <option value="International Bank Wire">Revolut Business Direct</option>
-                        </>
-                      ) : (
-                        <>
-                          <option value="International Bank Wire">International Bank Wire / IBAN</option>
-                          <option value="Bank Transfer (IBFT)">Direct Regional Bank Transfer</option>
-                        </>
-                      )}
-                    </select>
-                  </div>
-
-                  {/* Bank Dropdown with Dedicated Europe, Pakistan, MENA, & Custom Bank Support */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-white/50 block text-[10px] font-bold uppercase">
-                        FINANCIAL INSTITUTION / BANK *
-                      </label>
-                      <span className="text-[9px] text-[#D9A441]">
-                        {agentOperatingRegion === 'EUROPE' ? 'Europe & UK Suggestions' : 'Regional Suggestions'}
-                      </span>
-                    </div>
-
-                    <select
-                      value={isCustomBank ? 'CUSTOM' : agentBankName}
-                      onChange={(e) => {
-                        if (e.target.value === 'CUSTOM') {
-                          setIsCustomBank(true);
-                        } else {
-                          setIsCustomBank(false);
-                          setAgentBankName(e.target.value);
-                        }
-                        setPayoutSaveStatus(null);
-                      }}
-                      className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-[#D9A441]"
-                    >
-                      {agentOperatingRegion === 'PK' ? (
-                        <>
-                          <option value="Meezan Bank">Meezan Bank Limited</option>
-                          <option value="Habib Bank Limited (HBL)">Habib Bank Limited (HBL)</option>
-                          <option value="Bank Alfalah">Bank Alfalah</option>
-                          <option value="Standard Chartered Pakistan">Standard Chartered Pakistan</option>
-                          <option value="MCB Bank Limited">MCB Bank Limited</option>
-                          <option value="Allied Bank Limited (ABL)">Allied Bank Limited (ABL)</option>
-                          <option value="United Bank Limited (UBL)">United Bank Limited (UBL)</option>
-                          <option value="Faysal Bank">Faysal Bank</option>
-                          <option value="Askari Bank">Askari Bank</option>
-                          <option value="CUSTOM">+ Add Custom Bank Name</option>
-                        </>
-                      ) : agentOperatingRegion === 'EUROPE' ? (
-                        <>
-                          <option value="Barclays Bank (UK)">Barclays Bank (UK)</option>
-                          <option value="HSBC UK & Europe">HSBC UK &amp; Europe</option>
-                          <option value="Lloyds Bank (UK)">Lloyds Bank (UK)</option>
-                          <option value="NatWest Bank (UK)">NatWest Bank (UK)</option>
-                          <option value="Santander UK & Europe">Santander UK &amp; Europe</option>
-                          <option value="Standard Chartered (UK/Europe)">Standard Chartered (UK/Europe)</option>
-                          <option value="Deutsche Bank (Germany / EU)">Deutsche Bank (Germany / EU)</option>
-                          <option value="BNP Paribas (France / EU)">BNP Paribas (France / EU)</option>
-                          <option value="ING Bank (Netherlands / EU)">ING Bank (Netherlands / EU)</option>
-                          <option value="UBS / Credit Suisse (Switzerland)">UBS / Credit Suisse (Switzerland)</option>
-                          <option value="Revolut Business (Pan-Europe IBAN / SEPA)">Revolut Business (Pan-Europe IBAN / SEPA)</option>
-                          <option value="Wise Business (Euro / GBP Virtual IBAN)">Wise Business (Euro / GBP Virtual IBAN)</option>
-                          <option value="Monzo Bank (UK)">Monzo Bank (UK)</option>
-                          <option value="Starling Bank (UK)">Starling Bank (UK)</option>
-                          <option value="CUSTOM">+ Add Custom Bank Name</option>
-                        </>
-                      ) : agentOperatingRegion === 'MENA_UAE' ? (
-                        <>
-                          <option value="Emirates NBD">Emirates NBD (UAE)</option>
-                          <option value="First Abu Dhabi Bank (FAB)">First Abu Dhabi Bank (FAB)</option>
-                          <option value="Mashreq Bank">Mashreq Bank</option>
-                          <option value="Abu Dhabi Commercial Bank (ADCB)">ADCB</option>
-                          <option value="Dubai Islamic Bank">Dubai Islamic Bank</option>
-                          <option value="CUSTOM">+ Add Custom Bank Name</option>
-                        </>
-                      ) : agentOperatingRegion === 'MENA_SA' ? (
-                        <>
-                          <option value="Al Rajhi Bank">Al Rajhi Bank (Saudi Arabia)</option>
-                          <option value="Saudi National Bank (SNB)">Saudi National Bank (SNB)</option>
-                          <option value="Riyad Bank">Riyad Bank</option>
-                          <option value="Alinma Bank">Alinma Bank</option>
-                          <option value="CUSTOM">+ Add Custom Bank Name</option>
-                        </>
-                      ) : (
-                        <>
-                          <option value="Wise Business (Multi-Currency)">Wise Business (Multi-Currency)</option>
-                          <option value="Stripe Global Wire">Stripe Global Corporate Wire</option>
-                          <option value="Standard Chartered Global">Standard Chartered Global</option>
-                          <option value="HSBC Worldwide">HSBC Worldwide</option>
-                          <option value="CUSTOM">+ Add Custom Bank Name</option>
-                        </>
-                      )}
-                    </select>
-
-                    {/* Custom Bank Name Input */}
-                    {isCustomBank && (
-                      <div className="space-y-1 animate-in fade-in">
-                        <label className="text-[10px] text-[#D9A441] block font-bold uppercase">
-                          ENTER CUSTOM BANK NAME:
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="e.g. Deutsche Bank, Metro Bank, Bank of Scotland"
-                          value={customBankInput}
-                          onChange={(e) => {
-                            setCustomBankInput(e.target.value);
-                            setAgentBankName(e.target.value);
-                          }}
-                          className="w-full rounded-xl border border-[#D9A441]/50 bg-black/60 px-3.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-[#D9A441]"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="text-white/50 block text-[10px] mb-1 font-bold uppercase">
-                      BENEFICIARY ACCOUNT TITLE *
-                    </label>
-                    <input
-                      value={agentPayoutTitle}
-                      onChange={(e) => {
-                        setAgentPayoutTitle(e.target.value);
-                        setPayoutSaveStatus(null);
-                      }}
-                      className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#D9A441]"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div>
-                      <label className="text-white/50 block text-[10px] mb-1 font-bold uppercase">
-                        {agentOperatingRegion === 'PK' && (agentPayoutMethod === 'EasyPaisa' || agentPayoutMethod === 'JazzCash')
-                          ? 'WALLET MOBILE NUMBER *'
-                          : 'IBAN / ACCOUNT NUMBER *'}
-                      </label>
-                      <input
-                        value={agentPayoutAccount}
-                        onChange={(e) => {
-                          setAgentPayoutAccount(e.target.value);
-                          setPayoutSaveStatus(null);
-                        }}
-                        placeholder={agentOperatingRegion === 'EUROPE' ? 'GB29 BARC 2004 1538 9201 44' : 'PK64MEZN...'}
-                        className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#D9A441]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-white/50 block text-[10px] mb-1 font-bold uppercase">
-                        {agentOperatingRegion === 'EUROPE' ? 'BIC / SWIFT CODE *' : 'BIC / ROUTING (OPTIONAL)'}
-                      </label>
-                      <input
-                        value={agentSwiftCode}
-                        onChange={(e) => {
-                          setAgentSwiftCode(e.target.value);
-                          setPayoutSaveStatus(null);
-                        }}
-                        placeholder="e.g. BARCGB22 or HBUKGB4B"
-                        className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-[#D9A441]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* UK Sort Code Field (Visible for Europe Region) */}
-                  {agentOperatingRegion === 'EUROPE' && (
-                    <div className="rounded-lg bg-black/40 border border-white/10 p-2.5 flex items-center justify-between">
-                      <div>
-                        <span className="text-[10px] font-bold text-white/50 block uppercase">
-                          UK SORT CODE (6 DIGITS)
-                        </span>
-                        <input
-                          type="text"
-                          value={agentSortCode}
-                          onChange={(e) => setAgentSortCode(e.target.value)}
-                          placeholder="20-04-15"
-                          className="mt-0.5 rounded border border-white/10 bg-transparent px-2 py-1 text-xs font-mono text-[#00FFFF] focus:outline-none"
-                        />
-                      </div>
-                      <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                        ⚡ UK FASTER PAYMENTS &amp; SEPA INSTANT
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Query 8, 11, 12, 13, 14: Cash Handling & Legal Remittance Agreements with Biometric Stamp */}
-                  {agentOperatingRegion === 'PK' ? (
-                    <>
-                      {/* Guarantor Reference Contact Field (Pakistan Cash Handling Only - Query 11 Adjusted) */}
-                      <div className="rounded-xl border border-white/10 bg-black/30 p-3 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-bold text-white/60 uppercase flex items-center gap-1.5 font-mono">
-                            <User className="size-3.5 text-[#D9A441]" />
-                            <span>Guarantor Reference / ضامن / کاروباری حوالہ</span>
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                          <input
-                            type="text"
-                            placeholder="Guarantor Name"
-                            value={guarantorName}
-                            onChange={(e) => setGuarantorName(e.target.value)}
-                            className="rounded-lg border border-white/10 bg-black/50 px-2.5 py-1.5 text-xs text-white placeholder-white/30"
-                          />
-                          <input
-                            type="text"
-                            placeholder="Phone / WhatsApp"
-                            value={guarantorContact}
-                            onChange={(e) => setGuarantorContact(e.target.value)}
-                            className="rounded-lg border border-white/10 bg-black/50 px-2.5 py-1.5 text-xs font-mono text-[#00FFFF] placeholder-white/30"
-                          />
-                        </div>
-                        <p className="text-[10px] text-white/50 font-sans">
-                          Local physical cash custody business or family reference for Pakistan metro field onboarding.
-                        </p>
-                      </div>
-
-                      {/* Legally Enforceable 48-Hour Cash Remittance Terms Under Pakistani Law (Query 12) */}
-                      <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-3.5 space-y-2.5">
-                        <label className="flex items-start gap-2.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={hasAgreedToLegalTerms}
-                            onChange={(e) => setHasAgreedToLegalTerms(e.target.checked)}
-                            className="mt-1 size-4 rounded border-amber-500/50 bg-black/60 text-[#D9A441] focus:ring-0 shrink-0"
-                          />
-                          <span className="text-[11px] text-amber-200/95 font-sans leading-relaxed">
-                            &ldquo;I agree to remit all physical cash collected within 48 hours into WORKCRAFT Official Accounts (EasyPaisa, JazzCash, or Official Bank Accounts). I acknowledge that if dues are not remitted within 48 hours, my Agent ID will be immediately suspended and WORKCRAFT Local reserves the full legal right to initiate formal recovery and legal actions under the laws of Pakistan.&rdquo;
-                          </span>
-                        </label>
-
-                        {/* Optical Biometric Stamp on Legal Declaration (Query 14) */}
-                        <div className="p-2.5 rounded-xl bg-black/50 border border-amber-500/30 flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-2 text-xs font-mono">
-                            <Fingerprint className="size-4 text-[#00FFFF]" />
-                            <span className="text-white/70">Legal Biometric Stamp:</span>
-                            <span className="text-emerald-400 font-bold truncate max-w-[150px]">
-                              {legalBiometricStampHash || 'Pending Thumb Stamp'}
-                            </span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsLegalBiometricScanning(true);
-                              setTimeout(() => {
-                                setIsLegalBiometricScanning(false);
-                                setLegalBiometricStampHash('SHA256: 8f4a-9c02-legal-stamped-pk');
-                              }, 800);
-                            }}
-                            className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-bold transition shrink-0"
-                          >
-                            {isLegalBiometricScanning ? 'Scanning Thumb...' : 'Re-Stamp Thumbprint'}
-                          </button>
-                        </div>
-
-                        <div className="flex flex-wrap items-center justify-between text-[10px] font-mono text-white/50 pt-1.5 border-t border-amber-500/20 gap-2">
-                          <span className="text-emerald-400">✓ Cryptographically Signed: 12-Oct-2024 · 09:15 PKT</span>
-                          <span className="text-amber-300 font-bold bg-black/50 px-2 py-0.5 rounded border border-amber-500/30">
-                            JURISDICTION: LAWS OF PAKISTAN · 48H REMITTANCE MANDATE
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Outside Pakistan: 100% Cashless Digital Protocol Notice */}
-                      <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-3.5 space-y-1.5">
-                        <div className="flex items-center justify-between text-xs font-mono">
-                          <span className="text-[#00FFFF] font-bold uppercase flex items-center gap-1.5">
-                            <ShieldCheck className="size-4" />
-                            <span>100% Cashless Digital Rail (Outside Pakistan)</span>
-                          </span>
-                          <span className="text-[9px] font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded">
-                            ZERO HARD CASH PERMITTED
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-white/70 font-sans leading-relaxed">
-                          Outside Pakistan, field agents are <strong>strictly prohibited from handling manual hard cash</strong>. All European and international salon fees are remitted 100% digitally by salon owners directly to WORKCRAFT via Stripe Card, SEPA Euro IBAN, or UK BACS Faster Payments.
-                        </p>
-                      </div>
-
-                      {/* Outside Pakistan: Termination & De-Enrollment Agreement (Query 13) */}
-                      <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3.5 space-y-2.5">
-                        <label className="flex items-start gap-2.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={hasAgreedToLegalTerms}
-                            onChange={(e) => setHasAgreedToLegalTerms(e.target.checked)}
-                            className="mt-1 size-4 rounded border-emerald-500/50 bg-black/60 text-emerald-400 focus:ring-0 shrink-0"
-                          />
-                          <span className="text-[11px] text-emerald-200/95 font-sans leading-relaxed">
-                            &ldquo;I acknowledge and agree that outside Pakistan, WORKCRAFT operates under a strict 100% cashless digital policy. I am strictly prohibited from handling manual physical hard cash. All European and international salon setup and recurring fees must be remitted digitally by salon owners directly to WORKCRAFT. I agree that any violation, misconduct, or salon partner complaint will result in immediate termination of my Agent Agreement, de-enrollment from the platform, and forfeiture of pending claims without prior notice.&rdquo;
-                          </span>
-                        </label>
-
-                        {/* Optical Biometric Stamp on Legal Declaration (Query 14) */}
-                        <div className="p-2.5 rounded-xl bg-black/50 border border-emerald-500/30 flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-2 text-xs font-mono">
-                            <Fingerprint className="size-4 text-[#00FFFF]" />
-                            <span className="text-white/70">Legal Biometric Stamp:</span>
-                            <span className="text-emerald-400 font-bold truncate max-w-[150px]">
-                              {legalBiometricStampHash || 'Pending Thumb Stamp'}
-                            </span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsLegalBiometricScanning(true);
-                              setTimeout(() => {
-                                setIsLegalBiometricScanning(false);
-                                setLegalBiometricStampHash('SHA256: 7e2b-11c9-legal-stamped-global');
-                              }, 800);
-                            }}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold transition shrink-0"
-                          >
-                            {isLegalBiometricScanning ? 'Scanning Thumb...' : 'Re-Stamp Thumbprint'}
-                          </button>
-                        </div>
-
-                        <div className="flex flex-wrap items-center justify-between text-[10px] font-mono text-white/50 pt-1.5 border-t border-emerald-500/20 gap-2">
-                          <span className="text-emerald-400">✓ Cryptographically Signed: 12-Oct-2024 · 09:15 PKT</span>
-                          <span className="text-emerald-300 font-bold bg-black/50 px-2 py-0.5 rounded border border-emerald-500/30">
-                            GLOBAL PROTOCOL: STRICT 100% DIGITAL · INSTANT UNROLL ON MISCONDUCT
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {/* Save Button with Biometric Authorization Gate (Query 16) */}
-                  <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        // Query 16: Require biometric thumbprint re-scan before saving profile modifications
-                        setIsBiometricModalOpenForEdit(true);
-                      }}
-                      className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md flex items-center justify-center gap-2"
-                    >
-                      <Fingerprint className="size-4" />
-                      <span>Authenticate with Thumbprint &amp; Save Profile</span>
-                    </button>
-                    {payoutSaveStatus && (
-                      <span className="text-xs font-mono text-emerald-400 font-bold animate-in fade-in">
-                        {payoutSaveStatus}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </PortalCard>
-      )}
-
-      {/* ========================================================================= */}
       {/* INTERACTIVE PAYMENT VERIFICATION DRAWER (QUERIES 1, 2, 3, 4, 6) */}
       {/* ========================================================================= */}
       {isPaymentDrawerOpen && (
@@ -3322,10 +2760,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </h3>
               </div>
               <button
-                onClick={() => setIsPaymentDrawerOpen(false)}
-                className="rounded-lg p-1.5 text-white/55 hover:text-white transition"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsPaymentDrawerOpen(false);
+                }}
+                className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+                title="Close Settlement Rail"
+                aria-label="Close Settlement Rail"
               >
-                <X className="size-5" />
+                <X className="size-4" />
               </button>
             </div>
 
@@ -3654,6 +3098,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           else setEnrollAgentId('GB-8491028-A');
           setEnrollPayoutTitle(newAgent.name);
           setEnrollPayoutAccount(newAgent.phone);
+
+          // Query 1: Default enrollment language to regional preference
+          const allowed = getEnrollmentLanguagesForPhone(newAgent.phone);
+          setEnrollmentLang(allowed[0].code);
+
           setEnrollmentStep(1);
           setIsRemoteEnrollmentWizardOpen(true);
         }}
@@ -3893,38 +3342,27 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                {/* Tri-Language Switcher */}
+                {/* Regional Allowed Language Switcher (Query 1: PK/IN -> Urdu+English, MENA -> Arabic+English, Europe -> English) */}
                 <div className="flex items-center rounded-xl bg-black/60 border border-white/10 p-1 text-xs font-mono">
-                  <span className="px-1.5 text-white/40">
+                  <span className="px-1.5 text-white/40 flex items-center gap-1">
                     <Globe className="size-3.5 text-[#00FFFF]" />
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => setEnrollmentLang('en')}
-                    className={`px-2 py-1 rounded-lg transition ${
-                      enrollmentLang === 'en' ? 'bg-[#D9A441] text-[#12241C] font-bold' : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    English
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEnrollmentLang('ur_roman')}
-                    className={`px-2 py-1 rounded-lg transition ${
-                      enrollmentLang === 'ur_roman' ? 'bg-[#D9A441] text-[#12241C] font-bold' : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    اردو
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEnrollmentLang('ar')}
-                    className={`px-2 py-1 rounded-lg transition ${
-                      enrollmentLang === 'ar' ? 'bg-[#D9A441] text-[#12241C] font-bold' : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    العربية
-                  </button>
+                  {getEnrollmentLanguagesForPhone(enrollAgentPhone).map((lang) => (
+                    <button
+                      key={lang.code}
+                      type="button"
+                      onClick={() => setEnrollmentLang(lang.code)}
+                      className={`px-2.5 py-1 rounded-lg transition flex items-center gap-1 ${
+                        enrollmentLang === lang.code
+                          ? 'bg-[#D9A441] text-[#12241C] font-black shadow-sm'
+                          : 'text-white/60 hover:text-white'
+                      }`}
+                      title={lang.description}
+                    >
+                      <span>{lang.flag}</span>
+                      <span>{lang.nativeLabel}</span>
+                    </button>
+                  ))}
                 </div>
 
                 {/* Top-Right [X] Close Button (Query 6) */}
@@ -3968,6 +3406,61 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             {/* STEP 1: IDENTITY & COUNTRY DETECTION (QUERY 7 & 8) */}
             {enrollmentStep === 1 && (
               <div className="space-y-3.5 animate-in fade-in">
+                {/* Query 1: Welcome Language Selection Gate Card */}
+                <div className="rounded-2xl border border-[#D9A441]/40 bg-gradient-to-r from-[#D9A441]/10 via-black/40 to-[#00FFFF]/10 p-4 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D9A441] flex items-center gap-1.5">
+                      <Globe className="size-3.5 text-[#00FFFF]" />
+                      <span>
+                        {enrollmentLang === 'ur_roman'
+                          ? 'زبان کا انتخاب (Language Selection)'
+                          : enrollmentLang === 'ar'
+                          ? 'اختر لغة التسجيل (Language Selection)'
+                          : 'Select Enrollment Language'}
+                      </span>
+                    </span>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/20 px-2 py-0.5 rounded">
+                      {detectCountryFromPhone(enrollAgentPhone).name} DETECTED
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/80 font-sans leading-relaxed">
+                    {enrollmentLang === 'ur_roman'
+                      ? 'پورے عمل کو آسان اور واضح سمجھ کے لیے اپنی زبان منتخب کریں۔ آپ اوپر دیے گئے بٹن سے بھی کسی بھی وقت زبان تبدیل کر سکتے ہیں۔'
+                      : enrollmentLang === 'ar'
+                      ? 'اختر لغتك المفضلة لإتمام عملية التسجيل بسهولة تامة وبأوضح العبارات من البداية وحتى النهاية.'
+                      : 'Choose your preferred language for the complete Day-1 enrollment process. Only regional languages permitted for your phone country are active.'}
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    {getEnrollmentLanguagesForPhone(enrollAgentPhone).map((lang) => (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        onClick={() => setEnrollmentLang(lang.code)}
+                        className={`rounded-xl border p-2.5 text-left transition flex items-center justify-between ${
+                          enrollmentLang === lang.code
+                            ? 'border-[#D9A441] bg-[#D9A441]/20 text-white shadow-md'
+                            : 'border-white/10 bg-black/40 text-white/70 hover:border-white/30 hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">{lang.flag}</span>
+                          <div>
+                            <span className="text-xs font-bold font-mono block text-[#D9A441]">
+                              {lang.nativeLabel} ({lang.label})
+                            </span>
+                            <span className="text-[10px] text-white/50 block font-sans">
+                              {lang.description}
+                            </span>
+                          </div>
+                        </div>
+                        {enrollmentLang === lang.code && (
+                          <Check className="size-4 text-emerald-400 shrink-0 stroke-[3]" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="rounded-xl border border-white/10 bg-black/40 p-3 space-y-1">
                   <span className="text-[10px] font-mono text-[#00FFFF] font-bold uppercase">
                     {enrollmentLang === 'ur_roman'
@@ -4023,6 +3516,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       else if (detected.code === 'AE') setEnrollAgentId('784-1992-8192019-1');
                       else if (detected.code === 'SA') setEnrollAgentId('2491028491');
                       else setEnrollAgentId('GB-8491028-A');
+
+                      // Query 1: Synchronize allowed regional languages
+                      const langs = getEnrollmentLanguagesForPhone(val);
+                      if (!langs.some((l) => l.code === enrollmentLang)) {
+                        setEnrollmentLang(langs[0].code);
+                      }
                     }}
                     className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
                   />

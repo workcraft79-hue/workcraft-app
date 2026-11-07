@@ -474,8 +474,22 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
         <div className="fixed inset-0 z-[90] grid place-items-center bg-black/85 p-3 sm:p-5 backdrop-blur-md overflow-y-auto">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[520px] rounded-3xl border border-[#D9A441]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6"
+            className="w-full max-w-[520px] rounded-3xl border border-[#D9A441]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 relative"
           >
+            {/* Modal Top Close Button */}
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+              <span className="text-[10px] font-mono text-white/50 uppercase font-bold">Language Selection / زبان کا انتخاب</span>
+              <button
+                type="button"
+                onClick={() => setIsLanguageGateOpen(false)}
+                className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95"
+                title="Close Language Selection"
+                aria-label="Close Language Selection"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
             {/* Quick Regional Market Switcher Bar */}
             <div className="flex items-center justify-between gap-1 p-1 rounded-xl bg-black/40 border border-white/10 mb-4">
               <button

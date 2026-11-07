@@ -58,6 +58,9 @@ export interface BroadcastLog {
   recipientPhone: string;
   status: 'sent' | 'rate_limited' | 'skipped_optout';
   delaySeconds: number;
+  personalizedText?: string;
+  languageRoute?: string;
+  languageFlag?: string;
 }
 
 export interface BroadcastCampaign {

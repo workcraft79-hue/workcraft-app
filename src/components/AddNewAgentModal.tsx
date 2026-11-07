@@ -44,6 +44,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 }) => {
   const [agentName, setAgentName] = useState('');
   const [agentPhone, setAgentPhone] = useState('+92 302 7819203');
+  const [agentCountry, setAgentCountry] = useState('Pakistan');
   const [agentCity, setAgentCity] = useState('Karachi South');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dispatchedSuccess, setDispatchedSuccess] = useState(false);
@@ -54,9 +55,27 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 
   const detectedCountry = detectCountryFromPhone(agentPhone);
 
+  const countryPresets = [
+    { name: 'Pakistan', flag: '🇵🇰', prefix: '+92', defaultCity: 'Karachi South' },
+    { name: 'United Arab Emirates', flag: '🇦🇪', prefix: '+971', defaultCity: 'Dubai Marina' },
+    { name: 'Saudi Arabia', flag: '🇸🇦', prefix: '+966', defaultCity: 'Riyadh Olaya' },
+    { name: 'United Kingdom', flag: '🇬🇧', prefix: '+44', defaultCity: 'London Central' },
+    { name: 'United States', flag: '🇺🇸', prefix: '+1', defaultCity: 'New York City' },
+  ];
+
+  const handleCountrySelect = (preset: typeof countryPresets[0]) => {
+    setAgentCountry(preset.name);
+    setAgentCity(preset.defaultCity);
+    // If phone starts with old prefix, swap it
+    if (!agentPhone || agentPhone.startsWith('+')) {
+      setAgentPhone(`${preset.prefix} `);
+    }
+  };
+
   if (!isOpen) return null;
 
-  const whatsappMessage = `Assalamu Alaikum ${agentName || '[Agent Name]'}! Welcome to WORKCRAFT Local Field Force. You have been appointed for ${agentCity || '[Territory]'}. Your Terminal ID is ${generatedId} and 4-digit Security PIN is ${generatedPin}. Open your encrypted terminal to complete Day-1 profile and start onboarding: https://portal.workcraft.local/agent-terminal?id=${generatedId}&auth=${generatedPin}`;
+  const enrollUrl = `https://portal.workcraft.local/enroll?id=${generatedId}&pin=${generatedPin}&phone=${encodeURIComponent(agentPhone)}&name=${encodeURIComponent(agentName || 'Agent')}`;
+  const whatsappMessage = `Assalamu Alaikum ${agentName || '[Agent Name]'}! Welcome to WORKCRAFT Local Field Force. You have been appointed for ${agentCity || '[City]'}, ${agentCountry || '[Country]'}. Your Agent ID is ${generatedId} and 4-digit Security PIN is ${generatedPin}. Open your secure link to complete enrollment: ${enrollUrl}`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +92,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
           pin: generatedPin,
           name: agentName.trim(),
           phone: agentPhone.trim(),
-          city: agentCity.trim(),
+          city: `${agentCity.trim()}, ${agentCountry}`,
           category: 'Universal (All Salons, Barbershops & Parlors)',
         });
       }
@@ -105,10 +124,16 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
             </div>
           </div>
           <button
-            onClick={onClose}
-            className="rounded-lg p-1.5 text-white/55 hover:text-white transition"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+            title="Close Modal"
+            aria-label="Close Modal"
           >
-            <X className="size-5" />
+            <X className="size-4" />
           </button>
         </div>
 
@@ -157,7 +182,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                       pin: generatedPin,
                       name: agentName.trim(),
                       phone: agentPhone.trim(),
-                      city: agentCity.trim(),
+                      city: `${agentCity.trim()}, ${agentCountry}`,
                       category: 'Universal (All Salons, Barbershops & Parlors)',
                     });
                     onClose();
@@ -198,10 +223,48 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               />
             </div>
 
-            {/* Field 2: Territory / City */}
+            {/* Field 2: Country Selection (Query 4) */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[11px] font-mono font-bold uppercase text-white/60 flex items-center gap-1.5">
+                  <Globe className="size-3.5 text-[#D9A441]" />
+                  <span>2. Operational Country *</span>
+                </label>
+                <span className="text-[10px] font-mono text-[#D9A441] font-bold">
+                  {agentCountry}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 mb-2">
+                {countryPresets.map((preset) => (
+                  <button
+                    key={preset.name}
+                    type="button"
+                    onClick={() => handleCountrySelect(preset)}
+                    className={`rounded-lg border px-2 py-1.5 text-xs font-mono transition flex items-center justify-center gap-1 ${
+                      agentCountry === preset.name
+                        ? 'border-[#D9A441] bg-[#D9A441]/20 text-[#D9A441] font-bold'
+                        : 'border-white/10 bg-white/[0.03] text-white/60 hover:text-white'
+                    }`}
+                  >
+                    <span>{preset.flag}</span>
+                    <span className="truncate">{preset.name.split(' ')[0]}</span>
+                  </button>
+                ))}
+              </div>
+              <input
+                type="text"
+                required
+                placeholder="Country Name (e.g. Pakistan, United Arab Emirates, Saudi Arabia, UK)"
+                value={agentCountry}
+                onChange={(e) => setAgentCountry(e.target.value)}
+                className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs text-[#F5F2E9] font-sans focus:outline-none focus:border-[#D9A441]"
+              />
+            </div>
+
+            {/* Field 3: Territory / City */}
             <div>
               <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
-                2. Assigned Territory / City *
+                3. Assigned Territory / City *
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-3 size-4 text-[#D9A441]" />
@@ -216,15 +279,23 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               </div>
             </div>
 
-            {/* Field 3: WhatsApp Number with Real-Time Country Detection */}
+            {/* Field 4: WhatsApp Number with Real-Time Country Detection & Regional Language Preview */}
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="text-[11px] font-mono font-bold uppercase text-white/60">
-                  3. Agent WhatsApp Number *
+                  4. Agent WhatsApp Number *
                 </label>
                 <span className="text-[10px] font-mono font-bold text-[#00FFFF] flex items-center gap-1">
                   <span>{detectedCountry.flag}</span>
                   <span>{detectedCountry.name}</span>
+                  <span className="text-white/40">·</span>
+                  <span className="text-[#D9A441]">
+                    {agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+92') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+91')
+                      ? 'Urdu + English'
+                      : agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+971') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+966') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+965')
+                      ? 'Arabic + English'
+                      : 'English'}
+                  </span>
                 </span>
               </div>
               <div className="relative">
@@ -234,7 +305,14 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                   required
                   placeholder="+92 300 1234567, +44 7911 123456, or +971 50 1234567"
                   value={agentPhone}
-                  onChange={(e) => setAgentPhone(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setAgentPhone(val);
+                    const det = detectCountryFromPhone(val);
+                    if (det.name !== 'Global') {
+                      setAgentCountry(det.name);
+                    }
+                  }}
                   className="w-full rounded-xl border border-white/10 bg-white/[0.04] pl-9.5 pr-3.5 py-2.5 text-sm font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
                 />
               </div>
