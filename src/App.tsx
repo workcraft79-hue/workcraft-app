@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   House,
   QrCode,
@@ -88,6 +88,70 @@ export default function App() {
 
   // Founder Command Center Workspace Navigation
   const [activeTab, setActiveTab] = useState<TabName>('Overview');
+
+  // Query 1: Detect WhatsApp direct remote agent enrollment link (/enroll or ?id=...&pin=...)
+  const [initialEnrollAgentData, setInitialEnrollAgentData] = useState<{
+    id?: string;
+    pin?: string;
+    name?: string;
+    phone?: string;
+    city?: string;
+  } | null>(null);
+
+  // Pure 3-Role Isolation Architecture (Query 5):
+  // - FOUNDER: Central Command, Full Fleet Dossier, Add Agents, Kill-Switches, Full 3-Way Ledger
+  // - FIELD_AGENT: Field Operations, Salon Onboarding & QR Pairing, Personal Commission View
+  // - SALON_OWNER: Self-Serve Onboarding, WhatsApp Device Link, Live Queue, Catalog, Broadcasts
+  const [activeRole, setActiveRole] = useState<'FOUNDER' | 'FIELD_AGENT' | 'SALON_OWNER'>('FOUNDER');
+
+  useEffect(() => {
+    try {
+      const search = window.location.search;
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+      const params = new URLSearchParams(search);
+      
+      // Query 5: Social Media Campaign / Facebook Ad Direct Link Detection
+      // e.g. /onboard, /join-salon, ?onboard=salon, ?salon_signup=true, ?ref=social
+      const isSalonDirectRoute =
+        path.includes('/onboard') ||
+        path.includes('/salon') ||
+        hash.includes('onboard') ||
+        params.has('onboard') ||
+        params.has('salon_signup') ||
+        params.get('role') === 'salon_owner' ||
+        params.get('ref') === 'fb' ||
+        params.get('ref') === 'social';
+
+      if (isSalonDirectRoute) {
+        setActiveRole('SALON_OWNER');
+        setActiveTab('Salon Owner Dashboard');
+        return;
+      }
+
+      // Agent Remote Enrollment Link Detection (/enroll, ?id=...&pin=...)
+      const isEnrollRoute = 
+        path.includes('/enroll') || 
+        hash.includes('enroll') || 
+        params.has('enroll') || 
+        params.get('role') === 'agent' ||
+        (params.has('id') && (params.has('pin') || params.has('auth')));
+
+      if (isEnrollRoute) {
+        const id = params.get('id') || undefined;
+        const pin = params.get('pin') || params.get('auth') || undefined;
+        const phone = params.get('phone') || undefined;
+        const name = params.get('name') || undefined;
+        const city = params.get('city') || undefined;
+
+        setInitialEnrollAgentData({ id, pin, phone, name, city });
+        setActiveRole('FIELD_AGENT');
+        setActiveTab('Agent Hub / Onboarding');
+      }
+    } catch {
+      // Ignore URL parsing errors
+    }
+  }, []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isVoiceDrawerOpen, setIsVoiceDrawerOpen] = useState(false);
@@ -299,6 +363,55 @@ export default function App() {
 
             {/* Right Controls */}
             <div className="flex items-center justify-end gap-2.5">
+              {/* Query 5: Active Role Switcher Badge (Founders can preview Agent and Salon Owner modes instantly) */}
+              <div className="flex items-center rounded-xl bg-black/60 border border-white/10 p-0.5 text-[11px] font-mono">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveRole('FOUNDER');
+                    if (activeTab === 'Salon Owner Dashboard') setActiveTab('Overview');
+                  }}
+                  className={`px-2.5 py-1 rounded-lg transition font-bold ${
+                    activeRole === 'FOUNDER'
+                      ? 'bg-[#D9A441] text-[#12241C]'
+                      : 'text-white/60 hover:text-white'
+                  }`}
+                  title="Founder Command Center Mode"
+                >
+                  Founder
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveRole('FIELD_AGENT');
+                    setActiveTab('Agent Hub / Onboarding');
+                  }}
+                  className={`px-2.5 py-1 rounded-lg transition font-bold ${
+                    activeRole === 'FIELD_AGENT'
+                      ? 'bg-[#00FFFF] text-[#12241C]'
+                      : 'text-white/60 hover:text-white'
+                  }`}
+                  title="Field Agent Mode (Gated buttons: Onboarding, Pairing & Personal Commission only)"
+                >
+                  Agent
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveRole('SALON_OWNER');
+                    setActiveTab('Salon Owner Dashboard');
+                  }}
+                  className={`px-2.5 py-1 rounded-lg transition font-bold ${
+                    activeRole === 'SALON_OWNER'
+                      ? 'bg-emerald-400 text-[#12241C]'
+                      : 'text-white/60 hover:text-white'
+                  }`}
+                  title="Salon Owner Self-Serve Mode (Strictly Salon Operations only)"
+                >
+                  Salon
+                </button>
+              </div>
+
               <button
                 onClick={() => setIsNotificationsOpen(true)}
                 className="relative rounded-lg border border-white/10 bg-white/[0.04] p-2 text-white/70 hover:border-white/20 hover:text-white transition"
@@ -429,6 +542,9 @@ export default function App() {
                 }}
                 kamranCashHeld={kamranCashHeld}
                 onClose={() => handleTabChange('Overview')}
+                initialAutoOpenEnrollment={!!initialEnrollAgentData}
+                initialEnrollAgentData={initialEnrollAgentData || undefined}
+                userRole={activeRole === 'FIELD_AGENT' ? 'FIELD_AGENT' : 'FOUNDER'}
               />
             ) : activeTab === 'Salon Owner Dashboard' ? (
               <SalonOwnerDashboard onClose={() => handleTabChange('Overview')} />

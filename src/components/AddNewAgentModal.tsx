@@ -75,7 +75,17 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
   if (!isOpen) return null;
 
   const enrollUrl = `https://portal.workcraft.local/enroll?id=${generatedId}&pin=${generatedPin}&phone=${encodeURIComponent(agentPhone)}&name=${encodeURIComponent(agentName || 'Agent')}`;
-  const whatsappMessage = `Assalamu Alaikum ${agentName || '[Agent Name]'}! Welcome to WORKCRAFT Local Field Force. You have been appointed for ${agentCity || '[City]'}, ${agentCountry || '[Country]'}. Your Agent ID is ${generatedId} and 4-digit Security PIN is ${generatedPin}. Open your secure link to complete enrollment: ${enrollUrl}`;
+  
+  // Query 1: Regional Greeting Customization:
+  // - Pakistan (+92) / MENA (+971, +966, etc.): Starts with Assalamu Alaikum
+  // - Europe (+44 UK, +49 Germany, etc.) & North America / Western: Starts with "Mr. {agentName}"
+  const isEuropeOrWestern = detectedCountry.region === 'EUROPE' || detectedCountry.region === 'NORTH_AMERICA' || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+44') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+1') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+49');
+  
+  const greetingHeader = isEuropeOrWestern
+    ? `Mr. ${agentName || '[Agent Name]'}`
+    : `Assalamu Alaikum ${agentName || '[Agent Name]'}`;
+
+  const whatsappMessage = `${greetingHeader}! Welcome to WORKCRAFT Local Field Force. You have been appointed for ${agentCity || '[City]'}, ${agentCountry || '[Country]'}. Your Agent ID is ${generatedId} and 4-digit Security PIN is ${generatedPin}. Open your secure link to complete enrollment: ${enrollUrl}`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

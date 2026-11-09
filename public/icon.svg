@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1510" />
+      <stop offset="50%" stop-color="#102019" />
+      <stop offset="100%" stop-color="#142820" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3C663" />
+      <stop offset="50%" stop-color="#D9A441" />
+      <stop offset="100%" stop-color="#A2741E" />
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#70FFFF" />
+      <stop offset="100%" stop-color="#00FFFF" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background rounded squircle with safe margin -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <!-- Outer gold-accented boundary ring -->
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-opacity="0.8" />
+  <rect x="36" y="36" width="440" height="440" rx="84" fill="none" stroke="#00FFFF" stroke-width="1.5" stroke-opacity="0.3" />
+
+  <!-- Inner Brand Shield / Geometric Emblem -->
+  <g transform="translate(256, 210)">
+    <!-- Decorative Ambient Glow -->
+    <circle cx="0" cy="0" r="110" fill="#00FFFF" opacity="0.08" filter="url(#glow)" />
+
+    <!-- Left Wing of 'W' in Electric Cyan -->
+    <path d="M -110,-75 L -75,65 L -35,65 L -55,-35 L -15,55 L 15,55 L -5,-75 Z" fill="url(#cyanGrad)" filter="url(#glow)" />
+    
+    <!-- Right Wing of 'W' in Signature Gold -->
+    <path d="M 110,-75 L 75,65 L 35,65 L 55,-35 L 15,55 L -15,55 L 5,-75 Z" fill="url(#goldGrad)" />
+    
+    <!-- Central Hex Diamond Core -->
+    <polygon points="0,-25 18,5 0,35 -18,5" fill="#FFFFFF" opacity="0.95" />
+    <circle cx="0" cy="5" r="4" fill="#00FFFF" />
+  </g>
+
+  <!-- Wordmark 'WORKCRAFT' -->
+  <text x="256" y="380" font-family="'JetBrains Mono', 'Plus Jakarta Sans', system-ui, sans-serif" font-weight="900" font-size="34" letter-spacing="9" fill="#FFFFFF" text-anchor="middle">WORKCRAFT</text>
+  
+  <!-- Sub-Wordmark 'LOCAL' in Signature Gold -->
+  <text x="256" y="420" font-family="'JetBrains Mono', system-ui, sans-serif" font-weight="700" font-size="16" letter-spacing="8" fill="url(#goldGrad)" text-anchor="middle">· LOCAL ·</text>
+
+  <!-- Secure Token Node Dots -->
+  <circle cx="160" cy="415" r="3" fill="#00FFFF" />
+  <circle cx="352" cy="415" r="3" fill="#00FFFF" />
+</svg>
