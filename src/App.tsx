@@ -363,55 +363,6 @@ export default function App() {
 
             {/* Right Controls */}
             <div className="flex items-center justify-end gap-2.5">
-              {/* Query 5: Active Role Switcher Badge (Founders can preview Agent and Salon Owner modes instantly) */}
-              <div className="flex items-center rounded-xl bg-black/60 border border-white/10 p-0.5 text-[11px] font-mono">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveRole('FOUNDER');
-                    if (activeTab === 'Salon Owner Dashboard') setActiveTab('Overview');
-                  }}
-                  className={`px-2.5 py-1 rounded-lg transition font-bold ${
-                    activeRole === 'FOUNDER'
-                      ? 'bg-[#D9A441] text-[#12241C]'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                  title="Founder Command Center Mode"
-                >
-                  Founder
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveRole('FIELD_AGENT');
-                    setActiveTab('Agent Hub / Onboarding');
-                  }}
-                  className={`px-2.5 py-1 rounded-lg transition font-bold ${
-                    activeRole === 'FIELD_AGENT'
-                      ? 'bg-[#00FFFF] text-[#12241C]'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                  title="Field Agent Mode (Gated buttons: Onboarding, Pairing & Personal Commission only)"
-                >
-                  Agent
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveRole('SALON_OWNER');
-                    setActiveTab('Salon Owner Dashboard');
-                  }}
-                  className={`px-2.5 py-1 rounded-lg transition font-bold ${
-                    activeRole === 'SALON_OWNER'
-                      ? 'bg-emerald-400 text-[#12241C]'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                  title="Salon Owner Self-Serve Mode (Strictly Salon Operations only)"
-                >
-                  Salon
-                </button>
-              </div>
-
               <button
                 onClick={() => setIsNotificationsOpen(true)}
                 className="relative rounded-lg border border-white/10 bg-white/[0.04] p-2 text-white/70 hover:border-white/20 hover:text-white transition"

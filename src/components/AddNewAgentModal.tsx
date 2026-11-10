@@ -12,8 +12,10 @@ import {
   ShieldCheck,
   Check,
   Radio,
+  AlertTriangle,
+  AlertOctagon,
 } from 'lucide-react';
-import { detectCountryFromPhone } from './FieldAgentHub';
+import { detectCountryFromPhone, REGIONAL_CITY_MAP, checkCityCountryIntegrity } from './FieldAgentHub';
 
 interface AddNewAgentModalProps {
   isOpen: boolean;
@@ -55,6 +57,10 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 
   const detectedCountry = detectCountryFromPhone(agentPhone);
 
+  // Query 1: Real-time City vs Country Integrity Checker
+  const cityConflict = checkCityCountryIntegrity(agentCity, agentPhone);
+  const validTerritories = REGIONAL_CITY_MAP[detectedCountry.code]?.cities || [];
+
   const countryPresets = [
     { name: 'Pakistan', flag: '🇵🇰', prefix: '+92', defaultCity: 'Karachi South' },
     { name: 'United Arab Emirates', flag: '🇦🇪', prefix: '+971', defaultCity: 'Dubai Marina' },
@@ -90,6 +96,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!agentName.trim() || !agentPhone.trim()) return;
+    if (cityConflict) return; // Block dispatch on geographic mismatch
 
     setIsSubmitting(true);
     setTimeout(() => {
@@ -271,22 +278,72 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               />
             </div>
 
-            {/* Field 3: Territory / City */}
+            {/* Field 3: Territory / City with Real-Time City vs Country Integrity Checking (Query 1) */}
             <div>
-              <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
-                3. Assigned Territory / City *
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[11px] font-mono font-bold uppercase text-white/60">
+                  3. Assigned Territory / City *
+                </label>
+                {cityConflict && (
+                  <span className="text-[10px] font-mono font-bold text-red-400 flex items-center gap-1">
+                    <AlertTriangle className="size-3 text-red-400" />
+                    <span>Territory Conflict Detected</span>
+                  </span>
+                )}
+              </div>
               <div className="relative">
-                <MapPin className="absolute left-3 top-3 size-4 text-[#D9A441]" />
+                <MapPin className={`absolute left-3 top-3 size-4 ${cityConflict ? 'text-red-400' : 'text-[#D9A441]'}`} />
                 <input
                   type="text"
                   required
                   placeholder="e.g. Karachi South, Lahore West, Dubai Marina, London Central, Birmingham"
                   value={agentCity}
                   onChange={(e) => setAgentCity(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] pl-9.5 pr-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none focus:border-[#D9A441]"
+                  className={`w-full rounded-xl border pl-9.5 pr-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none transition ${
+                    cityConflict
+                      ? 'border-red-500 bg-red-950/20 text-red-200 focus:border-red-400'
+                      : 'border-white/10 bg-white/[0.04] focus:border-[#D9A441]'
+                  }`}
                 />
               </div>
+
+              {/* Red Warning Banner if City doesn't match WhatsApp Country */}
+              {cityConflict && (
+                <div className="mt-2 rounded-xl border border-red-500/50 bg-red-950/70 p-3 space-y-1 animate-in fade-in">
+                  <div className="flex items-center gap-1.5 text-red-300 font-mono text-xs font-bold">
+                    <AlertOctagon className="size-4 shrink-0 text-red-400" />
+                    <span>Geographic Integrity Conflict</span>
+                  </div>
+                  <p className="text-xs text-red-200/90 font-sans leading-relaxed">
+                    {cityConflict.en}
+                  </p>
+                </div>
+              )}
+
+              {/* Quick Select Valid Territory Chips for Auto-Detected Country */}
+              {validTerritories.length > 0 && (
+                <div className="mt-2 space-y-1">
+                  <span className="text-[10px] font-mono text-white/50 block">
+                    Quick-select valid {detectedCountry.name} territories:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {validTerritories.slice(0, 6).map((city) => (
+                      <button
+                        key={city}
+                        type="button"
+                        onClick={() => setAgentCity(`${city} Central`)}
+                        className={`rounded-lg px-2.5 py-1 text-xs font-mono transition border ${
+                          agentCity.toLowerCase().includes(city.toLowerCase())
+                            ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] font-bold'
+                            : 'border-white/10 bg-white/[0.03] text-white/70 hover:text-white hover:border-white/20'
+                        }`}
+                      >
+                        {city}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Field 4: WhatsApp Number with Real-Time Country Detection & Regional Language Preview */}
@@ -390,8 +447,12 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="flex-[2] rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md flex items-center justify-center gap-2"
+                disabled={isSubmitting || !!cityConflict}
+                className={`flex-[2] rounded-xl py-3 text-xs font-mono font-bold uppercase transition shadow-md flex items-center justify-center gap-2 ${
+                  cityConflict
+                    ? 'bg-white/10 text-white/40 cursor-not-allowed border border-white/10'
+                    : 'bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] active:scale-95'
+                }`}
               >
                 {isSubmitting ? (
                   <>

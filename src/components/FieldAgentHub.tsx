@@ -44,6 +44,8 @@ import {
   Share2,
   FileText,
   Key,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { PortalCard } from './PortalCard';
 import { AddNewAgentModal } from './AddNewAgentModal';
@@ -73,19 +75,25 @@ interface FieldAgentHubProps {
 }
 
 const DEFAULT_MENS_SERVICES: ServiceItem[] = [
-  { id: 'm1', name: 'Master Haircut & Skin Fade', price: 1200, enabled: true },
-  { id: 'm2', name: 'Royal Beard Sculpt & Ozone Steam', price: 800, enabled: true },
-  { id: 'm3', name: 'Charcoal Deep Detox Facial', price: 2500, enabled: true },
-  { id: 'm4', name: 'Hair Protein & Scalp Massage', price: 1800, enabled: true },
-  { id: 'm5', name: 'Full Grooming VIP Combo', price: 4500, enabled: true },
+  { id: 'm1', name: 'Master Haircut', price: 800, enabled: true },
+  { id: 'm2', name: 'Skin Fade Styling', price: 600, enabled: true },
+  { id: 'm3', name: 'Beard Sculpt & Line-Up', price: 500, enabled: true },
+  { id: 'm4', name: 'Ozone Steam Therapy', price: 400, enabled: true },
+  { id: 'm5', name: 'Charcoal Deep Detox Facial', price: 2500, enabled: true },
+  { id: 'm6', name: 'Hair Protein & Scalp Massage', price: 1800, enabled: true },
+  { id: 'm7', name: 'Hot Towel Royal Shave', price: 500, enabled: true },
+  { id: 'm8', name: 'Full Grooming VIP Combo', price: 4500, enabled: true },
 ];
 
 const DEFAULT_LADIES_SERVICES: ServiceItem[] = [
-  { id: 'l1', name: 'Signature Haircut & Blowdry', price: 2500, enabled: true },
-  { id: 'l2', name: 'Hydra Glow Deep Cleansing Facial', price: 5000, enabled: true },
-  { id: 'l3', name: 'Party Makeup & Hair Styling', price: 8500, enabled: true },
-  { id: 'l4', name: 'Keratin Smoothing Treatment', price: 14000, enabled: true },
-  { id: 'l5', name: 'Manicure & Pedicure Spa', price: 3500, enabled: true },
+  { id: 'l1', name: 'Signature Haircut', price: 1500, enabled: true },
+  { id: 'l2', name: 'Blowdry & Styling', price: 1000, enabled: true },
+  { id: 'l3', name: 'Hydra Glow Cleansing Facial', price: 5000, enabled: true },
+  { id: 'l4', name: 'Party Makeup', price: 6000, enabled: true },
+  { id: 'l5', name: 'Bridal Hair Styling', price: 3500, enabled: true },
+  { id: 'l6', name: 'Keratin Smoothing Treatment', price: 14000, enabled: true },
+  { id: 'l7', name: 'Manicure & Pedicure Spa', price: 3500, enabled: true },
+  { id: 'l8', name: '24K Gold Glow Facial', price: 6500, enabled: true },
 ];
 
 export interface CountryConfig {
@@ -136,6 +144,51 @@ export const detectCountryFromPhone = (phoneStr: string): CountryConfig => {
     return { code: 'US', name: 'USA / North America', currency: 'USD', prefix: '$', flag: '🇺🇸', isDomestic: false, region: 'NORTH_AMERICA', dialCode: '+1' };
   }
   return { code: 'PK', name: 'Pakistan (Domestic Metro)', currency: 'PKR', prefix: 'PKR ', flag: '🇵🇰', isDomestic: true, region: 'PK', dialCode: '+92' };
+};
+
+// Regional City Validation Map (Query 1 & 2)
+export const REGIONAL_CITY_MAP: Record<string, { country: string; flag: string; cities: string[] }> = {
+  PK: { country: 'Pakistan', flag: '🇵🇰', cities: ['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot', 'Gujranwala'] },
+  AE: { country: 'United Arab Emirates', flag: '🇦🇪', cities: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'] },
+  SA: { country: 'Saudi Arabia', flag: '🇸🇦', cities: ['Riyadh', 'Jeddah', 'Dammam', 'Mecca', 'Medina', 'Khobar', 'Tabuk', 'Taif'] },
+  GB: { country: 'United Kingdom', flag: '🇬🇧', cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol'] },
+  UK: { country: 'United Kingdom', flag: '🇬🇧', cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol'] },
+  DE: { country: 'Germany', flag: '🇩🇪', cities: ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne', 'Stuttgart'] },
+  US: { country: 'United States', flag: '🇺🇸', cities: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami', 'San Francisco'] },
+  IN: { country: 'India', flag: '🇮🇳', cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'] },
+};
+
+export const checkCityCountryIntegrity = (city: string, phone: string) => {
+  const detected = detectCountryFromPhone(phone);
+  const cityClean = city.trim().toLowerCase();
+  if (!cityClean) return null;
+
+  // First check if the city belongs to the detected country (e.g. GB or UK for United Kingdom)
+  const detectedCountryCities = REGIONAL_CITY_MAP[detected.code]?.cities || [];
+  const isLocalCity = detectedCountryCities.some(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()) || c.toLowerCase().includes(cityClean));
+  if (isLocalCity) {
+    return null; // Valid local city, zero conflict
+  }
+
+  // Also check alternate codes for the same country (e.g. UK vs GB)
+  if (detected.code === 'GB' && REGIONAL_CITY_MAP['UK']?.cities.some(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()))) {
+    return null;
+  }
+
+  // Now check if it belongs to a DIFFERENT country's known city list
+  for (const [code, info] of Object.entries(REGIONAL_CITY_MAP)) {
+    if (code !== detected.code && !(detected.code === 'GB' && code === 'UK') && !(detected.code === 'UK' && code === 'GB')) {
+      const match = info.cities.find(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()));
+      if (match) {
+        return {
+          en: `${match} is located in ${info.country} (${info.flag}), not in ${detected.name} (${detected.flag}). Dial code is auto-locked to ${detected.dialCode}.`,
+          ur: `${match} ${info.country} (${info.flag}) میں واقع ہے، ${detected.name} (${detected.flag}) میں نہیں۔ ڈائل کوڈ ${detected.dialCode} پر مقفل ہے۔`,
+          ar: `مدينة ${match} تقع في ${info.country} (${info.flag}) وليست في ${detected.name} (${detected.flag}). رمز الهاتف مقفل على ${detected.dialCode}.`,
+        };
+      }
+    }
+  }
+  return null;
 };
 
 export interface EnrollmentLanguageOption {
@@ -206,11 +259,27 @@ export interface DialOption {
 
 export const DIAL_CODE_OPTIONS: DialOption[] = [
   { code: 'PK', name: 'Pakistan', flag: '🇵🇰', dialCode: '+92', expectedDigits: 10, formatHint: '10 digits (e.g. 301 8472910)' },
-  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dialCode: '+44', expectedDigits: 10, formatHint: '10 digits (e.g. 7123 456789)' },
-  { code: 'AE', name: 'UAE', flag: '🇦🇪', dialCode: '+971', expectedDigits: 9, formatHint: '9 digits (e.g. 50 1234567)' },
+  { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪', dialCode: '+971', expectedDigits: 9, formatHint: '9 digits (e.g. 50 1234567)' },
   { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', dialCode: '+966', expectedDigits: 9, formatHint: '9 digits (e.g. 50 1234567)' },
-  { code: 'US', name: 'USA / Canada', flag: '🇺🇸', dialCode: '+1', expectedDigits: 10, formatHint: '10 digits (e.g. 212 5550198)' },
-  { code: 'DE', name: 'Germany (EU)', flag: '🇩🇪', dialCode: '+49', expectedDigits: 10, formatHint: '10 digits (e.g. 151 2345678)' },
+  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dialCode: '+44', expectedDigits: 10, formatHint: '10 digits (e.g. 7123 456789)' },
+  { code: 'US', name: 'United States', flag: '🇺🇸', dialCode: '+1', expectedDigits: 10, formatHint: '10 digits (e.g. 212 5550198)' },
+  { code: 'CA', name: 'Canada', flag: '🇨🇦', dialCode: '+1', expectedDigits: 10, formatHint: '10 digits (e.g. 416 5550198)' },
+  { code: 'KW', name: 'Kuwait', flag: '🇰🇼', dialCode: '+965', expectedDigits: 8, formatHint: '8 digits (e.g. 99 123456)' },
+  { code: 'QA', name: 'Qatar', flag: '🇶🇦', dialCode: '+974', expectedDigits: 8, formatHint: '8 digits (e.g. 55 123456)' },
+  { code: 'OM', name: 'Oman', flag: '🇴🇲', dialCode: '+968', expectedDigits: 8, formatHint: '8 digits (e.g. 91 123456)' },
+  { code: 'BH', name: 'Bahrain', flag: '🇧🇭', dialCode: '+973', expectedDigits: 8, formatHint: '8 digits (e.g. 39 123456)' },
+  { code: 'DE', name: 'Germany', flag: '🇩🇪', dialCode: '+49', expectedDigits: 10, formatHint: '10 digits (e.g. 151 2345678)' },
+  { code: 'FR', name: 'France', flag: '🇫🇷', dialCode: '+33', expectedDigits: 9, formatHint: '9 digits (e.g. 6 12345678)' },
+  { code: 'IT', name: 'Italy', flag: '🇮🇹', dialCode: '+39', expectedDigits: 10, formatHint: '10 digits (e.g. 320 1234567)' },
+  { code: 'ES', name: 'Spain', flag: '🇪🇸', dialCode: '+34', expectedDigits: 9, formatHint: '9 digits (e.g. 612 345678)' },
+  { code: 'NL', name: 'Netherlands', flag: '🇳🇱', dialCode: '+31', expectedDigits: 9, formatHint: '9 digits (e.g. 6 12345678)' },
+  { code: 'IE', name: 'Ireland', flag: '🇮🇪', dialCode: '+353', expectedDigits: 9, formatHint: '9 digits (e.g. 87 1234567)' },
+  { code: 'IN', name: 'India', flag: '🇮🇳', dialCode: '+91', expectedDigits: 10, formatHint: '10 digits (e.g. 98200 12345)' },
+  { code: 'BD', name: 'Bangladesh', flag: '🇧🇩', dialCode: '+880', expectedDigits: 10, formatHint: '10 digits (e.g. 171 2345678)' },
+  { code: 'TR', name: 'Turkey', flag: '🇹🇷', dialCode: '+90', expectedDigits: 10, formatHint: '10 digits (e.g. 532 1234567)' },
+  { code: 'MY', name: 'Malaysia', flag: '🇲🇾', dialCode: '+60', expectedDigits: 9, formatHint: '9 digits (e.g. 12 3456789)' },
+  { code: 'SG', name: 'Singapore', flag: '🇸🇬', dialCode: '+65', expectedDigits: 8, formatHint: '8 digits (e.g. 9123 4567)' },
+  { code: 'AU', name: 'Australia', flag: '🇦🇺', dialCode: '+61', expectedDigits: 9, formatHint: '9 digits (e.g. 412 345678)' },
 ];
 
 export type ClientOnboardingLanguage = 'en' | 'ur' | 'ar';
@@ -260,10 +329,15 @@ export const ONBOARDING_I18N = {
     monthlyMaintNote: 'Monthly maintenance will strictly be 10% SLA. Zero cash is ever accepted for monthly maintenance.',
     paymentConfirmed: 'Payment Confirmed & Sealed',
     paymentUnverified: 'Unverified · Tap Channel Below',
-    layer1Title: 'LAYER 1: REGISTERED WHATSAPP NUMBER PAYMENT BINDING',
-    layer1Desc: 'To prevent confusion or identity mismatch, payment must strictly originate from the exact registered WhatsApp number entered in Step 1. When the transfer arrives from that number, the system automatically clears the payment instantly.',
+    layer1Title: 'LAYER 1: SETUP FEE FLEXIBILITY VS. STRICT 10% MAINTENANCE SIM-LOCK',
+    layer1Desc: 'Initial setup fee can be cleared from any mobile or authorized payment channel (EasyPaisa, JazzCash, Meezan Bank, or Card). However, all recurring monthly 10% maintenance must strictly originate from the registered salon number via the Central SIM Gateway.',
     boundNumber: 'Bound WhatsApp Account',
     boundOwner: 'Registered Payee',
+    featuresTitle: 'Complete Package Features Breakdown (Expandable)',
+    expandFeatures: 'Inspect Package Features',
+    collapseFeatures: 'Hide Features',
+    includedLabel: 'Included',
+    notIncludedLabel: 'Not Included',
     verifyBtn: 'Verify Digital Settlement Webhook',
     step3Back: 'Back to Service Menu',
     step3Next: 'Confirm Setup Fee & Launch Pairing QR →',
@@ -336,10 +410,15 @@ export const ONBOARDING_I18N = {
     monthlyMaintNote: 'ماہانہ دیکھ بھال فیس ٹھیک 10 فیصد ہوگی۔ ماہانہ دیکھ بھال کے لیے نقد رقم ہرگز قبول نہیں کی جائے گی۔',
     paymentConfirmed: 'ادائیگی موصول و محفوظ ہو گئی',
     paymentUnverified: 'غیر تصدیق شدہ · نیچے ادائیگی چینل منتخب کریں',
-    layer1Title: 'لیئر 1 خودکار تصدیق: رجسٹرڈ واٹس ایپ نمبر سے ادائیگی لازمی',
-    layer1Desc: 'فراڈ اور ناموں کے التباس سے بچنے کے لیے ضروری ہے کہ حمزہ صاحب اسی رجسٹرڈ واٹس ایپ نمبر سے فیس بھیجیں جو مرحلہ 1 میں درج ہے۔ جیسے ہی اسی نمبر سے رقم موصول ہوگی، سسٹم فوری خودکار تصدیق کر دے گا۔',
+    layer1Title: 'لیئر 1: سیٹ اپ فیس کی لچک بمقابلہ 10% ماہانہ مینٹیننس کا سم لاک',
+    layer1Desc: 'ابتدائی سیٹ اپ فیس کسی بھی موبائل اکاؤنٹ یا بینک سے ادا کی جا سکتی ہے۔ تاہم، تمام آئندہ ماہانہ 10% مینٹیننس لازمی طور پر سیلون کے رجسٹرڈ نمبر سے بذریعہ سینٹرل سم گیٹ وے ہی خودکار طریقے سے ادا ہوگی۔',
     boundNumber: 'رجسٹرڈ واٹس ایپ اکاؤنٹ',
     boundOwner: 'سیلون پارٹنر کا نام',
+    featuresTitle: 'پیکیج کی مکمل تفصیلات اور خصوصیات (تفصیل دیکھیں)',
+    expandFeatures: 'پیکیج کی تمام خصوصیات دیکھیں',
+    collapseFeatures: 'خصوصیات بند کریں',
+    includedLabel: 'شامل ہے',
+    notIncludedLabel: 'شامل نہیں',
     verifyBtn: 'ڈیجیٹل ادائیگی ویب ہک تصدیق کریں',
     step3Back: 'واپس سروس مینو',
     step3Next: 'سیٹ اپ فیس تصدیق کریں اور پیئرنگ کیو آر شروع کریں ←',
@@ -412,10 +491,15 @@ export const ONBOARDING_I18N = {
     monthlyMaintNote: 'الصيانة الشهرية 10% بموجب اتفاقية الخدمة. لا يتم قبول أي مدفوعات نقدية للصيانة الشهرية نهائياً.',
     paymentConfirmed: 'تم التحقق من الدفع وتثبيته بنجاح',
     paymentUnverified: 'غير مؤكد · اختر قناة الدفع أدناه',
-    layer1Title: 'المستوى 1: ربط الدفع برقم الواتساب المسجل لمنع الالتباس',
-    layer1Desc: 'لحماية العملية ومنع التباس الأسماء، يجب أن يتم التحويل حصرياً من نفس رقم الواتساب المسجل في الخطوة 1. فور وصول التحويل من نفس الرقم، يتم اعتماده تلقائياً.',
+    layer1Title: 'المستوى 1: مرونة دفع رسوم التأسيس وقفل الصيانة الشهرية على شريحة الصالون',
+    layer1Desc: 'يمكن سداد رسوم التأسيس الأولى من أي حساب بنكي أو محفظة معتمدة. بينما تخضع الصيانة الشهرية (10%) لشرط التحويل الحصري من شريحة الصالون المسجلة عبر بوابة SIM المركزية.',
     boundNumber: 'رقم الواتساب المعتمد للدفع',
     boundOwner: 'اسم الشريك المسجل',
+    featuresTitle: 'التفاصيل الشاملة ومميزات الباقة (قابلة للتوسيع)',
+    expandFeatures: 'عرض كافة مميزات الباقة',
+    collapseFeatures: 'إخفاء مميزات الباقة',
+    includedLabel: 'مشمول',
+    notIncludedLabel: 'غير مشمول',
     verifyBtn: 'التحقق من إشعار الدفع الرقمي',
     step3Back: 'الرجوع لقائمة الخدمات',
     step3Next: 'تأكيد رسوم التثبيت وتشغيل باركود الربط ←',
@@ -449,15 +533,27 @@ export const ONBOARDING_I18N = {
 export const getLocalizedServiceName = (name: string, lang: ClientOnboardingLanguage) => {
   if (lang === 'en') return name;
   const translations: Record<string, { ur: string; ar: string }> = {
-    'Signature Haircut & Beard Grooming': { ur: 'ہیئر کٹ اور شیو / داڑھی سیٹنگ', ar: 'قص شعر وتحديد لحية فاخر' },
+    'Master Haircut': { ur: 'ماسٹر ہیئر کٹ (بالوں کی کٹنگ)', ar: 'قص شعر احترافي (ماستر)' },
+    'Skin Fade Styling': { ur: 'اسکن فیڈ اسٹائلنگ (سائیڈ فیڈ)', ar: 'تدريج وتحديد سكن فيد' },
+    'Beard Sculpt & Line-Up': { ur: 'داڑھی سیٹنگ اور خط', ar: 'تحديد وتشذيب اللحية' },
+    'Ozone Steam Therapy': { ur: 'اوزون اسٹیم تھراپی (بھاپ)', ar: 'جلسة بخار أوزون للوجه' },
+    'Charcoal Deep Detox Facial': { ur: 'چارکول ڈیپ ڈیٹاکس فیشل', ar: 'تنظيف عميق بالفحم النشط' },
+    'Hair Protein & Scalp Massage': { ur: 'ہیئر پروٹین اور اسکیلپ مساج', ar: 'بروتين شعر وتدليك الفروة' },
+    'Hot Towel Royal Shave': { ur: 'ہاٹ ٹاول شاہی شیو', ar: 'حلاقة ملكية بالمنشفة الساخنة' },
+    'Full Grooming VIP Combo': { ur: 'فل گرومنگ وی آئی پی کومبو', ar: 'باقة العناية الشاملة VIP' },
+    'Signature Haircut': { ur: 'سگنیچر لیڈیز ہیئر کٹ', ar: 'قص شعر نسائي مميز' },
+    'Blowdry & Styling': { ur: 'بلو ڈرائی اور اسٹائلنگ', ar: 'سشوار وتسريح شعر' },
+    'Hydra Glow Cleansing Facial': { ur: 'ہائیڈرا گلو کلینزنگ فیشل', ar: 'جلسة هيدرافيشل لتنظيف ونضارة البشرة' },
+    'Party Makeup': { ur: 'پارٹی میک اپ', ar: 'مكياج مناسبات وسهرات' },
+    'Bridal Hair Styling': { ur: 'برائیڈل ہیئر اسٹائلنگ', ar: 'تسريحات شعر للعرائس' },
+    'Keratin Smoothing Treatment': { ur: 'کیراٹن اسموتھنگ ٹریٹمنٹ', ar: 'معالجة كيراتين لتنعيم الشعر' },
+    'Manicure & Pedicure Spa': { ur: 'مینی کیور اور پیڈی کیور سپا', ar: 'سبا العناية باليدين والقدمين' },
+    '24K Gold Glow Facial': { ur: '24K گولڈ گلو فیشل', ar: 'جلسة نضارة بالذهب عيار 24' },
     'Hot Towel Charcoal Facial': { ur: 'چارکول فیشل مع ہاٹ ٹاول', ar: 'تنظيف بشرة بالفحم والمنشفة الساخنة' },
     'Royal Scalp Therapy & Wash': { ur: 'ہیئر واش اور اسکیلپ مساج', ar: 'غسيل شعر وتدليك فروة الرأس' },
     'Beard Color & Sculpting': { ur: 'داڑھی کلرنگ اور اسٹائلنگ', ar: 'صبغ لحية وتشذيب احترافي' },
     'Hydra Deep Cleanse Facial': { ur: 'ہائیڈرا فیشل ڈیپ کلینزنگ', ar: 'جلسة هيدرافيشل لتنظيف المسام' },
     'Bridal Hair Styling & Wash': { ur: 'برائیڈل ہیئر اسٹائلنگ اور واش', ar: 'تصفيف وتسريحات شعر للعرائس' },
-    '24K Gold Glow Facial': { ur: '24K گولڈ فیشل گلو', ar: 'جلسة نضارة بالذهب عيار 24' },
-    'Mani-Pedi Spa Package': { ur: 'مینی پیڈی سپا پیکیج', ar: 'باقة سبا للأظافر واليدين' },
-    'Keratin Protein Treatment': { ur: 'کیراٹن پروٹین ٹریٹمنٹ', ar: 'جلسة علاج كيراتين بروتين' },
     'Luxury HD Bridal Makeup': { ur: 'لگژری ایچ ڈی برائیڈل میک اپ', ar: 'مكياج عرائس سينمائي فاخر' },
   };
   return translations[name]?.[lang] || name;
@@ -472,6 +568,139 @@ export const getLocalizedPackageName = (name: string, lang: ClientOnboardingLang
     'Custom Enterprise': { ur: 'کسٹم انٹرپرائز', ar: 'الباقة المخصصة للمؤسسات' },
   };
   return translations[name]?.[lang] || name;
+};
+
+export interface PackageFeatureDetail {
+  title: string;
+  included: boolean;
+  highlight?: boolean;
+}
+
+export const getLocalizedPackageFeatures = (pkgId: string, lang: ClientOnboardingLanguage): PackageFeatureDetail[] => {
+  if (lang === 'ur') {
+    switch (pkgId) {
+      case 'STARTER':
+        return [
+          { title: '24/7 خودکار واٹس ایپ بکنگ بوٹ', included: true },
+          { title: 'ماہانہ 500 گاہک بکنگز کی گنجائش', included: true },
+          { title: 'بکنگ کا فوری کنفرمیشن و ریمائنڈر میسج', included: true },
+          { title: 'گوگل 5-اسٹار ریویو بوسٹر (غیر فعال)', included: false },
+          { title: 'ویڈیو ڈیلز اور وائرل ریلز (غیر فعال)', included: false },
+          { title: 'ماہانہ 10% مینٹیننس (مفت ہوسٹنگ و بیک اپ)', included: true },
+        ];
+      case 'GROWTH':
+        return [
+          { title: '24/7 خودکار واٹس ایپ بکنگ بوٹ', included: true },
+          { title: 'ماہانہ 1,500 گاہک بکنگز کی گنجائش', included: true },
+          { title: 'گوگل 5-اسٹار ریویو بوسٹر (سروس کے 30 منٹ بعد خودکار)', included: true, highlight: true },
+          { title: 'براہ راست گوگل میپس 5★ فلٹر و ریٹنگ اضافہ', included: true },
+          { title: 'ویڈیو ڈیلز اور وائرل ریلز (غیر فعال)', included: false },
+          { title: 'ماہانہ 10% مینٹیننس اور 60 منٹ ہیلنگ گارنٹی', included: true },
+        ];
+      case 'VIP':
+        return [
+          { title: '24/7 ترجیحی واٹس ایپ بوٹ کلسٹر', included: true },
+          { title: 'ماہانہ 3,000 گاہک بکنگز کی گنجائش', included: true },
+          { title: 'گوگل 5-اسٹار ریویو بوسٹر (VIP ترجیح)', included: true },
+          { title: 'ویڈیو اپلوڈ اور وائرل ڈیلز فیچر انلاکڈ', included: true, highlight: true },
+          { title: '1 ویڈیو ڈیل (1,500 روپے) یا 4 ویڈیو ڈیلز (4,000 روپے ماہانہ)', included: true },
+          { title: '7 تا 10 دن کا ویڈیو کنورژن آڈٹ', included: true },
+          { title: 'ماہانہ 10% مینٹیننس اور ڈیڈیکیٹڈ سپورٹ مینیجر', included: true },
+        ];
+      case 'CUSTOM':
+      default:
+        return [
+          { title: 'ملٹی سم گیٹ وے اور کسٹم واٹس ایپ راؤٹنگ', included: true },
+          { title: 'لامحدود بکنگز اور ملٹی برانچ نیٹ ورک کنٹرول', included: true },
+          { title: 'لامحدود گوگل 5-اسٹار پروموشنل مہمات', included: true },
+          { title: 'کسٹم ویڈیو پروڈکشن اور سوشل ریلز پروموشن', included: true },
+          { title: '24/7 ترجیحی سینئر انجینئر اسٹینڈ بائی (10% SLA)', included: true },
+        ];
+    }
+  }
+
+  if (lang === 'ar') {
+    switch (pkgId) {
+      case 'STARTER':
+        return [
+          { title: 'بوت حجز واتساب آلي يعمل على مدار 24/7', included: true },
+          { title: 'سعة استيعاب 500 حجز شهرياً', included: true },
+          { title: 'إشعار وتأكيد فوري للحجوزات', included: true },
+          { title: 'معزز تقييمات جوجل 5 نجوم (غير مدرج)', included: false },
+          { title: 'عروض الفيديو والريلز التسويقية (غير مدرج)', included: false },
+          { title: 'صيانة شهرية 10% (استضافة وضمان تشغيل)', included: true },
+        ];
+      case 'GROWTH':
+        return [
+          { title: 'بوت واتساب فائق السرعة 24/7', included: true },
+          { title: 'سعة استيعاب 1,500 حجز شهرياً', included: true },
+          { title: 'معزز تقييمات جوجل 5 نجوم التلقائي (بعد 30 دقيقة)', included: true, highlight: true },
+          { title: 'رفع التقييم المباشر على خرائط جوجل', included: true },
+          { title: 'عروض الفيديو والريلز التسويقية (غير مدرج)', included: false },
+          { title: 'صيانة شهرية 10% مع دعم تعافي في أقل من 60 دقيقة', included: true },
+        ];
+      case 'VIP':
+        return [
+          { title: 'بوت واتساب عالي الكثافة والأولوية القصوى', included: true },
+          { title: 'سعة استيعاب 3,000 حجز شهرياً', included: true },
+          { title: 'معزز تقييمات جوجل 5 نجوم الممتاز', included: true },
+          { title: 'فتح ميزة عروض وفيديوهات الصالون التسويقية', included: true, highlight: true },
+          { title: 'عرض فيديو واحد ($15) أو 4 فيديوهات ($40 شهرياً)', included: true },
+          { title: 'تدقيق ومتابعة تفاعل الفيديو لمدة 7-10 أيام', included: true },
+          { title: 'صيانة شهرية 10% ومدير حساب مخصص', included: true },
+        ];
+      case 'CUSTOM':
+      default:
+        return [
+          { title: 'مجموعة بوابات SIM متعددة وتوزيع للفروع', included: true },
+          { title: 'حجوزات غير محدودة وتغطية لجميع الفروع', included: true },
+          { title: 'حملات تقييمات جوجل غير محدودة', included: true },
+          { title: 'إنتاج حملات فيديو مخصصة وترويج احترافي', included: true },
+          { title: 'دعم تقني مباشر 24/7 بموجب اتفاقية 10%', included: true },
+        ];
+    }
+  }
+
+  // English (default)
+  switch (pkgId) {
+    case 'STARTER':
+      return [
+        { title: '24/7 Autonomous WhatsApp Booking Concierge', included: true },
+        { title: '500 salon bookings / month capacity', included: true },
+        { title: 'Instant booking confirmation & reminder SMS', included: true },
+        { title: 'Google 5-Star Review Booster (Disabled)', included: false },
+        { title: 'Viral Video Deals & Reels Feature (Disabled)', included: false },
+        { title: 'Monthly 10% Maintenance (Cloud hosting, auto-healing)', included: true },
+      ];
+    case 'GROWTH':
+      return [
+        { title: '24/7 Autonomous WhatsApp Booking Concierge', included: true },
+        { title: '1,500 salon bookings / month capacity', included: true },
+        { title: 'Google 5-Star Review Booster (Auto-prompted 30 mins after checkout)', included: true, highlight: true },
+        { title: 'Direct Google Maps 5★ filter & review multiplier', included: true },
+        { title: 'Viral Video Deals & Reels Feature (Disabled)', included: false },
+        { title: 'Monthly 10% Maintenance with < 60-min recovery SLA', included: true },
+      ];
+    case 'VIP':
+      return [
+        { title: 'Priority Multi-Threaded WhatsApp Concierge Cluster', included: true },
+        { title: '3,000 salon bookings / month capacity', included: true },
+        { title: 'Google 5-Star Review Booster (VIP priority)', included: true },
+        { title: 'Viral Video Deals & Reels Feature Unlocked', included: true, highlight: true },
+        { title: '1 video deal ($15 / PKR 1.5k) or 4 video deals ($40 / PKR 4k / mo)', included: true },
+        { title: '7 to 10 day conversion audit & analytics', included: true },
+        { title: 'Monthly 10% Maintenance & dedicated account manager', included: true },
+      ];
+    case 'CUSTOM':
+    default:
+      return [
+        { title: 'Multi-SIM Cluster & Customized Branch Routing', included: true },
+        { title: 'Unlimited salon bookings / multi-branch network', included: true },
+        { title: 'Unlimited Google 5-Star campaigns & viral promo broadcast', included: true },
+        { title: 'Custom video marketing production & creator coordination', included: true },
+        { title: 'Dedicated senior engineer 24/7 standby (10% SLA)', included: true },
+      ];
+  }
 };
 
 export const formatWelcomeMessage = (
@@ -524,6 +753,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [address, setAddress] = useState('Shop #4, Plaza 12, CCA Phase 5 DHA, Lahore');
   const [isCapturingGps, setIsCapturingGps] = useState(false);
   const [invitePreview, setInvitePreview] = useState<string | null>(null);
+
+  // Searchable Country Dial Code Picker State (Recommendation 1)
+  const [countrySearchQuery, setCountrySearchQuery] = useState('');
+  const [isDialDropdownOpen, setIsDialDropdownOpen] = useState(false);
+
+  // Expandable Package Feature Details Accordion State (Recommendation 3)
+  const [expandedPackageId, setExpandedPackageId] = useState<string | null>('GROWTH');
 
   // Dynamic Full Phone and Country Detection
   const phone = `${selectedDialCode} ${nationalPhone}`;
@@ -650,6 +886,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
     detectedCountry.isDomestic ? 'EasyPaisa' : 'Stripe / Card'
   );
   const [isPaymentDrawerOpen, setIsPaymentDrawerOpen] = useState(false);
+  const [simWebhookState, setSimWebhookState] = useState<'idle' | 'listening' | 'detected'>('idle');
 
   // Query 6: State Machine Guard Lock (Strictly FALSE until payment confirmation is verified)
   const [isPaymentVerified, setIsPaymentVerified] = useState(false);
@@ -848,50 +1085,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [isLegalStampScanning, setIsLegalStampScanning] = useState(false);
   const [cityValidationError, setCityValidationError] = useState<{ en: string; ur: string; ar: string } | null>(null);
 
-  // Regional City Validation Map (Query 2)
-  const REGIONAL_CITY_MAP: Record<string, { country: string; flag: string; cities: string[] }> = {
-    PK: { country: 'Pakistan', flag: '🇵🇰', cities: ['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot', 'Gujranwala'] },
-    AE: { country: 'United Arab Emirates', flag: '🇦🇪', cities: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'] },
-    SA: { country: 'Saudi Arabia', flag: '🇸🇦', cities: ['Riyadh', 'Jeddah', 'Dammam', 'Mecca', 'Medina', 'Khobar', 'Tabuk', 'Taif'] },
-    GB: { country: 'United Kingdom', flag: '🇬🇧', cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol'] },
-    UK: { country: 'United Kingdom', flag: '🇬🇧', cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol'] },
-    DE: { country: 'Germany', flag: '🇩🇪', cities: ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne', 'Stuttgart'] },
-    US: { country: 'United States', flag: '🇺🇸', cities: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami', 'San Francisco'] },
-    IN: { country: 'India', flag: '🇮🇳', cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'] },
-  };
 
-  const checkCityCountryIntegrity = (city: string, phone: string) => {
-    const detected = detectCountryFromPhone(phone);
-    const cityClean = city.trim().toLowerCase();
-    if (!cityClean) return null;
-
-    // First check if the city belongs to the detected country (e.g. GB or UK for United Kingdom)
-    const detectedCountryCities = REGIONAL_CITY_MAP[detected.code]?.cities || [];
-    const isLocalCity = detectedCountryCities.some(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()) || c.toLowerCase().includes(cityClean));
-    if (isLocalCity) {
-      return null; // Valid local city, zero conflict
-    }
-
-    // Also check alternate codes for the same country (e.g. UK vs GB)
-    if (detected.code === 'GB' && REGIONAL_CITY_MAP['UK']?.cities.some(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()))) {
-      return null;
-    }
-
-    // Now check if it belongs to a DIFFERENT country's known city list
-    for (const [code, info] of Object.entries(REGIONAL_CITY_MAP)) {
-      if (code !== detected.code && !(detected.code === 'GB' && code === 'UK') && !(detected.code === 'UK' && code === 'GB')) {
-        const match = info.cities.find(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()));
-        if (match) {
-          return {
-            en: `${match} is located in ${info.country} (${info.flag}), not in ${detected.name} (${detected.flag}). Dial code is auto-locked to ${detected.dialCode}.`,
-            ur: `${match} ${info.country} (${info.flag}) میں واقع ہے، ${detected.name} (${detected.flag}) میں نہیں۔ ڈائل کوڈ ${detected.dialCode} پر مقفل ہے۔`,
-            ar: `مدينة ${match} تقع في ${info.country} (${info.flag}) وليست في ${detected.name} (${detected.flag}). رمز الهاتف مقفل على ${detected.dialCode}.`,
-          };
-        }
-      }
-    }
-    return null;
-  };
 
   // Query 1: Auto-open enrollment when launched via direct WhatsApp link
   React.useEffect(() => {
@@ -1011,6 +1205,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
   // Open Interactive Payment Drawer
   const handleSelectPaymentMethod = (method: typeof setupPaymentMethod) => {
+    // Recommendation 6: Strict Biometric Cash Gating - Zero cash outside Pakistan & Zero cash for self-onboarding
+    if (method === 'Cash Collection' && (!detectedCountry.isDomestic || (userRole as string) === 'SALON_OWNER')) {
+      return;
+    }
+
     setSetupPaymentMethod(method);
     setDrawerError(null);
     setIsThumbprintVerified(false);
@@ -1019,19 +1218,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       setDrawerError(`⚠️ PKR 50,000 Cash Velocity Limit Reached! (Held: PKR ${cashLiabilityHeld.toLocaleString()} + Package: PKR ${activePackage.setupFee.toLocaleString()}). You cannot collect cash until current funds are deposited.`);
     }
 
-    setDrawerTid(
-      method === 'EasyPaisa'
-        ? 'EP-' + Math.floor(10000000000 + Math.random() * 90000000000)
-        : method === 'JazzCash'
-        ? 'JC-' + Math.floor(10000000000 + Math.random() * 90000000000)
-        : method === 'Bank Transfer (IBFT)'
-        ? 'RRN-' + Math.floor(100000 + Math.random() * 900000)
-        : method === 'Stripe / Card'
-        ? 'pi_' + Math.random().toString(36).substring(2, 14)
-        : 'CASH-THUMB-' + Math.floor(1000 + Math.random() * 9000)
-    );
+    const generatedTid = method === 'EasyPaisa'
+      ? 'EP-' + Math.floor(10000000000 + Math.random() * 90000000000)
+      : method === 'JazzCash'
+      ? 'JC-' + Math.floor(10000000000 + Math.random() * 90000000000)
+      : method === 'Bank Transfer (IBFT)'
+      ? (detectedCountry.isDomestic ? 'RAAST-' + Math.floor(1000000000 + Math.random() * 9000000000) : 'SWIFT-WIRE-' + Math.floor(100000 + Math.random() * 900000))
+      : method === 'Stripe / Card'
+      ? 'pi_' + Math.random().toString(36).substring(2, 14)
+      : 'CASH-THUMB-' + Math.floor(1000 + Math.random() * 9000);
+
+    setDrawerTid(generatedTid);
     setDrawerSenderDetails(ownerName + ' (' + phone + ')');
     setIsPaymentDrawerOpen(true);
+
+    // Recommendation 4: Automated Central SIM Gateway Webhook Simulation
+    if (detectedCountry.isDomestic && method !== 'Cash Collection') {
+      setSimWebhookState('listening');
+      setTimeout(() => {
+        setSimWebhookState('detected');
+      }, 950);
+    } else {
+      setSimWebhookState('idle');
+    }
   };
 
   // Submit Payment Drawer Verification (Server-to-Server Ledger Cross-Check Simulation)
@@ -1045,16 +1254,20 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       return;
     }
 
-    // Query 7: Strict Biometric Thumbprint Check for Cash
-    if (setupPaymentMethod === 'Cash Collection' && !isThumbprintVerified) {
-      setDrawerError('Strict Biometric Verification Required: Touch your thumb to the sensor to authorize physical cash receipt.');
-      return;
-    }
-
-    // Query 8: Hard PKR 50,000 Cash Ceiling Check
-    if (setupPaymentMethod === 'Cash Collection' && cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING) {
-      setDrawerError(`Cannot proceed: PKR 50,000 cash velocity ceiling exceeded (Held: PKR ${cashLiabilityHeld.toLocaleString()}). Deposit current funds first.`);
-      return;
+    // Recommendation 6: Strict Biometric Thumbprint Check for Cash (Zero PIN Fallback)
+    if (setupPaymentMethod === 'Cash Collection') {
+      if (!detectedCountry.isDomestic || (userRole as string) === 'SALON_OWNER') {
+        setDrawerError('Cash collection is strictly prohibited for international salons or self-onboarding salon owners.');
+        return;
+      }
+      if (!isThumbprintVerified) {
+        setDrawerError('Strict Biometric Verification Required: Touch your thumb to the sensor to authorize physical cash receipt.');
+        return;
+      }
+      if (cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING) {
+        setDrawerError(`Cannot proceed: PKR 50,000 cash velocity ceiling exceeded (Held: PKR ${cashLiabilityHeld.toLocaleString()}). Deposit current funds first.`);
+        return;
+      }
     }
 
     setDrawerIsSubmitting(true);
@@ -1067,7 +1280,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       let newRemainingDebt = cashLiabilityHeld;
       let commissionAdjusted = false;
 
-      // Query 11: Option A Net-Adjustment
+      // Option A Net-Adjustment
       if (cashLiabilityHeld > 0 && detectedCountry.isDomestic) {
         newRemainingDebt = Math.max(0, cashLiabilityHeld - commission);
         setCashLiabilityHeld(newRemainingDebt);
@@ -1078,6 +1291,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         onCashCollected(activePackage.setupFee, salonName);
       }
 
+      const isIntl = !detectedCountry.isDomestic;
       const receiptPayload = {
         method: setupPaymentMethod,
         senderDetails: drawerSenderDetails || ownerName,
@@ -1086,7 +1300,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         currency: activePackage.currency,
         timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         sha256Proof: 'sha256:' + (thumbprintHash || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
-        recipientRoute: 'Auto-Detected Dual Dispatch (Salon Owner + Field Agent Kamran Tariq)',
+        recipientRoute: isIntl
+          ? 'Dual Dispatch via WhatsApp (Salon Owner + Field Agent) · 24-48h Rolling Payout to Meezan IBAN PK64MEZN0001020304050607'
+          : 'Central SIM Gateway Dual Dispatch (Salon Owner + Field Agent Kamran Tariq)',
         commissionAdjusted,
         commissionAmount: commission,
         remainingCashOwed: newRemainingDebt,
@@ -1655,21 +1871,79 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
-                      {/* Country Code Dropdown */}
+                    <div className="flex gap-2">
+                      {/* Searchable & Filterable Country Code Picker (Recommendation 1) */}
                       <div className="relative shrink-0">
-                        <select
-                          value={selectedDialCode}
-                          onChange={(e) => setSelectedDialCode(e.target.value)}
-                          className="appearance-none rounded-xl border border-white/10 bg-black/60 px-2.5 py-2.5 text-xs font-mono font-bold text-white pr-6 focus:outline-none focus:border-[#00FFFF] cursor-pointer"
+                        <button
+                          type="button"
+                          onClick={() => setIsDialDropdownOpen(!isDialDropdownOpen)}
+                          className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/60 px-3 py-2.5 text-xs font-mono font-bold text-white hover:border-[#00FFFF] transition cursor-pointer"
                         >
-                          {DIAL_CODE_OPTIONS.map((d) => (
-                            <option key={d.code} value={d.dialCode} className="bg-slate-900 text-white">
-                              {d.flag} {d.dialCode} ({d.code})
-                            </option>
-                          ))}
-                        </select>
-                        <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-white/40">▼</span>
+                          <span className="text-base leading-none">{selectedDialConfig.flag}</span>
+                          <span className="text-[#00FFFF]">{selectedDialCode}</span>
+                          <span className="text-[9px] text-white/40">▼</span>
+                        </button>
+
+                        {/* Searchable Dropdown Flyout */}
+                        {isDialDropdownOpen && (
+                          <div className="absolute left-0 top-full mt-1.5 z-50 w-72 max-h-72 rounded-2xl border border-[#00FFFF]/40 bg-[#102019] p-2.5 shadow-2xl backdrop-blur-md overflow-hidden flex flex-col animate-in fade-in zoom-in-95">
+                            {/* Search Box */}
+                            <div className="mb-2">
+                              <input
+                                type="text"
+                                autoFocus
+                                placeholder="Search country or code (e.g. UAE, +971, UK, +92)..."
+                                value={countrySearchQuery}
+                                onChange={(e) => setCountrySearchQuery(e.target.value)}
+                                className="w-full rounded-lg border border-white/10 bg-black/50 px-2.5 py-1.5 text-xs font-mono text-white placeholder:text-white/40 focus:outline-none focus:border-[#00FFFF]"
+                              />
+                            </div>
+
+                            {/* Scrollable list */}
+                            <div className="overflow-y-auto space-y-1 flex-1 pr-1">
+                              {DIAL_CODE_OPTIONS.filter((d) =>
+                                d.name.toLowerCase().includes(countrySearchQuery.toLowerCase()) ||
+                                d.dialCode.includes(countrySearchQuery) ||
+                                d.code.toLowerCase().includes(countrySearchQuery.toLowerCase())
+                              ).map((d) => (
+                                <button
+                                  key={d.code}
+                                  type="button"
+                                  onClick={() => {
+                                    setSelectedDialCode(d.dialCode);
+                                    setIsDialDropdownOpen(false);
+                                    setCountrySearchQuery('');
+                                    const detected = detectCountryFromPhone(d.dialCode);
+                                    if (!detected.isDomestic) {
+                                      setSetupPaymentMethod('Stripe / Card');
+                                      if (detected.region === 'MENA') {
+                                        setClientOnboardingLanguage('ar');
+                                      } else {
+                                        setClientOnboardingLanguage('en');
+                                      }
+                                    } else {
+                                      setSetupPaymentMethod('EasyPaisa');
+                                      setClientOnboardingLanguage('ur');
+                                    }
+                                  }}
+                                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-mono transition text-left ${
+                                    selectedDialCode === d.dialCode
+                                      ? 'bg-[#00FFFF] text-[#12241C] font-bold'
+                                      : 'hover:bg-white/[0.06] text-white/80'
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-2 truncate">
+                                    <span className="text-base">{d.flag}</span>
+                                    <span className="truncate">{d.name}</span>
+                                  </div>
+                                  <span className={selectedDialCode === d.dialCode ? 'text-[#12241C] font-bold shrink-0 ml-1' : 'text-[#00FFFF] font-bold shrink-0 ml-1'}>
+                                    {d.dialCode}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Local Phone Input */}
@@ -1837,9 +2111,6 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           <p className={`text-xs font-bold ${service.enabled ? 'text-[#F5F2E9]' : 'text-white/40'}`}>
                             {getLocalizedServiceName(service.name, clientOnboardingLanguage)}
                           </p>
-                          <span className="text-[10px] font-mono text-white/50">
-                            {serviceCategory === 'MENS' ? t.mensCategory : t.ladiesCategory}
-                          </span>
                         </div>
                       </div>
 
@@ -1949,14 +2220,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     {currentPackageList.map((pkg) => {
                       const isSelected = selectedOnboardingPackage === pkg.id;
                       return (
-                        <button
+                        <div
                           key={pkg.id}
-                          type="button"
                           onClick={() => {
                             setSelectedOnboardingPackage(pkg.id as any);
+                            setExpandedPackageId(pkg.id);
                             setIsPaymentVerified(false); // reset verification if package changes
                           }}
-                          className={`rounded-xl border p-3 text-left transition flex flex-col justify-between ${
+                          className={`rounded-xl border p-3 text-left transition flex flex-col justify-between cursor-pointer ${
                             isSelected
                               ? 'border-[#00FFFF] bg-white/[0.08] ring-1 ring-[#00FFFF]'
                               : 'border-white/10 bg-white/[0.02] hover:border-white/20'
@@ -1976,19 +2247,104 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               {pkg.scope}
                             </p>
                           </div>
-                          <div className="mt-2.5 pt-2 border-t border-white/10">
-                            <span className="text-xs font-mono font-bold text-[#D9A441]">
-                              Setup: {pkg.prefix}{pkg.setupFee.toLocaleString()}
-                            </span>
-                            <span className="text-[9px] font-mono text-emerald-300 block">
-                              Maint: {pkg.prefix}{pkg.monthlyMaint.toLocaleString()}/mo (10%)
-                            </span>
+                          <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between">
+                            <div>
+                              <span className="text-xs font-mono font-bold text-[#D9A441] block">
+                                Setup: {pkg.prefix}{pkg.setupFee.toLocaleString()}
+                              </span>
+                              <span className="text-[9px] font-mono text-emerald-300 block">
+                                Maint: {pkg.prefix}{pkg.monthlyMaint.toLocaleString()}/mo (10%)
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setExpandedPackageId(expandedPackageId === pkg.id ? null : pkg.id);
+                              }}
+                              className="size-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-[#00FFFF] transition"
+                              title="Expand package feature details"
+                            >
+                              {expandedPackageId === pkg.id ? (
+                                <ChevronUp className="size-3.5 text-[#00FFFF]" />
+                              ) : (
+                                <ChevronDown className="size-3.5" />
+                              )}
+                            </button>
                           </div>
-                        </button>
+                        </div>
                       );
                     })}
                   </div>
                 </div>
+
+                {/* Recommendation 3: Expandable Localized Package Feature Breakdown Accordion */}
+                {expandedPackageId && (() => {
+                  const targetPkg = currentPackageList.find((p) => p.id === expandedPackageId) || activePackage;
+                  const features = getLocalizedPackageFeatures(targetPkg.id, clientOnboardingLanguage);
+
+                  return (
+                    <div className="rounded-2xl border border-[#00FFFF]/30 bg-black/40 p-4 space-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#00FFFF] bg-[#00FFFF]/10 px-2 py-0.5 rounded border border-[#00FFFF]/20">
+                            {t.featuresTitle}
+                          </span>
+                          <span className="text-xs font-bold text-[#F5F2E9]">
+                            {getLocalizedPackageName(targetPkg.name, clientOnboardingLanguage)} ({targetPkg.prefix}{targetPkg.setupFee.toLocaleString()} + {targetPkg.prefix}{targetPkg.monthlyMaint.toLocaleString()}/mo)
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setExpandedPackageId(null)}
+                          className="text-[11px] font-mono text-white/50 hover:text-white flex items-center gap-1 self-start sm:self-center"
+                        >
+                          <span>{t.collapseFeatures}</span>
+                          <ChevronUp className="size-3.5" />
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                        {features.map((feat, idx) => (
+                          <div
+                            key={idx}
+                            className={`p-2.5 rounded-xl border flex items-center justify-between gap-2 transition ${
+                              feat.included
+                                ? feat.highlight
+                                  ? 'border-[#00FFFF]/40 bg-[#00FFFF]/5 text-[#F5F2E9]'
+                                  : 'border-white/10 bg-white/[0.02] text-white/80'
+                                : 'border-white/5 bg-white/[0.01] text-white/35 line-through'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              {feat.included ? (
+                                <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                              ) : (
+                                <X className="size-4 text-rose-500/60 shrink-0" />
+                              )}
+                              <span className={`font-sans ${feat.highlight ? 'font-bold text-[#00FFFF]' : ''}`}>
+                                {feat.title}
+                              </span>
+                            </div>
+                            <span className={`text-[9px] font-mono px-2 py-0.5 rounded shrink-0 ${
+                              feat.included
+                                ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                                : 'bg-white/5 text-white/40'
+                            }`}>
+                              {feat.included ? t.includedLabel : t.notIncludedLabel}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5 text-[10px] font-mono text-white/50">
+                        <span>⚡ 10% SLA: Cloud hosting, live menu edits &amp; &lt;60min auto-repair SLA.</span>
+                        <span className="text-[#D9A441]">Zero-Cash Policy for recurring monthly fees.</span>
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 {/* Selected Package Summary Box */}
                 <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -2051,18 +2407,23 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {(detectedCountry.isDomestic
-                      ? [
-                          { name: 'EasyPaisa', note: 'Merchant Till · Instant Webhook' },
-                          { name: 'JazzCash', note: 'Till 789210 · Sub-2s Clearance' },
-                          { name: 'Bank Transfer (IBFT)', note: 'Meezan Bank Raast 1LINK' },
-                          { name: 'Cash Collection', note: 'Pakistan On-Site Setup Only' },
-                        ]
-                      : [
-                          { name: 'Stripe / Card', note: 'Global 3D-Secure · Apple Pay' },
-                          { name: 'Bank Transfer (IBFT)', note: 'Direct SWIFT / IBAN Wire' },
-                        ]
-                    ).map((m) => (
+                    {(() => {
+                      if (!detectedCountry.isDomestic) {
+                        return [
+                          { name: 'Stripe / Card', note: 'Global 3D-Secure · Apple Pay · 24-48h Wire' },
+                          { name: 'Bank Transfer (IBFT)', note: 'Direct SWIFT / IBAN Wire to Meezan PK' },
+                        ];
+                      }
+                      const pkChannels = [
+                        { name: 'EasyPaisa', note: 'Merchant Till · Central SIM Webhook' },
+                        { name: 'JazzCash', note: 'Corporate Till 789210 · Sub-2s Clearance' },
+                        { name: 'Bank Transfer (IBFT)', note: 'Meezan Bank Raast 1LINK Reference' },
+                      ];
+                      if ((userRole as string) !== 'SALON_OWNER') {
+                        pkChannels.push({ name: 'Cash Collection', note: 'Pakistan On-Site Only · Thumbprint Signed' });
+                      }
+                      return pkChannels;
+                    })().map((m) => (
                       <button
                         key={m.name}
                         type="button"
@@ -2925,93 +3286,149 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
               {setupPaymentMethod === 'Bank Transfer (IBFT)' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">Meezan Bank · A/C: 01020304050607</p>
-                  <p className="text-[#00FFFF] text-[11px]">IBAN: PK64MEZN0001020304050607 · Title: WORKCRAFT Local Pvt Ltd</p>
-                  <p className="text-[10px] text-white/50">1LINK &amp; Raast Instant Reference Clearance</p>
+                  <p className="text-white font-bold text-sm">Meezan Bank Ltd Pakistan · A/C: 01020304050607</p>
+                  <p className="text-[#00FFFF] text-[11px]">IBAN: PK64MEZN0001020304050607 · SWIFT: MEZNPKKA</p>
+                  <p className="text-[10px] text-white/50">
+                    {detectedCountry.isDomestic
+                      ? '1LINK & Raast Instant Reference Clearance'
+                      : 'Direct 24-48h International SWIFT Wire Clearance to Pakistani Meezan Account'}
+                  </p>
                 </div>
               )}
               {setupPaymentMethod === 'Stripe / Card' && (
                 <div className="space-y-0.5">
                   <p className="text-white font-bold text-sm">Stripe 3D-Secure Global Card Processing</p>
-                  <p className="text-emerald-400 text-[11px]">Automated 24-48h Rolling Payout to Pakistani Meezan IBAN</p>
-                  <p className="text-[10px] text-white/50">Card forex conversion borne by client&apos;s bank ($0 WORKCRAFT toll)</p>
+                  <p className="text-emerald-400 text-[11px]">Automated 24-48h Rolling Payout to Pakistani Meezan IBAN (PK64MEZN0001020304050607)</p>
+                  <p className="text-[10px] text-white/50">Instant terminal activation granted immediately · Card forex conversion handled by issuing bank</p>
                 </div>
               )}
               {setupPaymentMethod === 'Cash Collection' && (
                 <div className="space-y-0.5">
                   <p className="text-white font-bold text-sm">On-Site Physical Cash Custody: Kamran Tariq</p>
-                  <p className="text-amber-300 text-[11px]">Permissible exclusively for initial Pakistan onboarding setup</p>
-                  <p className="text-[10px] text-white/50">Held Cash Liability automatically recorded against agent ledger</p>
+                  <p className="text-amber-300 text-[11px]">Permissible exclusively for initial Pakistan onboarding setup (Hardware Thumbprint Signed)</p>
+                  <p className="text-[10px] text-white/50">Held Cash Liability automatically recorded against agent ledger · Zero cash outside Pakistan</p>
                 </div>
               )}
             </div>
 
-            {/* Query 1: Auto-Detected Dual Alert Recipient Routing Mode */}
+            {/* Auto-Detected Dual Alert Recipient Routing Mode */}
             <div className="mt-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-2.5 flex items-center justify-between text-[11px] font-mono">
               <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
                 <Radio className="size-3.5 text-[#00FFFF] animate-pulse" />
                 <span>Routing: ASSISTED (Auto-Detected Dual Alert)</span>
               </span>
-              <span className="text-white/60 text-[10px]">Owner + Kamran WhatsApp</span>
+              <span className="text-white/60 text-[10px]">Owner + Agent WhatsApp Push</span>
             </div>
 
             {/* Payer Input Form with Layer 1 Registered Phone Binding */}
             <form onSubmit={handleVerifyDrawerPayment} className="mt-3.5 space-y-3.5">
-              {/* Layer 1 Phone-Bound Notice */}
+              {/* Layer 1 Phone-Bound Notice: Setup Fee vs Maintenance Policy */}
               <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 space-y-1">
                 <div className="flex items-center justify-between text-[11px] font-mono">
                   <span className="text-emerald-300 font-bold flex items-center gap-1.5">
                     <ShieldCheck className="size-3.5 text-emerald-400" />
-                    <span>Layer 1 Phone Binding Enforced</span>
+                    <span>Layer 1 Phone Policy</span>
                   </span>
-                  <span className="text-white/60 text-[10px]">Zero Copy-Pasting Required</span>
+                  <span className="text-white/60 text-[10px]">Setup Flexible · Maintenance Locked</span>
                 </div>
                 <p className="text-xs text-white/80 font-sans">
-                  Payer SIM: <strong className="text-white font-mono">{phone}</strong> ({ownerName})
+                  Registered Salon SIM: <strong className="text-[#00FFFF] font-mono">{phone}</strong> ({ownerName})
                 </p>
-                <p className="text-[10px] text-white/50 font-sans">
-                  The central SIM Gateway automatically matches incoming transfers from this phone number.
+                <p className="text-[10px] text-white/60 font-sans">
+                  Setup fee may be paid from any authorized account. All future recurring 10% monthly maintenance ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}/mo) must strictly originate from registered SIM {phone}.
                 </p>
               </div>
 
-              {/* 1-Tap SIM Gateway Auto-Match Action */}
-              <div className="p-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                <div className="space-y-0.5">
-                  <span className="text-xs font-mono font-bold text-[#00FFFF] block">
-                    ⚡ SIM Gateway Auto-Detection
-                  </span>
-                  <p className="text-[11px] text-white/65 font-sans">
-                    Simulate incoming transfer from registered SIM {phone}
+              {/* Recommendation 4: Automated Central SIM Gateway Webhook Simulation */}
+              {detectedCountry.isDomestic && setupPaymentMethod !== 'Cash Collection' && (
+                <div className="p-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
+                      <Radio className="size-3.5 text-[#00FFFF] animate-pulse" />
+                      <span>Central SIM Gateway Webhook</span>
+                    </span>
+                    <span className="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                      Live Listener Active
+                    </span>
+                  </div>
+                  
+                  {simWebhookState === 'listening' ? (
+                    <p className="text-[11px] text-white/70 font-sans flex items-center gap-2">
+                      <RotateCcw className="size-3 animate-spin text-[#00FFFF]" />
+                      <span>Listening on SIM cluster for incoming transfer from <strong>{phone}</strong>...</span>
+                    </p>
+                  ) : (
+                    <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-[11px] text-emerald-200 space-y-0.5">
+                      <p className="font-bold flex items-center gap-1 text-emerald-300">
+                        <CheckCircle2 className="size-3.5 text-emerald-400" />
+                        <span>Incoming Telco Webhook Auto-Captured:</span>
+                      </p>
+                      <p className="font-mono text-[10px] text-white/80">
+                        Transfer of {activePackage.prefix}{activePackage.setupFee.toLocaleString()} detected from registered SIM {phone} on {setupPaymentMethod}. TID: {drawerTid}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[10px] text-white/50 font-sans">
+                      If paying from another SIM, edit sender details below.
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSimWebhookState('listening');
+                        setTimeout(() => {
+                          const autoTid = setupPaymentMethod === 'EasyPaisa'
+                            ? `EP-${Math.floor(10000000000 + Math.random() * 90000000000)}`
+                            : setupPaymentMethod === 'JazzCash'
+                            ? `JC-${Math.floor(10000000000 + Math.random() * 90000000000)}`
+                            : `RAAST-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+                          setDrawerTid(autoTid);
+                          setDrawerSenderDetails(`${ownerName} (${phone})`);
+                          setSimWebhookState('detected');
+                        }, 500);
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[#00FFFF] text-[10px] font-mono font-bold transition active:scale-95"
+                    >
+                      ⚡ Re-scan Webhook
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Recommendation 5: International Wire / Stripe Rolling Clearance (24-48h) */}
+              {!detectedCountry.isDomestic && (
+                <div className="p-3 rounded-xl border border-emerald-500/30 bg-emerald-950/20 space-y-1.5 font-mono text-xs">
+                  <div className="flex items-center justify-between text-emerald-300 font-bold">
+                    <span className="flex items-center gap-1.5">
+                      <ShieldCheck className="size-4 text-emerald-400" />
+                      <span>24-48h Rolling International Settlement Rail</span>
+                    </span>
+                    <span className="text-[10px] text-[#00FFFF] bg-[#00FFFF]/10 px-2 py-0.5 rounded border border-[#00FFFF]/20">
+                      Instant Terminal Activation
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-white/75 font-sans leading-relaxed">
+                    Cross-border wire/Stripe funds take 24–48 hours to clear into WORKCRAFT&apos;s Pakistani Meezan Bank account. The terminal is <strong>unlocked immediately with zero downtime</strong>, and a dual confirmation receipt is dispatched via WhatsApp to both salon owner and field agent.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const autoTid = setupPaymentMethod === 'EasyPaisa'
-                      ? `EP-${Math.floor(10000000000 + Math.random() * 90000000000)}`
-                      : setupPaymentMethod === 'JazzCash'
-                      ? `JC-${Math.floor(10000000000 + Math.random() * 90000000000)}`
-                      : `RAAST-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
-                    setDrawerTid(autoTid);
-                    setDrawerSenderDetails(`${ownerName} (${phone})`);
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] text-xs font-mono font-bold uppercase transition active:scale-95 shrink-0 shadow-sm"
-                >
-                  ⚡ Auto-Match from SIM
-                </button>
-              </div>
+              )}
 
               <div>
                 <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
-                  Payer Sender Phone / Account Details (Bound to Registered SIM) *
+                  Payer Sender Phone / Account Details *
                 </label>
                 <input
                   type="text"
                   required
-                  readOnly
                   value={drawerSenderDetails || `${ownerName} (${phone})`}
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-emerald-300 focus:outline-none cursor-not-allowed select-none"
+                  onChange={(e) => setDrawerSenderDetails(e.target.value)}
+                  placeholder={`e.g. ${ownerName} (${phone}) or alternate bank/mobile`}
+                  className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-emerald-300 focus:outline-none focus:border-[#00FFFF]"
                 />
+                <span className="text-[10px] text-white/40 block mt-0.5">
+                  Initial setup fee can be paid from any account. Recurring 10% monthly maintenance is strictly bound to registered SIM.
+                </span>
               </div>
 
               <div>
@@ -3898,7 +4315,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             {/* STEP 3: LOCAL PAYOUT RAIL & BENEFICIARY/GUARANTOR SPECIFICATION (QUERIES 1, 3, 5, 6, 7, 8) */}
             {enrollmentStep === 3 && (() => {
               const isPk = enrollAgentPhone.startsWith('+92');
-              const isMena = enrollAgentPhone.startsWith('+971') || enrollAgentPhone.startsWith('+966');
+              const isUae = enrollAgentPhone.startsWith('+971');
+              const isKsa = enrollAgentPhone.startsWith('+966');
+              const isMena = isUae || isKsa;
               const isBankSelected = enrollPayoutMethod === 'Bank Transfer' || 
                 enrollPayoutMethod === 'Custom Bank' ||
                 enrollPayoutMethod.includes('Bank') || 
@@ -3918,6 +4337,26 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 if (clean.startsWith('+') && clean.length >= 10 && clean.length <= 15) return true;
                 if (/^\d{10,11}$/.test(clean)) return true;
                 return false;
+              })();
+
+              // Query 2: Country-Specific IBAN Format Validator (length and prefix check)
+              const isIbanValidLength = (() => {
+                if (!isBankSelected) return true;
+                const raw = enrollPayoutAccount.replace(/\s/g, '').toUpperCase();
+                if (!raw) return false;
+                if (isPk) {
+                  return (raw.startsWith('PK') && raw.length === 24) || (/^\d+$/.test(raw) && raw.length >= 14 && raw.length <= 18);
+                }
+                if (isUae) {
+                  return raw.startsWith('AE') && raw.length === 23;
+                }
+                if (isKsa) {
+                  return raw.startsWith('SA') && raw.length === 24;
+                }
+                if (raw.startsWith('GB')) {
+                  return raw.length === 22;
+                }
+                return raw.length >= 12;
               })();
 
               return (
@@ -3996,16 +4435,24 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </span>
                       </div>
 
-                      {/* 1. Account Title */}
+                      {/* 1. Account Title (Localized Placeholders by Region) */}
                       <div>
                         <label className="text-[11px] font-mono text-white/70 block mb-1 uppercase font-semibold">
-                          {enrollmentLang === 'ur_roman' ? '۱. اکاؤنٹ کا ٹائٹل (اکاؤنٹ ہولڈر کا نام) *' : enrollmentLang === 'ar' ? '١. اسم صاحب الحساب (المستفيد) *' : '1. Beneficiary Account Title *'}
+                          {enrollmentLang === 'ur_roman' ? '۱. اکاؤنٹ کا ٹائٹل (اکاؤنٹ ہولڈر کا پورا نام) *' : enrollmentLang === 'ar' ? '١. اسم صاحب الحساب (المستفيد) *' : '1. Beneficiary Account Title *'}
                         </label>
                         <input
                           type="text"
                           value={enrollPayoutTitle}
                           onChange={(e) => setEnrollPayoutTitle(e.target.value)}
-                          placeholder={enrollmentLang === 'ur_roman' ? 'اکاؤنٹ کا نام درج کریں' : 'Full Name on Account'}
+                          placeholder={
+                            isPk
+                              ? enrollmentLang === 'ur_roman' ? 'مثال: محمد کامران طارق' : 'e.g. Muhammad Kamran Tariq'
+                              : isUae
+                              ? enrollmentLang === 'ar' ? 'مثال: راشد عبد الله المكتوم' : 'e.g. Rashid Abdullah Al-Maktoum'
+                              : isKsa
+                              ? enrollmentLang === 'ar' ? 'مثال: فيصل بن عبد العزيز القحطاني' : 'e.g. Faisal Abdulaziz Al-Qahtani'
+                              : 'e.g. James Edward Smith'
+                          }
                           className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9A441]"
                         />
                       </div>
@@ -4027,11 +4474,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           placeholder={
                             isPk
                               ? 'مثال: میزان بینک / حبیب بینک / بینک الفلاح / یا کوئی بھی بینک'
-                              : enrollAgentPhone.startsWith('+971')
+                              : isUae
                               ? 'e.g. Emirates NBD / Wio / FAB / ADCB / Mashreq'
-                              : enrollAgentPhone.startsWith('+966')
+                              : isKsa
                               ? 'e.g. Al Rajhi / SNB / Riyad Bank / Alinma'
-                              : 'e.g. Barclays / HSBC / Revolut / Monzo / HDFC'
+                              : 'e.g. Barclays / HSBC / Revolut / Monzo / NatWest'
                           }
                           className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9A441]"
                         />
@@ -4040,9 +4487,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         <div className="flex flex-wrap gap-1.5 mt-2">
                           {(isPk
                             ? ['Meezan Bank', 'HBL Bank', 'Bank Alfalah', 'Standard Chartered', 'Faysal Bank', 'Allied Bank']
-                            : enrollAgentPhone.startsWith('+971')
+                            : isUae
                             ? ['Emirates NBD', 'Wio Bank', 'FAB Bank', 'ADCB', 'Mashreq Bank', 'DIB']
-                            : enrollAgentPhone.startsWith('+966')
+                            : isKsa
                             ? ['Al Rajhi Bank', 'SNB Bank', 'Riyad Bank', 'Banque Saudi Fransi']
                             : ['Barclays Bank', 'Revolut Business', 'HSBC UK', 'Lloyds Bank', 'NatWest']
                           ).map((preset) => (
@@ -4062,49 +4509,95 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </div>
                       </div>
 
-                      {/* 3. Registered Mobile Number */}
+                      {/* 3. Registered Mobile Number (Localized Placeholders by Region) */}
                       <div>
-                        <label className="text-[11px] font-mono text-white/70 block mb-1 uppercase font-semibold">
-                          {enrollmentLang === 'ur_roman' ? '۳. بینک میں رجسٹرڈ موبائل نمبر *' : enrollmentLang === 'ar' ? '٣. رقم الجوال المسجل بالبنك *' : '3. Registered Mobile Number *'}
-                        </label>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="text-[11px] font-mono text-white/70 uppercase font-semibold">
+                            {enrollmentLang === 'ur_roman' ? '۳. بینک میں رجسٹرڈ موبائل نمبر *' : enrollmentLang === 'ar' ? '٣. رقم الجوال المسجل بالبنك *' : '3. Registered Mobile Number *'}
+                          </label>
+                          <span className="text-[10px] font-mono text-[#00FFFF]">
+                            {isPk ? 'Pakistan Metro (+92)' : isUae ? 'UAE (+971)' : isKsa ? 'Saudi Arabia (+966)' : 'UK / Europe (+44)'}
+                          </span>
+                        </div>
                         <input
                           type="tel"
                           value={enrollBankMobile}
                           onChange={(e) => setEnrollBankMobile(e.target.value)}
-                          placeholder={isPk ? '0300 1234567' : '+971 50 123 4567'}
+                          placeholder={
+                            isPk
+                              ? '0300 1234567 or +92 300 1234567 (10 digits)'
+                              : isUae
+                              ? '050 123 4567 or +971 50 123 4567 (9 digits)'
+                              : isKsa
+                              ? '055 123 4567 or +966 55 123 4567 (9 digits)'
+                              : '07123 456789 or +44 7123 456789 (10 digits)'
+                          }
                           className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
                         />
                       </div>
 
-                      {/* 4. Account or IBAN Number with Strict Non-Phone Validation (Query 1) */}
+                      {/* 4. Account or IBAN Number with Country-Exact Formatting & Non-Phone Validation (Query 1 & 2) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <label className="text-[11px] font-mono text-white/70 uppercase font-semibold">
                             {enrollmentLang === 'ur_roman' ? '۴. اکاؤنٹ نمبر یا مکمل IBAN نمبر *' : enrollmentLang === 'ar' ? '٤. رقم الحساب أو الآيبان الكامل *' : '4. Account Number or IBAN *'}
                           </label>
-                          <span className="text-[10px] font-mono text-white/50">
-                            {isPk ? 'PKxx 24-char IBAN or Account' : enrollAgentPhone.startsWith('+971') ? 'AExx 23-char IBAN' : enrollAgentPhone.startsWith('+966') ? 'SAxx 24-char IBAN' : 'IBAN or Account'}
+                          <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                            {isPk
+                              ? 'PKxx (24 chars) or 14-16 digit Account'
+                              : isUae
+                              ? 'AExx (Exact 23 chars IBAN)'
+                              : isKsa
+                              ? 'SAxx (Exact 24 chars IBAN)'
+                              : 'GBxx (Exact 22 chars IBAN) or Account'}
                           </span>
                         </div>
                         <input
                           type="text"
                           value={enrollPayoutAccount}
-                          onChange={(e) => setEnrollPayoutAccount(e.target.value)}
+                          onChange={(e) => {
+                            let val = e.target.value.toUpperCase();
+                            // If user is typing an IBAN, automatically group in blocks of 4
+                            if (val.startsWith('PK') || val.startsWith('AE') || val.startsWith('SA') || val.startsWith('GB') || val.startsWith('DE')) {
+                              const raw = val.replace(/[^A-Z0-9]/g, '');
+                              const chunks = raw.match(/.{1,4}/g);
+                              val = chunks ? chunks.join(' ') : raw;
+                            }
+                            setEnrollPayoutAccount(val);
+                          }}
                           placeholder={
                             isPk
-                              ? 'PK64MEZN0001020304050607 or 16-Digit Account'
-                              : enrollAgentPhone.startsWith('+971')
-                              ? 'AE070331234567890123456 (23-char IBAN)'
-                              : enrollAgentPhone.startsWith('+966')
-                              ? 'SA0380000000608010167519 (24-char IBAN)'
-                              : 'GB29NWBK60161331926819 or IBAN'
+                              ? 'PK64 MEZN 0001 0203 0405 0607 or 16-Digit Account'
+                              : isUae
+                              ? 'AE07 0331 2345 6789 0123 456 (23 chars)'
+                              : isKsa
+                              ? 'SA03 8000 0000 6080 1016 7519 (24 chars)'
+                              : 'GB29 NWBK 6016 1331 9268 19 (22 chars)'
                           }
                           className={`w-full rounded-xl border px-3.5 py-2.5 text-xs font-mono transition focus:outline-none ${
                             isPhoneFormatInBank
                               ? 'border-red-500 bg-red-950/20 text-red-300 focus:border-red-400'
+                              : isIbanValidLength
+                              ? 'border-emerald-500 bg-emerald-950/20 text-emerald-300 focus:border-emerald-400'
                               : 'border-white/10 bg-[#102019] text-[#00FFFF] focus:border-[#00FFFF]'
                           }`}
                         />
+
+                        {/* Character count / Format guide pill */}
+                        <div className="flex items-center justify-between text-[10px] font-mono mt-1 text-white/50">
+                          <span>
+                            {isPk
+                              ? 'Supported: Pakistani Bank Accounts (14-16 digits) or State Bank 24-char IBAN'
+                              : isUae
+                              ? 'UAE Central Bank format: AE + 2 check digits + 19 account digits (23 chars total)'
+                              : isKsa
+                              ? 'Saudi SARIE format: SA + 2 check digits + 20 account digits (24 chars total)'
+                              : 'UK / European format: GB + 20 alphanumeric chars (22 total) or Sort Code + Account'}
+                          </span>
+                          <span className={isIbanValidLength ? 'text-emerald-400 font-bold' : 'text-white/40'}>
+                            {enrollPayoutAccount.replace(/\s/g, '').length} chars
+                          </span>
+                        </div>
 
                         {/* Inline Warning if Agent Entered Phone Number Instead of Account/IBAN (Query 1) */}
                         {isPhoneFormatInBank && (
