@@ -46,6 +46,7 @@ import {
   Key,
   ChevronDown,
   ChevronUp,
+  Search,
 } from 'lucide-react';
 import { PortalCard } from './PortalCard';
 import { AddNewAgentModal } from './AddNewAgentModal';
@@ -101,89 +102,303 @@ export interface CountryConfig {
   name: string;
   currency: 'PKR' | 'USD';
   prefix: string;
+  localCurrency: string;
+  localPrefix: string;
+  localArabicPrefix?: string;
+  localRateMultiplier: number;
   flag: string;
   isDomestic: boolean;
   region: 'PK' | 'EUROPE' | 'MENA' | 'NORTH_AMERICA' | 'GLOBAL';
   dialCode: string;
+  defaultCity: string;
+  defaultAddress: string;
+  defaultCoords: string;
 }
 
 export const detectCountryFromPhone = (phoneStr: string): CountryConfig => {
   const clean = phoneStr.trim();
   if (clean.startsWith('+971')) {
-    return { code: 'AE', name: 'UAE (MENA)', currency: 'USD', prefix: '$', flag: '🇦🇪', isDomestic: false, region: 'MENA', dialCode: '+971' };
+    return {
+      code: 'AE', name: 'UAE (MENA)', currency: 'USD', prefix: '$',
+      localCurrency: 'AED', localPrefix: 'AED ', localArabicPrefix: 'د.إ ', localRateMultiplier: 0.075,
+      flag: '🇦🇪', isDomestic: false, region: 'MENA', dialCode: '+971',
+      defaultCity: 'Dubai', defaultAddress: 'Al Rigga Road, Deira, Dubai', defaultCoords: '25.2631° N, 55.3264° E',
+    };
   }
   if (clean.startsWith('+966')) {
-    return { code: 'SA', name: 'Saudi Arabia (MENA)', currency: 'USD', prefix: '$', flag: '🇸🇦', isDomestic: false, region: 'MENA', dialCode: '+966' };
+    return {
+      code: 'SA', name: 'Saudi Arabia (MENA)', currency: 'USD', prefix: '$',
+      localCurrency: 'SAR', localPrefix: 'SAR ', localArabicPrefix: 'ر.س ', localRateMultiplier: 0.075,
+      flag: '🇸🇦', isDomestic: false, region: 'MENA', dialCode: '+966',
+      defaultCity: 'Riyadh', defaultAddress: 'Olaya Street, Al Olaya, Riyadh', defaultCoords: '24.6972° N, 46.6838° E',
+    };
   }
-  // Europe Region Prefixes (UK, Germany, France, Italy, Spain, Netherlands, Switzerland, Ireland, etc.)
+  if (clean.startsWith('+965')) {
+    return {
+      code: 'KW', name: 'Kuwait (MENA)', currency: 'USD', prefix: '$',
+      localCurrency: 'KWD', localPrefix: 'KWD ', localArabicPrefix: 'د.ك ', localRateMultiplier: 0.0065,
+      flag: '🇰🇼', isDomestic: false, region: 'MENA', dialCode: '+965',
+      defaultCity: 'Kuwait City', defaultAddress: 'Salmiya Block 4, Kuwait City', defaultCoords: '29.3375° N, 48.0758° E',
+    };
+  }
+  if (clean.startsWith('+974')) {
+    return {
+      code: 'QA', name: 'Qatar (MENA)', currency: 'USD', prefix: '$',
+      localCurrency: 'QAR', localPrefix: 'QAR ', localArabicPrefix: 'ر.ق ', localRateMultiplier: 0.075,
+      flag: '🇶🇦', isDomestic: false, region: 'MENA', dialCode: '+974',
+      defaultCity: 'Doha', defaultAddress: 'Al Sadd Street, Doha', defaultCoords: '25.2854° N, 51.5310° E',
+    };
+  }
+  if (clean.startsWith('+968')) {
+    return {
+      code: 'OM', name: 'Oman (MENA)', currency: 'USD', prefix: '$',
+      localCurrency: 'OMR', localPrefix: 'OMR ', localArabicPrefix: 'ر.ع ', localRateMultiplier: 0.008,
+      flag: '🇴🇲', isDomestic: false, region: 'MENA', dialCode: '+968',
+      defaultCity: 'Muscat', defaultAddress: 'Al Qurum Commercial, Muscat', defaultCoords: '23.5880° N, 58.3829° E',
+    };
+  }
+  if (clean.startsWith('+973')) {
+    return {
+      code: 'BH', name: 'Bahrain (MENA)', currency: 'USD', prefix: '$',
+      localCurrency: 'BHD', localPrefix: 'BHD ', localArabicPrefix: 'د.ب ', localRateMultiplier: 0.008,
+      flag: '🇧🇭', isDomestic: false, region: 'MENA', dialCode: '+973',
+      defaultCity: 'Manama', defaultAddress: 'Seef District, Manama', defaultCoords: '26.2285° N, 50.5860° E',
+    };
+  }
+  // Europe Region Prefixes
   if (clean.startsWith('+44')) {
-    return { code: 'GB', name: 'United Kingdom (Europe)', currency: 'USD', prefix: '$', flag: '🇬🇧', isDomestic: false, region: 'EUROPE', dialCode: '+44' };
+    return {
+      code: 'GB', name: 'United Kingdom (Europe)', currency: 'USD', prefix: '$',
+      localCurrency: 'GBP', localPrefix: '£', localRateMultiplier: 0.03,
+      flag: '🇬🇧', isDomestic: false, region: 'EUROPE', dialCode: '+44',
+      defaultCity: 'London', defaultAddress: '48 Oxford Street, Soho, London', defaultCoords: '51.5154° N, 0.1419° W',
+    };
   }
   if (clean.startsWith('+49')) {
-    return { code: 'DE', name: 'Germany (Europe / EU)', currency: 'USD', prefix: '$', flag: '🇩🇪', isDomestic: false, region: 'EUROPE', dialCode: '+49' };
+    return {
+      code: 'DE', name: 'Germany (Europe / EU)', currency: 'USD', prefix: '$',
+      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
+      flag: '🇩🇪', isDomestic: false, region: 'EUROPE', dialCode: '+49',
+      defaultCity: 'Berlin', defaultAddress: 'Friedrichstrasse 112, Berlin', defaultCoords: '52.5200° N, 13.4050° E',
+    };
   }
   if (clean.startsWith('+33')) {
-    return { code: 'FR', name: 'France (Europe / EU)', currency: 'USD', prefix: '$', flag: '🇫🇷', isDomestic: false, region: 'EUROPE', dialCode: '+33' };
+    return {
+      code: 'FR', name: 'France (Europe / EU)', currency: 'USD', prefix: '$',
+      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
+      flag: '🇫🇷', isDomestic: false, region: 'EUROPE', dialCode: '+33',
+      defaultCity: 'Paris', defaultAddress: 'Rue de Rivoli 84, Paris', defaultCoords: '48.8566° N, 2.3522° E',
+    };
   }
   if (clean.startsWith('+39')) {
-    return { code: 'IT', name: 'Italy (Europe / EU)', currency: 'USD', prefix: '$', flag: '🇮🇹', isDomestic: false, region: 'EUROPE', dialCode: '+39' };
+    return {
+      code: 'IT', name: 'Italy (Europe / EU)', currency: 'USD', prefix: '$',
+      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
+      flag: '🇮🇹', isDomestic: false, region: 'EUROPE', dialCode: '+39',
+      defaultCity: 'Milan', defaultAddress: 'Corso Buenos Aires 22, Milan', defaultCoords: '45.4642° N, 9.1900° E',
+    };
   }
   if (clean.startsWith('+34')) {
-    return { code: 'ES', name: 'Spain (Europe / EU)', currency: 'USD', prefix: '$', flag: '🇪🇸', isDomestic: false, region: 'EUROPE', dialCode: '+34' };
+    return {
+      code: 'ES', name: 'Spain (Europe / EU)', currency: 'USD', prefix: '$',
+      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
+      flag: '🇪🇸', isDomestic: false, region: 'EUROPE', dialCode: '+34',
+      defaultCity: 'Madrid', defaultAddress: 'Gran Via 35, Madrid', defaultCoords: '40.4168° N, 3.7038° W',
+    };
   }
   if (clean.startsWith('+31')) {
-    return { code: 'NL', name: 'Netherlands (Europe / EU)', currency: 'USD', prefix: '$', flag: '🇳🇱', isDomestic: false, region: 'EUROPE', dialCode: '+31' };
+    return {
+      code: 'NL', name: 'Netherlands (Europe / EU)', currency: 'USD', prefix: '$',
+      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
+      flag: '🇳🇱', isDomestic: false, region: 'EUROPE', dialCode: '+31',
+      defaultCity: 'Amsterdam', defaultAddress: 'Kalverstraat 90, Amsterdam', defaultCoords: '52.3676° N, 4.9041° E',
+    };
   }
   if (clean.startsWith('+41')) {
-    return { code: 'CH', name: 'Switzerland (Europe)', currency: 'USD', prefix: '$', flag: '🇨🇭', isDomestic: false, region: 'EUROPE', dialCode: '+41' };
+    return {
+      code: 'CH', name: 'Switzerland (Europe)', currency: 'USD', prefix: '$',
+      localCurrency: 'CHF', localPrefix: 'CHF ', localRateMultiplier: 0.035,
+      flag: '🇨🇭', isDomestic: false, region: 'EUROPE', dialCode: '+41',
+      defaultCity: 'Zurich', defaultAddress: 'Bahnhofstrasse 42, Zurich', defaultCoords: '47.3769° N, 8.5417° E',
+    };
   }
   if (clean.startsWith('+353')) {
-    return { code: 'IE', name: 'Ireland (Europe / EU)', currency: 'USD', prefix: '$', flag: '🇮🇪', isDomestic: false, region: 'EUROPE', dialCode: '+353' };
+    return {
+      code: 'IE', name: 'Ireland (Europe / EU)', currency: 'USD', prefix: '$',
+      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
+      flag: '🇮🇪', isDomestic: false, region: 'EUROPE', dialCode: '+353',
+      defaultCity: 'Dublin', defaultAddress: 'Grafton Street 18, Dublin', defaultCoords: '53.3498° N, 6.2603° W',
+    };
   }
   if (clean.startsWith('+1')) {
-    return { code: 'US', name: 'USA / North America', currency: 'USD', prefix: '$', flag: '🇺🇸', isDomestic: false, region: 'NORTH_AMERICA', dialCode: '+1' };
+    return {
+      code: 'US', name: 'USA / Canada (North America)', currency: 'USD', prefix: '$',
+      localCurrency: 'USD', localPrefix: '$', localRateMultiplier: 0.04,
+      flag: '🇺🇸', isDomestic: false, region: 'NORTH_AMERICA', dialCode: '+1',
+      defaultCity: 'New York', defaultAddress: '5th Avenue, Midtown, New York', defaultCoords: '40.7128° N, 74.0060° W',
+    };
   }
-  return { code: 'PK', name: 'Pakistan (Domestic Metro)', currency: 'PKR', prefix: 'PKR ', flag: '🇵🇰', isDomestic: true, region: 'PK', dialCode: '+92' };
+  if (clean.startsWith('+91')) {
+    return {
+      code: 'IN', name: 'India (South Asia)', currency: 'USD', prefix: '$',
+      localCurrency: 'INR', localPrefix: '₹', localRateMultiplier: 0.75,
+      flag: '🇮🇳', isDomestic: false, region: 'GLOBAL', dialCode: '+91',
+      defaultCity: 'Mumbai', defaultAddress: 'Bandra West, Mumbai', defaultCoords: '19.0760° N, 72.8777° E',
+    };
+  }
+  if (clean.startsWith('+880')) {
+    return {
+      code: 'BD', name: 'Bangladesh (South Asia)', currency: 'USD', prefix: '$',
+      localCurrency: 'BDT', localPrefix: '৳', localRateMultiplier: 0.85,
+      flag: '🇧🇩', isDomestic: false, region: 'GLOBAL', dialCode: '+880',
+      defaultCity: 'Dhaka', defaultAddress: 'Gulshan 2, Dhaka', defaultCoords: '23.8103° N, 90.4125° E',
+    };
+  }
+  if (clean.startsWith('+90')) {
+    return {
+      code: 'TR', name: 'Turkey (Eurasia)', currency: 'USD', prefix: '$',
+      localCurrency: 'TRY', localPrefix: '₺', localRateMultiplier: 1.0,
+      flag: '🇹🇷', isDomestic: false, region: 'GLOBAL', dialCode: '+90',
+      defaultCity: 'Istanbul', defaultAddress: 'Nisantasi, Sisli, Istanbul', defaultCoords: '41.0082° N, 28.9784° E',
+    };
+  }
+  if (clean.startsWith('+60')) {
+    return {
+      code: 'MY', name: 'Malaysia (Asia)', currency: 'USD', prefix: '$',
+      localCurrency: 'MYR', localPrefix: 'RM ', localRateMultiplier: 0.08,
+      flag: '🇲🇾', isDomestic: false, region: 'GLOBAL', dialCode: '+60',
+      defaultCity: 'Kuala Lumpur', defaultAddress: 'Bukit Bintang, Kuala Lumpur', defaultCoords: '3.1390° N, 101.6869° E',
+    };
+  }
+  if (clean.startsWith('+65')) {
+    return {
+      code: 'SG', name: 'Singapore (Asia)', currency: 'USD', prefix: '$',
+      localCurrency: 'SGD', localPrefix: 'S$', localRateMultiplier: 0.045,
+      flag: '🇸🇬', isDomestic: false, region: 'GLOBAL', dialCode: '+65',
+      defaultCity: 'Singapore', defaultAddress: 'Orchard Road, Singapore', defaultCoords: '1.3521° N, 103.8198° E',
+    };
+  }
+  if (clean.startsWith('+61')) {
+    return {
+      code: 'AU', name: 'Australia (Oceania)', currency: 'USD', prefix: '$',
+      localCurrency: 'AUD', localPrefix: 'A$', localRateMultiplier: 0.055,
+      flag: '🇦🇺', isDomestic: false, region: 'GLOBAL', dialCode: '+61',
+      defaultCity: 'Sydney', defaultAddress: 'George Street, Sydney', defaultCoords: '33.8688° S, 151.2093° E',
+    };
+  }
+  return {
+    code: 'PK', name: 'Pakistan (Domestic Metro)', currency: 'PKR', prefix: 'PKR ',
+    localCurrency: 'PKR', localPrefix: 'PKR ', localRateMultiplier: 1,
+    flag: '🇵🇰', isDomestic: true, region: 'PK', dialCode: '+92',
+    defaultCity: 'Lahore', defaultAddress: 'Shop #4, Plaza 12, CCA Phase 5 DHA, Lahore', defaultCoords: '31.4705° N, 74.4109° E',
+  };
 };
 
-// Regional City Validation Map (Query 1 & 2)
+export const getLocalizedLocalCurrencyPrefix = (country: CountryConfig, lang: ClientOnboardingLanguage): string => {
+  if (lang === 'ar' && country.localArabicPrefix) {
+    return country.localArabicPrefix;
+  }
+  if (lang === 'ur' && country.localCurrency === 'PKR') {
+    return 'روپے ';
+  }
+  return country.localPrefix;
+};
+
+// Regional City Validation Map (Supports English, Arabic & Urdu city names)
 export const REGIONAL_CITY_MAP: Record<string, { country: string; flag: string; cities: string[] }> = {
-  PK: { country: 'Pakistan', flag: '🇵🇰', cities: ['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot', 'Gujranwala'] },
-  AE: { country: 'United Arab Emirates', flag: '🇦🇪', cities: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'] },
-  SA: { country: 'Saudi Arabia', flag: '🇸🇦', cities: ['Riyadh', 'Jeddah', 'Dammam', 'Mecca', 'Medina', 'Khobar', 'Tabuk', 'Taif'] },
-  GB: { country: 'United Kingdom', flag: '🇬🇧', cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol'] },
-  UK: { country: 'United Kingdom', flag: '🇬🇧', cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol'] },
+  PK: {
+    country: 'Pakistan',
+    flag: '🇵🇰',
+    cities: ['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Sialkot', 'Gujranwala', 'لاہور', 'کراچی', 'اسلام آباد', 'راولپنڈی'],
+  },
+  AE: {
+    country: 'United Arab Emirates',
+    flag: '🇦🇪',
+    cities: ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain', 'دبي', 'أبوظبي', 'الشارقة', 'عجمان', 'العين'],
+  },
+  SA: {
+    country: 'Saudi Arabia',
+    flag: '🇸🇦',
+    cities: ['Riyadh', 'Jeddah', 'Dammam', 'Mecca', 'Medina', 'Khobar', 'Tabuk', 'Taif', 'الرياض', 'جدة', 'الدمام', 'مكة', 'المدينة', 'الخبر'],
+  },
+  KW: {
+    country: 'Kuwait',
+    flag: '🇰🇼',
+    cities: ['Kuwait City', 'Salmiya', 'Hawalli', 'Fahaheel', 'الكويت', 'السالمية', 'حولي'],
+  },
+  QA: {
+    country: 'Qatar',
+    flag: '🇶🇦',
+    cities: ['Doha', 'Al Wakrah', 'Al Khor', 'Lusail', 'الدوحة', 'الوكرة', 'لوسيل'],
+  },
+  OM: {
+    country: 'Oman',
+    flag: '🇴🇲',
+    cities: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'مسقط', 'صلالة', 'صحار'],
+  },
+  BH: {
+    country: 'Bahrain',
+    flag: '🇧🇭',
+    cities: ['Manama', 'Riffa', 'Muharraq', 'المنامة', 'الرفاع', 'المحرق'],
+  },
+  GB: {
+    country: 'United Kingdom',
+    flag: '🇬🇧',
+    cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol', 'لندن', 'مانشستر', 'برمنغهام'],
+  },
+  UK: {
+    country: 'United Kingdom',
+    flag: '🇬🇧',
+    cities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Edinburgh', 'Bristol', 'لندن', 'مانشستر', 'برمنغهام'],
+  },
   DE: { country: 'Germany', flag: '🇩🇪', cities: ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne', 'Stuttgart'] },
-  US: { country: 'United States', flag: '🇺🇸', cities: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami', 'San Francisco'] },
+  FR: { country: 'France', flag: '🇫🇷', cities: ['Paris', 'Lyon', 'Marseille', 'Nice', 'Toulouse'] },
+  IT: { country: 'Italy', flag: '🇮🇹', cities: ['Milan', 'Rome', 'Naples', 'Turin', 'Florence'] },
+  ES: { country: 'Spain', flag: '🇪🇸', cities: ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Malaga'] },
+  NL: { country: 'Netherlands', flag: '🇳🇱', cities: ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'] },
+  IE: { country: 'Ireland', flag: '🇮🇪', cities: ['Dublin', 'Cork', 'Galway', 'Limerick'] },
+  CH: { country: 'Switzerland', flag: '🇨🇭', cities: ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'] },
+  US: { country: 'United States', flag: '🇺🇸', cities: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami', 'San Francisco', 'Dallas'] },
+  CA: { country: 'Canada', flag: '🇨🇦', cities: ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'] },
   IN: { country: 'India', flag: '🇮🇳', cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'] },
+  BD: { country: 'Bangladesh', flag: '🇧🇩', cities: ['Dhaka', 'Chittagong', 'Sylhet', 'Khulna'] },
+  TR: { country: 'Turkey', flag: '🇹🇷', cities: ['Istanbul', 'Ankara', 'Izmir', 'Antalya', 'Bursa'] },
+  MY: { country: 'Malaysia', flag: '🇲🇾', cities: ['Kuala Lumpur', 'Penang', 'Johor Bahru'] },
+  SG: { country: 'Singapore', flag: '🇸🇬', cities: ['Singapore', 'Orchard', 'Jurong', 'Tampines'] },
+  AU: { country: 'Australia', flag: '🇦🇺', cities: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide'] },
 };
 
-export const checkCityCountryIntegrity = (city: string, phone: string) => {
+export const checkCityCountryIntegrity = (cityOrAddress: string, phone: string) => {
   const detected = detectCountryFromPhone(phone);
-  const cityClean = city.trim().toLowerCase();
-  if (!cityClean) return null;
+  const textClean = cityOrAddress.trim().toLowerCase();
+  if (!textClean) return null;
 
-  // First check if the city belongs to the detected country (e.g. GB or UK for United Kingdom)
+  // First check if a known city of the detected country is explicitly present in the address
   const detectedCountryCities = REGIONAL_CITY_MAP[detected.code]?.cities || [];
-  const isLocalCity = detectedCountryCities.some(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()) || c.toLowerCase().includes(cityClean));
-  if (isLocalCity) {
-    return null; // Valid local city, zero conflict
-  }
-
-  // Also check alternate codes for the same country (e.g. UK vs GB)
-  if (detected.code === 'GB' && REGIONAL_CITY_MAP['UK']?.cities.some(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()))) {
+  const hasValidLocalCity = detectedCountryCities.some((c) => textClean.includes(c.toLowerCase()));
+  if (hasValidLocalCity) {
     return null;
   }
 
-  // Now check if it belongs to a DIFFERENT country's known city list
+  // Also allow alternate UK/GB code
+  if (detected.code === 'GB' && REGIONAL_CITY_MAP['UK']?.cities.some((c) => textClean.includes(c.toLowerCase()))) {
+    return null;
+  }
+
+  // Check if the address references a city from a DIFFERENT country
   for (const [code, info] of Object.entries(REGIONAL_CITY_MAP)) {
-    if (code !== detected.code && !(detected.code === 'GB' && code === 'UK') && !(detected.code === 'UK' && code === 'GB')) {
-      const match = info.cities.find(c => c.toLowerCase() === cityClean || cityClean.includes(c.toLowerCase()));
+    if (
+      code !== detected.code &&
+      !(detected.code === 'GB' && code === 'UK') &&
+      !(detected.code === 'UK' && code === 'GB') &&
+      !(detected.code === 'US' && code === 'CA')
+    ) {
+      const match = info.cities.find((c) => textClean.includes(c.toLowerCase()));
       if (match) {
         return {
-          en: `${match} is located in ${info.country} (${info.flag}), not in ${detected.name} (${detected.flag}). Dial code is auto-locked to ${detected.dialCode}.`,
-          ur: `${match} ${info.country} (${info.flag}) میں واقع ہے، ${detected.name} (${detected.flag}) میں نہیں۔ ڈائل کوڈ ${detected.dialCode} پر مقفل ہے۔`,
-          ar: `مدينة ${match} تقع في ${info.country} (${info.flag}) وليست في ${detected.name} (${detected.flag}). رمز الهاتف مقفل على ${detected.dialCode}.`,
+          en: `Location Conflict: "${match}" is in ${info.country} (${info.flag}), not in ${detected.name} (${detected.flag}). Enter a ${detected.defaultCity} / local address matching ${detected.dialCode}.`,
+          ur: `لوکیشن تضاد: "${match}" ${info.country} (${info.flag}) میں ہے، ${detected.name} (${detected.flag}) میں نہیں۔ براہ کرم ${detected.dialCode} کے مطابق درست پتہ درج کریں۔`,
+          ar: `تعارض الموقع: "${match}" تقع في ${info.country} (${info.flag}) وليست في ${detected.name} (${detected.flag}). يرجى إدخال عنوان يطابق رمز الهاتف ${detected.dialCode}.`,
         };
       }
     }
@@ -255,32 +470,60 @@ export interface DialOption {
   dialCode: string;
   expectedDigits: number;
   formatHint: string;
+  sampleDigits: string;
+  mobilePrefixRegex: RegExp;
+  prefixHint: string;
 }
 
 export const DIAL_CODE_OPTIONS: DialOption[] = [
-  { code: 'PK', name: 'Pakistan', flag: '🇵🇰', dialCode: '+92', expectedDigits: 10, formatHint: '10 digits (e.g. 301 8472910)' },
-  { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪', dialCode: '+971', expectedDigits: 9, formatHint: '9 digits (e.g. 50 1234567)' },
-  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', dialCode: '+966', expectedDigits: 9, formatHint: '9 digits (e.g. 50 1234567)' },
-  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dialCode: '+44', expectedDigits: 10, formatHint: '10 digits (e.g. 7123 456789)' },
-  { code: 'US', name: 'United States', flag: '🇺🇸', dialCode: '+1', expectedDigits: 10, formatHint: '10 digits (e.g. 212 5550198)' },
-  { code: 'CA', name: 'Canada', flag: '🇨🇦', dialCode: '+1', expectedDigits: 10, formatHint: '10 digits (e.g. 416 5550198)' },
-  { code: 'KW', name: 'Kuwait', flag: '🇰🇼', dialCode: '+965', expectedDigits: 8, formatHint: '8 digits (e.g. 99 123456)' },
-  { code: 'QA', name: 'Qatar', flag: '🇶🇦', dialCode: '+974', expectedDigits: 8, formatHint: '8 digits (e.g. 55 123456)' },
-  { code: 'OM', name: 'Oman', flag: '🇴🇲', dialCode: '+968', expectedDigits: 8, formatHint: '8 digits (e.g. 91 123456)' },
-  { code: 'BH', name: 'Bahrain', flag: '🇧🇭', dialCode: '+973', expectedDigits: 8, formatHint: '8 digits (e.g. 39 123456)' },
-  { code: 'DE', name: 'Germany', flag: '🇩🇪', dialCode: '+49', expectedDigits: 10, formatHint: '10 digits (e.g. 151 2345678)' },
-  { code: 'FR', name: 'France', flag: '🇫🇷', dialCode: '+33', expectedDigits: 9, formatHint: '9 digits (e.g. 6 12345678)' },
-  { code: 'IT', name: 'Italy', flag: '🇮🇹', dialCode: '+39', expectedDigits: 10, formatHint: '10 digits (e.g. 320 1234567)' },
-  { code: 'ES', name: 'Spain', flag: '🇪🇸', dialCode: '+34', expectedDigits: 9, formatHint: '9 digits (e.g. 612 345678)' },
-  { code: 'NL', name: 'Netherlands', flag: '🇳🇱', dialCode: '+31', expectedDigits: 9, formatHint: '9 digits (e.g. 6 12345678)' },
-  { code: 'IE', name: 'Ireland', flag: '🇮🇪', dialCode: '+353', expectedDigits: 9, formatHint: '9 digits (e.g. 87 1234567)' },
-  { code: 'IN', name: 'India', flag: '🇮🇳', dialCode: '+91', expectedDigits: 10, formatHint: '10 digits (e.g. 98200 12345)' },
-  { code: 'BD', name: 'Bangladesh', flag: '🇧🇩', dialCode: '+880', expectedDigits: 10, formatHint: '10 digits (e.g. 171 2345678)' },
-  { code: 'TR', name: 'Turkey', flag: '🇹🇷', dialCode: '+90', expectedDigits: 10, formatHint: '10 digits (e.g. 532 1234567)' },
-  { code: 'MY', name: 'Malaysia', flag: '🇲🇾', dialCode: '+60', expectedDigits: 9, formatHint: '9 digits (e.g. 12 3456789)' },
-  { code: 'SG', name: 'Singapore', flag: '🇸🇬', dialCode: '+65', expectedDigits: 8, formatHint: '8 digits (e.g. 9123 4567)' },
-  { code: 'AU', name: 'Australia', flag: '🇦🇺', dialCode: '+61', expectedDigits: 9, formatHint: '9 digits (e.g. 412 345678)' },
+  { code: 'PK', name: 'Pakistan', flag: '🇵🇰', dialCode: '+92', expectedDigits: 10, formatHint: '301 8472910 (starts with 3)', sampleDigits: '3018472910', mobilePrefixRegex: /^3\d{9}$/, prefixHint: 'Must be 10 digits starting with 3 (e.g. 3018472910, without leading 0)' },
+  { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪', dialCode: '+971', expectedDigits: 9, formatHint: '50 1234567 (starts with 5)', sampleDigits: '501234567', mobilePrefixRegex: /^5\d{8}$/, prefixHint: 'Must be 9 UAE digits starting with 5 (e.g. 501234567)' },
+  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', dialCode: '+966', expectedDigits: 9, formatHint: '50 1234567 (starts with 5)', sampleDigits: '501234567', mobilePrefixRegex: /^5\d{8}$/, prefixHint: 'Must be 9 Saudi digits starting with 5 (e.g. 501234567)' },
+  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dialCode: '+44', expectedDigits: 10, formatHint: '7123 456789 (starts with 7)', sampleDigits: '7123456789', mobilePrefixRegex: /^7\d{9}$/, prefixHint: 'Must be 10 UK mobile digits starting with 7 (e.g. 7123456789)' },
+  { code: 'US', name: 'United States', flag: '🇺🇸', dialCode: '+1', expectedDigits: 10, formatHint: '212 5550198', sampleDigits: '2125550198', mobilePrefixRegex: /^[2-9]\d{9}$/, prefixHint: 'Must be 10 US digits (area code 2-9)' },
+  { code: 'CA', name: 'Canada', flag: '🇨🇦', dialCode: '+1', expectedDigits: 10, formatHint: '416 5550198', sampleDigits: '4165550198', mobilePrefixRegex: /^[2-9]\d{9}$/, prefixHint: 'Must be 10 Canadian digits (area code 2-9)' },
+  { code: 'KW', name: 'Kuwait', flag: '🇰🇼', dialCode: '+965', expectedDigits: 8, formatHint: '99 123456', sampleDigits: '99123456', mobilePrefixRegex: /^[569]\d{7}$/, prefixHint: 'Must be 8 Kuwait digits starting with 5, 6, or 9' },
+  { code: 'QA', name: 'Qatar', flag: '🇶🇦', dialCode: '+974', expectedDigits: 8, formatHint: '55 123456', sampleDigits: '55123456', mobilePrefixRegex: /^[3567]\d{7}$/, prefixHint: 'Must be 8 Qatar digits starting with 3, 5, 6, or 7' },
+  { code: 'OM', name: 'Oman', flag: '🇴🇲', dialCode: '+968', expectedDigits: 8, formatHint: '91 123456', sampleDigits: '91123456', mobilePrefixRegex: /^[79]\d{7}$/, prefixHint: 'Must be 8 Oman digits starting with 7 or 9' },
+  { code: 'BH', name: 'Bahrain', flag: '🇧🇭', dialCode: '+973', expectedDigits: 8, formatHint: '39 123456', sampleDigits: '39123456', mobilePrefixRegex: /^[36]\d{7}$/, prefixHint: 'Must be 8 Bahrain digits starting with 3 or 6' },
+  { code: 'DE', name: 'Germany', flag: '🇩🇪', dialCode: '+49', expectedDigits: 10, formatHint: '151 2345678 (starts with 1)', sampleDigits: '1512345678', mobilePrefixRegex: /^1\d{9}$/, prefixHint: 'Must be 10 German mobile digits starting with 1' },
+  { code: 'FR', name: 'France', flag: '🇫🇷', dialCode: '+33', expectedDigits: 9, formatHint: '6 12345678 (starts with 6/7)', sampleDigits: '612345678', mobilePrefixRegex: /^[67]\d{8}$/, prefixHint: 'Must be 9 French mobile digits starting with 6 or 7' },
+  { code: 'IT', name: 'Italy', flag: '🇮🇹', dialCode: '+39', expectedDigits: 10, formatHint: '320 1234567 (starts with 3)', sampleDigits: '3201234567', mobilePrefixRegex: /^3\d{9}$/, prefixHint: 'Must be 10 Italian mobile digits starting with 3' },
+  { code: 'ES', name: 'Spain', flag: '🇪🇸', dialCode: '+34', expectedDigits: 9, formatHint: '612 345678 (starts with 6/7)', sampleDigits: '612345678', mobilePrefixRegex: /^[67]\d{8}$/, prefixHint: 'Must be 9 Spanish mobile digits starting with 6 or 7' },
+  { code: 'NL', name: 'Netherlands', flag: '🇳🇱', dialCode: '+31', expectedDigits: 9, formatHint: '6 12345678 (starts with 6)', sampleDigits: '612345678', mobilePrefixRegex: /^6\d{8}$/, prefixHint: 'Must be 9 Dutch mobile digits starting with 6' },
+  { code: 'IE', name: 'Ireland', flag: '🇮🇪', dialCode: '+353', expectedDigits: 9, formatHint: '87 1234567 (starts with 8)', sampleDigits: '871234567', mobilePrefixRegex: /^8\d{8}$/, prefixHint: 'Must be 9 Irish mobile digits starting with 8' },
+  { code: 'IN', name: 'India', flag: '🇮🇳', dialCode: '+91', expectedDigits: 10, formatHint: '98200 12345', sampleDigits: '9820012345', mobilePrefixRegex: /^[6-9]\d{9}$/, prefixHint: 'Must be 10 Indian digits starting with 6-9' },
+  { code: 'BD', name: 'Bangladesh', flag: '🇧🇩', dialCode: '+880', expectedDigits: 10, formatHint: '171 2345678', sampleDigits: '1712345678', mobilePrefixRegex: /^1\d{9}$/, prefixHint: 'Must be 10 Bangladesh digits starting with 1' },
+  { code: 'TR', name: 'Turkey', flag: '🇹🇷', dialCode: '+90', expectedDigits: 10, formatHint: '532 1234567 (starts with 5)', sampleDigits: '5321234567', mobilePrefixRegex: /^5\d{9}$/, prefixHint: 'Must be 10 Turkish digits starting with 5' },
+  { code: 'MY', name: 'Malaysia', flag: '🇲🇾', dialCode: '+60', expectedDigits: 9, formatHint: '12 3456789 (starts with 1)', sampleDigits: '123456789', mobilePrefixRegex: /^1\d{8}$/, prefixHint: 'Must be 9 Malaysian digits starting with 1' },
+  { code: 'SG', name: 'Singapore', flag: '🇸🇬', dialCode: '+65', expectedDigits: 8, formatHint: '9123 4567 (starts with 8/9)', sampleDigits: '91234567', mobilePrefixRegex: /^[89]\d{7}$/, prefixHint: 'Must be 8 Singapore digits starting with 8 or 9' },
+  { code: 'AU', name: 'Australia', flag: '🇦🇺', dialCode: '+61', expectedDigits: 9, formatHint: '412 345678 (starts with 4)', sampleDigits: '412345678', mobilePrefixRegex: /^4\d{8}$/, prefixHint: 'Must be 9 Australian mobile digits starting with 4' },
 ];
+
+export const validateNationalPhoneForCountry = (dialOpt: DialOption, rawValue: string) => {
+  const digits = rawValue.replace(/\D/g, '');
+  if (digits.length !== dialOpt.expectedDigits) {
+    return {
+      valid: false,
+      reason: {
+        en: `Invalid ${dialOpt.name} number: Expected ${dialOpt.expectedDigits} digits (${digits.length} entered). ${dialOpt.prefixHint}.`,
+        ur: `غلط ${dialOpt.name} نمبر: ${dialOpt.expectedDigits} ہندسے درکار ہیں (${digits.length} درج کیے گئے)۔ مثال: ${dialOpt.sampleDigits}`,
+        ar: `رقم غير صحيح لـ ${dialOpt.name}: يتطلب ${dialOpt.expectedDigits} أرقام (تم إدخال ${digits.length}). مثال: ${dialOpt.sampleDigits}`,
+      },
+    };
+  }
+  if (!dialOpt.mobilePrefixRegex.test(digits)) {
+    return {
+      valid: false,
+      reason: {
+        en: `Format mismatch for ${dialOpt.name} (${dialOpt.dialCode}): ${dialOpt.prefixHint}.`,
+        ur: `${dialOpt.name} (${dialOpt.dialCode}) کے موبائل فارمیٹ سے مطابقت نہیں: مثال ${dialOpt.sampleDigits} استعمال کریں۔`,
+        ar: `صيغة الرقم لا تطابق أرقام ${dialOpt.name} (${dialOpt.dialCode}): يرجى استخدام صيغة مثل ${dialOpt.sampleDigits}.`,
+      },
+    };
+  }
+  return { valid: true, reason: null };
+};
 
 export type ClientOnboardingLanguage = 'en' | 'ur' | 'ar';
 
@@ -298,19 +541,31 @@ export const ONBOARDING_I18N = {
     ownerNamePlaceholder: 'e.g. Hamza Tariq',
     phoneLabel: '3. WhatsApp Mobile Number *',
     phoneHint: 'Used for Layer 1 auto-verification & 24/7 Concierge',
+    phoneDigitsValidBadge: 'Digits Valid',
+    phoneDigitsCountLabel: 'Digits',
+    phoneFormatValidLabel: 'Valid mobile format',
     countryDetected: 'Auto-Detected Country / Region',
+    pricingEngineLabel: 'Pricing Engine',
+    domesticRailBadge: 'Domestic Rail (PKR)',
+    intlRailBadge: 'International Rail (USD $)',
     addressLabel: '4. Physical Address & Location *',
     addressPlaceholder: 'Shop #, Plaza, Street, Area, City',
+    suggestedCitiesLabel: 'Quick Local City:',
     coordsLabel: '5. Hardware GPS Coordinates *',
     captureGps: 'Capture GPS Geotag',
     capturingGps: 'Acquiring GPS...',
+    gpsAccuracyBadge: '±3m Pin Accuracy',
     previewTitle: 'Automated WhatsApp Welcome Preview',
     previewBadge: 'Ready for Instant Push',
     step1Next: 'Save & Next: Service Menu →',
-    
+    step1ErrorMissingNames: 'Please enter both Salon Name and Owner Name.',
+    step1ErrorEmptyAddress: 'Please enter the physical salon address and city.',
+
     step2Title: 'Step 2: Service Menu & Local Pricing Configuration',
     step2Kicker: 'RAPID ON-SITE SETUP',
     step2Desc: 'Configure service offerings for your salon. Add custom services or modify rates to match your printed menu.',
+    serviceCurrencyLabel: 'Service Menu Currency',
+    packageBillingLabel: 'WORKCRAFT Billing',
     mensCategory: "Men's Salon & Grooming",
     ladiesCategory: "Ladies' Beauty Parlor",
     addCustomService: '+ Add Custom Service',
@@ -325,12 +580,16 @@ export const ONBOARDING_I18N = {
     step3Kicker: 'STRICT STATE MACHINE GUARD',
     step3PackageHeading: 'Select Salon Onboarding Package Tier',
     formulaNotice: 'Formula: Monthly maintenance is strictly 10% of package fee / mo',
+    setupShortLabel: 'Setup',
+    maintShortLabel: 'Maint',
+    perMonthShort: '/mo',
     oneTimeFeeLabel: 'One-Time Initial Setup Fee',
     monthlyMaintNote: 'Monthly maintenance will strictly be 10% SLA. Zero cash is ever accepted for monthly maintenance.',
     paymentConfirmed: 'Payment Confirmed & Sealed',
     paymentUnverified: 'Unverified · Tap Channel Below',
     layer1Title: 'LAYER 1: SETUP FEE FLEXIBILITY VS. STRICT 10% MAINTENANCE SIM-LOCK',
     layer1Desc: 'Initial setup fee can be cleared from any mobile or authorized payment channel (EasyPaisa, JazzCash, Meezan Bank, or Card). However, all recurring monthly 10% maintenance must strictly originate from the registered salon number via the Central SIM Gateway.',
+    zeroCopyBadge: 'Zero Copy-Pasting Required',
     boundNumber: 'Bound WhatsApp Account',
     boundOwner: 'Registered Payee',
     featuresTitle: 'Complete Package Features Breakdown (Expandable)',
@@ -338,9 +597,65 @@ export const ONBOARDING_I18N = {
     collapseFeatures: 'Hide Features',
     includedLabel: 'Included',
     notIncludedLabel: 'Not Included',
+    slaAccordionLeft: '⚡ 10% SLA: Cloud hosting, live menu edits & <60min auto-repair SLA.',
+    slaAccordionRight: 'Zero-Cash Policy for recurring monthly fees.',
+    selectChannelLabel: 'Select Payment Channel to Verify Settlement',
+    openDrawerHint: 'Clicking channel opens secure verification drawer',
+    proofGenerated: 'Automated Settlement Proof Generated',
+    channelLabel: 'CHANNEL',
+    tidLabel: 'TRANSACTION ID',
+    routeLabel: 'ROUTED NOTIFICATION',
+    digestLabel: 'SECURITY DIGEST',
+    optionAOffsetApplied: 'Option A Commission Offset Applied:',
+    optionAOffsetDesc: 'commission automatically adjusted against cash liability for',
+    remainingCashDueLabel: 'Remaining cash due to WORKCRAFT:',
+    zeroCashTitle: 'Zero-Cash Maintenance Policy: Strictly Digital Self-Pay',
+    zeroCashDesc: 'Physical cash is permissible strictly for initial on-site setup only (inside Pakistan). All subsequent recurring monthly maintenance is self-paid digitally by the salon owner via the PWA. Field agents never accept cash for monthly fees.',
+    slaCardTitle: 'Continuous Care & Uptime Guarantee (10% SLA)',
+    slaCardBadge: '< 60-Minute Resolution SLA',
+    slaCardDesc: 'Includes continuous 24/7 WhatsApp auto-reply, autonomous self-healing, real-time menu updates, and guaranteed priority recovery within 60 minutes.',
+    statusPaidPrefix: 'Status: Paid',
+    lockedConfirmBtn: 'Confirm Setup Fee & Launch Pairing QR',
     verifyBtn: 'Verify Digital Settlement Webhook',
     step3Back: 'Back to Service Menu',
     step3Next: 'Confirm Setup Fee & Launch Pairing QR →',
+
+    drawerKicker: 'SETTLEMENT CLEARANCE RAIL',
+    drawerTitlePrefix: 'Verify Settlement',
+    receivingDestTitle: 'Official WORKCRAFT Receiving Destination (Pre-Configured):',
+    routingAssisted: 'Routing: ASSISTED (Auto-Detected Dual Alert)',
+    ownerAgentPush: 'Owner + Agent WhatsApp Push',
+    layer1PolicyTitle: 'Layer 1 Phone Policy',
+    layer1PolicyBadge: 'Setup Flexible · Maintenance Locked',
+    registeredSimLabel: 'Registered Salon SIM:',
+    layer1PolicyDesc: 'Setup fee may be paid from any authorized account. All future recurring 10% monthly maintenance must strictly originate from registered SIM',
+    simGatewayTitle: 'Central SIM Gateway Webhook',
+    liveListenerBadge: 'Live Listener Active',
+    listeningSimText: 'Listening on SIM cluster for incoming transfer from',
+    webhookCapturedTitle: 'Incoming Telco Webhook Auto-Captured:',
+    otherSimHint: 'If paying from another SIM, edit sender details below.',
+    reScanBtn: '⚡ Re-scan Webhook',
+    intlRailTitle: '24-48h Rolling International Settlement Rail',
+    instantActivationBadge: 'Instant Terminal Activation',
+    intlRailDesc: 'Cross-border wire/Stripe funds take 24–48 hours to clear into WORKCRAFT Pakistan Meezan Bank account. The terminal is unlocked immediately with zero downtime, and dual confirmation receipts are sent via WhatsApp to both Salon Owner and Field Agent.',
+    payerDetailsLabel: 'Payer Sender Phone / Account Details *',
+    payerDetailsHint: 'Initial setup fee can be paid from any account. Recurring 10% monthly maintenance is strictly bound to registered SIM.',
+    tidInputLabel: 'Transaction ID (TID) / Reference *',
+    smsAutoCapture: 'Auto-captured / Instant Ref',
+    lockedAmountLabel: 'Required Settlement Amount (Locked)',
+    cashGuardTitle: 'Cash Custody Velocity Guard',
+    cashLimitExceeded: '🚨 Hard limit exceeded! Hold > PKR 50,000 cash. Deposit current funds at an EasyPaisa shop or Meezan Bank first.',
+    cashHeldPrefix: 'Current held liability:',
+    biometricTitle: 'Biometric Thumbprint Authorization',
+    zeroPinBadge: 'ZERO PIN FALLBACK',
+    scanningThumbText: 'Reading optical hardware sensor...',
+    thumbVerifiedText: '✓ Thumbprint Authenticated',
+    pressThumbText: 'Press thumb on sensor to sign physical cash custody',
+    antiFraudTitle: '4-Layer Server Ledger Verification Active',
+    antiFraudDesc: 'System verifies cryptographic TID uniqueness, amount matching, and incoming server ledger events. Edited or duplicated slips are rejected automatically.',
+    cancelLabel: 'Cancel',
+    verifyingBtn: 'Verifying Webhook & Binding...',
+    verifyBindBtn: 'Verify & Proceed to Step 4 QR Pairing →',
 
     step4Title: 'Step 4: Terminal Multi-Device Pairing & Handshake',
     step4Kicker: 'ON-SITE ACTIVATION',
@@ -374,24 +689,36 @@ export const ONBOARDING_I18N = {
     routingDesc: 'فیلڈ ایجنٹ کی موجودگی خودکار شناخت ہو گئی۔ سسٹم بیک وقت سیلون مالک اور ایجنٹ دونوں کو الرٹ جاری کرے گا۔',
     routingBadge: '⚡ ڈوئل الرٹ فعال (مالک + ایجنٹ)',
     salonNameLabel: '1. سیلون کا نام *',
-    salonNamePlaceholder: 'مثلاً: سیون کٹس سٹوڈیو',
+    salonNamePlaceholder: 'مثال: رائل کٹس سٹوڈیو',
     ownerNameLabel: '2. سیلون مالک کا نام *',
-    ownerNamePlaceholder: 'مثلاً: حمزہ طارق',
+    ownerNamePlaceholder: 'مثال: حمزہ طارق',
     phoneLabel: '3. واٹس ایپ موبائل نمبر *',
     phoneHint: 'لیئر 1 تصدیق اور 24/7 کسٹمر بکنگ کے لیے استعمال ہوگا',
+    phoneDigitsValidBadge: 'ہندسے درست ہیں',
+    phoneDigitsCountLabel: 'ہندسے',
+    phoneFormatValidLabel: 'موبائل فارمیٹ درست ہے',
     countryDetected: 'ملک اور خطہ: خودکار منتخب',
+    pricingEngineLabel: 'پرائسنگ انجن',
+    domesticRailBadge: 'مقامی پیمنٹ چینل (PKR)',
+    intlRailBadge: 'انٹرنیشنل پیمنٹ چینل (USD $)',
     addressLabel: '4. سیلون کا مکمل پتہ *',
-    addressPlaceholder: 'دکان نمبر، پلازہ، گلی/بلاک، علاقہ، شہر',
+    addressPlaceholder: 'مثال: دکان نمبر 4، پلازہ 12، ڈی ایچ اے فیز 5، لاہور',
+    suggestedCitiesLabel: 'درست مقامی شہر منتخب کریں:',
     coordsLabel: '5. ہارڈ ویئر GPS کوآرڈینیٹس *',
     captureGps: 'GPS لوکیشن حاصل کریں',
     capturingGps: 'لوکیشن حاصل کی جا رہی ہے...',
+    gpsAccuracyBadge: '±3m درست پن لوکیشن',
     previewTitle: 'واٹس ایپ خوش آمدید میسج کا پیش نظارہ',
     previewBadge: 'فوری ارسال کے لیے تیار',
-    step1Next: 'محفوظ کریں اور سروس مینو منتخب کریں →',
-    
+    step1Next: 'محفوظ کریں اور سروس مینو منتخب کریں ←',
+    step1ErrorMissingNames: 'براہ کرم سیلون کا نام اور مالک کا نام دونوں درج کریں۔',
+    step1ErrorEmptyAddress: 'براہ کرم سیلون کا مکمل پتہ اور شہر درج کریں۔',
+
     step2Title: 'دوسرا مرحلہ: سروسز اور ریٹ لسٹ سیٹ اپ',
     step2Kicker: 'فوری آن سائٹ سیٹ اپ',
     step2Desc: 'سیلون کی فراہم کردہ سروسز اور ریٹ منتخب کریں، یا ریٹ کارڈ کے مطابق نئی سروس شامل کریں۔',
+    serviceCurrencyLabel: 'سروس مینو کرنسی',
+    packageBillingLabel: 'WORKCRAFT بلنگ',
     mensCategory: 'مردانہ سیلون (Men\'s Salon)',
     ladiesCategory: 'لیڈیز پارلر (Ladies\' Parlor)',
     addCustomService: '+ نئی سروس شامل کریں',
@@ -400,18 +727,22 @@ export const ONBOARDING_I18N = {
     addBtn: 'شامل کریں',
     cancelBtn: 'منسوخ',
     step2Back: 'واپس سیلون معلومات',
-    step2Next: 'محفوظ کریں اور پیکیج منتخب کریں →',
+    step2Next: 'محفوظ کریں اور پیکیج منتخب کریں ←',
 
     step3Title: 'تیسرا مرحلہ: پیکیج اور سیٹ اپ فیس کی ادائیگی',
     step3Kicker: 'ڈیجیٹل سیکیورٹی انجن',
     step3PackageHeading: 'سیلون آن بورڈنگ پیکیج منتخب کریں',
     formulaNotice: 'فارمولا: ماہانہ دیکھ بھال کی فیس منتخب پیکیج کا ٹھیک 10 فیصد ہوگی',
+    setupShortLabel: 'سیٹ اپ',
+    maintShortLabel: 'ماہانہ فیس',
+    perMonthShort: '/ماہ',
     oneTimeFeeLabel: 'یک مشت ابتدائی سیٹ اپ فیس',
     monthlyMaintNote: 'ماہانہ دیکھ بھال فیس ٹھیک 10 فیصد ہوگی۔ ماہانہ دیکھ بھال کے لیے نقد رقم ہرگز قبول نہیں کی جائے گی۔',
     paymentConfirmed: 'ادائیگی موصول و محفوظ ہو گئی',
     paymentUnverified: 'غیر تصدیق شدہ · نیچے ادائیگی چینل منتخب کریں',
     layer1Title: 'لیئر 1: سیٹ اپ فیس کی لچک بمقابلہ 10% ماہانہ مینٹیننس کا سم لاک',
     layer1Desc: 'ابتدائی سیٹ اپ فیس کسی بھی موبائل اکاؤنٹ یا بینک سے ادا کی جا سکتی ہے۔ تاہم، تمام آئندہ ماہانہ 10% مینٹیننس لازمی طور پر سیلون کے رجسٹرڈ نمبر سے بذریعہ سینٹرل سم گیٹ وے ہی خودکار طریقے سے ادا ہوگی۔',
+    zeroCopyBadge: 'کاپی پیسٹ کی ضرورت نہیں',
     boundNumber: 'رجسٹرڈ واٹس ایپ اکاؤنٹ',
     boundOwner: 'سیلون پارٹنر کا نام',
     featuresTitle: 'پیکیج کی مکمل تفصیلات اور خصوصیات (تفصیل دیکھیں)',
@@ -419,9 +750,65 @@ export const ONBOARDING_I18N = {
     collapseFeatures: 'خصوصیات بند کریں',
     includedLabel: 'شامل ہے',
     notIncludedLabel: 'شامل نہیں',
+    slaAccordionLeft: '⚡ 10% SLA: کلاؤڈ ہوسٹنگ، لائیو مینو ترمیم اور 60 منٹ میں خودکار بحالی۔',
+    slaAccordionRight: 'ماہانہ فیس کے لیے نقد رقم (زیرو کیش) پالیسی نافذ ہے۔',
+    selectChannelLabel: 'تصدیق کے لیے ادائیگی کا چینل منتخب کریں',
+    openDrawerHint: 'کلک کرنے سے محفوظ تصدیقی پینل کھل جائے گا',
+    proofGenerated: 'خودکار ادائیگی ثبوت (Receipt) تیار ہو گیا',
+    channelLabel: 'ادائیگی چینل',
+    tidLabel: 'ٹرانزیکشن آئی ڈی (TID)',
+    routeLabel: 'ارسال کردہ نوٹیفکیشن',
+    digestLabel: 'سیکیورٹی ہیش (SHA-256)',
+    optionAOffsetApplied: 'آپشن A کمیشن ایڈجسٹمنٹ نافذ:',
+    optionAOffsetDesc: 'کمیشن خودکار طور پر بقایا کیش ذمہ داری میں ایڈجسٹ کر دیا گیا برائے',
+    remainingCashDueLabel: 'ورک کرافٹ کو واجب الادا بقایا کیش:',
+    zeroCashTitle: 'زیرو کیش مینٹیننس پالیسی: صرف ڈیجیٹل ادائیگی',
+    zeroCashDesc: 'نقد رقم صرف پاکستان میں ابتدائی آن سائٹ سیٹ اپ کے وقت ایجنٹ وصول کر سکتا ہے۔ تمام ماہانہ 10% مینٹیننس فیس سیلون مالک خود PWA سے ڈیجیٹل ادا کرے گا۔',
+    slaCardTitle: 'مسلسل نگہداشت اور اپ ٹائم گارنٹی (10% SLA)',
+    slaCardBadge: '60 منٹ میں مسئلہ حل گارنٹی',
+    slaCardDesc: 'اس میں 24/7 واٹس ایپ آٹو ریپلائی، خودکار مرمت، فوری مینو تبدیلی اور 60 منٹ کے اندر ترجیحی بحالی شامل ہے۔',
+    statusPaidPrefix: 'اسٹیٹس: ادائیگی مکمل',
+    lockedConfirmBtn: 'سیٹ اپ فیس تصدیق کریں اور کیو آر شروع کریں',
     verifyBtn: 'ڈیجیٹل ادائیگی ویب ہک تصدیق کریں',
     step3Back: 'واپس سروس مینو',
     step3Next: 'سیٹ اپ فیس تصدیق کریں اور پیئرنگ کیو آر شروع کریں ←',
+
+    drawerKicker: 'ادائیگی کلیئرنس گیٹ وے',
+    drawerTitlePrefix: 'ادائیگی کی تصدیق کریں',
+    receivingDestTitle: 'ورک کرافٹ کا آفیشل وصول کنندہ اکاؤنٹ (پہلے سے سیٹ):',
+    routingAssisted: 'راؤٹنگ: ASSISTED (خودکار ڈوئل الرٹ فعال)',
+    ownerAgentPush: 'مالک + ایجنٹ کو واٹس ایپ اطلاع',
+    layer1PolicyTitle: 'لیئر 1 موبائل سم پالیسی',
+    layer1PolicyBadge: 'سیٹ اپ میں لچک · مینٹیننس سم لاک',
+    registeredSimLabel: 'رجسٹرڈ سیلون سم:',
+    layer1PolicyDesc: 'ابتدائی سیٹ اپ فیس کسی بھی اکاؤنٹ سے ادا ہو سکتی ہے۔ تمام ماہانہ 10% فیس لازمی طور پر رجسٹرڈ سم سے ادا ہوگی:',
+    simGatewayTitle: 'سینٹرل سم گیٹ وے ویب ہک',
+    liveListenerBadge: 'لائیو لسنر فعال',
+    listeningSimText: 'آنے والی رقم کے لیے سم کلسٹر پر نگرانی جاری ہے از:',
+    webhookCapturedTitle: 'ٹیلی کام ویب ہک خودکار موصول ہو گیا:',
+    otherSimHint: 'اگر ادائیگی کسی دوسرے نمبر سے ہوئی ہے تو نیچے تفصیل تبدیل کریں۔',
+    reScanBtn: '⚡ ویب ہک دوبارہ چیک کریں',
+    intlRailTitle: '24 تا 48 گھنٹے انٹرنیشنل رولنگ سیٹلمنٹ ریل',
+    instantActivationBadge: 'فوری ٹرمینل ایکٹیویشن',
+    intlRailDesc: 'بیرونِ ملک سے کارڈ یا بینک ٹرانسفر ورک کرافٹ کے پاکستانی میزان بینک اکاؤنٹ میں پہنچنے میں 24–48 گھنٹے لگتے ہیں۔ تاہم سیلون ٹرمینل فوراً بغیر انتظار کے فعال ہو جاتا ہے اور مالک و ایجنٹ دونوں کو واٹس ایپ رسید بھیج دی جاتی ہے۔',
+    payerDetailsLabel: 'بھیجنے والے کا فون نمبر یا اکاؤنٹ تفصیل *',
+    payerDetailsHint: 'سیٹ اپ فیس کسی بھی اکاؤنٹ سے دی جا سکتی ہے، جبکہ ماہانہ 10% فیس رجسٹرڈ سم سے مشروط ہے۔',
+    tidInputLabel: 'ٹرانزیکشن آئی ڈی (TID) / بینک حوالہ *',
+    smsAutoCapture: 'SMS سے خودکار / فوری حوالہ',
+    lockedAmountLabel: 'مطلوبہ سیٹلمنٹ رقم (لاکم شدہ)',
+    cashGuardTitle: 'کیش کسٹڈی حد نگرانی (PKR 50,000)',
+    cashLimitExceeded: '🚨 زیادہ سے زیادہ کیش حد مکمل! آپ کے پاس 50,000 روپے سے زائد کیش موجود ہے۔ پہلے میزان بینک یا ایزی پیسہ میں جمع کرائیں۔',
+    cashHeldPrefix: 'موجودہ زیرِ تحویل کیش:',
+    biometricTitle: 'بایومیٹرک انگوٹھے کی تصدیق (لازمی)',
+    zeroPinBadge: 'صرف بائیومیٹرک · پن کی اجازت نہیں',
+    scanningThumbText: 'انگوٹھے کا سینسر پڑھا جا رہا ہے...',
+    thumbVerifiedText: '✓ انگوٹھے کی تصدیق مکمل ہو گئی',
+    pressThumbText: 'نقد وصولی کی تصدیق کے لیے سینسر پر انگوٹھا رکھیں',
+    antiFraudTitle: '4-لیئر سرور لیجر سیکیورٹی فعال',
+    antiFraudDesc: 'سسٹم TID کی اصلیت، رقم کی مطابقت اور سرور لیجر خودکار چیک کرتا ہے۔ جعلی یا پرانی رسید فوری مسترد ہو جاتی ہے۔',
+    cancelLabel: 'منسوخ کریں',
+    verifyingBtn: 'تصدیق اور بائنڈنگ جاری ہے...',
+    verifyBindBtn: 'تصدیق کریں اور مرحلہ 4 QR پر جائیں ←',
 
     step4Title: 'چوتھا مرحلہ: واٹس ایپ ڈیوائس لنک اور پیئرنگ',
     step4Kicker: 'آن سائٹ ایکٹیویشن',
@@ -455,24 +842,36 @@ export const ONBOARDING_I18N = {
     routingDesc: 'تم التحقق من حضور الوكيل الميداني تلقائياً. سيتم إرسال تنبيه مزدوج متزامن لمالك الصالون والوكيل.',
     routingBadge: '⚡ تنبيه مزدوج نشط (المالك + الوكيل)',
     salonNameLabel: '1. اسم الصالون *',
-    salonNamePlaceholder: 'مثال: صالون سيفن كتس',
+    salonNamePlaceholder: 'مثال: صالون النخبة للرجال',
     ownerNameLabel: '2. اسم المالك *',
-    ownerNamePlaceholder: 'مثال: حمزة طارق',
+    ownerNamePlaceholder: 'مثال: طارق المنصور',
     phoneLabel: '3. رقم الواتساب المعتمد *',
     phoneHint: 'يُستخدم للمطابقة الآلية في المستوى 1 والرد الذكي 24/7',
+    phoneDigitsValidBadge: 'الأرقام صحيحة',
+    phoneDigitsCountLabel: 'أرقام',
+    phoneFormatValidLabel: 'صيغة الجوال صحيحة',
     countryDetected: 'البلد والمنطقة: تم التحديد تلقائياً',
+    pricingEngineLabel: 'محرك التسعير',
+    domesticRailBadge: 'بوابة محلية (PKR)',
+    intlRailBadge: 'بوابة دولية (USD $)',
     addressLabel: '4. العنوان وموقع الصالون بالتفصيل *',
-    addressPlaceholder: 'رقم المحل، المبنى، الشارع، الحي، المدينة',
+    addressPlaceholder: 'مثال: شارع الرقة، ديرة، دبي',
+    suggestedCitiesLabel: 'تحديد مدينة محلية سريعة:',
     coordsLabel: '5. إحداثيات الموقع الجغرافي GPS *',
     captureGps: 'تحديد الموقع GPS',
     capturingGps: 'جاري تحديد الموقع...',
+    gpsAccuracyBadge: 'دقة الموقع ±3 أمتار',
     previewTitle: 'معاينة رسالة الترحيب عبر واتساب',
     previewBadge: 'جاهز للإرسال الفوري',
     step1Next: 'حفظ ومتابعة لقائمة الخدمات ←',
+    step1ErrorMissingNames: 'يرجى إدخال اسم الصالون واسم المالك للمتابعة.',
+    step1ErrorEmptyAddress: 'يرجى إدخال عنوان الصالون والمدينة بالتفصيل.',
 
     step2Title: 'الخطوة 2: قائمة الخدمات والأسعار المعتمدة',
     step2Kicker: 'التهيئة السريعة',
     step2Desc: 'حدد قائمة الخدمات والأسعار المعتمدة في الصالون، أو أضف خدمات مخصصة مطابقة لقائمة الأسعار.',
+    serviceCurrencyLabel: 'عملة قائمة الخدمات',
+    packageBillingLabel: 'فوترة الباقة (WORKCRAFT)',
     mensCategory: 'صالون رجالي (Men\'s Salon)',
     ladiesCategory: 'صالون نسائي (Ladies\' Parlor)',
     addCustomService: '+ إضافة خدمة مخصصة',
@@ -487,12 +886,16 @@ export const ONBOARDING_I18N = {
     step3Kicker: 'محرك الأمان الرقمي',
     step3PackageHeading: 'اختر باقة تأسيس الصالون',
     formulaNotice: 'المعادلة: رسوم الصيانة الشهرية هي 10% بالضبط من قيمة الباقة شهرياً',
+    setupShortLabel: 'التأسيس',
+    maintShortLabel: 'الصيانة',
+    perMonthShort: '/شهرياً',
     oneTimeFeeLabel: 'رسوم التأسيس لمرة واحدة فقط',
     monthlyMaintNote: 'الصيانة الشهرية 10% بموجب اتفاقية الخدمة. لا يتم قبول أي مدفوعات نقدية للصيانة الشهرية نهائياً.',
     paymentConfirmed: 'تم التحقق من الدفع وتثبيته بنجاح',
     paymentUnverified: 'غير مؤكد · اختر قناة الدفع أدناه',
     layer1Title: 'المستوى 1: مرونة دفع رسوم التأسيس وقفل الصيانة الشهرية على شريحة الصالون',
     layer1Desc: 'يمكن سداد رسوم التأسيس الأولى من أي حساب بنكي أو محفظة معتمدة. بينما تخضع الصيانة الشهرية (10%) لشرط التحويل الحصري من شريحة الصالون المسجلة عبر بوابة SIM المركزية.',
+    zeroCopyBadge: 'تعبئة تلقائية بدون نسخ',
     boundNumber: 'رقم الواتساب المعتمد للدفع',
     boundOwner: 'اسم الشريك المسجل',
     featuresTitle: 'التفاصيل الشاملة ومميزات الباقة (قابلة للتوسيع)',
@@ -500,9 +903,65 @@ export const ONBOARDING_I18N = {
     collapseFeatures: 'إخفاء مميزات الباقة',
     includedLabel: 'مشمول',
     notIncludedLabel: 'غير مشمول',
+    slaAccordionLeft: '⚡ اتفاقية 10%: استضافة سحابية، تعديل فوري للقائمة وإصلاح ذاتي خلال <60 دقيقة.',
+    slaAccordionRight: 'سياسة الدفع الرقمي الحصري (بدون كاش) للرسوم الشهرية.',
+    selectChannelLabel: 'اختر وسيلة الدفع لتأكيد التحصيل والتفعيل',
+    openDrawerHint: 'الضغط على الوسيلة يفتح نافذة التحقق الآمنة',
+    proofGenerated: 'تم إصدار إثبات السداد الرقمي تلقائياً',
+    channelLabel: 'وسيلة الدفع',
+    tidLabel: 'رقم المرجع (TID)',
+    routeLabel: 'توجيه الإشعارات',
+    digestLabel: 'البصمة الأمنية (SHA-256)',
+    optionAOffsetApplied: 'تم تطبيق تسوية العمولة (خيار A):',
+    optionAOffsetDesc: 'تم خصم العمولة تلقائياً من رصيد النقد المستحق لـ',
+    remainingCashDueLabel: 'الرصيد النقدي المتبقي المستحق لـ WORKCRAFT:',
+    zeroCashTitle: 'سياسة منع النقد للصيانة: دفع رقمي ذاتي حصراً',
+    zeroCashDesc: 'يُسمح بالتحصيل النقدي حصراً لرسوم التأسيس الأولى داخل باكستان فقط. جميع رسوم الصيانة الشهرية (10%) تُدفع رقمياً من خلال التطبيق ولا يُقبل النقد نهائياً.',
+    slaCardTitle: 'ضمان الرعاية المستمرة وتشغيل النظام (اتفاقية 10%)',
+    slaCardBadge: 'حل الأعطال خلال < 60 دقيقة',
+    slaCardDesc: 'تشمل الرد التلقائي عبر واتساب 24/7، المعالجة الذاتية للأعطال، تحديثات فورية للأسعار، وضمان استعادة الخدمة خلال 60 دقيقة.',
+    statusPaidPrefix: 'الحالة: مدفوع',
+    lockedConfirmBtn: 'تأكيد رسوم التأسيس وتشغيل باركود الربط',
     verifyBtn: 'التحقق من إشعار الدفع الرقمي',
     step3Back: 'الرجوع لقائمة الخدمات',
     step3Next: 'تأكيد رسوم التثبيت وتشغيل باركود الربط ←',
+
+    drawerKicker: 'بوابة تسوية المدفوعات المعتمدة',
+    drawerTitlePrefix: 'تأكيد سداد',
+    receivingDestTitle: 'الحساب الرسمي المعتمد للاستلام لدى WORKCRAFT:',
+    routingAssisted: 'التوجيه: إشعار مزدوج تلقائي (ASSISTED)',
+    ownerAgentPush: 'إرسال واتساب للمالك + الوكيل',
+    layer1PolicyTitle: 'سياسة رقم الهاتف (المستوى 1)',
+    layer1PolicyBadge: 'مرونة التأسيس · الصيانة مقفلة بالرقم',
+    registeredSimLabel: 'شريحة الصالون المسجلة:',
+    layer1PolicyDesc: 'يمكن دفع رسوم التأسيس من أي بطاقة أو حساب. أما الصيانة الشهرية (10%) فيجب سدادها حصراً من الشريحة المسجلة:',
+    simGatewayTitle: 'بوابة التحقق الآلي للشريحة المركزية',
+    liveListenerBadge: 'المستشعر المباشر نشط',
+    listeningSimText: 'جاري رصد التحويل الوارد تلقائياً من الرقم:',
+    webhookCapturedTitle: 'تم التقاط إشعار الدفع البنكي تلقائياً:',
+    otherSimHint: 'في حال الدفع من رقم أو بطاقة أخرى، يمكنك تعديل بيانات المرسل أدناه.',
+    reScanBtn: '⚡ إعادة فحص الإشعار',
+    intlRailTitle: 'تسوية المدفوعات الدولية خلال 24-48 ساعة',
+    instantActivationBadge: 'تفعيل فوري للصالون',
+    intlRailDesc: 'تستغرق الحوالات البنكية والبطاقات الدولية 24–48 ساعة للوصول إلى حساب بنك ميزان الباكستاني الخاص بـ WORKCRAFT. يتم تفعيل النظام فوراً دون انتظار، مع إرسال إشعار استلام موثق عبر واتساب لمالك الصالون والوكيل.',
+    payerDetailsLabel: 'بيانات المرسل (رقم الهاتف / صاحب البطاقة) *',
+    payerDetailsHint: 'يُقبل دفع التأسيس من أي حساب، بينما تلتزم الصيانة الشهرية 10% بالرقم المسجل فقط.',
+    tidInputLabel: 'رقم العملية / المرجع البنكي (TID) *',
+    smsAutoCapture: 'مرجع فوري / تلقائي',
+    lockedAmountLabel: 'مبلغ التسوية المطلوب (مقفول آلياً)',
+    cashGuardTitle: 'مراقب سقف التحصيل النقدي (50,000 PKR)',
+    cashLimitExceeded: '🚨 تم تجاوز الحد الأقصى للنقد! يرجى إيداع المبالغ المحصلة في بنك ميزان أو إيزي بيسا أولاً.',
+    cashHeldPrefix: 'الرصيد النقدي الحالي بعهدتك:',
+    biometricTitle: 'توقيع البصمة الحيوية للتحصيل النقدي',
+    zeroPinBadge: 'بصمة فقط · بدون رمز سري',
+    scanningThumbText: 'جاري قراءة مستشعر البصمة...',
+    thumbVerifiedText: '✓ تم التحقق من البصمة بنجاح',
+    pressThumbText: 'اضغط بإصبعك لتوثيق استلام المبلغ النقدي',
+    antiFraudTitle: 'حماية السجل الرقمي رباعية الطبقات نشطة',
+    antiFraudDesc: 'يتحقق النظام آلياً من عدم تكرار رقم العملية وتطابق المبلغ ومنع الإيصالات المعدلة أو الوهمية.',
+    cancelLabel: 'إلغاء',
+    verifyingBtn: 'جاري التحقق والربط الآمن...',
+    verifyBindBtn: 'تأكيد السداد والانتقال لباركود الربط ←',
 
     step4Title: 'الخطوة 4: ربط جهاز الصالون بالواتساب والاقتران',
     step4Kicker: 'التفعيل النهائي',
@@ -528,6 +987,115 @@ export const ONBOARDING_I18N = {
     simulateBtn: 'محاكاة اختبار ربط الواتساب',
     step4Back: 'الرجوع لرسوم التأسيس',
   },
+};
+
+export type PaymentMethodOption = 'EasyPaisa' | 'JazzCash' | 'Bank Transfer (IBFT)' | 'Stripe / Card' | 'Cash Collection';
+
+export const getLocalizedPaymentMethodName = (method: PaymentMethodOption, lang: ClientOnboardingLanguage): string => {
+  if (lang === 'en') return method;
+  const map: Record<PaymentMethodOption, { ur: string; ar: string }> = {
+    'EasyPaisa': { ur: 'ایزی پیسہ (EasyPaisa)', ar: 'إيزي بيسا (EasyPaisa)' },
+    'JazzCash': { ur: 'جاز کیش (JazzCash)', ar: 'جاز كاش (JazzCash)' },
+    'Bank Transfer (IBFT)': { ur: 'بینک ٹرانسفر (IBFT / SWIFT)', ar: 'تحويل بنكي (IBFT / SWIFT)' },
+    'Stripe / Card': { ur: 'کارڈ / ایپل پے (Stripe / Card)', ar: 'بطاقة بنكية / Apple Pay (Stripe)' },
+    'Cash Collection': { ur: 'نقد وصولی (صرف پاکستان)', ar: 'تحصيل نقدي (باكستان فقط)' },
+  };
+  return map[method]?.[lang] || method;
+};
+
+export const getRegionalPaymentRails = (
+  country: CountryConfig,
+  lang: ClientOnboardingLanguage,
+  userRole: string
+): Array<{ name: PaymentMethodOption; label: string; note: string }> => {
+  if (!country.isDomestic) {
+    const isMena = country.region === 'MENA';
+    const isEurope = country.region === 'EUROPE';
+
+    const stripeLabel = getLocalizedPaymentMethodName('Stripe / Card', lang);
+    const wireLabel = getLocalizedPaymentMethodName('Bank Transfer (IBFT)', lang);
+
+    const stripeNote =
+      lang === 'ar'
+        ? isMena
+          ? 'فيزا، ماستركارد، Apple Pay ومدى · تحويل آلي 24-48 ساعة'
+          : isEurope
+          ? 'حماية 3D-Secure الأوروبية · Apple Pay · تسوية 24-48 ساعة'
+          : 'بطاقات عالمية 3D-Secure · Apple Pay · تسوية 24-48 ساعة'
+        : lang === 'ur'
+        ? isMena
+          ? 'ویزا، ماسٹر کارڈ، Apple Pay اور مدى · 24-48 گھنٹے میں کلیئرنس'
+          : 'عالمی 3D-Secure کارڈ اور Apple Pay · 24-48 گھنٹے رولنگ پے آؤٹ'
+        : isMena
+        ? 'MENA Visa / Mastercard / Apple Pay / Mada · 24-48h Payout'
+        : isEurope
+        ? 'UK & EU 3D-Secure · Apple Pay · 24-48h Payout'
+        : 'Global 3D-Secure · Apple Pay · 24-48h Rolling Wire';
+
+    const wireNote =
+      lang === 'ar'
+        ? isEurope
+          ? 'تحويل SEPA / SWIFT / IBAN مباشر إلى بنك ميزان باكستان'
+          : 'تحويل دولي SWIFT / IBAN مباشر إلى بنك ميزان باكستان'
+        : lang === 'ur'
+        ? 'براہ راست بین الاقوامی SWIFT / IBAN وائر ٹو میزان بینک پاکستان'
+        : isEurope
+        ? 'Direct SEPA / SWIFT / IBAN Wire to Meezan PK'
+        : 'Direct International SWIFT / IBAN Wire to Meezan PK';
+
+    return [
+      { name: 'Stripe / Card', label: stripeLabel, note: stripeNote },
+      { name: 'Bank Transfer (IBFT)', label: wireLabel, note: wireNote },
+    ];
+  }
+
+  const rails: Array<{ name: PaymentMethodOption; label: string; note: string }> = [
+    {
+      name: 'EasyPaisa',
+      label: getLocalizedPaymentMethodName('EasyPaisa', lang),
+      note:
+        lang === 'ur'
+          ? 'مرچنٹ ٹِل · سینٹرل سم ویب ہک خودکار تصدیق'
+          : lang === 'ar'
+          ? 'حساب التاجر · التحقق التلقائي عبر بوابة SIM'
+          : 'Merchant Till · Central SIM Webhook',
+    },
+    {
+      name: 'JazzCash',
+      label: getLocalizedPaymentMethodName('JazzCash', lang),
+      note:
+        lang === 'ur'
+          ? 'کارپوریٹ ٹِل 789210 · فوری خودکار کلیئرنس'
+          : lang === 'ar'
+          ? 'حساب الشركات 789210 · مقاصة فورية < 2 ثانية'
+          : 'Corporate Till 789210 · Sub-2s Clearance',
+    },
+    {
+      name: 'Bank Transfer (IBFT)',
+      label: getLocalizedPaymentMethodName('Bank Transfer (IBFT)', lang),
+      note:
+        lang === 'ur'
+          ? 'میزان بینک راسٹ (Raast) / 1LINK فوری حوالہ'
+          : lang === 'ar'
+          ? 'بنك ميزان · مرجع Raast / 1LINK الفوري'
+          : 'Meezan Bank Raast 1LINK Reference',
+    },
+  ];
+
+  if (userRole !== 'SALON_OWNER') {
+    rails.push({
+      name: 'Cash Collection',
+      label: getLocalizedPaymentMethodName('Cash Collection', lang),
+      note:
+        lang === 'ur'
+          ? 'صرف پاکستان فیلڈ ایجنٹ · انگوٹھے کی بائیومیٹرک تصدیق لازمی'
+          : lang === 'ar'
+          ? 'ميداني داخل باكستان فقط · موثق ببصمة الإبهام'
+          : 'Pakistan On-Site Only · Thumbprint Signed',
+    });
+  }
+
+  return rails;
 };
 
 export const getLocalizedServiceName = (name: string, lang: ClientOnboardingLanguage) => {
@@ -709,20 +1277,21 @@ export const formatWelcomeMessage = (
   salonName: string,
   pairingKey: string = 'WCL-49201'
 ) => {
-  const safeOwner = ownerName.trim() || 'Partner';
-  const safeSalon = salonName.trim() || 'Your Salon';
-  const pwaLink = `https://portal.workcraft.local/onboard/${safeSalon.toLowerCase().replace(/[^a-z0-9]/g, '-') || 'salon'}`;
+  const safeOwner = ownerName.trim() || (lang === 'ar' ? 'الشريك' : lang === 'ur' ? 'پارٹنر' : 'Partner');
+  const safeSalon = salonName.trim() || (lang === 'ar' ? 'صالونكم' : lang === 'ur' ? 'آپ کا سیلون' : 'Your Salon');
+  const slug = safeSalon.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'salon';
+  const pwaLink = `https://portal.workcraft.local/onboard/${slug}`;
 
   if (lang === 'en') {
     // English: strictly "Dear Mr. [Name]" (No Assalam-o-Alaikum as per policy)
     return `Dear Mr. ${safeOwner},\n\nWelcome to WORKCRAFT Local. Your terminal for "${safeSalon}" is activated.\n🔑 Terminal Pairing Key: ${pairingKey}\n📲 Web App Link: ${pwaLink}\n\nOur Central SIM Gateway is now operational for your 24/7 automated booking concierge.`;
   }
   if (lang === 'ar') {
-    // Arabic: Starts with Assalam-o-Alaikum
-    return `السلام علیکم ${safeOwner}!\n\nمرحباً بكم في WORKCRAFT Local. تم تفعيل حساب صالونكم "${safeSalon}".\n🔑 رمز الاقتران (Pairing Key): ${pairingKey}\n📲 رابط البوابة: ${pwaLink}\n\nنظام الرد التلقائي والحجوزات عبر واتساب يعمل الآن 24/7 على مدار الساعة.`;
+    // Arabic: Starts with proper Arabic السلام عليكم and dual-script WORKCRAFT brand
+    return `السلام عليكم ${safeOwner}!\n\nمرحباً بكم في WORKCRAFT Local (وورك كرافت لوكل). تم تفعيل حساب صالونكم "${safeSalon}".\n🔑 رمز الاقتران (Pairing Key): ${pairingKey}\n📲 رابط البوابة: ${pwaLink}\n\nنظام الرد التلقائي والحجوزات عبر واتساب يعمل الآن 24/7 على مدار الساعة.`;
   }
-  // Native Simple Urdu: Starts with Assalam-o-Alaikum
-  return `السلام علیکم ${safeOwner}!\n\nورک کرافٹ لوکل میں خوش آمدید۔ آپ کے سیلون "${safeSalon}" کا اکاؤنٹ فعال ہو چکا ہے۔\n🔑 پیئرنگ کوڈ (Pairing Key): ${pairingKey}\n📲 پورٹل لنک: ${pwaLink}\n\nہمارا 24/7 واٹس ایپ آٹو ریپلائی کسٹمر بکنگ سسٹم لائیو ہے۔`;
+  // Native Simple Urdu: Starts with Assalam-o-Alaikum and dual-script WORKCRAFT brand
+  return `السلام علیکم ${safeOwner}!\n\nورک کرافٹ لوکل (WORKCRAFT Local) میں خوش آمدید۔ آپ کے سیلون "${safeSalon}" کا اکاؤنٹ فعال ہو چکا ہے۔\n🔑 پیئرنگ کوڈ (Pairing Key): ${pairingKey}\n📲 پورٹل لنک: ${pwaLink}\n\nہمارا 24/7 واٹس ایپ آٹو ریپلائی کسٹمر بکنگ سسٹم لائیو ہے۔`;
 };
 
 export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
@@ -752,6 +1321,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [coords, setCoords] = useState('31.4705° N, 74.4109° E');
   const [address, setAddress] = useState('Shop #4, Plaza 12, CCA Phase 5 DHA, Lahore');
   const [isCapturingGps, setIsCapturingGps] = useState(false);
+  const [step1Error, setStep1Error] = useState<string | null>(null);
   const [invitePreview, setInvitePreview] = useState<string | null>(null);
 
   // Searchable Country Dial Code Picker State (Recommendation 1)
@@ -765,6 +1335,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const phone = `${selectedDialCode} ${nationalPhone}`;
   const selectedDialConfig = DIAL_CODE_OPTIONS.find((d) => d.dialCode === selectedDialCode) || DIAL_CODE_OPTIONS[0];
   const detectedCountry = detectCountryFromPhone(phone);
+  const phoneValidation = validateNationalPhoneForCountry(selectedDialConfig, nationalPhone);
+  const addressConflict = checkCityCountryIntegrity(address, phone);
 
   // Locked Routing Mode: Inside Agent Hub, it is strictly Assisted On-Site Dual Alert
   const onboardingAssistance = 'ASSISTED';
@@ -898,12 +1470,15 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
     tid: string;
     amount: number;
     currency: string;
+    currencyPrefix?: string;
     timestamp: string;
     sha256Proof: string;
     recipientRoute: string;
     commissionAdjusted: boolean;
     commissionAmount: number;
     remainingCashOwed: number;
+    isSameCurrencySplit?: boolean;
+    workcraftNetAmount?: number;
   } | null>(null);
 
   // Drawer Form State
@@ -988,9 +1563,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [agentNextOfKin, setAgentNextOfKin] = useState('Shahid Tariq (Brother)');
   const [payoutSaveStatus, setPayoutSaveStatus] = useState<string | null>(null);
 
-  // Query 16: Biometric Lock for Profile Edits
+  // Query 16: Biometric Lock for Profile Edits (Committed only after fresh thumbprint scan)
   const [isBiometricModalOpenForEdit, setIsBiometricModalOpenForEdit] = useState(false);
   const [isBiometricScanningForEdit, setIsBiometricScanningForEdit] = useState(false);
+  const [draftAgentPhone, setDraftAgentPhone] = useState('+92-301-4567891');
+  const [draftAgentTerritory, setDraftAgentTerritory] = useState('Lahore West (Gulberg · DHA · Model Town)');
+  const [draftAgentRegion, setDraftAgentRegion] = useState<'PK' | 'EUROPE' | 'MENA_UAE' | 'MENA_SA' | 'GLOBAL'>('PK');
+  const [draftAgentPayoutMethod, setDraftAgentPayoutMethod] = useState<'EasyPaisa' | 'JazzCash' | 'Bank Transfer (IBFT)' | 'Raast Instant Pay' | 'International Bank Wire'>('EasyPaisa');
+  const [draftAgentBankName, setDraftAgentBankName] = useState('Meezan Bank');
+  const [draftAgentPayoutAccount, setDraftAgentPayoutAccount] = useState('0302-9847102');
+  const [draftAgentPayoutTitle, setDraftAgentPayoutTitle] = useState('Kamran Tariq');
+  const [draftAgentIban, setDraftAgentIban] = useState('PK64MEZN0001020304050607');
+  const [profileBiometricSealTime, setProfileBiometricSealTime] = useState('12-Oct-2024 · 09:15 PKT');
 
   // Founder Master Kill-Switch (Query 9)
   const [isAgentSuspendedByFounder, setIsAgentSuspendedByFounder] = useState(false);
@@ -998,13 +1582,32 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   // Step 4: In-Person Pairing QR State
   const [isPairingSimulated, setIsPairingSimulated] = useState(false);
 
-  // Active Hub View Toggle: 'ONBOARDING' vs 'FLEET' vs 'LEDGER' vs 'RE_PAIR' (Query 2: Retired redundant Day-1 Profile)
-  const [activeHubView, setActiveHubView] = useState<'ONBOARDING' | 'FLEET' | 'LEDGER' | 'RE_PAIR'>('ONBOARDING');
+  // Active Hub View Toggle: 'ONBOARDING' vs 'FLEET' vs 'LEDGER' vs 'RE_PAIR' vs 'PROFILE'
+  const [activeHubView, setActiveHubView] = useState<'ONBOARDING' | 'FLEET' | 'LEDGER' | 'RE_PAIR' | 'PROFILE'>('ONBOARDING');
+  const [rePairSalonsList, setRePairSalonsList] = useState<Array<{
+    name: string;
+    owner: string;
+    city: string;
+    phone: string;
+    savedLang: ClientOnboardingLanguage;
+    status: 'CONNECTED' | 'NEEDS_RELINK';
+  }>>([
+    { name: 'Seven Cuts Studio', owner: 'Hamza Tariq', city: 'DHA Phase 5, Lahore', phone: '+92 301 8472910', savedLang: 'ur', status: 'CONNECTED' },
+    { name: 'Noor Beauty Lounge', owner: 'Sana Siddiqui', city: 'Clifton Block 4, Karachi', phone: '+92 300 9281742', savedLang: 'ur', status: 'NEEDS_RELINK' },
+    { name: 'Al Noor Gents Salon', owner: 'Tariq Al-Mansoor', city: 'Al Rigga Road, Deira, Dubai', phone: '+971 50 4819203', savedLang: 'ar', status: 'CONNECTED' },
+    { name: 'The Groom Room', owner: 'Oliver Bennett', city: '48 Oxford St, Soho, London', phone: '+44 7712 345678', savedLang: 'en', status: 'CONNECTED' },
+  ]);
+  const [rePairSearchQuery, setRePairSearchQuery] = useState('');
   const [selectedRePairSalon, setSelectedRePairSalon] = useState('Seven Cuts Studio');
+  const [rePairRecoveryMode, setRePairRecoveryMode] = useState<'AUTO_OTP' | 'ONSITE_QR' | 'REMOTE_LINK'>('AUTO_OTP');
   const [isRePairHandshakeActive, setIsRePairHandshakeActive] = useState(false);
+  const [isAutoOtpDispatched, setIsAutoOtpDispatched] = useState(false);
+  const [isRemoteLinkDispatched, setIsRemoteLinkDispatched] = useState(false);
 
-  // Query 1: Ledger Perspective (Founder Breakup vs Agent Commission Only)
-  const [ledgerPerspective, setLedgerPerspective] = useState<'FOUNDER' | 'AGENT'>('FOUNDER');
+  // Founder Multi-Agent Ledger Filter & Fleet Dossier Search/Region State
+  const [founderSelectedLedgerAgent, setFounderSelectedLedgerAgent] = useState<string>('ALL');
+  const [fleetSearchQuery, setFleetSearchQuery] = useState('');
+  const [fleetRegionFilter, setFleetRegionFilter] = useState<'ALL' | 'PK' | 'MENA' | 'EUROPE' | 'GLOBAL'>('ALL');
 
   // Query 2, 4, 15: Founder Fleet Command & Central Agent Dossiers
   const [isAddAgentModalOpen, setIsAddAgentModalOpen] = useState(false);
@@ -1053,6 +1656,74 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       legalTermsText: 'Agreed: Remit physical cash within 48 hours into WORKCRAFT Official Accounts. Subject to legal recovery under Laws of Pakistan.',
       guarantorName: 'Tariq Mehmood',
       guarantorPhone: '+92-300-8419201',
+    },
+    {
+      id: 'AGT-415',
+      pin: '5219',
+      name: 'Bilal Sheikh',
+      phone: '+92 300 4819204',
+      city: 'Karachi South (Clifton · DHA Phase 6)',
+      category: 'Universal (All Salons, Barbershops & Parlors)',
+      cnicOrId: '42101-9482019-3',
+      payoutMethod: 'JazzCash',
+      payoutAccount: '0300-4819204',
+      payoutTitle: 'Bilal Sheikh',
+      bankName: 'HBL',
+      iban: 'PK21HABB0002030405060708',
+      status: 'ACTIVE · ON-FIELD',
+      enrolledAt: '24-Oct-2026 · 14:20 PKT',
+      selfieVerified: true,
+      thumbHash: 'SHA256: 3a7e-11d9-72fc-4401-thumb-enrolled',
+      legalRemittanceAgreed: true,
+      legalTermsText: 'Agreed: Remit physical cash within 48 hours into WORKCRAFT Official Accounts. Subject to legal recovery under Laws of Pakistan.',
+      guarantorName: 'Imran Sheikh',
+      guarantorPhone: '+92-321-8890123',
+    },
+    {
+      id: 'AGT-502',
+      pin: '6640',
+      name: 'Tariq Al-Mansoor',
+      phone: '+971 50 8491022',
+      city: 'Dubai (Deira · Marina · Jumeirah)',
+      category: 'MENA Luxury Salons & Barbershops',
+      cnicOrId: '784-1990-4829102-1',
+      payoutMethod: 'Bank Transfer (UAE IBAN)',
+      payoutAccount: 'AE07 0331 2345 6789 0123 456',
+      payoutTitle: 'Tariq Al-Mansoor',
+      bankName: 'Emirates NBD',
+      iban: 'AE070331234567890123456',
+      swiftCode: 'EBILAEAD',
+      status: 'ACTIVE · ON-FIELD',
+      enrolledAt: '02-Nov-2026 · 11:40 GST',
+      selfieVerified: true,
+      thumbHash: 'SHA256: 7f2c-84b0-91ed-5518-thumb-enrolled',
+      legalRemittanceAgreed: true,
+      legalTermsText: 'Agreed: Strict Zero-Cash UAE digital settlement rail policy via Stripe / International Bank Wire.',
+      guarantorName: 'Khalid Al-Mansoor',
+      guarantorPhone: '+971-50-7123409',
+    },
+    {
+      id: 'AGT-608',
+      pin: '3904',
+      name: 'Oliver Bennett',
+      phone: '+44 7712 894012',
+      city: 'London (Soho · Canary Wharf)',
+      category: 'UK & Europe Grooming Terminals',
+      cnicOrId: 'GBR-482910482',
+      payoutMethod: 'UK Bank Transfer (Faster Payments)',
+      payoutAccount: 'GB29 NWBK 6016 1331 9268 19',
+      payoutTitle: 'Oliver Bennett',
+      bankName: 'NatWest UK',
+      iban: 'GB29NWBK60161331926819',
+      swiftCode: 'NWBKGB2L',
+      status: 'ACTIVE · ON-FIELD',
+      enrolledAt: '05-Nov-2026 · 16:05 GMT',
+      selfieVerified: true,
+      thumbHash: 'SHA256: 5d9a-40e2-83ca-1190-thumb-enrolled',
+      legalRemittanceAgreed: true,
+      legalTermsText: 'Agreed: Strict Zero-Cash UK/EU Stripe & Faster Payments digital onboarding policy.',
+      guarantorName: 'Arthur Bennett',
+      guarantorPhone: '+44-7700-900412',
     },
   ]);
 
@@ -1112,34 +1783,75 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [showPwaInstallModal, setShowPwaInstallModal] = useState(false);
   const [isPwaInstalledConfirmed, setIsPwaInstalledConfirmed] = useState(false);
 
-  // GPS Auto-Detection Handlers
+  // Helper to scale base PKR service prices into local salon currency on country change
+  const rescaleServicePricesForCountry = (country: CountryConfig) => {
+    const mult = country.localRateMultiplier;
+    const roundLocal = (pkrAmount: number) => {
+      const scaled = pkrAmount * mult;
+      if (mult >= 0.5) return Math.max(10, Math.round(scaled / 50) * 50);
+      if (mult >= 0.05) return Math.max(5, Math.round(scaled / 5) * 5);
+      return Math.max(2, Math.round(scaled));
+    };
+    setMensServices(DEFAULT_MENS_SERVICES.map((s) => ({ ...s, price: roundLocal(s.price) })));
+    setLadiesServices(DEFAULT_LADIES_SERVICES.map((s) => ({ ...s, price: roundLocal(s.price) })));
+    setNewServicePrice(String(roundLocal(2000)));
+  };
+
+  // GPS Auto-Detection Handlers (Country-Aware Fallback)
   const handleCaptureGps = () => {
     setIsCapturingGps(true);
+    setStep1Error(null);
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           setCoords(`${pos.coords.latitude.toFixed(4)}° N, ${pos.coords.longitude.toFixed(4)}° E`);
-          setAddress('DHA Phase 5, Sector C, Lahore (Auto-Detected)');
+          if (!address.trim() || checkCityCountryIntegrity(address, phone)) {
+            setAddress(detectedCountry.defaultAddress);
+          }
           setIsCapturingGps(false);
         },
         () => {
-          setCoords('31.4705° N, 74.4109° E');
-          setAddress('Sector C, CCA Phase 5 DHA, Lahore');
+          setCoords(detectedCountry.defaultCoords);
+          setAddress(detectedCountry.defaultAddress);
           setIsCapturingGps(false);
         },
         { timeout: 3000 }
       );
     } else {
+      setCoords(detectedCountry.defaultCoords);
+      setAddress(detectedCountry.defaultAddress);
       setIsCapturingGps(false);
     }
   };
 
-  // Step 1: Dispatch WhatsApp Invitation Link
+  // Step 1: Validate Phone Digits + City/Country Match + Dispatch WhatsApp Invitation Link
   const handleDispatchStep1 = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!salonName.trim() || !ownerName.trim()) return;
+    setStep1Error(null);
 
-    // Strict greeting rules: English = Dear Mr. [Name]; Roman Urdu / Arabic = Assalam-o-Alaikum [Name]
+    if (!salonName.trim() || !ownerName.trim()) {
+      setStep1Error(t.step1ErrorMissingNames);
+      return;
+    }
+
+    const phoneCheck = validateNationalPhoneForCountry(selectedDialConfig, nationalPhone);
+    if (!phoneCheck.valid && phoneCheck.reason) {
+      setStep1Error(phoneCheck.reason[clientOnboardingLanguage]);
+      return;
+    }
+
+    if (!address.trim()) {
+      setStep1Error(t.step1ErrorEmptyAddress);
+      return;
+    }
+
+    const locationConflict = checkCityCountryIntegrity(address, phone);
+    if (locationConflict) {
+      setStep1Error(locationConflict[clientOnboardingLanguage]);
+      return;
+    }
+
+    // Strict greeting rules: English = Dear Mr. [Name]; Urdu / Arabic = Assalam-o-Alaikum [Name]
     const templateMsg = formatWelcomeMessage(clientOnboardingLanguage, ownerName, salonName, pairingKey);
     setInvitePreview(templateMsg);
 
@@ -1150,6 +1862,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       location: address,
       coords,
     });
+
+    setRePairSalonsList((prev) => {
+      const exists = prev.some((s) => s.name.toLowerCase() === salonName.trim().toLowerCase());
+      if (exists) {
+        return prev.map((s) =>
+          s.name.toLowerCase() === salonName.trim().toLowerCase()
+            ? { ...s, owner: ownerName, city: address, phone, savedLang: clientOnboardingLanguage }
+            : s
+        );
+      }
+      return [
+        {
+          name: salonName.trim(),
+          owner: ownerName.trim(),
+          city: address.trim(),
+          phone,
+          savedLang: clientOnboardingLanguage,
+          status: 'CONNECTED',
+        },
+        ...prev,
+      ];
+    });
+    setSelectedRePairSalon(salonName.trim());
 
     setCurrentStep(2);
   };
@@ -1292,20 +2027,24 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       }
 
       const isIntl = !detectedCountry.isDomestic;
+      const workcraftShare = Math.round(activePackage.setupFee - commission);
       const receiptPayload = {
         method: setupPaymentMethod,
         senderDetails: drawerSenderDetails || ownerName,
         tid: drawerTid.trim(),
         amount: activePackage.setupFee,
         currency: activePackage.currency,
+        currencyPrefix: activePackage.prefix,
         timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         sha256Proof: 'sha256:' + (thumbprintHash || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)),
         recipientRoute: isIntl
-          ? 'Dual Dispatch via WhatsApp (Salon Owner + Field Agent) · 24-48h Rolling Payout to Meezan IBAN PK64MEZN0001020304050607'
+          ? `Same-Currency Direct Split: 20% (${activePackage.prefix}${commission.toLocaleString()}) ➔ Agent Local ${activePackage.currency} Account · 80% (${activePackage.prefix}${workcraftShare.toLocaleString()}) ➔ WORKCRAFT (Zero Double FX Loss)`
           : 'Central SIM Gateway Dual Dispatch (Salon Owner + Field Agent Kamran Tariq)',
         commissionAdjusted,
         commissionAmount: commission,
         remainingCashOwed: newRemainingDebt,
+        isSameCurrencySplit: isIntl,
+        workcraftNetAmount: workcraftShare,
         status: 'paid' as const,
       };
 
@@ -1503,27 +2242,30 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               </button>
             </div>
 
-            {/* Lock Terminal */}
-            <button
-              type="button"
-              onClick={() => setIsAgentAuthenticated(false)}
-              className="rounded-lg px-2.5 py-1.5 text-xs font-mono text-white/50 hover:text-amber-300 transition flex items-center gap-1 border border-white/10 hover:border-amber-400/40"
-              title="Lock Agent Terminal & Logout"
-            >
-              <Lock className="size-3.5" />
-              <span>Lock</span>
-            </button>
+            {/* Query 5: Lock & PWA buttons shown strictly for Field Agent mobile terminals (hidden from Founder dashboard) */}
+            {userRole === 'FIELD_AGENT' && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setIsAgentAuthenticated(false)}
+                  className="rounded-lg px-2.5 py-1.5 text-xs font-mono text-white/50 hover:text-amber-300 transition flex items-center gap-1 border border-white/10 hover:border-amber-400/40"
+                  title="Lock Agent Terminal & Logout"
+                >
+                  <Lock className="size-3.5" />
+                  <span>Lock</span>
+                </button>
 
-            {/* PWA Icon */}
-            <button
-              type="button"
-              onClick={() => setShowPwaInstallModal(true)}
-              className="rounded-lg px-2.5 py-1.5 text-xs font-mono border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition flex items-center gap-1"
-              title="Add Field Agent Hub to Home Screen"
-            >
-              <Download className="size-3.5" />
-              <span>PWA</span>
-            </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPwaInstallModal(true)}
+                  className="rounded-lg px-2.5 py-1.5 text-xs font-mono border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition flex items-center gap-1"
+                  title="Add Field Agent Hub to Home Screen"
+                >
+                  <Download className="size-3.5" />
+                  <span>PWA</span>
+                </button>
+              </>
+            )}
 
             {onClose && (
               <button
@@ -1625,14 +2367,43 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <span>{agentLanguage === 'ur' ? 'ٹرمینل ریپیئر' : agentLanguage === 'ar' ? 'فحص المحطة' : 'Node Repair & Diagnostics'}</span>
           </button>
 
-          {/* 6. Commission Ledger (Contextual Label by Role - Query 4) */}
+          {/* 6. My Profile & Payout Details (Biometric-Locked Edits) */}
+          <button
+            type="button"
+            onClick={() => {
+              setDraftAgentPhone(agentWhatsApp);
+              setDraftAgentTerritory(agentTerritory);
+              setDraftAgentRegion(agentOperatingRegion);
+              setDraftAgentPayoutMethod(agentPayoutMethod);
+              setDraftAgentBankName(agentBankName);
+              setDraftAgentPayoutAccount(agentPayoutAccount);
+              setDraftAgentPayoutTitle(agentPayoutTitle);
+              setDraftAgentIban(agentIban);
+              setPayoutSaveStatus(null);
+              setActiveHubView('PROFILE');
+            }}
+            className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+              activeHubView === 'PROFILE'
+                ? 'bg-[#D9A441] text-[#12241C] shadow-md'
+                : 'bg-white/[0.04] text-white/75 hover:text-white border border-white/10 hover:border-[#D9A441]/50'
+            }`}
+            title="Edit mobile, city, country & bank details (requires fresh biometric check)"
+          >
+            <Fingerprint className="size-3.5 text-[#D9A441]" />
+            <span>
+              {agentLanguage === 'ur'
+                ? 'میرا پروفائل اور بینک'
+                : agentLanguage === 'ar'
+                ? 'ملفي والبنك (بصمة)'
+                : 'My Profile & Bank (Biometric)'}
+            </span>
+          </button>
+
+          {/* 7. Commission Ledger (Contextual Label by Role - Query 4) */}
           <button
             type="button"
             onClick={() => {
               setActiveHubView('LEDGER');
-              if (userRole === 'FIELD_AGENT') {
-                setLedgerPerspective('AGENT');
-              }
             }}
             className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 sm:ml-auto ${
               activeHubView === 'LEDGER'
@@ -1690,7 +2461,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       {/* VIEW A: ONBOARDING SEQUENTIAL WIZARD (STEPS 1 - 4) */}
       {/* ========================================================================= */}
       {activeHubView === 'ONBOARDING' && (
-        <div className="space-y-6">
+        <div
+          dir={clientOnboardingLanguage === 'en' ? 'ltr' : 'rtl'}
+          className="space-y-6"
+        >
           {/* Query 3: Sticky Persistent Tri-Language Switcher (English, Native Urdu, Arabic) */}
           <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#12241C]/95 p-3 shadow-2xl backdrop-blur-md">
             <div className="flex items-center gap-2">
@@ -1854,25 +2628,27 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     />
                   </div>
 
-                  {/* Field 3: WhatsApp Number with Selectable Country Code & Digit Validation */}
+                  {/* Field 3: WhatsApp Number with Selectable Country Code & Strict Digit/Prefix Validation */}
                   <div>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between gap-2 mb-1">
                       <label className="text-[11px] font-mono font-bold uppercase text-white/55">
                         {t.phoneLabel}
                       </label>
-                      <span className={`text-[10px] font-mono font-bold ${
-                        nationalPhone.replace(/\D/g, '').length === selectedDialConfig.expectedDigits
+                      <span className={`text-[10px] font-mono font-bold shrink-0 ${
+                        phoneValidation.valid
                           ? 'text-emerald-400'
+                          : nationalPhone.replace(/\D/g, '').length === selectedDialConfig.expectedDigits
+                          ? 'text-rose-400'
                           : 'text-amber-400'
                       }`}>
-                        {nationalPhone.replace(/\D/g, '').length === selectedDialConfig.expectedDigits
-                          ? `✓ ${selectedDialConfig.expectedDigits}/${selectedDialConfig.expectedDigits} Digits Valid`
-                          : `${nationalPhone.replace(/\D/g, '').length}/${selectedDialConfig.expectedDigits} Digits`}
+                        {phoneValidation.valid
+                          ? `✓ ${selectedDialConfig.expectedDigits}/${selectedDialConfig.expectedDigits} ${t.phoneDigitsValidBadge}`
+                          : `${nationalPhone.replace(/\D/g, '').length}/${selectedDialConfig.expectedDigits} ${t.phoneDigitsCountLabel}`}
                       </span>
                     </div>
 
-                    <div className="flex gap-2">
-                      {/* Searchable & Filterable Country Code Picker (Recommendation 1) */}
+                    <div className="flex gap-2" dir="ltr">
+                      {/* Searchable & Filterable Country Code Picker */}
                       <div className="relative shrink-0">
                         <button
                           type="button"
@@ -1910,10 +2686,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                   key={d.code}
                                   type="button"
                                   onClick={() => {
+                                    const detected = detectCountryFromPhone(d.dialCode);
                                     setSelectedDialCode(d.dialCode);
+                                    setNationalPhone('');
+                                    setStep1Error(null);
                                     setIsDialDropdownOpen(false);
                                     setCountrySearchQuery('');
-                                    const detected = detectCountryFromPhone(d.dialCode);
+                                    setCoords(detected.defaultCoords);
+                                    if (checkCityCountryIntegrity(address, d.dialCode)) {
+                                      setAddress('');
+                                    }
+                                    rescaleServicePricesForCountry(detected);
                                     if (!detected.isDomestic) {
                                       setSetupPaymentMethod('Stripe / Card');
                                       if (detected.region === 'MENA') {
@@ -1946,32 +2729,46 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         )}
                       </div>
 
-                      {/* Local Phone Input */}
+                      {/* Strictly Country-Clamped Numeric Phone Input */}
                       <input
                         type="tel"
+                        inputMode="numeric"
+                        maxLength={selectedDialConfig.expectedDigits}
                         required
                         placeholder={selectedDialConfig.formatHint}
                         value={nationalPhone}
-                        onChange={(e) => setNationalPhone(e.target.value)}
+                        onChange={(e) => {
+                          const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, selectedDialConfig.expectedDigits);
+                          setNationalPhone(digitsOnly);
+                          if (step1Error) setStep1Error(null);
+                        }}
                         className={`w-full rounded-xl border bg-white/[0.04] px-3 py-2.5 text-sm font-mono focus:outline-none ${
-                          nationalPhone.replace(/\D/g, '').length === selectedDialConfig.expectedDigits
+                          phoneValidation.valid
                             ? 'border-emerald-500/40 text-emerald-300 focus:border-emerald-400'
+                            : nationalPhone.length > 0 && !phoneValidation.valid
+                            ? 'border-amber-500/40 text-amber-200 focus:border-[#00FFFF]'
                             : 'border-white/10 text-[#00FFFF] focus:border-[#00FFFF]'
                         }`}
                       />
                     </div>
-                    <span className="text-[10px] font-mono text-white/45 block mt-1">
-                      {t.phoneHint}: <strong className="text-white/80">{selectedDialCode} {nationalPhone}</strong> ({selectedDialConfig.name})
-                    </span>
+                    {!phoneValidation.valid && nationalPhone.length > 0 && phoneValidation.reason ? (
+                      <p className="text-[10px] font-mono text-amber-300 mt-1 leading-snug">
+                        ⚠ {phoneValidation.reason[clientOnboardingLanguage]}
+                      </p>
+                    ) : (
+                      <span className="text-[10px] font-mono text-white/45 block mt-1">
+                        {t.phoneHint}: <strong className="text-white/80" dir="ltr">{selectedDialCode} {nationalPhone || selectedDialConfig.sampleDigits}</strong> ({selectedDialConfig.name})
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Country Detection Banner */}
-                <div className="rounded-xl border border-white/10 bg-black/40 p-3 flex items-center justify-between text-xs font-mono">
+                <div className="rounded-xl border border-white/10 bg-black/40 p-3 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                   <div className="flex items-center gap-2">
-                    <Globe className="size-4 text-[#00FFFF]" />
+                    <Globe className="size-4 text-[#00FFFF] shrink-0" />
                     <span className="text-white/80">
-                      {t.countryDetected}: <strong className="text-white">{detectedCountry.name}</strong> ({detectedCountry.currency} Pricing Engine)
+                      {t.countryDetected}: <strong className="text-white">{detectedCountry.flag} {detectedCountry.name}</strong> ({detectedCountry.localCurrency} · {detectedCountry.currency} {t.pricingEngineLabel})
                     </span>
                   </div>
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
@@ -1979,7 +2776,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
                       : 'border-[#00FFFF]/30 bg-[#00FFFF]/10 text-[#00FFFF]'
                   }`}>
-                    {detectedCountry.isDomestic ? 'Domestic Rail (PKR)' : 'International Rail (USD $)'}
+                    {detectedCountry.isDomestic ? t.domesticRailBadge : t.intlRailBadge}
                   </span>
                 </div>
 
@@ -2001,12 +2798,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </div>
 
                   <div className="flex items-center justify-between rounded-lg bg-black/40 p-2 text-xs font-mono">
-                    <span className="text-[#F5F2E9] font-bold">{coords}</span>
-                    <span className="text-emerald-400 text-[10px]">±3m Pin Accuracy</span>
+                    <span className="text-[#F5F2E9] font-bold" dir="ltr">{coords}</span>
+                    <span className="text-emerald-400 text-[10px]">{t.gpsAccuracyBadge}</span>
                   </div>
                 </div>
 
-                {/* Field 4: Physical Address */}
+                {/* Field 4: Physical Address with Real-Time City-Country Integrity Cross-Check */}
                 <div>
                   <label className="text-[11px] font-mono font-bold uppercase text-white/55 block mb-1">
                     {t.addressLabel}
@@ -2014,11 +2811,45 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <input
                     type="text"
                     required
-                    placeholder={t.addressPlaceholder}
+                    placeholder={`${detectedCountry.defaultAddress} — ${t.addressPlaceholder}`}
                     value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none focus:border-[#00FFFF]"
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      if (step1Error) setStep1Error(null);
+                    }}
+                    className={`w-full rounded-xl border px-3.5 py-2.5 text-sm font-sans focus:outline-none ${
+                      addressConflict
+                        ? 'border-red-500/60 bg-red-950/20 text-red-200 focus:border-red-400'
+                        : 'border-white/10 bg-white/[0.04] text-[#F5F2E9] focus:border-[#00FFFF]'
+                    }`}
                   />
+
+                  {addressConflict && (
+                    <div className="mt-2 rounded-xl border border-red-500/40 bg-red-950/30 p-2.5 space-y-2 text-xs">
+                      <p className="font-mono text-red-300 font-bold flex items-start gap-1.5">
+                        <AlertTriangle className="size-4 text-red-400 shrink-0 mt-0.5" />
+                        <span>{addressConflict[clientOnboardingLanguage]}</span>
+                      </p>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className="text-[10px] font-mono text-white/60">{t.suggestedCitiesLabel}</span>
+                        {(REGIONAL_CITY_MAP[detectedCountry.code]?.cities || [detectedCountry.defaultCity])
+                          .slice(0, 4)
+                          .map((city) => (
+                            <button
+                              key={city}
+                              type="button"
+                              onClick={() => {
+                                setAddress(city === detectedCountry.defaultCity ? detectedCountry.defaultAddress : `${city}, ${detectedCountry.name.split(' (')[0]}`);
+                                setStep1Error(null);
+                              }}
+                              className="px-2 py-0.5 rounded-lg bg-[#00FFFF]/15 hover:bg-[#00FFFF]/25 border border-[#00FFFF]/30 text-[#00FFFF] text-[10px] font-mono font-bold transition"
+                            >
+                              {detectedCountry.flag} {city}
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Outbound WhatsApp Preview Card */}
@@ -2034,6 +2865,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     {formatWelcomeMessage(clientOnboardingLanguage, ownerName, salonName, pairingKey)}
                   </div>
                 </div>
+
+                {step1Error && (
+                  <div className="rounded-xl border border-red-500/40 bg-red-950/40 p-3 text-xs font-mono text-red-200 flex items-start gap-2 animate-in fade-in">
+                    <AlertTriangle className="size-4 text-red-400 shrink-0 mt-0.5" />
+                    <span>{step1Error}</span>
+                  </div>
+                )}
 
                 {/* Dispatch Action */}
                 <div className="flex items-center gap-3 pt-2">
@@ -2084,6 +2922,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </div>
                 </div>
 
+                {/* Local Salon Menu Currency Banner */}
+                <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                  <span className="text-[#D9A441] font-bold flex items-center gap-1.5">
+                    <span>{detectedCountry.flag}</span>
+                    <span>
+                      {t.serviceCurrencyLabel}: <strong>{detectedCountry.localCurrency}</strong> ({getLocalizedLocalCurrencyPrefix(detectedCountry, clientOnboardingLanguage).trim()})
+                    </span>
+                  </span>
+                  <span className="text-[10px] text-white/65">
+                    {t.packageBillingLabel}: {detectedCountry.currency}
+                  </span>
+                </div>
+
                 {/* Services List */}
                 <div className="space-y-2.5">
                   {activeServices.map((service) => (
@@ -2114,8 +2965,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-mono text-[#D9A441]">{detectedCountry.prefix}</span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="text-xs font-mono font-bold text-[#D9A441]">
+                          {getLocalizedLocalCurrencyPrefix(detectedCountry, clientOnboardingLanguage)}
+                        </span>
                         <input
                           type="number"
                           value={service.price}
@@ -2145,7 +2998,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       <input
                         type="number"
                         required
-                        placeholder={`${t.customPricePlaceholder} (${detectedCountry.prefix})`}
+                        placeholder={`${t.customPricePlaceholder} (${getLocalizedLocalCurrencyPrefix(detectedCountry, clientOnboardingLanguage).trim()})`}
                         value={newServicePrice}
                         onChange={(e) => setNewServicePrice(e.target.value)}
                         className="rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-[#00FFFF]"
@@ -2250,10 +3103,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between">
                             <div>
                               <span className="text-xs font-mono font-bold text-[#D9A441] block">
-                                Setup: {pkg.prefix}{pkg.setupFee.toLocaleString()}
+                                {t.setupShortLabel}: {pkg.prefix}{pkg.setupFee.toLocaleString()}
                               </span>
                               <span className="text-[9px] font-mono text-emerald-300 block">
-                                Maint: {pkg.prefix}{pkg.monthlyMaint.toLocaleString()}/mo (10%)
+                                {t.maintShortLabel}: {pkg.prefix}{pkg.monthlyMaint.toLocaleString()}{t.perMonthShort} (10%)
                               </span>
                             </div>
                             <button
@@ -2263,7 +3116,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                 setExpandedPackageId(expandedPackageId === pkg.id ? null : pkg.id);
                               }}
                               className="size-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-[#00FFFF] transition"
-                              title="Expand package feature details"
+                              title={t.expandFeatures}
                             >
                               {expandedPackageId === pkg.id ? (
                                 <ChevronUp className="size-3.5 text-[#00FFFF]" />
@@ -2339,8 +3192,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </div>
 
                       <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5 text-[10px] font-mono text-white/50">
-                        <span>⚡ 10% SLA: Cloud hosting, live menu edits &amp; &lt;60min auto-repair SLA.</span>
-                        <span className="text-[#D9A441]">Zero-Cash Policy for recurring monthly fees.</span>
+                        <span>{t.slaAccordionLeft}</span>
+                        <span className="text-[#D9A441]">{t.slaAccordionRight}</span>
                       </div>
                     </div>
                   );
@@ -2356,7 +3209,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       {activePackage.prefix}{activePackage.setupFee.toLocaleString()}
                     </h4>
                     <p className="text-xs text-white/55 font-sans mt-0.5">
-                      {t.monthlyMaintNote} ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()} / mo).
+                      {t.monthlyMaintNote} ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}{t.perMonthShort}).
                     </p>
                   </div>
 
@@ -2377,58 +3230,42 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                 {/* Layer 1: Mandatory Registered Phone-Bound Guarantee Banner */}
                 <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/20 p-3.5 space-y-1.5 font-sans">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-xs font-mono font-bold text-emerald-300 uppercase flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-emerald-400" />
+                      <ShieldCheck className="size-4 text-emerald-400 shrink-0" />
                       <span>{t.layer1Title}</span>
                     </span>
                     <span className="text-[10px] font-mono text-[#00FFFF] font-bold bg-[#00FFFF]/10 px-2 py-0.5 rounded border border-[#00FFFF]/30">
-                      Zero Copy-Pasting Required
+                      {t.zeroCopyBadge}
                     </span>
                   </div>
                   <p className="text-xs text-white/75 leading-relaxed">
                     {t.layer1Desc}
                   </p>
-                  <div className="flex items-center gap-4 text-[11px] font-mono text-white/60 pt-1">
-                    <span>{t.boundNumber}: <strong className="text-[#00FFFF]">{phone}</strong></span>
+                  <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-white/60 pt-1">
+                    <span>{t.boundNumber}: <strong className="text-[#00FFFF]" dir="ltr">{phone}</strong></span>
                     <span>{t.boundOwner}: <strong className="text-white">{ownerName}</strong></span>
                   </div>
                 </div>
 
-                {/* Payment Rails Selector (Opens Interactive Verification Drawer) */}
+                {/* Payment Rails Selector (Fully Localized for PK, MENA, Europe & Global) */}
                 <div>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <label className="text-[11px] font-mono font-bold uppercase text-white/55 block">
-                      Select Payment Channel to Verify Settlement
+                      {t.selectChannelLabel}
                     </label>
                     <span className="text-[10px] font-mono text-[#00FFFF]">
-                      Clicking channel opens secure verification drawer
+                      {t.openDrawerHint}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {(() => {
-                      if (!detectedCountry.isDomestic) {
-                        return [
-                          { name: 'Stripe / Card', note: 'Global 3D-Secure · Apple Pay · 24-48h Wire' },
-                          { name: 'Bank Transfer (IBFT)', note: 'Direct SWIFT / IBAN Wire to Meezan PK' },
-                        ];
-                      }
-                      const pkChannels = [
-                        { name: 'EasyPaisa', note: 'Merchant Till · Central SIM Webhook' },
-                        { name: 'JazzCash', note: 'Corporate Till 789210 · Sub-2s Clearance' },
-                        { name: 'Bank Transfer (IBFT)', note: 'Meezan Bank Raast 1LINK Reference' },
-                      ];
-                      if ((userRole as string) !== 'SALON_OWNER') {
-                        pkChannels.push({ name: 'Cash Collection', note: 'Pakistan On-Site Only · Thumbprint Signed' });
-                      }
-                      return pkChannels;
-                    })().map((m) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                    {getRegionalPaymentRails(detectedCountry, clientOnboardingLanguage, userRole as string).map((m) => (
                       <button
                         key={m.name}
                         type="button"
-                        onClick={() => handleSelectPaymentMethod(m.name as any)}
-                        className={`rounded-xl border p-3 text-left transition relative group ${
+                        onClick={() => handleSelectPaymentMethod(m.name)}
+                        className={`rounded-xl border p-3 text-start transition relative group ${
                           setupPaymentMethod === m.name && isPaymentVerified
                             ? 'border-emerald-500 bg-emerald-950/30 ring-1 ring-emerald-500'
                             : setupPaymentMethod === m.name
@@ -2442,8 +3279,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                             <Check className="size-3.5 text-emerald-400" />
                           )}
                         </div>
-                        <p className="text-xs font-bold text-[#F5F2E9]">{m.name}</p>
-                        <p className="text-[10px] font-mono text-white/45 mt-0.5">{m.note}</p>
+                        <p className="text-xs font-bold text-[#F5F2E9]">{m.label}</p>
+                        <p className="text-[10px] font-mono text-white/55 mt-0.5 leading-snug">{m.note}</p>
                       </button>
                     ))}
                   </div>
@@ -2455,33 +3292,40 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <div className="flex items-center justify-between border-b border-emerald-500/20 pb-2">
                       <span className="font-bold flex items-center gap-1.5 text-emerald-300">
                         <CheckCheck className="size-4 text-emerald-400" />
-                        <span>Automated Settlement Proof Generated</span>
+                        <span>{t.proofGenerated}</span>
                       </span>
                       <span className="text-[10px] text-white/60">{verifiedPaymentData.timestamp}</span>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-1">
                       <div>
-                        <span className="text-white/40 block text-[9px]">CHANNEL</span>
-                        <span className="text-white font-bold">{verifiedPaymentData.method}</span>
+                        <span className="text-white/40 block text-[9px]">{t.channelLabel}</span>
+                        <span className="text-white font-bold">{getLocalizedPaymentMethodName(verifiedPaymentData.method as PaymentMethodOption, clientOnboardingLanguage)}</span>
                       </div>
                       <div>
-                        <span className="text-white/40 block text-[9px]">TRANSACTION ID</span>
-                        <span className="text-[#00FFFF] font-bold">{verifiedPaymentData.tid}</span>
+                        <span className="text-white/40 block text-[9px]">{t.tidLabel}</span>
+                        <span className="text-[#00FFFF] font-bold" dir="ltr">{verifiedPaymentData.tid}</span>
                       </div>
                       <div>
-                        <span className="text-white/40 block text-[9px]">ROUTED NOTIFICATION</span>
+                        <span className="text-white/40 block text-[9px]">{t.routeLabel}</span>
                         <span className="text-white">{verifiedPaymentData.recipientRoute}</span>
                       </div>
                       <div>
-                        <span className="text-white/40 block text-[9px]">SECURITY DIGEST</span>
-                        <span className="text-[#D9A441] text-[10px] truncate block">{verifiedPaymentData.sha256Proof}</span>
+                        <span className="text-white/40 block text-[9px]">{t.digestLabel}</span>
+                        <span className="text-[#D9A441] text-[10px] truncate block" dir="ltr">{verifiedPaymentData.sha256Proof}</span>
                       </div>
                     </div>
 
-                    {/* Option A Commission Auto Net-Adjustment Feedback */}
+                    {/* Option A Commission Auto Net-Adjustment Feedback (Pakistan Domestic) */}
                     {verifiedPaymentData.commissionAdjusted && (
                       <div className="mt-2 rounded-lg bg-black/40 border border-emerald-500/20 p-2 text-[11px] font-sans text-emerald-300/90 leading-relaxed">
-                        <strong>Option A Commission Offset Applied:</strong> Kamran&apos;s commission of PKR {verifiedPaymentData.commissionAmount.toLocaleString()} has been automatically adjusted against his outstanding cash liability for {cashLiabilitySalon}. Remaining cash due to WORKCRAFT: <strong>PKR {verifiedPaymentData.remainingCashOwed.toLocaleString()}</strong>.
+                        <strong>{t.optionAOffsetApplied}</strong> PKR {verifiedPaymentData.commissionAmount.toLocaleString()} {t.optionAOffsetDesc} {cashLiabilitySalon}. {t.remainingCashDueLabel} <strong>PKR {verifiedPaymentData.remainingCashOwed.toLocaleString()}</strong>.
+                      </div>
+                    )}
+
+                    {/* Query 3: Outside-Pakistan Same-Currency Direct Split Receipt Feedback */}
+                    {verifiedPaymentData.isSameCurrencySplit && (
+                      <div className="mt-2 rounded-lg bg-black/45 border border-[#00FFFF]/30 p-2.5 text-[11px] font-sans text-[#00FFFF] leading-relaxed">
+                        <strong>Overseas Same-Currency Direct Split (Zero Double FX Loss):</strong> 20% (<strong>{verifiedPaymentData.currencyPrefix}{verifiedPaymentData.commissionAmount.toLocaleString()} {verifiedPaymentData.currency}</strong>) routed straight to Agent local payout account · 80% (<strong>{verifiedPaymentData.currencyPrefix}{(verifiedPaymentData.workcraftNetAmount ?? 0).toLocaleString()} {verifiedPaymentData.currency}</strong>) settled directly to WorkCraft.
                       </div>
                     )}
                   </div>
@@ -2490,30 +3334,30 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 {/* Maintenance Policy & 10% SLA Notice */}
                 <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-3.5 space-y-1.5">
                   <div className="flex items-center gap-2 text-amber-300 text-xs font-mono font-bold">
-                    <AlertTriangle className="size-4 text-amber-400" />
-                    <span>Zero-Cash Maintenance Policy: Strictly Digital Self-Pay</span>
+                    <AlertTriangle className="size-4 text-amber-400 shrink-0" />
+                    <span>{t.zeroCashTitle}</span>
                   </div>
                   <p className="text-xs text-white/65 font-sans leading-relaxed">
-                    Physical cash is permissible <strong>strictly for initial on-site setup only</strong> (inside Pakistan). All subsequent recurring monthly maintenance ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}/mo) is self-paid digitally by the salon owner via the PWA. Field agents never accept cash for monthly fees.
+                    {t.zeroCashDesc} ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}{t.perMonthShort})
                   </p>
                 </div>
 
                 {/* Continuous Care SLA Card */}
                 <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3.5 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-mono">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                     <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-[#00FFFF]" />
-                      Continuous Care &amp; Uptime Guarantee (10% SLA)
+                      <ShieldCheck className="size-4 text-[#00FFFF] shrink-0" />
+                      <span>{t.slaCardTitle}</span>
                     </span>
-                    <span className="text-emerald-400 font-bold">&lt; 60-Minute Resolution SLA</span>
+                    <span className="text-emerald-400 font-bold">{t.slaCardBadge}</span>
                   </div>
                   <p className="text-[11px] text-white/60 font-sans leading-relaxed">
-                    Includes continuous 24/7 WhatsApp auto-reply, autonomous self-healing, real-time menu updates, and guaranteed priority recovery within 60 minutes.
+                    {t.slaCardDesc}
                   </p>
                 </div>
 
                 {/* Step 3 Actions with STRICT STATE MACHINE LOCK (Query 6) */}
-                <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/10">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(2)}
@@ -2527,7 +3371,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <div className="flex items-center gap-3">
                       <span className="text-emerald-400 text-xs font-mono font-bold hidden sm:flex items-center gap-1.5 bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-500/30">
                         <CheckCircle2 className="size-3.5 text-emerald-400" />
-                        <span>Status: Paid ({verifiedPaymentData?.tid})</span>
+                        <span>{t.statusPaidPrefix} ({verifiedPaymentData?.tid})</span>
                       </span>
                       <button
                         type="button"
@@ -2539,11 +3383,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </button>
                     </div>
                   ) : (
-                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                       <button
                         type="button"
                         onClick={() => handleSelectPaymentMethod(setupPaymentMethod)}
-                        className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20 px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5"
+                        className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20 px-3.5 py-2 text-xs font-mono font-bold transition flex items-center justify-center gap-1.5"
                       >
                         <CreditCard className="size-3.5" />
                         <span>{t.verifyBtn}</span>
@@ -2551,11 +3395,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       <button
                         type="button"
                         disabled={true}
-                        className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/10 text-white/30 px-5 py-2.5 text-xs font-mono font-bold uppercase cursor-not-allowed select-none opacity-40 shadow-none"
-                        title="Strict Payment Gating: The 'Confirm Setup Fee & Launch Pairing QR' button remains strictly disabled until backend transaction verification returns status: paid"
+                        className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.04] border border-white/10 text-white/30 px-5 py-2.5 text-xs font-mono font-bold uppercase cursor-not-allowed select-none opacity-40 shadow-none"
                       >
                         <Lock className="size-3.5 text-amber-400" />
-                        <span>Confirm Setup Fee &amp; Launch Pairing QR</span>
+                        <span>{t.lockedConfirmBtn}</span>
                       </button>
                     </div>
                   )}
@@ -2767,468 +3610,1190 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* VIEW FLEET: FOUNDER FLEET FORCE & CENTRAL AGENT REGISTRY (QUERIES 2, 4, 15) */}
+      {/* VIEW FLEET: COUNTRY-GROUPED AGENT ROSTER & SEARCH (QUERY 1)              */}
       {/* ========================================================================= */}
-      {activeHubView === 'FLEET' && (
-        <PortalCard title="Fleet Force Command & Central Agent Registry" kicker="FOUNDER CENTRAL DISPATCH">
-          <div className="space-y-5">
-            {/* Founder Authority Banner */}
-            <div className="rounded-2xl border border-[#D9A441]/40 bg-gradient-to-r from-[#D9A441]/10 via-[#102019] to-[#00FFFF]/5 p-4 sm:p-5 shadow-lg">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-3.5">
-                  <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#D9A441]/20 border border-[#D9A441]/40 text-[#D9A441]">
-                    <Smartphone className="size-6" />
-                  </div>
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#D9A441] font-bold">
-                        FOUNDER FLEET FORCE ENGINE
-                      </span>
-                      <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
-                        {enrolledAgentsList.length} ACTIVE FIELD AGENTS
-                      </span>
-                      <span className="rounded-full bg-[#00FFFF]/10 border border-[#00FFFF]/30 px-2 py-0.5 text-[9px] font-mono font-bold text-[#00FFFF]">
-                        FOUNDER ONLY ACCESS
-                      </span>
-                    </div>
-                    <h3 className="text-base font-bold text-white mt-0.5">
-                      Central Field Force Fleet Command &amp; Dossiers
-                    </h3>
-                    <p className="text-xs text-white/60 font-mono mt-0.5">
-                      Authorizations, Central Day-1 Encrypted Credentials, Hardware Biometric Hashes, and Territory Remittance Compliance.
-                    </p>
-                  </div>
+      {activeHubView === 'FLEET' && (() => {
+        const q = fleetSearchQuery.trim().toLowerCase();
+        const filteredAgents = enrolledAgentsList.filter((agent) => {
+          const detected = detectCountryFromPhone(agent.phone);
+          const regionMatch =
+            fleetRegionFilter === 'ALL' ||
+            (fleetRegionFilter === 'PK' && detected.region === 'PK') ||
+            (fleetRegionFilter === 'MENA' && detected.region === 'MENA') ||
+            (fleetRegionFilter === 'EUROPE' && detected.region === 'EUROPE') ||
+            (fleetRegionFilter === 'GLOBAL' && detected.region !== 'PK' && detected.region !== 'MENA' && detected.region !== 'EUROPE');
+          if (!regionMatch) return false;
+          if (!q) return true;
+          return (
+            agent.name.toLowerCase().includes(q) ||
+            agent.id.toLowerCase().includes(q) ||
+            agent.phone.toLowerCase().includes(q) ||
+            agent.city.toLowerCase().includes(q) ||
+            detected.name.toLowerCase().includes(q)
+          );
+        });
+
+        const allRegionGroups: Array<{
+          key: 'PK' | 'MENA' | 'EUROPE' | 'GLOBAL';
+          title: string;
+          flag: string;
+          agents: typeof enrolledAgentsList;
+        }> = [
+          {
+            key: 'PK',
+            title: 'Pakistan Field Agents',
+            flag: '🇵🇰',
+            agents: filteredAgents.filter((a) => detectCountryFromPhone(a.phone).region === 'PK'),
+          },
+          {
+            key: 'MENA',
+            title: 'UAE & Gulf (MENA) Agents',
+            flag: '🇦🇪',
+            agents: filteredAgents.filter((a) => detectCountryFromPhone(a.phone).region === 'MENA'),
+          },
+          {
+            key: 'EUROPE',
+            title: 'UK & Europe Agents',
+            flag: '🇬🇧',
+            agents: filteredAgents.filter((a) => detectCountryFromPhone(a.phone).region === 'EUROPE'),
+          },
+          {
+            key: 'GLOBAL',
+            title: 'Global & Other Markets',
+            flag: '🌐',
+            agents: filteredAgents.filter((a) => {
+              const r = detectCountryFromPhone(a.phone).region;
+              return r !== 'PK' && r !== 'MENA' && r !== 'EUROPE';
+            }),
+          },
+        ];
+        const regionGroups = allRegionGroups.filter((g) => g.agents.length > 0);
+
+        return (
+          <PortalCard title="Active Fleet Dossier — Regional Agent Registry" kicker="FOUNDER CENTRAL DIRECTORY">
+            <div className="space-y-5">
+              {/* Search Bar + Priority Region Filter Pills */}
+              <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3">
+                <div className="relative flex-1">
+                  <Search className="size-4 text-[#00FFFF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={fleetSearchQuery}
+                    onChange={(e) => setFleetSearchQuery(e.target.value)}
+                    placeholder="Search agent by name, ID (e.g. AGT-409), WhatsApp, or city..."
+                    className="w-full rounded-xl border border-white/10 bg-[#102019] pl-10 pr-8 py-2.5 text-xs font-mono text-[#F5F2E9] placeholder:text-white/40 focus:outline-none focus:border-[#00FFFF]"
+                  />
+                  {fleetSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setFleetSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                      aria-label="Clear agent search"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  )}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setIsRemoteEnrollmentWizardOpen(true)}
-                    className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 text-[#00FFFF] px-3.5 py-2.5 text-xs font-mono font-bold transition flex items-center gap-1.5"
-                  >
-                    <Sparkles className="size-3.5" />
-                    <span>Test Day-1 Remote Link</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsAddAgentModalOpen(true)}
-                    className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-4 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md flex items-center gap-2 shrink-0"
-                  >
-                    <UserPlus className="size-4" />
-                    <span>+ Add New Field Agent</span>
-                  </button>
+                <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
+                  {[
+                    { key: 'ALL', label: `All (${enrolledAgentsList.length})` },
+                    { key: 'PK', label: '🇵🇰 Pakistan' },
+                    { key: 'MENA', label: '🇦🇪 UAE & MENA' },
+                    { key: 'EUROPE', label: '🇬🇧 UK & Europe' },
+                    { key: 'GLOBAL', label: '🌐 Global' },
+                  ].map((tab) => (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => setFleetRegionFilter(tab.key as any)}
+                      className={`px-3 py-1.5 rounded-xl font-bold transition border ${
+                        fleetRegionFilter === tab.key
+                          ? 'bg-[#D9A441] text-[#12241C] border-[#D9A441]'
+                          : 'bg-white/[0.03] text-white/65 border-white/10 hover:text-white hover:border-white/25'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
                 </div>
               </div>
-            </div>
 
-            {/* Registered Field Agents Roster Cards (Query 15: Central Dossier Access) */}
-            <div className="grid gap-4 md:grid-cols-2">
-              {enrolledAgentsList.map((agent) => (
-                <div
-                  key={agent.id}
-                  className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-3.5 hover:border-[#D9A441]/40 transition group"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <div className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-[#D9A441] to-[#b3822b] text-[#12241C] font-mono font-black text-base shadow">
-                          {agent.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                        </div>
-                        {agent.selfieVerified && (
-                          <span className="absolute -bottom-1 -right-1 grid size-4 place-items-center rounded-full bg-emerald-500 text-black">
-                            <Check className="size-2.5 stroke-[3]" />
-                          </span>
-                        )}
-                      </div>
-                      <div>
+              {regionGroups.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-8 text-center space-y-2">
+                  <p className="text-sm font-mono font-bold text-white/80">No field agents match &ldquo;{fleetSearchQuery}&rdquo;</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFleetSearchQuery('');
+                      setFleetRegionFilter('ALL');
+                    }}
+                    className="text-xs font-mono text-[#00FFFF] hover:underline"
+                  >
+                    Reset Fleet Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {regionGroups.map((group) => (
+                    <div key={group.key} className="space-y-3">
+                      {/* Country / Region Group Header */}
+                      <div className="flex items-center justify-between border-b border-white/10 pb-2">
                         <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-bold text-white group-hover:text-[#D9A441] transition">
-                            {agent.name}
-                          </h4>
-                          <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
-                            #{agent.id}
-                          </span>
+                          <span className="text-lg leading-none">{group.flag}</span>
+                          <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
+                            {group.title}
+                          </h3>
                         </div>
-                        <p className="text-xs text-white/60 font-mono mt-0.5">{agent.phone}</p>
-                        <p className="text-[11px] text-[#00FFFF] font-mono mt-0.5">{agent.city}</p>
+                        <span className="rounded-full bg-[#00FFFF]/10 border border-[#00FFFF]/30 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#00FFFF]">
+                          {group.agents.length} {group.agents.length === 1 ? 'Agent' : 'Agents'}
+                        </span>
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {group.agents.map((agent) => {
+                          const agentCountry = detectCountryFromPhone(agent.phone);
+                          return (
+                            <div
+                              key={agent.id}
+                              className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-3.5 hover:border-[#D9A441]/40 transition group"
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex items-center gap-3">
+                                  <div className="relative">
+                                    <div className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-[#D9A441] to-[#b3822b] text-[#12241C] font-mono font-black text-base shadow">
+                                      {agent.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                                    </div>
+                                    {agent.selfieVerified && (
+                                      <span className="absolute -bottom-1 -right-1 grid size-4 place-items-center rounded-full bg-emerald-500 text-black">
+                                        <Check className="size-2.5 stroke-[3]" />
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                      <h4 className="text-sm font-bold text-white group-hover:text-[#D9A441] transition">
+                                        {agent.name}
+                                      </h4>
+                                      <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
+                                        #{agent.id}
+                                      </span>
+                                      <span className="text-xs" title={agentCountry.name}>{agentCountry.flag}</span>
+                                    </div>
+                                    <p className="text-xs text-white/60 font-mono mt-0.5">{agent.phone}</p>
+                                    <p className="text-[11px] text-[#00FFFF] font-mono mt-0.5">{agent.city}</p>
+                                  </div>
+                                </div>
+
+                                <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+                                  agent.status.includes('SUSPENDED')
+                                    ? 'border-red-500/40 bg-red-500/10 text-red-300'
+                                    : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                                }`}>
+                                  {agent.status}
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
+                                <div>
+                                  <span className="text-[9px] text-white/40 block uppercase">Identity / National ID</span>
+                                  <span className="font-bold text-white truncate block">{agent.cnicOrId}</span>
+                                </div>
+                                <div>
+                                  <span className="text-[9px] text-white/40 block uppercase">Payout Channel</span>
+                                  <span className="font-bold text-[#D9A441] truncate block">{agent.payoutMethod}</span>
+                                </div>
+                                <div className="col-span-2 pt-1 border-t border-white/5 flex items-center justify-between text-[10px]">
+                                  <span className="text-white/50 flex items-center gap-1">
+                                    <Fingerprint className="size-3 text-[#00FFFF]" />
+                                    <span className="truncate max-w-[150px]">{agent.thumbHash}</span>
+                                  </span>
+                                  <span className="text-emerald-400 font-bold">✓ Day-1 Complete</span>
+                                </div>
+                              </div>
+
+                              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10">
+                                <span className="text-[10px] text-white/40 font-mono">
+                                  Enrolled: {agent.enrolledAt}
+                                </span>
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const isSuspended = agent.status.includes('SUSPENDED');
+                                      const newStatus = isSuspended ? 'ACTIVE · ON-FIELD' : 'SUSPENDED · TERMINAL LOCKED';
+                                      setEnrolledAgentsList(prev => prev.map(a => a.id === agent.id ? { ...a, status: newStatus } : a));
+                                      if (agent.name === agentFullName) {
+                                        setIsAgentSuspendedByFounder(!isSuspended);
+                                      }
+                                    }}
+                                    className={`rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold transition flex items-center gap-1 border ${
+                                      agent.status.includes('SUSPENDED')
+                                        ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30'
+                                        : 'border-red-500/40 bg-red-950/40 text-red-400 hover:bg-red-500/20 hover:border-red-500'
+                                    }`}
+                                    title={agent.status.includes('SUSPENDED') ? `Restore ${agent.name} terminal` : `Isolated Kill-Switch: Suspend ${agent.name}`}
+                                  >
+                                    <Power className="size-3" />
+                                    <span>{agent.status.includes('SUSPENDED') ? 'Restore Agent' : 'Kill-Switch'}</span>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => setSelectedDossierAgent(agent)}
+                                    className="rounded-lg bg-white/5 hover:bg-white/15 px-3 py-1.5 text-xs font-mono font-bold text-white transition flex items-center gap-1.5 border border-white/10"
+                                  >
+                                    <FileText className="size-3 text-[#00FFFF]" />
+                                    <span>View Dossier</span>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </PortalCard>
+        );
+      })()}
+
+      {/* ========================================================================= */}
+      {/* VIEW B: RE-PAIR TERMINAL & 3-TIER RECOVERY (QUERIES 2 & 3)               */}
+      {/* ========================================================================= */}
+      {activeHubView === 'RE_PAIR' && (() => {
+        const q = rePairSearchQuery.trim().toLowerCase();
+        const filteredSalons = rePairSalonsList.filter(
+          (s) =>
+            !q ||
+            s.name.toLowerCase().includes(q) ||
+            s.owner.toLowerCase().includes(q) ||
+            s.city.toLowerCase().includes(q) ||
+            s.phone.toLowerCase().includes(q)
+        );
+        const activeSalon =
+          rePairSalonsList.find((s) => s.name === selectedRePairSalon) ||
+          filteredSalons[0] ||
+          rePairSalonsList[0];
+
+        const langBadgeLabel =
+          activeSalon.savedLang === 'ur'
+            ? '🇵🇰 اردو (Saved Owner Language)'
+            : activeSalon.savedLang === 'ar'
+            ? '🇦🇪 العربية (لغة الصالون المعتمدة)'
+            : '🇬🇧 English (Saved Owner Language)';
+
+        const recoveryKey = `WCL-RPR-${activeSalon.name.slice(0, 3).toUpperCase().replace(/[^A-Z]/g, 'S')}92`;
+        const recoveryLink = `https://portal.workcraft.local/recover/${activeSalon.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}?key=${recoveryKey}&lang=${activeSalon.savedLang}`;
+
+        const localizedDispatchPreview =
+          activeSalon.savedLang === 'ar'
+            ? rePairRecoveryMode === 'AUTO_OTP'
+              ? `السلام عليكم ${activeSalon.owner}!\n\nلا حاجة لمسح الباركود عند تغيير الجوال أو تسجيل الخروج. تم تفعيل استعادة الجلسة التلقائية لصالون "${activeSalon.name}".\n🔐 رمز التحقق OTP على شريحتكم المسجلة ${activeSalon.phone}: 849201\n✅ بوت واتساب مستمر بالعمل 24/7 على خادم WORKCRAFT Local (وورك كرافت لوكل).`
+              : `السلام عليكم ${activeSalon.owner}!\n\nإليكم رابط استعادة وتوصيل لوحة صالون "${activeSalon.name}" دون الحاجة لوجود الوكيل:\n🔑 مفتاح الربط: ${recoveryKey}\n📲 رابط الاستعادة الفوري: ${recoveryLink}\n\nفريق WORKCRAFT Local (وورك كرافت لوكل).`
+            : activeSalon.savedLang === 'ur'
+            ? rePairRecoveryMode === 'AUTO_OTP'
+              ? `السلام علیکم ${activeSalon.owner}!\n\nموبائل تبدیل کرنے یا لاگ آؤٹ ہونے کی صورت میں کیو آر (QR) یا لنک کی ضرورت نہیں۔ "${activeSalon.name}" کے رجسٹرڈ نمبر ${activeSalon.phone} پر آٹو لاگ ان فعال ہے:\n🔐 OTP کوڈ: 849201\n✅ آپ کا واٹس ایپ بوٹ 24/7 ورک کرافٹ سرور پر مسلسل فعال ہے۔`
+              : `السلام علیکم ${activeSalon.owner}!\n\nفیلڈ ایجنٹ کی غیر موجودگی میں "${activeSalon.name}" کی فوری بحالی کے لیے اپنا ریکوری لنک استعمال کریں:\n🔑 ریکوری کوڈ: ${recoveryKey}\n📲 فوری لنک: ${recoveryLink}\n\nورک کرافٹ لوکل (WORKCRAFT Local)`
+            : rePairRecoveryMode === 'AUTO_OTP'
+            ? `Dear Mr. ${activeSalon.owner},\n\nNo QR scan or re-pairing link is required after changing phones or logging out. Your session for "${activeSalon.name}" auto-restores via your registered SIM (${activeSalon.phone}).\n🔐 Login OTP: 849201\n✅ Your 24/7 WhatsApp booking bot remains active on WORKCRAFT Local servers.`
+            : `Dear Mr. ${activeSalon.owner},\n\nUse this one-tap recovery link to reconnect "${activeSalon.name}" remotely without an agent on-site:\n🔑 Recovery Key: ${recoveryKey}\n📲 Portal Link: ${recoveryLink}\n\nWORKCRAFT Local`;
+
+        return (
+          <PortalCard title="Node Repair & Diagnostics (Smart Terminal Recovery)" kicker="IN-HUB REPAIR">
+            <div className="space-y-4">
+              <p className="text-xs text-white/65 font-sans leading-relaxed">
+                Choose the recovery tier based on whether the salon owner changed phones/logged out (automatic SIM OTP re-login with zero QR needed), is physically with an agent (QR scan), or needs a remote link in their saved language.
+              </p>
+
+              {/* Query 3: Salon Search Box + High-Contrast Dark Dropdown */}
+              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <label className="text-xs font-mono font-bold text-white/75 uppercase">
+                    Search &amp; Select Connected Salon Node:
+                  </label>
+                  <span className="rounded-lg bg-[#D9A441]/15 border border-[#D9A441]/30 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#D9A441]">
+                    {langBadgeLabel}
+                  </span>
+                </div>
+
+                {/* Live Salon Search Input */}
+                <div className="relative">
+                  <Search className="size-4 text-[#00FFFF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={rePairSearchQuery}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setRePairSearchQuery(val);
+                      const firstMatch = rePairSalonsList.find(
+                        (s) =>
+                          s.name.toLowerCase().includes(val.trim().toLowerCase()) ||
+                          s.owner.toLowerCase().includes(val.trim().toLowerCase()) ||
+                          s.city.toLowerCase().includes(val.trim().toLowerCase())
+                      );
+                      if (firstMatch) {
+                        setSelectedRePairSalon(firstMatch.name);
+                        setIsRePairHandshakeActive(false);
+                        setIsAutoOtpDispatched(false);
+                        setIsRemoteLinkDispatched(false);
+                      }
+                    }}
+                    placeholder="Search salon by name, owner, city, or WhatsApp number..."
+                    className="w-full rounded-xl border border-white/15 bg-[#102019] pl-10 pr-8 py-2.5 text-xs font-mono text-[#F5F2E9] placeholder:text-white/40 focus:outline-none focus:border-[#00FFFF]"
+                  />
+                  {rePairSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setRePairSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                      aria-label="Clear salon search"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Dark-Contrast Fixed <select> Dropdown */}
+                <select
+                  value={activeSalon.name}
+                  onChange={(e) => {
+                    setSelectedRePairSalon(e.target.value);
+                    setIsRePairHandshakeActive(false);
+                    setIsAutoOtpDispatched(false);
+                    setIsRemoteLinkDispatched(false);
+                  }}
+                  className="w-full rounded-xl border border-[#00FFFF]/30 bg-[#102019] px-3.5 py-2.5 text-xs font-mono font-bold text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF]"
+                >
+                  {filteredSalons.length === 0 ? (
+                    <option value="" className="bg-[#102019] text-white/60">
+                      No salons match search query
+                    </option>
+                  ) : (
+                    filteredSalons.map((salon) => (
+                      <option
+                        key={salon.name}
+                        value={salon.name}
+                        className="bg-[#102019] text-[#F5F2E9]"
+                      >
+                        {salon.name} · {salon.city} ({salon.savedLang.toUpperCase()})
+                      </option>
+                    ))
+                  )}
+                </select>
+
+                {/* Active Salon Summary Pill */}
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-black/50 border border-white/10 px-3 py-2 text-[11px] font-mono">
+                  <span className="text-white/75">
+                    Owner: <strong className="text-white">{activeSalon.owner}</strong> · <span className="text-[#00FFFF]">{activeSalon.phone}</span>
+                  </span>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                    activeSalon.status === 'CONNECTED'
+                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                  }`}>
+                    {activeSalon.status === 'CONNECTED' ? '● SIM Cluster Alive' : '⚠ Needs Re-Link'}
+                  </span>
+                </div>
+
+                {/* Query 2: 3-Tier Recovery Mode Selector */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRePairRecoveryMode('AUTO_OTP');
+                      setIsAutoOtpDispatched(false);
+                    }}
+                    className={`rounded-xl border p-3 text-left transition ${
+                      rePairRecoveryMode === 'AUTO_OTP'
+                        ? 'border-emerald-400 bg-emerald-500/15 text-white'
+                        : 'border-white/10 bg-black/30 text-white/60 hover:border-white/25'
+                    }`}
+                  >
+                    <p className="text-xs font-mono font-bold text-emerald-300">1. Auto SIM OTP Re-Login</p>
+                    <p className="text-[10px] text-white/65 mt-0.5">Changed phone / logged out · Zero QR or link required</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRePairRecoveryMode('ONSITE_QR');
+                      setIsRePairHandshakeActive(false);
+                    }}
+                    className={`rounded-xl border p-3 text-left transition ${
+                      rePairRecoveryMode === 'ONSITE_QR'
+                        ? 'border-[#00FFFF] bg-[#00FFFF]/15 text-white'
+                        : 'border-white/10 bg-black/30 text-white/60 hover:border-white/25'
+                    }`}
+                  >
+                    <p className="text-xs font-mono font-bold text-[#00FFFF]">2. Agent On-Site QR Scan</p>
+                    <p className="text-[10px] text-white/65 mt-0.5">Agent physically at salon re-linking WhatsApp device</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRePairRecoveryMode('REMOTE_LINK');
+                      setIsRemoteLinkDispatched(false);
+                    }}
+                    className={`rounded-xl border p-3 text-left transition ${
+                      rePairRecoveryMode === 'REMOTE_LINK'
+                        ? 'border-[#D9A441] bg-[#D9A441]/15 text-white'
+                        : 'border-white/10 bg-black/30 text-white/60 hover:border-white/25'
+                    }`}
+                  >
+                    <p className="text-xs font-mono font-bold text-[#D9A441]">3. Remote Recovery Link</p>
+                    <p className="text-[10px] text-white/65 mt-0.5">Agent not present · Send 1-tap link in salon&apos;s language</p>
+                  </button>
+                </div>
+
+                {/* TIER 1: Automatic SIM Re-Login (No QR / No Link Needed) */}
+                {rePairRecoveryMode === 'AUTO_OTP' && (
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs font-mono font-bold text-emerald-300 flex items-center gap-1.5">
+                        <ShieldCheck className="size-4 text-emerald-400" />
+                        <span>Zero-QR Automatic Session Restoration Active</span>
+                      </span>
+                      <span className="text-[10px] font-mono text-white/60">{langBadgeLabel}</span>
+                    </div>
+                    <p className="text-xs text-white/75 font-sans leading-relaxed">
+                      If <strong>{activeSalon.owner}</strong> changes their mobile or logs out of the PWA, they simply sign in with their registered WhatsApp number (<strong>{activeSalon.phone}</strong>) + 1-tap OTP. The cloud WhatsApp bot never disconnects and restores automatically without QR or agent visit.
+                    </p>
+
+                    <div
+                      dir={activeSalon.savedLang === 'en' ? 'ltr' : 'rtl'}
+                      className="rounded-xl bg-black/60 border border-white/10 p-3 text-xs font-mono text-[#F5F2E9] whitespace-pre-line leading-relaxed"
+                    >
+                      {localizedDispatchPreview}
+                    </div>
+
+                    {isAutoOtpDispatched ? (
+                      <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/15 p-3 text-xs font-mono text-emerald-300 flex items-center justify-center gap-2">
+                        <CheckCircle2 className="size-4 text-emerald-400" />
+                        <span>Auto-Login OTP dispatched to {activeSalon.phone} in {activeSalon.savedLang.toUpperCase()} — Zero QR needed!</span>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setIsAutoOtpDispatched(true)}
+                        className="w-full rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-2"
+                      >
+                        <Send className="size-4" />
+                        <span>Send Automatic SIM OTP Re-Login ({activeSalon.savedLang.toUpperCase()}) →</span>
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* TIER 2: Agent On-Site QR Scan */}
+                {rePairRecoveryMode === 'ONSITE_QR' && (
+                  <div className="space-y-3">
+                    <div className="flex justify-center p-4">
+                      <div className="grid size-40 place-items-center rounded-xl bg-white p-3 border-2 border-[#00FFFF]">
+                        <svg viewBox="0 0 100 100" className="w-full h-full text-slate-950">
+                          <rect x="5" y="5" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
+                          <rect x="10" y="10" width="12" height="12" fill="currentColor" rx="1" />
+                          <rect x="73" y="5" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
+                          <rect x="78" y="10" width="12" height="12" fill="currentColor" rx="1" />
+                          <rect x="5" y="73" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
+                          <rect x="10" y="78" width="12" height="12" fill="currentColor" rx="1" />
+                          <circle cx="34" cy="12" r="2.5" fill="currentColor" />
+                          <circle cx="50" cy="12" r="2.5" fill="currentColor" />
+                          <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="2" />
+                        </svg>
                       </div>
                     </div>
 
-                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
-                      {agent.status}
-                    </span>
+                    {isRePairHandshakeActive ? (
+                      <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 space-y-1 animate-in fade-in">
+                        <p className="font-bold flex items-center justify-center gap-1.5">
+                          <CheckCircle2 className="size-4 text-emerald-400" />
+                          <span>WebSocket Re-Handshake Verified!</span>
+                        </p>
+                        <p className="text-[11px] text-white/75 font-sans text-center">
+                          {activeSalon.name} is back online ({langBadgeLabel}). Session token renewed on Central SIM Gateway.
+                        </p>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setIsRePairHandshakeActive(true)}
+                        className="w-full rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                      >
+                        Simulate On-Site QR Device Scan Handshake →
+                      </button>
+                    )}
                   </div>
+                )}
 
-                  <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
-                    <div>
-                      <span className="text-[9px] text-white/40 block uppercase">Identity / CNIC</span>
-                      <span className="font-bold text-white truncate block">{agent.cnicOrId}</span>
-                    </div>
-                    <div>
-                      <span className="text-[9px] text-white/40 block uppercase">Payout Channel</span>
-                      <span className="font-bold text-[#D9A441] truncate block">{agent.payoutMethod}</span>
-                    </div>
-                    <div className="col-span-2 pt-1 border-t border-white/5 flex items-center justify-between text-[10px]">
-                      <span className="text-white/50 flex items-center gap-1">
-                        <Fingerprint className="size-3 text-[#00FFFF]" />
-                        <span className="truncate max-w-[150px]">{agent.thumbHash}</span>
+                {/* TIER 3: Remote WhatsApp Recovery Link in Salon's Saved Language */}
+                {rePairRecoveryMode === 'REMOTE_LINK' && (
+                  <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-4 space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs font-mono font-bold text-[#D9A441]">
+                        Remote WhatsApp Link Dispatch (No Agent On-Site)
                       </span>
-                      <span className="text-emerald-400 font-bold">✓ Day-1 Complete</span>
+                      <span className="text-[10px] font-mono text-white/70">{langBadgeLabel}</span>
                     </div>
-                  </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10">
-                    <span className="text-[10px] text-white/40 font-mono">
-                      Enrolled: {agent.enrolledAt}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      {/* Query 6: Per-Agent Isolated Kill-Switch */}
+                    <div className="rounded-lg bg-black/70 p-2.5 font-mono text-xs text-[#00FFFF] break-all border border-white/10 select-all">
+                      {recoveryLink}
+                    </div>
+
+                    <div
+                      dir={activeSalon.savedLang === 'en' ? 'ltr' : 'rtl'}
+                      className="rounded-xl bg-black/60 border border-white/10 p-3 text-xs font-mono text-[#F5F2E9] whitespace-pre-line leading-relaxed"
+                    >
+                      {localizedDispatchPreview}
+                    </div>
+
+                    {isRemoteLinkDispatched ? (
+                      <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 flex items-center justify-center gap-2">
+                        <CheckCircle2 className="size-4 text-emerald-400" />
+                        <span>Recovery Link pushed to {activeSalon.phone} via WhatsApp in {activeSalon.savedLang.toUpperCase()}!</span>
+                      </div>
+                    ) : (
                       <button
                         type="button"
-                        onClick={() => {
-                          const isSuspended = agent.status.includes('SUSPENDED');
-                          const newStatus = isSuspended ? 'ACTIVE · ON-FIELD' : 'SUSPENDED · TERMINAL LOCKED';
-                          setEnrolledAgentsList(prev => prev.map(a => a.id === agent.id ? { ...a, status: newStatus } : a));
-                          if (agent.name === agentFullName) {
-                            setIsAgentSuspendedByFounder(!isSuspended);
-                          }
-                        }}
-                        className={`rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold transition flex items-center gap-1 border ${
-                          agent.status.includes('SUSPENDED')
-                            ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30'
-                            : 'border-red-500/40 bg-red-950/40 text-red-400 hover:bg-red-500/20 hover:border-red-500'
-                        }`}
-                        title={agent.status.includes('SUSPENDED') ? `Restore ${agent.name} terminal` : `Isolated Kill-Switch: Suspend ${agent.name}`}
+                        onClick={() => setIsRemoteLinkDispatched(true)}
+                        className="w-full rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-2"
                       >
-                        <Power className="size-3" />
-                        <span>{agent.status.includes('SUSPENDED') ? 'Restore Agent' : 'Kill-Switch'}</span>
+                        <Send className="size-4" />
+                        <span>Push Recovery Link to Owner WhatsApp ({activeSalon.savedLang.toUpperCase()}) →</span>
                       </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setSelectedDossierAgent(agent)}
-                        className="rounded-lg bg-white/5 hover:bg-white/15 px-3 py-1.5 text-xs font-mono font-bold text-white transition flex items-center gap-1.5 border border-white/10"
-                      >
-                        <FileText className="size-3 text-[#00FFFF]" />
-                        <span>View Dossier</span>
-                      </button>
-                    </div>
+                    )}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </PortalCard>
-      )}
-
-      {/* ========================================================================= */}
-      {/* VIEW B: RE-PAIR TERMINAL */}
-      {/* ========================================================================= */}
-      {activeHubView === 'RE_PAIR' && (
-        <PortalCard title="Re-Pair Terminal Session (Hardware Recovery)" kicker="IN-HUB REPAIR">
-          <div className="space-y-4">
-            <p className="text-xs text-white/55 font-sans leading-relaxed">
-              If a salon owner accidentally logs out of WhatsApp Web or changes their Android terminal device, use this sequential in-hub re-pairing tool.
-            </p>
-
-            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
-              <label className="text-xs font-mono font-bold text-white/70 uppercase block">
-                Select Connected Salon Node:
-              </label>
-              <select
-                value={selectedRePairSalon}
-                onChange={(e) => {
-                  setSelectedRePairSalon(e.target.value);
-                  setIsRePairHandshakeActive(false);
-                }}
-                className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2.5 text-xs font-mono text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF]"
-              >
-                <option value="Seven Cuts Studio">Seven Cuts Studio · DHA Phase 5 Lahore</option>
-                <option value="Noor Beauty Lounge">Noor Beauty Lounge · Clifton Karachi</option>
-                <option value="The Groom Room">The Groom Room · F-6 Islamabad</option>
-              </select>
-
-              <div className="flex justify-center p-4">
-                <div className="grid size-40 place-items-center rounded-xl bg-white p-3 border-2 border-[#00FFFF]">
-                  <svg viewBox="0 0 100 100" className="w-full h-full text-slate-950">
-                    <rect x="5" y="5" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
-                    <rect x="10" y="10" width="12" height="12" fill="currentColor" rx="1" />
-                    <rect x="73" y="5" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
-                    <rect x="78" y="10" width="12" height="12" fill="currentColor" rx="1" />
-                    <rect x="5" y="73" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
-                    <rect x="10" y="78" width="12" height="12" fill="currentColor" rx="1" />
-                    <circle cx="34" cy="12" r="2.5" fill="currentColor" />
-                    <circle cx="50" cy="12" r="2.5" fill="currentColor" />
-                    <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="2" />
-                  </svg>
-                </div>
+                )}
               </div>
-
-              {isRePairHandshakeActive ? (
-                <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 space-y-1 animate-in fade-in">
-                  <p className="font-bold flex items-center justify-center gap-1.5">
-                    <CheckCircle2 className="size-4 text-emerald-400" />
-                    <span>WebSocket Re-Handshake Verified!</span>
-                  </p>
-                  <p className="text-[11px] text-white/75 font-sans text-center">
-                    {selectedRePairSalon} is back online. Session token renewed on Central SIM Gateway.
-                  </p>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setIsRePairHandshakeActive(true)}
-                  className="w-full rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
-                >
-                  Simulate Live Device Scan Handshake →
-                </button>
-              )}
             </div>
-          </div>
-        </PortalCard>
-      )}
+          </PortalCard>
+        );
+      })()}
 
       {/* ========================================================================= */}
-      {/* VIEW C: AGENT COMMISSION LEDGER & OPTION A NET-ADJUSTMENT (QUERY 11) */}
+      {/* VIEW D: BIOMETRIC-LOCKED AGENT PROFILE & PAYOUT EDITOR (QUERY 1)          */}
       {/* ========================================================================= */}
-      {activeHubView === 'LEDGER' && (
-        <PortalCard title="Agent Commission Attribution Ledger & Net-Settlement" kicker="OPTION A RECONCILIATION">
+      {activeHubView === 'PROFILE' && (
+        <PortalCard
+          title="My Agent Profile & Payout Details (Biometric-Locked)"
+          kicker="FRESH BIOMETRIC THUMBPRINT REQUIRED FOR ANY EDIT"
+        >
           <div className="space-y-4">
-            {/* Query 1: Perspective Selector: Founder 3-Way Breakdown vs Agent Commission Only */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-black/60 p-3.5 rounded-2xl border border-white/10">
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#D9A441] font-bold block">
-                  LEDGER VIEW PERSPECTIVE (QUERY 1 COMPLIANT)
-                </span>
-                <p className="text-xs text-white/70 font-sans mt-0.5">
-                  {ledgerPerspective === 'FOUNDER'
-                    ? 'Founder View: Full 3-Way Breakup (Gross Revenue Received · Agent Commission Disbursed · Net WORKCRAFT Retained)'
-                    : 'Agent View: Simple & Clear (Gross Deal Value · Commission Earned directly credited to your payment rail)'}
-                </p>
-              </div>
-              {userRole === 'FOUNDER' ? (
-                <div className="flex items-center rounded-xl bg-white/[0.04] border border-white/10 p-1 font-mono text-xs shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setLedgerPerspective('FOUNDER')}
-                    className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                      ledgerPerspective === 'FOUNDER'
-                        ? 'bg-[#D9A441] text-[#12241C] shadow-sm'
-                        : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    Founder Breakdown (Gross / Commission / Net)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setLedgerPerspective('AGENT')}
-                    className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                      ledgerPerspective === 'AGENT'
-                        ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
-                        : 'text-white/60 hover:text-white'
-                    }`}
-                  >
-                    Agent Commission View
-                  </button>
-                </div>
-              ) : (
-                <div className="rounded-xl bg-[#00FFFF]/10 border border-[#00FFFF]/30 px-3 py-1.5 font-mono text-xs text-[#00FFFF] font-bold">
-                  ✓ Personal Field Earnings Active
-                </div>
-              )}
-            </div>
-
-            {/* Option A Net-Adjustment Banner with 24-Hour Remittance Countdown */}
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-950/30 p-4 space-y-3 font-mono">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
+            <div className="rounded-2xl border border-[#D9A441]/35 bg-[#D9A441]/10 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+              <div className="flex items-start gap-2.5">
+                <Fingerprint className="size-5 text-[#D9A441] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[10px] text-amber-300/80 uppercase tracking-wider font-bold">
-                    Option A: Automated Commission Net-Adjustment Active
-                  </span>
-                  <h4 className="text-lg font-bold text-white mt-0.5">
-                    Physical Cash Liability Remittance Engine
-                  </h4>
-                </div>
-                <div className="rounded-xl bg-black/60 border border-amber-500/40 px-3 py-1.5 text-right">
-                  <span className="text-[9px] text-amber-300/70 block uppercase">Remittance Countdown Window</span>
-                  <span className="text-sm font-bold text-amber-300 flex items-center gap-1">
-                    <Clock className="size-3.5 text-amber-400 animate-pulse" />
-                    <span>{countdownHours}h {countdownMinutes}m remaining</span>
-                  </span>
+                  <p className="font-bold text-[#F5F2E9]">
+                    Personal Details &amp; Bank Account Security Lock
+                  </p>
+                  <p className="text-[11px] text-white/75 font-sans mt-0.5">
+                    Update your mobile number, city, country, payment method, or bank account below. Every save requires a fresh thumbprint scan to prove you personally made the change.
+                  </p>
                 </div>
               </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                <div className="rounded-xl bg-black/40 border border-white/10 p-3">
-                  <span className="text-white/50 block text-[10px]">PREVIOUS CASH COLLECTED</span>
-                  <span className="text-base font-bold text-white mt-0.5 block">PKR 15,000</span>
-                  <span className="text-[10px] text-white/50">{cashLiabilitySalon}</span>
-                </div>
-                <div className="rounded-xl bg-black/40 border border-emerald-500/20 p-3">
-                  <span className="text-white/50 block text-[10px]">COMMISSION AUTO-OFFSET</span>
-                  <span className="text-base font-bold text-emerald-400 mt-0.5 block">- PKR 3,000</span>
-                  <span className="text-[10px] text-emerald-300">Seven Cuts Salon Deal (20%)</span>
-                </div>
-                <div className="rounded-xl bg-black/40 border border-amber-500/30 p-3">
-                  <span className="text-white/50 block text-[10px]">NET CASH DUE TO WORKCRAFT</span>
-                  <span className="text-base font-bold text-amber-300 mt-0.5 block">
-                    PKR {cashLiabilityHeld.toLocaleString()}
-                  </span>
-                  <span className="text-[10px] text-amber-300/80">Due into WORKCRAFT Official Accounts</span>
-                </div>
-              </div>
-
-              <p className="text-[11px] text-white/60 font-sans leading-relaxed">
-                <strong>Why Option A is Safer:</strong> Every new onboarding commission automatically reduces the agent&apos;s physical cash custody liability from PKR 15,000 down to PKR {cashLiabilityHeld.toLocaleString()}, protecting WORKCRAFT&apos;s cash balance immediately without waiting for cross-bank transfers.
-              </p>
+              <span className="rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-[10px] font-mono text-emerald-300 shrink-0">
+                Sealed: {profileBiometricSealTime}
+              </span>
             </div>
 
-            {/* FOUNDER VIEW: 3-WAY BREAKUP (GROSS INFLOW · AGENT COMMISSION · NET WORKCRAFT RETAINED) */}
-            {ledgerPerspective === 'FOUNDER' ? (
-              <div className="space-y-4 animate-in fade-in">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
-                  <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
-                    <span className="text-[10px] text-white/45 uppercase block">Gross Setup Inflow</span>
-                    <span className="text-lg font-bold text-white mt-0.5 block">
-                      PKR {totalLifetimeAttributed.toLocaleString()}
-                    </span>
-                    <span className="text-[10px] text-white/50">Total Packages Sold</span>
-                  </div>
-
-                  <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-3.5">
-                    <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Agent Commission Disbursed</span>
-                    <span className="text-lg font-bold text-[#D9A441] mt-0.5 block">
-                      PKR {Math.round(totalLifetimeAttributed * 0.2).toLocaleString()}
-                    </span>
-                    <span className="text-[10px] text-white/50">20% Direct Agent Payout</span>
-                  </div>
-
-                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-3.5">
-                    <span className="text-[10px] text-emerald-300 uppercase block font-bold">Net WORKCRAFT Retained</span>
-                    <span className="text-lg font-bold text-emerald-400 mt-0.5 block">
-                      PKR {Math.round(totalLifetimeAttributed * 0.8).toLocaleString()}
-                    </span>
-                    <span className="text-[10px] text-emerald-300/80">80% Net Margin Secured</span>
-                  </div>
-                </div>
-
-                {/* Founder Month-by-Month 3-Way Table */}
-                <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
-                  <div className="p-3 bg-white/[0.04] border-b border-white/10 flex items-center justify-between text-xs">
-                    <span className="font-bold text-white uppercase text-[11px]">Founder Executive Settlement Ledger</span>
-                    <span className="text-[10px] text-emerald-400 font-bold">80% NET MARGIN ATTRIBUTED</span>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
-                      <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
-                        <tr>
-                          <th className="p-3">Month</th>
-                          <th className="p-3 text-center">Salons Active</th>
-                          <th className="p-3 text-right">Gross Package Inflow</th>
-                          <th className="p-3 text-right text-[#D9A441]">Agent Comm (20%)</th>
-                          <th className="p-3 text-right text-emerald-400">Net WORKCRAFT Retained (80%)</th>
-                          <th className="p-3 text-center">Settlement Status</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-white/5">
-                        {agentRevenueLedger.map((row) => {
-                          const comm = Math.round(row.setupRevenue * 0.2);
-                          const netRetained = row.setupRevenue - comm + row.maintenanceRevenue;
-                          return (
-                            <tr key={row.month} className="hover:bg-white/[0.02] transition">
-                              <td className="p-3 font-bold text-[#F5F2E9]">{row.month}</td>
-                              <td className="p-3 text-center text-[#00FFFF]">{row.activeSalons} Salons</td>
-                              <td className="p-3 text-right text-white/70">PKR {row.setupRevenue.toLocaleString()}</td>
-                              <td className="p-3 text-right font-bold text-[#D9A441]">PKR {comm.toLocaleString()}</td>
-                              <td className="p-3 text-right font-bold text-emerald-400">PKR {netRetained.toLocaleString()}</td>
-                              <td className="p-3 text-center">
-                                <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] text-emerald-300">
-                                  {row.status}
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              /* AGENT VIEW: SIMPLE & CLEAN (COMMISSION EARNED ONLY, NO FOUNDER OVERHEAD SHOWN) */
-              <div className="space-y-4 animate-in fade-in">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
-                  <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
-                    <span className="text-[10px] text-white/45 uppercase block">Total Deals Closed</span>
-                    <span className="text-lg font-bold text-[#00FFFF] mt-0.5 block">
-                      19 Salons
-                    </span>
-                    <span className="text-[10px] text-white/50">{agentTerritory}</span>
-                  </div>
-
-                  <div className="rounded-xl border border-[#D9A441]/40 bg-[#D9A441]/10 p-3.5">
-                    <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Your Commission Earned</span>
-                    <span className="text-lg font-bold text-[#D9A441] mt-0.5 block">
-                      PKR 52,000
-                    </span>
-                    <span className="text-[10px] text-emerald-400">100% Disbursed to {agentPayoutMethod}</span>
-                  </div>
-
-                  <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
-                    <span className="text-[10px] text-white/45 uppercase block">Payout Destination</span>
-                    <span className="text-sm font-bold text-white mt-1 block truncate">
-                      {agentPayoutAccount} ({agentPayoutMethod})
-                    </span>
-                    <span className="text-[10px] text-emerald-300">Automated Direct IBFT</span>
-                  </div>
-                </div>
-
-                {/* Agent Simplified Commission Table */}
-                <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
-                  <div className="p-3 bg-white/[0.04] border-b border-white/10 flex items-center justify-between text-xs">
-                    <span className="font-bold text-white uppercase text-[11px]">Your Personal Commission Ledger</span>
-                    <span className="text-[10px] text-[#00FFFF] font-bold">DIRECT TO WALLET / BANK</span>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
-                      <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
-                        <tr>
-                          <th className="p-3">Month</th>
-                          <th className="p-3 text-center">Salons Added</th>
-                          <th className="p-3 text-right">Package Tier Sold</th>
-                          <th className="p-3 text-right text-[#D9A441]">Your Commission</th>
-                          <th className="p-3 text-center">Disbursement Rail</th>
-                          <th className="p-3 text-center">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-white/5">
-                        {agentRevenueLedger.map((row) => {
-                          const comm = Math.round(row.setupRevenue * 0.2);
-                          return (
-                            <tr key={row.month} className="hover:bg-white/[0.02] transition">
-                              <td className="p-3 font-bold text-[#F5F2E9]">{row.month}</td>
-                              <td className="p-3 text-center text-[#00FFFF]">{row.activeSalons} Salons</td>
-                              <td className="p-3 text-right text-white/70">Growth Auto (PKR 20,000)</td>
-                              <td className="p-3 text-right font-bold text-[#D9A441]">PKR {comm.toLocaleString()}</td>
-                              <td className="p-3 text-center text-white/60">{agentPayoutMethod}</td>
-                              <td className="p-3 text-center">
-                                <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] text-emerald-300">
-                                  ✓ Cleared &amp; Disbursed
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+            {payoutSaveStatus && (
+              <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 flex items-center justify-between gap-2 animate-in fade-in">
+                <span className="flex items-center gap-2">
+                  <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                  <span>{payoutSaveStatus}</span>
+                </span>
+                <span className="text-[10px] text-[#00FFFF]">{profileThumbHash.slice(0, 22)}...</span>
               </div>
             )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-white/60 uppercase block">Agent Full Name &amp; ID (Locked)</span>
+                <input
+                  type="text"
+                  value={`${agentFullName} (#${agentIdInput || 'AGT-409'})`}
+                  disabled
+                  className="w-full rounded-xl border border-white/10 bg-black/50 px-3 py-2.5 text-white/65 cursor-not-allowed"
+                />
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">Mobile / WhatsApp Number</span>
+                <input
+                  type="text"
+                  value={draftAgentPhone}
+                  onChange={(e) => setDraftAgentPhone(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
+                />
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">Country / Region</span>
+                <select
+                  value={draftAgentRegion}
+                  onChange={(e) => setDraftAgentRegion(e.target.value as 'PK' | 'EUROPE' | 'MENA_UAE' | 'MENA_SA' | 'GLOBAL')}
+                  className="w-full rounded-xl border border-white/15 bg-[#102019] px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
+                >
+                  <option value="PK" className="bg-[#102019]">Pakistan (PKR)</option>
+                  <option value="MENA_UAE" className="bg-[#102019]">United Arab Emirates (AED)</option>
+                  <option value="MENA_SA" className="bg-[#102019]">Saudi Arabia (SAR)</option>
+                  <option value="EUROPE" className="bg-[#102019]">UK &amp; Europe (GBP / EUR)</option>
+                  <option value="GLOBAL" className="bg-[#102019]">Global (USD)</option>
+                </select>
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">City / Assigned Territory</span>
+                <input
+                  type="text"
+                  value={draftAgentTerritory}
+                  onChange={(e) => setDraftAgentTerritory(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
+                />
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Payout Method</span>
+                <select
+                  value={draftAgentPayoutMethod}
+                  onChange={(e) => setDraftAgentPayoutMethod(e.target.value as 'EasyPaisa' | 'JazzCash' | 'Bank Transfer (IBFT)' | 'Raast Instant Pay' | 'International Bank Wire')}
+                  className="w-full rounded-xl border border-white/15 bg-[#102019] px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
+                >
+                  <option value="EasyPaisa" className="bg-[#102019]">EasyPaisa Mobile Wallet</option>
+                  <option value="JazzCash" className="bg-[#102019]">JazzCash Mobile Wallet</option>
+                  <option value="Bank Transfer (IBFT)" className="bg-[#102019]">Bank Transfer (IBFT)</option>
+                  <option value="Raast Instant Pay" className="bg-[#102019]">Raast Instant Pay</option>
+                  <option value="International Bank Wire" className="bg-[#102019]">International Bank Wire / IBAN</option>
+                </select>
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Bank / Wallet Provider Name</span>
+                <input
+                  type="text"
+                  value={draftAgentBankName}
+                  onChange={(e) => setDraftAgentBankName(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
+                />
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Account / Wallet Number</span>
+                <input
+                  type="text"
+                  value={draftAgentPayoutAccount}
+                  onChange={(e) => setDraftAgentPayoutAccount(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
+                />
+              </label>
+
+              <label className="space-y-1.5">
+                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Account Title</span>
+                <input
+                  type="text"
+                  value={draftAgentPayoutTitle}
+                  onChange={(e) => setDraftAgentPayoutTitle(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
+                />
+              </label>
+
+              <label className="sm:col-span-2 space-y-1.5">
+                <span className="text-[10px] text-white/60 uppercase block">IBAN (Optional for Wallet / Required for Bank Wire)</span>
+                <input
+                  type="text"
+                  value={draftAgentIban}
+                  onChange={(e) => setDraftAgentIban(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
+                />
+              </label>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-white/10">
+              <span className="text-[11px] font-mono text-white/55">
+                Current Hardware Hash: <strong className="text-[#00FFFF]">{profileThumbHash}</strong>
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsBiometricModalOpenForEdit(true)}
+                className="rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center justify-center gap-2 shadow-lg"
+              >
+                <Fingerprint className="size-4" />
+                <span>Verify Biometric &amp; Save Profile Details</span>
+              </button>
+            </div>
           </div>
         </PortalCard>
       )}
+
+      {/* ========================================================================= */}
+      {/* VIEW C: ROLE-ISOLATED & LOCALIZED COMMISSION LEDGER (QUERY 4)            */}
+      {/* ========================================================================= */}
+      {activeHubView === 'LEDGER' && (() => {
+        const isUrdu = agentLanguage === 'ur' || agentLanguage === 'ur_roman';
+        const isArabic = agentLanguage === 'ar';
+        const ledgerDir = userRole === 'FIELD_AGENT' && (isUrdu || isArabic) ? 'rtl' : 'ltr';
+
+        // Multi-Agent Current Month + Previous History Breakdown for Founder View
+        const perAgentRevenueBreakup = [
+          {
+            agentId: 'AGT-409',
+            agentName: 'Kamran Tariq',
+            regionFlag: '🇵🇰',
+            territory: 'Lahore West',
+            currency: 'PKR',
+            currentMonthSalons: 8,
+            currentMonthGross: 156000,
+            previousMonthsSalons: 11,
+            previousMonthsGross: 214500,
+            cashHeld: cashLiabilityHeld,
+            monthlyRows: [
+              { month: 'November 2026 (Current)', salons: 8, gross: 156000, maint: 36000, status: 'Live · Rolling' },
+              { month: 'October 2026', salons: 6, gross: 117000, maint: 27000, status: 'Settled via Webhook' },
+              { month: 'September 2026', salons: 5, gross: 97500, maint: 22500, status: 'Settled via Webhook' },
+            ],
+          },
+          {
+            agentId: 'AGT-415',
+            agentName: 'Bilal Sheikh',
+            regionFlag: '🇵🇰',
+            territory: 'Karachi South',
+            currency: 'PKR',
+            currentMonthSalons: 5,
+            currentMonthGross: 95000,
+            previousMonthsSalons: 7,
+            previousMonthsGross: 132000,
+            cashHeld: 10000,
+            monthlyRows: [
+              { month: 'November 2026 (Current)', salons: 5, gross: 95000, maint: 18000, status: 'Live · Rolling' },
+              { month: 'October 2026', salons: 4, gross: 76000, maint: 14000, status: 'Settled via Webhook' },
+              { month: 'September 2026', salons: 3, gross: 56000, maint: 9000, status: 'Settled via Webhook' },
+            ],
+          },
+          {
+            agentId: 'AGT-502',
+            agentName: 'Tariq Al-Mansoor',
+            regionFlag: '🇦🇪',
+            territory: 'Dubai (MENA)',
+            currency: 'AED Same-Currency Split',
+            currentMonthSalons: 4,
+            currentMonthGross: 140000,
+            previousMonthsSalons: 3,
+            previousMonthsGross: 105000,
+            cashHeld: 0,
+            monthlyRows: [
+              { month: 'November 2026 (Current)', salons: 4, gross: 140000, maint: 14000, status: 'Direct 20/80 Split (AED)' },
+              { month: 'October 2026', salons: 3, gross: 105000, maint: 10500, status: 'Zero-FX Local Split ✓' },
+            ],
+          },
+          {
+            agentId: 'AGT-608',
+            agentName: 'Oliver Bennett',
+            regionFlag: '🇬🇧',
+            territory: 'London (UK)',
+            currency: 'GBP Same-Currency Split',
+            currentMonthSalons: 3,
+            currentMonthGross: 115000,
+            previousMonthsSalons: 2,
+            previousMonthsGross: 78000,
+            cashHeld: 0,
+            monthlyRows: [
+              { month: 'November 2026 (Current)', salons: 3, gross: 115000, maint: 11500, status: 'Direct 20/80 Split (GBP)' },
+              { month: 'October 2026', salons: 2, gross: 78000, maint: 7800, status: 'Zero-FX Local Split ✓' },
+            ],
+          },
+        ];
+
+        const filteredBreakupAgents =
+          founderSelectedLedgerAgent === 'ALL'
+            ? perAgentRevenueBreakup
+            : perAgentRevenueBreakup.filter((a) => a.agentId === founderSelectedLedgerAgent);
+
+        const totalCurrentGross = filteredBreakupAgents.reduce((s, a) => s + a.currentMonthGross, 0);
+        const totalPrevGross = filteredBreakupAgents.reduce((s, a) => s + a.previousMonthsGross, 0);
+        const totalCombinedGross = totalCurrentGross + totalPrevGross;
+        const totalCommDisbursed = Math.round(totalCombinedGross * 0.2);
+        const totalWorkcraftNet = Math.round(totalCombinedGross * 0.8);
+
+        // Localized strings strictly for Field Agent Personal Commission View
+        const agentL = isArabic
+          ? {
+              cardTitle: 'سجل عمولاتي ومستحقاتي الشخصية',
+              cardKicker: 'حساب الوكيل الخاص',
+              badge: '✓ سجل أرباحك الشخصية فقط',
+              optionATitle: 'تعديل العمولة التلقائي (خيار A) ضد النقد المحصل',
+              windowLabel: 'مهلة التوريد المتبقية',
+              prevCash: 'النقد المحصل مسبقاً',
+              offset: 'خصم العمولة التلقائي',
+              netDue: 'صافي النقد المستحق لـ WORKCRAFT',
+              dealsClosed: 'إجمالي الصفقات المغلقة',
+              salonsUnit: 'صالونات',
+              commEarned: 'صافي عمولتك المكتسبة',
+              disbursedTo: 'تم التحويل 100% إلى',
+              payoutDest: 'حساب استلام العمولات',
+              tableTitle: 'سجل عمولاتك الشهرية (الشهر الحالي والماضي)',
+              directRail: 'تحويل مباشر للمحفظة / البنك',
+              colMonth: 'الشهر',
+              colSalons: 'الصالونات',
+              colPackage: 'الباقة المباعة',
+              colComm: 'عمولتك (20%)',
+              colRail: 'وسيلة الصرف',
+              colStatus: 'الحالة',
+              statusPaid: '✓ تم الصرف',
+            }
+          : isUrdu
+          ? {
+              cardTitle: 'میرا ذاتی کمیشن اور ادائیگی لیجر',
+              cardKicker: 'فیلڈ ایجنٹ کمیشن ریکارڈ',
+              badge: '✓ صرف آپ کی ذاتی کمائی فعال',
+              optionATitle: 'آپشن A: کمیشن خودکار ایڈجسٹمنٹ (کیش ذمہ داری)',
+              windowLabel: 'بقایا جمع کرانے کا وقت',
+              prevCash: 'پچھلا وصول شدہ کیش',
+              offset: 'خودکار کمیشن ایڈجسٹمنٹ',
+              netDue: 'ورک کرافٹ کو واجب الادا بقایا کیش',
+              dealsClosed: 'کل مکمل سیلون ڈیلز',
+              salonsUnit: 'سیلون',
+              commEarned: 'آپ کا کمایا گیا کل کمیشن',
+              disbursedTo: '100% منتقل شدہ بذریعہ',
+              payoutDest: 'ادائیگی وصول کرنے کا اکاؤنٹ',
+              tableTitle: 'آپ کا ماہانہ کمیشن لیجر (موجودہ اور پچھلا ریکارڈ)',
+              directRail: 'براہ راست والٹ / بینک ٹرانسفر',
+              colMonth: 'مہینہ',
+              colSalons: 'شامل سیلون',
+              colPackage: 'فروخت شدہ پیکیج',
+              colComm: 'آپ کا کمیشن',
+              colRail: 'ادائیگی چینل',
+              colStatus: 'اسٹیٹس',
+              statusPaid: '✓ ادائیگی مکمل',
+            }
+          : {
+              cardTitle: 'My Personal Commission & Payout Ledger',
+              cardKicker: 'AGENT PERSONAL EARNINGS',
+              badge: '✓ Personal Field Earnings Only',
+              optionATitle: 'Option A: Automated Commission Net-Adjustment',
+              windowLabel: 'Remittance Countdown Window',
+              prevCash: 'PREVIOUS CASH COLLECTED',
+              offset: 'COMMISSION AUTO-OFFSET',
+              netDue: 'NET CASH DUE TO WORKCRAFT',
+              dealsClosed: 'Total Deals Closed',
+              salonsUnit: 'Salons',
+              commEarned: 'Your Commission Earned',
+              disbursedTo: '100% Disbursed to',
+              payoutDest: 'Payout Destination',
+              tableTitle: 'Your Monthly Commission History (Current & Past)',
+              directRail: 'DIRECT TO WALLET / BANK',
+              colMonth: 'Month',
+              colSalons: 'Salons Added',
+              colPackage: 'Package Tier Sold',
+              colComm: 'Your Commission',
+              colRail: 'Disbursement Rail',
+              colStatus: 'Status',
+              statusPaid: '✓ Cleared & Disbursed',
+            };
+
+        return (
+          <PortalCard
+            title={
+              userRole === 'FOUNDER'
+                ? 'Founder Revenue Attribution — Per-Agent Current & Historical Ledger'
+                : agentL.cardTitle
+            }
+            kicker={userRole === 'FOUNDER' ? 'FOUNDER EXECUTIVE LEDGER' : agentL.cardKicker}
+          >
+            <div dir={ledgerDir} className="space-y-4">
+              {userRole === 'FOUNDER' ? (
+                /* FOUNDER VIEW STRICTLY: Per-Agent Current Month & Previous History Revenue Breakup */
+                <div className="space-y-4 animate-in fade-in">
+                  {/* Agent Filter Selector */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-black/60 p-3.5 rounded-2xl border border-white/10">
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#D9A441] font-bold block">
+                        PER-AGENT REVENUE &amp; RETENTION BREAKUP (CURRENT MONTH + HISTORY)
+                      </span>
+                      <p className="text-xs text-white/70 font-sans mt-0.5">
+                        Inspect how much gross setup revenue each agent generated in the current month and prior months, along with 20% commission disbursed and 80% net WORKCRAFT margin.
+                      </p>
+                    </div>
+                    <select
+                      value={founderSelectedLedgerAgent}
+                      onChange={(e) => setFounderSelectedLedgerAgent(e.target.value)}
+                      className="rounded-xl border border-[#00FFFF]/30 bg-[#102019] px-3 py-2 text-xs font-mono font-bold text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF] shrink-0"
+                    >
+                      <option value="ALL" className="bg-[#102019] text-[#F5F2E9]">
+                        All Regional Agents ({perAgentRevenueBreakup.length})
+                      </option>
+                      {perAgentRevenueBreakup.map((a) => (
+                        <option key={a.agentId} value={a.agentId} className="bg-[#102019] text-[#F5F2E9]">
+                          {a.regionFlag} {a.agentName} (#{a.agentId})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Top 4 Executive Revenue Cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono">
+                    <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/10 p-3.5">
+                      <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">Current Month Inflow</span>
+                      <span className="text-lg font-bold text-white mt-0.5 block">
+                        PKR {totalCurrentGross.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] text-white/60">Active November 2026</span>
+                    </div>
+
+                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
+                      <span className="text-[10px] text-white/50 uppercase block">Previous History Inflow</span>
+                      <span className="text-lg font-bold text-white mt-0.5 block">
+                        PKR {totalPrevGross.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] text-white/50">Prior Settled Months</span>
+                    </div>
+
+                    <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-3.5">
+                      <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Agent Payouts (20%)</span>
+                      <span className="text-lg font-bold text-[#D9A441] mt-0.5 block">
+                        PKR {totalCommDisbursed.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] text-white/55">Combined Commission</span>
+                    </div>
+
+                    <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-3.5">
+                      <span className="text-[10px] text-emerald-300 uppercase block font-bold">Net WORKCRAFT Retained (80%)</span>
+                      <span className="text-lg font-bold text-emerald-400 mt-0.5 block">
+                        PKR {totalWorkcraftNet.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] text-emerald-300/80">Cleared Net Profit</span>
+                    </div>
+                  </div>
+
+                  {/* Per-Agent Current Month vs Previous History Summary Table */}
+                  <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
+                    <div className="p-3 bg-white/[0.04] border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <span className="font-bold text-white uppercase text-[11px]">Per-Agent Revenue Breakup (Current vs. History)</span>
+                      <span className="text-[10px] text-[#00FFFF] font-bold">Click any agent row to inspect month history</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
+                          <tr>
+                            <th className="p-3">Agent &amp; Territory</th>
+                            <th className="p-3 text-right text-[#00FFFF]">Current Month</th>
+                            <th className="p-3 text-right">Previous History</th>
+                            <th className="p-3 text-right text-[#D9A441]">Agent Comm (20%)</th>
+                            <th className="p-3 text-right text-emerald-400">Net WORKCRAFT (80%)</th>
+                            <th className="p-3 text-right">Held Cash</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {filteredBreakupAgents.map((a) => {
+                            const agentTotalGross = a.currentMonthGross + a.previousMonthsGross;
+                            const agentComm = Math.round(agentTotalGross * 0.2);
+                            const agentNet = Math.round(agentTotalGross * 0.8);
+                            return (
+                              <tr
+                                key={a.agentId}
+                                onClick={() =>
+                                  setFounderSelectedLedgerAgent(
+                                    founderSelectedLedgerAgent === a.agentId ? 'ALL' : a.agentId
+                                  )
+                                }
+                                className="hover:bg-white/[0.04] transition cursor-pointer"
+                              >
+                                <td className="p-3">
+                                  <p className="font-bold text-[#F5F2E9]">{a.regionFlag} {a.agentName} <span className="text-white/40 text-[10px]">#{a.agentId}</span></p>
+                                  <p className="text-[10px] text-white/50">{a.territory}</p>
+                                </td>
+                                <td className="p-3 text-right font-bold text-[#00FFFF]">
+                                  PKR {a.currentMonthGross.toLocaleString()}
+                                  <span className="block text-[9px] text-white/50">{a.currentMonthSalons} Salons</span>
+                                </td>
+                                <td className="p-3 text-right text-white/80">
+                                  PKR {a.previousMonthsGross.toLocaleString()}
+                                  <span className="block text-[9px] text-white/45">{a.previousMonthsSalons} Salons</span>
+                                </td>
+                                <td className="p-3 text-right font-bold text-[#D9A441]">PKR {agentComm.toLocaleString()}</td>
+                                <td className="p-3 text-right font-bold text-emerald-400">PKR {agentNet.toLocaleString()}</td>
+                                <td className="p-3 text-right">
+                                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                    a.cashHeld > 0
+                                      ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                                      : 'bg-emerald-500/10 text-emerald-300'
+                                  }`}>
+                                    {a.cashHeld > 0 ? `PKR ${a.cashHeld.toLocaleString()}` : 'Zero-Cash'}
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Month-by-Month Detailed Audit History for Filtered Agent(s) */}
+                  <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
+                    <div className="p-3 bg-white/[0.04] border-b border-white/10 flex items-center justify-between text-xs">
+                      <span className="font-bold text-white uppercase text-[11px]">
+                        Month-by-Month Audit History ({founderSelectedLedgerAgent === 'ALL' ? 'All Agents' : filteredBreakupAgents[0]?.agentName})
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-bold">80% NET MARGIN TRACKING</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
+                          <tr>
+                            <th className="p-3">Agent</th>
+                            <th className="p-3">Month</th>
+                            <th className="p-3 text-center">Salons</th>
+                            <th className="p-3 text-right">Gross Inflow</th>
+                            <th className="p-3 text-right text-[#D9A441]">Agent Comm (20%)</th>
+                            <th className="p-3 text-right text-emerald-400">Net Retained (+Maint)</th>
+                            <th className="p-3 text-center">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {filteredBreakupAgents.flatMap((a) =>
+                            a.monthlyRows.map((row) => {
+                              const comm = Math.round(row.gross * 0.2);
+                              const netRetained = row.gross - comm + row.maint;
+                              return (
+                                <tr key={`${a.agentId}-${row.month}`} className="hover:bg-white/[0.02] transition">
+                                  <td className="p-3 font-bold text-white/80">{a.regionFlag} {a.agentName}</td>
+                                  <td className="p-3 font-bold text-[#F5F2E9]">{row.month}</td>
+                                  <td className="p-3 text-center text-[#00FFFF]">{row.salons}</td>
+                                  <td className="p-3 text-right text-white/75">PKR {row.gross.toLocaleString()}</td>
+                                  <td className="p-3 text-right font-bold text-[#D9A441]">PKR {comm.toLocaleString()}</td>
+                                  <td className="p-3 text-right font-bold text-emerald-400">PKR {netRetained.toLocaleString()}</td>
+                                  <td className="p-3 text-center">
+                                    <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] text-emerald-300">
+                                      {row.status}
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* AGENT VIEW STRICTLY: Only Own Personal Commission in Agent's Selected Language */
+                <div className="space-y-4 animate-in fade-in">
+                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-black/50 border border-[#00FFFF]/30 px-3.5 py-2.5 text-xs font-mono">
+                    <div>
+                      <span className="font-bold text-[#00FFFF]">{agentFullName} (#{agentIdInput})</span>
+                      <span className="text-[10px] text-white/55 block">Joined: 12 Oct 2024 · Day-1 to Today Cumulative Earnings</span>
+                    </div>
+                    <span className="text-emerald-300 font-bold">{agentL.badge}</span>
+                  </div>
+
+                  {/* Option A Net-Adjustment Card (Localized) */}
+                  <div className="rounded-2xl border border-amber-500/30 bg-amber-950/30 p-4 space-y-3 font-mono">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
+                      <span className="text-xs text-amber-300 font-bold">{agentL.optionATitle}</span>
+                      <div className="rounded-xl bg-black/60 border border-amber-500/40 px-3 py-1 text-[11px]">
+                        <span className="text-amber-300/70 mr-1.5">{agentL.windowLabel}:</span>
+                        <span className="font-bold text-amber-300" dir="ltr">{countdownHours}h {countdownMinutes}m</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                      <div className="rounded-xl bg-black/40 border border-white/10 p-3">
+                        <span className="text-white/50 block text-[10px]">{agentL.prevCash}</span>
+                        <span className="text-base font-bold text-white mt-0.5 block" dir="ltr">PKR 15,000</span>
+                        <span className="text-[10px] text-white/50">{cashLiabilitySalon}</span>
+                      </div>
+                      <div className="rounded-xl bg-black/40 border border-emerald-500/20 p-3">
+                        <span className="text-white/50 block text-[10px]">{agentL.offset}</span>
+                        <span className="text-base font-bold text-emerald-400 mt-0.5 block" dir="ltr">- PKR 3,000</span>
+                        <span className="text-[10px] text-emerald-300">20%</span>
+                      </div>
+                      <div className="rounded-xl bg-black/40 border border-amber-500/30 p-3">
+                        <span className="text-white/50 block text-[10px]">{agentL.netDue}</span>
+                        <span className="text-base font-bold text-amber-300 mt-0.5 block" dir="ltr">
+                          PKR {cashLiabilityHeld.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Agent Summary KPI Cards */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
+                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
+                      <span className="text-[10px] text-white/45 uppercase block">{agentL.dealsClosed}</span>
+                      <span className="text-lg font-bold text-[#00FFFF] mt-0.5 block">
+                        19 {agentL.salonsUnit}
+                      </span>
+                      <span className="text-[10px] text-white/50">{agentTerritory}</span>
+                    </div>
+
+                    <div className="rounded-xl border border-[#D9A441]/40 bg-[#D9A441]/10 p-3.5">
+                      <span className="text-[10px] text-[#D9A441] uppercase block font-bold">{agentL.commEarned}</span>
+                      <span className="text-lg font-bold text-[#D9A441] mt-0.5 block" dir="ltr">
+                        PKR 52,000
+                      </span>
+                      <span className="text-[10px] text-emerald-400">{agentL.disbursedTo} {agentPayoutMethod}</span>
+                    </div>
+
+                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
+                      <span className="text-[10px] text-white/45 uppercase block">{agentL.payoutDest}</span>
+                      <span className="text-sm font-bold text-white mt-1 block truncate" dir="ltr">
+                        {agentPayoutAccount} ({agentPayoutMethod})
+                      </span>
+                      <span className="text-[10px] text-emerald-300">{agentL.directRail}</span>
+                    </div>
+                  </div>
+
+                  {/* Agent Personal Commission Table (Strictly Personal & Localized) */}
+                  <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
+                    <div className="p-3 bg-white/[0.04] border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <span className="font-bold text-white uppercase text-[11px]">{agentL.tableTitle}</span>
+                      <span className="text-[10px] text-[#00FFFF] font-bold">{agentL.directRail}</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-start text-xs">
+                        <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
+                          <tr>
+                            <th className="p-3">{agentL.colMonth}</th>
+                            <th className="p-3 text-center">{agentL.colSalons}</th>
+                            <th className="p-3">{agentL.colPackage}</th>
+                            <th className="p-3 text-[#D9A441]">{agentL.colComm}</th>
+                            <th className="p-3 text-center">{agentL.colRail}</th>
+                            <th className="p-3 text-center">{agentL.colStatus}</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {agentRevenueLedger.map((row) => {
+                            const comm = Math.round(row.setupRevenue * 0.2);
+                            return (
+                              <tr key={row.month} className="hover:bg-white/[0.02] transition">
+                                <td className="p-3 font-bold text-[#F5F2E9]">{row.month}</td>
+                                <td className="p-3 text-center text-[#00FFFF]">{row.activeSalons} {agentL.salonsUnit}</td>
+                                <td className="p-3 text-white/70">Growth Auto (PKR 20,000)</td>
+                                <td className="p-3 font-bold text-[#D9A441]" dir="ltr">PKR {comm.toLocaleString()}</td>
+                                <td className="p-3 text-center text-white/60">{agentPayoutMethod}</td>
+                                <td className="p-3 text-center">
+                                  <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] text-emerald-300">
+                                    {agentL.statusPaid}
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </PortalCard>
+        );
+      })()}
 
       {/* ========================================================================= */}
       {/* INTERACTIVE PAYMENT VERIFICATION DRAWER (QUERIES 1, 2, 3, 4, 6) */}
@@ -3239,6 +4804,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           onClick={() => setIsPaymentDrawerOpen(false)}
         >
           <div
+            dir={clientOnboardingLanguage === 'en' ? 'ltr' : 'rtl'}
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-[520px] rounded-3xl border border-[#00FFFF]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto"
           >
@@ -3246,11 +4812,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <div className="flex items-start justify-between border-b border-white/10 pb-3">
               <div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D9A441]">
-                  SETTLEMENT CLEARANCE RAIL
+                  {t.drawerKicker}
                 </span>
-                <h3 className="mt-1 text-xl font-black text-white tracking-tight flex items-center gap-2">
-                  <CreditCard className="size-5 text-[#00FFFF]" />
-                  <span>Verify {setupPaymentMethod} Settlement</span>
+                <h3 className="mt-1 text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2">
+                  <CreditCard className="size-5 text-[#00FFFF] shrink-0" />
+                  <span>{t.drawerTitlePrefix}: {getLocalizedPaymentMethodName(setupPaymentMethod, clientOnboardingLanguage)}</span>
                 </h3>
               </div>
               <button
@@ -3260,118 +4826,186 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   setIsPaymentDrawerOpen(false);
                 }}
                 className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
-                title="Close Settlement Rail"
-                aria-label="Close Settlement Rail"
+                title={t.cancelLabel}
+                aria-label={t.cancelLabel}
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            {/* Official Pre-Configured WORKCRAFT Receiving Destination (Safe & Centralized) */}
+            {/* Official Pre-Configured WORKCRAFT Receiving Destination */}
             <div className="mt-4 rounded-xl border border-white/10 bg-black/50 p-3.5 space-y-1.5 font-mono text-xs">
               <span className="text-[10px] uppercase font-bold text-white/50 block">
-                Official WORKCRAFT Receiving Destination (Pre-Configured):
+                {t.receivingDestTitle}
               </span>
               {setupPaymentMethod === 'EasyPaisa' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">Merchant Till: 0300-WORKCRAFT</p>
-                  <p className="text-emerald-400 text-[11px]">Title: WORKCRAFT Local Official · Telenor Microfinance</p>
+                  <p className="text-white font-bold text-sm" dir="ltr">Merchant Till: 0300-WORKCRAFT</p>
+                  <p className="text-emerald-400 text-[11px]">
+                    {clientOnboardingLanguage === 'ur'
+                      ? 'اکاؤنٹ ٹائٹل: WORKCRAFT Local آفیشل · ٹیلی نار مائیکروفنانس'
+                      : clientOnboardingLanguage === 'ar'
+                      ? 'اسم الحساب: WORKCRAFT Local الرسمي · تيلينور للتمويل'
+                      : 'Title: WORKCRAFT Local Official · Telenor Microfinance'}
+                  </p>
                 </div>
               )}
               {setupPaymentMethod === 'JazzCash' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">Corporate Till: 789210</p>
-                  <p className="text-emerald-400 text-[11px]">Title: WORKCRAFT Local · Mobilink Microfinance Bank</p>
+                  <p className="text-white font-bold text-sm" dir="ltr">Corporate Till: 789210</p>
+                  <p className="text-emerald-400 text-[11px]">
+                    {clientOnboardingLanguage === 'ur'
+                      ? 'اکاؤنٹ ٹائٹل: WORKCRAFT Local · موبی لنک مائیکروفنانس بینک'
+                      : clientOnboardingLanguage === 'ar'
+                      ? 'اسم الحساب: WORKCRAFT Local · بنك موبيلينك للتمويل'
+                      : 'Title: WORKCRAFT Local · Mobilink Microfinance Bank'}
+                  </p>
                 </div>
               )}
               {setupPaymentMethod === 'Bank Transfer (IBFT)' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">Meezan Bank Ltd Pakistan · A/C: 01020304050607</p>
-                  <p className="text-[#00FFFF] text-[11px]">IBAN: PK64MEZN0001020304050607 · SWIFT: MEZNPKKA</p>
-                  <p className="text-[10px] text-white/50">
+                  <p className="text-white font-bold text-sm" dir="ltr">Meezan Bank Ltd Pakistan · A/C: 01020304050607</p>
+                  <p className="text-[#00FFFF] text-[11px]" dir="ltr">IBAN: PK64MEZN0001020304050607 · SWIFT: MEZNPKKA</p>
+                  <p className="text-[10px] text-white/55">
                     {detectedCountry.isDomestic
-                      ? '1LINK & Raast Instant Reference Clearance'
+                      ? clientOnboardingLanguage === 'ur'
+                        ? '1LINK اور راسٹ (Raast) فوری کلیئرنس'
+                        : clientOnboardingLanguage === 'ar'
+                        ? 'مقاصة فورية عبر شبكة 1LINK و Raast'
+                        : '1LINK & Raast Instant Reference Clearance'
+                      : detectedCountry.region === 'EUROPE'
+                      ? clientOnboardingLanguage === 'ar'
+                        ? 'تحويل دولي مباشر SEPA / SWIFT إلى حساب بنك ميزان الباكستاني (24-48 ساعة)'
+                        : clientOnboardingLanguage === 'ur'
+                        ? 'یورپ سے براہ راست SEPA / SWIFT وائر ٹو پاکستانی میزان اکاؤنٹ (24-48 گھنٹے)'
+                        : 'Direct 24-48h SEPA / SWIFT International Wire to Pakistani Meezan Account'
+                      : clientOnboardingLanguage === 'ar'
+                      ? 'حوالة بنكية دولية SWIFT مباشرة إلى بنك ميزان الباكستاني (24-48 ساعة)'
+                      : clientOnboardingLanguage === 'ur'
+                      ? 'براہ راست 24-48 گھنٹے انٹرنیشنل SWIFT وائر ٹو میزان بینک پاکستان'
                       : 'Direct 24-48h International SWIFT Wire Clearance to Pakistani Meezan Account'}
                   </p>
                 </div>
               )}
               {setupPaymentMethod === 'Stripe / Card' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">Stripe 3D-Secure Global Card Processing</p>
-                  <p className="text-emerald-400 text-[11px]">Automated 24-48h Rolling Payout to Pakistani Meezan IBAN (PK64MEZN0001020304050607)</p>
-                  <p className="text-[10px] text-white/50">Instant terminal activation granted immediately · Card forex conversion handled by issuing bank</p>
+                  <p className="text-white font-bold text-sm">
+                    {detectedCountry.region === 'MENA'
+                      ? clientOnboardingLanguage === 'ar'
+                        ? 'معالجة البطاقات العالمية والخليجية Stripe 3D-Secure (فيزا / ماستر / Apple Pay / مدى)'
+                        : clientOnboardingLanguage === 'ur'
+                        ? 'MENA و عالمی Stripe 3D-Secure کارڈ پروسیسنگ (ویزا / Apple Pay / مدى)'
+                        : 'Stripe 3D-Secure MENA & Global Processing (Visa / Apple Pay / Mada)'
+                      : clientOnboardingLanguage === 'ar'
+                      ? 'معالجة البطاقات الأوروبية والعالمية Stripe 3D-Secure · Apple Pay'
+                      : clientOnboardingLanguage === 'ur'
+                      ? 'عالمی و یورپی Stripe 3D-Secure کارڈ پروسیسنگ · Apple Pay'
+                      : 'Stripe 3D-Secure UK/EU & Global Card Processing · Apple Pay'}
+                  </p>
+                  <p className="text-emerald-400 text-[11px]">
+                    {clientOnboardingLanguage === 'ar'
+                      ? 'تقسيم مباشر بنفس العملة (20% لحساب الوكيل المحلي · 80% لحساب WORKCRAFT بدون خسائر صرف)'
+                      : clientOnboardingLanguage === 'ur'
+                      ? 'اسی کرنسی میں براہ راست تقسیم (20% ایجنٹ کے مقامی اکاؤنٹ میں · 80% WORKCRAFT کو — بغیر FX نقصان)'
+                      : `Same-Currency Direct Split (${activePackage.currency}): 20% to Agent Local Payout · 80% to WORKCRAFT`}
+                  </p>
+                  <p className="text-[10px] text-white/55">
+                    {clientOnboardingLanguage === 'ar'
+                      ? 'تفعيل فوري للصالون الآن · بدون تحويل عملات مزدوج للوكلاء الدوليين'
+                      : clientOnboardingLanguage === 'ur'
+                      ? 'ٹرمینل فوراً فعال · غیر ملکی ایجنٹس کو ڈبل کرنسی کنورژن سے مکمل تحفظ'
+                      : 'Instant terminal activation granted immediately · Zero double FX conversion loss'}
+                  </p>
                 </div>
               )}
               {setupPaymentMethod === 'Cash Collection' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">On-Site Physical Cash Custody: Kamran Tariq</p>
-                  <p className="text-amber-300 text-[11px]">Permissible exclusively for initial Pakistan onboarding setup (Hardware Thumbprint Signed)</p>
-                  <p className="text-[10px] text-white/50">Held Cash Liability automatically recorded against agent ledger · Zero cash outside Pakistan</p>
+                  <p className="text-white font-bold text-sm">
+                    {clientOnboardingLanguage === 'ur'
+                      ? `آن سائٹ نقد تحویل: ${agentFullName}`
+                      : clientOnboardingLanguage === 'ar'
+                      ? `التحصيل النقدي الميداني بعهدة: ${agentFullName}`
+                      : `On-Site Physical Cash Custody: ${agentFullName}`}
+                  </p>
+                  <p className="text-amber-300 text-[11px]">
+                    {clientOnboardingLanguage === 'ur'
+                      ? 'صرف پاکستان میں ابتدائی آن بورڈنگ سیٹ اپ کے لیے مجاز (انگوٹھے کی بائیومیٹرک تصدیق)'
+                      : clientOnboardingLanguage === 'ar'
+                      ? 'مسموح حصراً لتأسيس الصالون داخل باكستان (موثق ببصمة الإبهام)'
+                      : 'Permissible exclusively for initial Pakistan onboarding setup (Hardware Thumbprint Signed)'}
+                  </p>
+                  <p className="text-[10px] text-white/50">
+                    {clientOnboardingLanguage === 'ur'
+                      ? 'وصول شدہ نقد رقم خودکار طور پر ایجنٹ لیجر میں درج ہو جاتی ہے · پاکستان سے باہر نقد ممنوع'
+                      : clientOnboardingLanguage === 'ar'
+                      ? 'يتم تسجيل العهدة النقدية تلقائياً في سجل الوكيل · يُمنع النقد خارج باكستان'
+                      : 'Held Cash Liability automatically recorded against agent ledger · Zero cash outside Pakistan'}
+                  </p>
                 </div>
               )}
             </div>
 
             {/* Auto-Detected Dual Alert Recipient Routing Mode */}
-            <div className="mt-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-2.5 flex items-center justify-between text-[11px] font-mono">
+            <div className="mt-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
               <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
                 <Radio className="size-3.5 text-[#00FFFF] animate-pulse" />
-                <span>Routing: ASSISTED (Auto-Detected Dual Alert)</span>
+                <span>{t.routingAssisted}</span>
               </span>
-              <span className="text-white/60 text-[10px]">Owner + Agent WhatsApp Push</span>
+              <span className="text-white/60 text-[10px]">{t.ownerAgentPush}</span>
             </div>
 
             {/* Payer Input Form with Layer 1 Registered Phone Binding */}
             <form onSubmit={handleVerifyDrawerPayment} className="mt-3.5 space-y-3.5">
-              {/* Layer 1 Phone-Bound Notice: Setup Fee vs Maintenance Policy */}
+              {/* Layer 1 Phone-Bound Notice */}
               <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 space-y-1">
-                <div className="flex items-center justify-between text-[11px] font-mono">
+                <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] font-mono">
                   <span className="text-emerald-300 font-bold flex items-center gap-1.5">
                     <ShieldCheck className="size-3.5 text-emerald-400" />
-                    <span>Layer 1 Phone Policy</span>
+                    <span>{t.layer1PolicyTitle}</span>
                   </span>
-                  <span className="text-white/60 text-[10px]">Setup Flexible · Maintenance Locked</span>
+                  <span className="text-white/60 text-[10px]">{t.layer1PolicyBadge}</span>
                 </div>
                 <p className="text-xs text-white/80 font-sans">
-                  Registered Salon SIM: <strong className="text-[#00FFFF] font-mono">{phone}</strong> ({ownerName})
+                  {t.registeredSimLabel} <strong className="text-[#00FFFF] font-mono" dir="ltr">{phone}</strong> ({ownerName})
                 </p>
                 <p className="text-[10px] text-white/60 font-sans">
-                  Setup fee may be paid from any authorized account. All future recurring 10% monthly maintenance ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}/mo) must strictly originate from registered SIM {phone}.
+                  {t.layer1PolicyDesc} <span dir="ltr">{phone}</span> ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}{t.perMonthShort}).
                 </p>
               </div>
 
-              {/* Recommendation 4: Automated Central SIM Gateway Webhook Simulation */}
+              {/* Automated Central SIM Gateway Webhook Simulation */}
               {detectedCountry.isDomestic && setupPaymentMethod !== 'Cash Collection' && (
                 <div className="p-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-mono">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                     <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
                       <Radio className="size-3.5 text-[#00FFFF] animate-pulse" />
-                      <span>Central SIM Gateway Webhook</span>
+                      <span>{t.simGatewayTitle}</span>
                     </span>
                     <span className="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                      Live Listener Active
+                      {t.liveListenerBadge}
                     </span>
                   </div>
-                  
+
                   {simWebhookState === 'listening' ? (
                     <p className="text-[11px] text-white/70 font-sans flex items-center gap-2">
                       <RotateCcw className="size-3 animate-spin text-[#00FFFF]" />
-                      <span>Listening on SIM cluster for incoming transfer from <strong>{phone}</strong>...</span>
+                      <span>{t.listeningSimText} <strong dir="ltr">{phone}</strong>...</span>
                     </p>
                   ) : (
                     <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-[11px] text-emerald-200 space-y-0.5">
                       <p className="font-bold flex items-center gap-1 text-emerald-300">
                         <CheckCircle2 className="size-3.5 text-emerald-400" />
-                        <span>Incoming Telco Webhook Auto-Captured:</span>
+                        <span>{t.webhookCapturedTitle}</span>
                       </p>
-                      <p className="font-mono text-[10px] text-white/80">
-                        Transfer of {activePackage.prefix}{activePackage.setupFee.toLocaleString()} detected from registered SIM {phone} on {setupPaymentMethod}. TID: {drawerTid}
+                      <p className="font-mono text-[10px] text-white/80" dir="ltr">
+                        {activePackage.prefix}{activePackage.setupFee.toLocaleString()} · {phone} · {getLocalizedPaymentMethodName(setupPaymentMethod, clientOnboardingLanguage)} · TID: {drawerTid}
                       </p>
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between pt-1">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                     <span className="text-[10px] text-white/50 font-sans">
-                      If paying from another SIM, edit sender details below.
+                      {t.otherSimHint}
                     </span>
                     <button
                       type="button"
@@ -3390,60 +5024,75 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       }}
                       className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[#00FFFF] text-[10px] font-mono font-bold transition active:scale-95"
                     >
-                      ⚡ Re-scan Webhook
+                      {t.reScanBtn}
                     </button>
                   </div>
                 </div>
               )}
 
-              {/* Recommendation 5: International Wire / Stripe Rolling Clearance (24-48h) */}
+              {/* Query 3: Outside-Pakistan Same-Currency Direct 20% / 80% Split Checkout */}
               {!detectedCountry.isDomestic && (
-                <div className="p-3 rounded-xl border border-emerald-500/30 bg-emerald-950/20 space-y-1.5 font-mono text-xs">
-                  <div className="flex items-center justify-between text-emerald-300 font-bold">
+                <div className="p-3.5 rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/[0.07] space-y-2 font-mono text-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[#00FFFF] font-bold">
                     <span className="flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-emerald-400" />
-                      <span>24-48h Rolling International Settlement Rail</span>
+                      <ShieldCheck className="size-4 text-emerald-400 shrink-0" />
+                      <span>Same-Currency Direct Split ({activePackage.currency})</span>
                     </span>
-                    <span className="text-[10px] text-[#00FFFF] bg-[#00FFFF]/10 px-2 py-0.5 rounded border border-[#00FFFF]/20">
-                      Instant Terminal Activation
+                    <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+                      Zero Double FX Loss
                     </span>
                   </div>
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div className="rounded-lg bg-black/45 border border-[#D9A441]/30 p-2">
+                      <span className="text-white/55 block text-[9px] uppercase">20% Direct to Agent</span>
+                      <span className="font-bold text-[#D9A441]" dir="ltr">
+                        {activePackage.prefix}{activePackage.agentCommission.toLocaleString()} {activePackage.currency}
+                      </span>
+                    </div>
+                    <div className="rounded-lg bg-black/45 border border-emerald-500/30 p-2">
+                      <span className="text-white/55 block text-[9px] uppercase">80% Net to WorkCraft</span>
+                      <span className="font-bold text-emerald-300" dir="ltr">
+                        {activePackage.prefix}{(activePackage.setupFee - activePackage.agentCommission).toLocaleString()} {activePackage.currency}
+                      </span>
+                    </div>
+                  </div>
                   <p className="text-[11px] text-white/75 font-sans leading-relaxed">
-                    Cross-border wire/Stripe funds take 24–48 hours to clear into WORKCRAFT&apos;s Pakistani Meezan Bank account. The terminal is <strong>unlocked immediately with zero downtime</strong>, and a dual confirmation receipt is dispatched via WhatsApp to both salon owner and field agent.
+                    Outside Pakistan, client card/bank payment splits automatically in <strong>{activePackage.currency}</strong>: 20% goes directly to the agent&apos;s local payout account and 80% settles to WorkCraft without PKR round-trip conversion fees.
                   </p>
                 </div>
               )}
 
               <div>
                 <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
-                  Payer Sender Phone / Account Details *
+                  {t.payerDetailsLabel}
                 </label>
                 <input
                   type="text"
                   required
                   value={drawerSenderDetails || `${ownerName} (${phone})`}
                   onChange={(e) => setDrawerSenderDetails(e.target.value)}
-                  placeholder={`e.g. ${ownerName} (${phone}) or alternate bank/mobile`}
+                  placeholder={`${ownerName} (${phone})`}
                   className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-emerald-300 focus:outline-none focus:border-[#00FFFF]"
                 />
-                <span className="text-[10px] text-white/40 block mt-0.5">
-                  Initial setup fee can be paid from any account. Recurring 10% monthly maintenance is strictly bound to registered SIM.
+                <span className="text-[10px] text-white/45 block mt-0.5">
+                  {t.payerDetailsHint}
                 </span>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label className="text-[11px] font-mono font-bold uppercase text-white/70">
-                    Transaction ID (TID) / Raast 1LINK Reference *
+                    {t.tidInputLabel}
                   </label>
                   <span className="text-[10px] font-mono text-[#00FFFF]">
-                    Auto-captured from incoming SMS
+                    {t.smsAutoCapture}
                   </span>
                 </div>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. EP-98412850231 or 1LINK Ref"
+                  dir="ltr"
+                  placeholder="EP-98412850231 / SWIFT / pi_..."
                   value={drawerTid}
                   onChange={(e) => setDrawerTid(e.target.value)}
                   className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
@@ -3452,17 +5101,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
               <div>
                 <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
-                  Required Settlement Amount (Locked)
+                  {t.lockedAmountLabel}
                 </label>
                 <input
                   type="text"
                   readOnly
-                  value={`${activePackage.prefix} ${activePackage.setupFee.toLocaleString()} (${activePackage.name})`}
+                  value={`${activePackage.prefix} ${activePackage.setupFee.toLocaleString()} (${getLocalizedPackageName(activePackage.name, clientOnboardingLanguage)})`}
                   className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono font-bold text-[#D9A441] select-none cursor-not-allowed"
                 />
               </div>
 
-              {/* Query 8: Dual Cash Risk Guard & Hard PKR 50,000 Ceiling for Cash Collection */}
+              {/* Dual Cash Risk Guard & Biometric Hardware Thumbprint */}
               {setupPaymentMethod === 'Cash Collection' && (
                 <div className="space-y-3">
                   <div className={`rounded-xl border p-3 font-mono text-xs space-y-1.5 ${
@@ -3473,10 +5122,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <div className="flex items-center justify-between font-bold">
                       <span className="flex items-center gap-1.5">
                         <AlertTriangle className="size-4 text-amber-400" />
-                        <span>Cash Custody Velocity Guard</span>
+                        <span>{t.cashGuardTitle}</span>
                       </span>
-                      <span>
-                        PKR {(cashLiabilityHeld + activePackage.setupFee).toLocaleString()} / {MAX_CASH_CEILING.toLocaleString()} MAX
+                      <span dir="ltr">
+                        PKR {(cashLiabilityHeld + activePackage.setupFee).toLocaleString()} / {MAX_CASH_CEILING.toLocaleString()}
                       </span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-black/60 overflow-hidden">
@@ -3491,24 +5140,24 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     </div>
                     <p className="text-[10px] text-white/70 font-sans">
                       {cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING
-                        ? '🚨 Hard limit exceeded! You hold more than PKR 50,000 cash. Cash collection is strictly locked until you deposit current dues at an EasyPaisa shop or Meezan Bank.'
-                        : `Current held liability: PKR ${cashLiabilityHeld.toLocaleString()}. 48-Hour Alarming Window active for each deal.`}
+                        ? t.cashLimitExceeded
+                        : `${t.cashHeldPrefix} PKR ${cashLiabilityHeld.toLocaleString()}`}
                     </p>
                   </div>
 
-                  {/* Query 7: Strict Biometric Hardware Thumbprint Verification (Zero PIN Fallback) */}
+                  {/* Strict Biometric Hardware Thumbprint Verification */}
                   <div className={`p-4 rounded-2xl border text-center space-y-2.5 transition ${
                     isThumbprintVerified
                       ? 'border-emerald-500/50 bg-emerald-950/30'
                       : 'border-[#00FFFF]/40 bg-[#00FFFF]/5'
                   }`}>
-                    <div className="flex items-center justify-between text-xs font-mono">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                       <span className="text-white/80 font-bold uppercase flex items-center gap-1.5">
                         <Fingerprint className="size-4 text-[#00FFFF]" />
-                        <span>Biometric Thumbprint Authorization</span>
+                        <span>{t.biometricTitle}</span>
                       </span>
                       <span className="text-[9px] font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                        ZERO PIN FALLBACK
+                        {t.zeroPinBadge}
                       </span>
                     </div>
 
@@ -3531,7 +5180,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                             ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] animate-pulse shadow-[0_0_20px_rgba(0,255,255,0.4)]'
                             : 'border-white/20 bg-white/5 text-white/60 hover:border-[#00FFFF] hover:text-[#00FFFF]'
                         }`}
-                        title="Touch your thumb to authorize physical cash collection"
+                        title={t.pressThumbText}
                       >
                         <Fingerprint className={`size-8 ${isScanningThumb ? 'animate-bounce' : ''}`} />
                         {isThumbprintVerified && (
@@ -3544,11 +5193,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                     <p className="text-[11px] font-mono text-center">
                       {isScanningThumb ? (
-                        <span className="text-[#00FFFF]">Reading optical hardware sensor...</span>
+                        <span className="text-[#00FFFF]">{t.scanningThumbText}</span>
                       ) : isThumbprintVerified ? (
-                        <span className="text-emerald-400 font-bold">✓ Thumbprint Authenticated ({thumbprintHash})</span>
+                        <span className="text-emerald-400 font-bold">{t.thumbVerifiedText} ({thumbprintHash})</span>
                       ) : (
-                        <span className="text-white/65">Press thumb on sensor to sign physical cash custody</span>
+                        <span className="text-white/65">{t.pressThumbText}</span>
                       )}
                     </p>
                   </div>
@@ -3559,10 +5208,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-3 text-[10px] font-mono text-emerald-300/90 space-y-1">
                 <span className="font-bold flex items-center gap-1 text-emerald-400">
                   <ShieldCheck className="size-3.5" />
-                  <span>4-Layer Server Ledger Verification Active</span>
+                  <span>{t.antiFraudTitle}</span>
                 </span>
                 <p className="font-sans text-white/65 leading-relaxed">
-                  System verifies cryptographic TID uniqueness, amount matching, and incoming server ledger events. Edited or duplicated slips are rejected automatically.
+                  {t.antiFraudDesc}
                 </p>
               </div>
 
@@ -3572,29 +5221,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
               )}
 
-              {/* Query 2: Proceed Button to Step 4 QR Pairing */}
-              <div className="pt-2 flex items-center gap-2">
+              {/* Proceed Button */}
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setIsPaymentDrawerOpen(false)}
-                  className="flex-1 rounded-xl border border-white/10 py-3 text-xs font-mono text-white/60 hover:text-white"
+                  className="sm:flex-1 rounded-xl border border-white/10 py-3 text-xs font-mono text-white/60 hover:text-white"
                 >
-                  Cancel
+                  {t.cancelLabel}
                 </button>
                 <button
                   type="submit"
                   disabled={drawerIsSubmitting || (setupPaymentMethod === 'Cash Collection' && cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING)}
-                  className="flex-[2] rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] py-3 text-xs font-mono font-black uppercase transition active:scale-95 shadow-[0_0_20px_rgba(0,255,255,0.35)] flex items-center justify-center gap-2"
+                  className="sm:flex-[2] rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] py-3 px-4 text-xs font-mono font-black uppercase transition active:scale-95 shadow-[0_0_20px_rgba(0,255,255,0.35)] flex items-center justify-center gap-2"
                 >
                   {drawerIsSubmitting ? (
                     <>
                       <RotateCcw className="size-4 animate-spin text-[#12241C]" />
-                      <span>Verifying Webhook &amp; Binding...</span>
+                      <span>{t.verifyingBtn}</span>
                     </>
                   ) : (
                     <>
                       <CheckCircle2 className="size-4 text-[#12241C]" />
-                      <span>Verify Webhook &amp; Proceed to Step 4 QR Pairing →</span>
+                      <span>{t.verifyBindBtn}</span>
                     </>
                   )}
                 </button>
@@ -3846,10 +5495,39 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 onClick={() => {
                   setIsBiometricScanningForEdit(true);
                   setTimeout(() => {
+                    const updatedHash = `SHA256: ${Math.random().toString(16).slice(2, 6)}-${Math.random().toString(16).slice(2, 6)}-thumb-verified`;
+                    const nowStamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' Verified';
+                    setAgentWhatsApp(draftAgentPhone);
+                    setAgentTerritory(draftAgentTerritory);
+                    setAgentOperatingRegion(draftAgentRegion);
+                    setAgentPayoutMethod(draftAgentPayoutMethod);
+                    setAgentBankName(draftAgentBankName);
+                    setAgentPayoutAccount(draftAgentPayoutAccount);
+                    setAgentPayoutTitle(draftAgentPayoutTitle);
+                    setAgentIban(draftAgentIban);
+                    setProfileThumbHash(updatedHash);
+                    setProfileBiometricSealTime(nowStamp);
+                    setEnrolledAgentsList((prev) =>
+                      prev.map((ag) =>
+                        ag.name === agentFullName
+                          ? {
+                              ...ag,
+                              phone: draftAgentPhone,
+                              city: draftAgentTerritory,
+                              payoutMethod: draftAgentPayoutMethod,
+                              payoutAccount: draftAgentPayoutAccount,
+                              payoutTitle: draftAgentPayoutTitle,
+                              bankName: draftAgentBankName,
+                              iban: draftAgentIban,
+                              thumbHash: updatedHash,
+                            }
+                          : ag
+                      )
+                    );
                     setIsBiometricScanningForEdit(false);
                     setIsBiometricModalOpenForEdit(false);
-                    setPayoutSaveStatus(`✓ Biometrically Authenticated: Day-1 Credentials & Payout route saved with hardware SHA-256 seal.`);
-                  }, 1200);
+                    setPayoutSaveStatus(`Biometrically Confirmed & Saved (${nowStamp}): Mobile, city/country, and bank details updated.`);
+                  }, 950);
                 }}
                 className={`mx-auto size-28 rounded-full border-2 ${
                   isBiometricScanningForEdit
@@ -5032,16 +6710,21 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           >
             <div className="flex items-start justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-3">
-                <div className="grid size-12 place-items-center rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
-                  <Smartphone className="size-6" />
-                </div>
+                <img
+                  src="/icon.svg"
+                  alt="WorkCraft Agent Mobile Shortcut Icon"
+                  className="size-[60px] rounded-2xl border border-[#D9A441]/50 shadow-lg shrink-0"
+                />
                 <div>
                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-300">
-                    PWA HOME SCREEN INSTALLATION
+                    PWA HOME SCREEN SHORTCUT
                   </span>
                   <h3 className="text-lg font-black text-white">
-                    Add Agent Hub to Home Screen
+                    Add &quot;WorkCraft Agent&quot; to Home Screen
                   </h3>
+                  <span className="text-[10px] font-mono text-[#D9A441]">
+                    60px Mobile Shortcut Preview · High-Contrast Gold W + WORKCRAFT
+                  </span>
                 </div>
               </div>
               <button

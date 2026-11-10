@@ -158,12 +158,12 @@ export const VoiceSection: React.FC = () => {
               {/* Status Metrics */}
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="rounded-lg bg-black/40 p-2.5 border border-white/10">
-                  <span className="text-[10px] text-white/45 block">GATEWAY LINE</span>
-                  <span className="text-[#00FFFF] font-bold truncate block">+92-300-WORKCRAFT-LOCAL</span>
+                  <span className="text-[10px] text-white/45 block">BUSINESS LINE</span>
+                  <span className="text-[#00FFFF] font-bold truncate block">WorkCraft Private Line</span>
                 </div>
                 <div className="rounded-lg bg-black/40 p-2.5 border border-white/10">
-                  <span className="text-[10px] text-white/45 block">VOICE ENCODING</span>
-                  <span className="text-emerald-400 font-bold truncate block">Opus 48kHz Stereo</span>
+                  <span className="text-[10px] text-white/45 block">VOICE QUALITY</span>
+                  <span className="text-emerald-400 font-bold truncate block">Clear HD Native Voice</span>
                 </div>
               </div>
 

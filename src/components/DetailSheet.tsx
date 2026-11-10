@@ -90,52 +90,52 @@ export const DetailSheet: React.FC<DetailSheetProps> = ({
           <div className="mt-4 space-y-4">
             <div className="grid grid-cols-3 gap-2 font-mono">
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                <p className="text-[10px] text-white/55 uppercase">Connected Nodes</p>
+                <p className="text-[10px] text-white/55 uppercase">Connected Salons</p>
                 <p className="mt-1 text-lg font-bold text-[#F5F2E9]">24 / 27 Online</p>
                 <span className="text-[9px] text-emerald-400 font-bold">88.9% Live</span>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                <p className="text-[10px] text-white/55 uppercase">WebSocket Latency</p>
-                <p className="mt-1 text-lg font-bold text-[#00FFFF]">142 ms</p>
-                <span className="text-[9px] text-emerald-400 font-bold">Sub-200ms Target</span>
+                <p className="text-[10px] text-white/55 uppercase">Reply Speed</p>
+                <p className="mt-1 text-lg font-bold text-[#00FFFF]">Instant</p>
+                <span className="text-[9px] text-emerald-400 font-bold">Under 1 Second</span>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                <p className="text-[10px] text-white/55 uppercase">Cluster Uptime</p>
+                <p className="text-[10px] text-white/55 uppercase">Line Health</p>
                 <p className="mt-1 text-lg font-bold text-emerald-400">99.98%</p>
-                <span className="text-[9px] text-emerald-400 font-bold">0 Dropouts</span>
+                <span className="text-[9px] text-emerald-400 font-bold">Zero Drops</span>
               </div>
             </div>
 
             {/* City Distribution */}
             <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3.5 space-y-2 font-mono">
               <p className="text-xs font-bold text-[#F5F2E9] uppercase tracking-wider">
-                Geographic Terminal Distribution
+                City Breakdown
               </p>
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <div className="rounded-lg bg-black/40 p-2 border border-white/10">
                   <span className="text-white/55 block text-[10px]">Lahore (DHA/Gulberg)</span>
-                  <span className="text-[#F5F2E9] font-bold">10 Terminals</span>
+                  <span className="text-[#F5F2E9] font-bold">10 Salons</span>
                 </div>
                 <div className="rounded-lg bg-black/40 p-2 border border-white/10">
                   <span className="text-white/55 block text-[10px]">Karachi (Clifton)</span>
-                  <span className="text-[#F5F2E9] font-bold">9 Terminals</span>
+                  <span className="text-[#F5F2E9] font-bold">9 Salons</span>
                 </div>
                 <div className="rounded-lg bg-black/40 p-2 border border-white/10">
                   <span className="text-white/55 block text-[10px]">Islamabad (F-6/7)</span>
-                  <span className="text-[#F5F2E9] font-bold">5 Terminals</span>
+                  <span className="text-[#F5F2E9] font-bold">5 Salons</span>
                 </div>
               </div>
             </div>
 
-            {/* Live Socket Stream */}
+            {/* Recent Activity */}
             <div className="space-y-2 font-mono">
               <p className="text-xs font-bold text-white/55 uppercase tracking-wider">
-                Recent Socket Heartbeats
+                Recent WhatsApp Checks
               </p>
               {[
-                { name: 'Seven Cuts Salon', loc: 'Lahore DHA', ping: '118ms', time: '12s ago', status: 'LIVE' },
-                { name: 'Noor Beauty Lounge', loc: 'Karachi Clifton', ping: '164ms', time: '45s ago', status: 'LIVE' },
-                { name: 'The Groom Room', loc: 'Islamabad F-6', ping: '139ms', time: '1m ago', status: 'LIVE' },
+                { name: 'Seven Cuts Salon', loc: 'Lahore DHA', ping: 'Connected', time: '12s ago' },
+                { name: 'Noor Beauty Lounge', loc: 'Karachi Clifton', ping: 'Connected', time: '45s ago' },
+                { name: 'The Groom Room', loc: 'Islamabad F-6', ping: 'Connected', time: '1m ago' },
               ].map((node) => (
                 <div key={node.name} className="flex items-center justify-between rounded-lg border border-white/10 bg-black/40 p-2.5 text-xs">
                   <div className="flex items-center gap-2">
@@ -242,44 +242,43 @@ export const DetailSheet: React.FC<DetailSheetProps> = ({
               </p>
             </div>
 
-            {/* 3 Infrastructure Telemetry Cards */}
             <div className="grid grid-cols-3 gap-2">
               <div className="rounded-xl border border-white/10 bg-black/40 p-3">
-                <span className="text-[10px] text-white/45 uppercase block">Founder Identity</span>
-                <span className="text-xs font-bold text-emerald-400 mt-1 block">100% Isolated</span>
-                <span className="text-[9px] text-white/50">0 Personal Number Exposure</span>
+                <span className="text-[10px] text-white/45 uppercase block">Founder Privacy</span>
+                <span className="text-xs font-bold text-emerald-400 mt-1 block">100% Hidden</span>
+                <span className="text-[9px] text-white/50">Personal number protected</span>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-black/40 p-3">
-                <span className="text-[10px] text-white/45 uppercase block">Safe Jitter Cadence</span>
-                <span className="text-xs font-bold text-[#00FFFF] mt-1 block">4–9s Delay</span>
-                <span className="text-[9px] text-white/50">Anti-Ban Rate Limited</span>
+                <span className="text-[10px] text-white/45 uppercase block">Sending Pace</span>
+                <span className="text-xs font-bold text-[#00FFFF] mt-1 block">4–9s Safe Gap</span>
+                <span className="text-[9px] text-white/50">Ban-safe delivery</span>
               </div>
 
               <div className="rounded-xl border border-white/10 bg-black/40 p-3">
-                <span className="text-[10px] text-white/45 uppercase block">Hardware Latency</span>
-                <span className="text-xs font-bold text-[#D9A441] mt-1 block">18 ms</span>
-                <span className="text-[9px] text-white/50">Local Android Bridge</span>
+                <span className="text-[10px] text-white/45 uppercase block">System Cost</span>
+                <span className="text-xs font-bold text-[#D9A441] mt-1 block">$0.00 / mo</span>
+                <span className="text-[9px] text-white/50">Self-hosted line</span>
               </div>
             </div>
 
-            {/* Live Socket Feed */}
+            {/* Live Activity Feed */}
             <div className="space-y-2">
               <p className="text-xs font-bold text-white/55 uppercase tracking-wider">
-                Live Gateway Activity Log
+                Recent Automatic Actions
               </p>
               <div className="space-y-1.5 text-xs">
                 <div className="flex items-center justify-between rounded-lg bg-black/40 p-2 border border-white/5">
-                  <span className="text-emerald-400 font-bold">✓ Outbound WhatsApp slot confirmed</span>
+                  <span className="text-emerald-400 font-bold">✓ WhatsApp booking slot confirmed</span>
                   <span className="text-white/45 text-[10px]">Seven Cuts · 14s ago</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-black/40 p-2 border border-white/5">
-                  <span className="text-[#00FFFF] font-bold">⚡ Inbound Roman Urdu query parsed</span>
+                  <span className="text-[#00FFFF] font-bold">⚡ Client Urdu question answered</span>
                   <span className="text-white/45 text-[10px]">Noor Beauty · 38s ago</span>
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-black/40 p-2 border border-white/5">
-                  <span className="text-white/70 font-bold">🔄 Bridge keep-alive ping acknowledged</span>
-                  <span className="text-white/45 text-[10px]">Socket 8080 · 1m ago</span>
+                  <span className="text-white/70 font-bold">✓ Connection check healthy</span>
+                  <span className="text-white/45 text-[10px]">All lines · 1m ago</span>
                 </div>
               </div>
             </div>

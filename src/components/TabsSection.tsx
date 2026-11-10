@@ -2,17 +2,12 @@ import React, { useState } from 'react';
 import {
   Archive,
   CreditCard,
-  QrCode,
-  GitFork,
-  Settings,
-  ArrowRight,
+  Search,
+  Eye,
   CheckCircle2,
   ShieldCheck,
-  Smartphone,
-  Server,
-  Key,
-  Radio,
   X,
+  Smartphone,
 } from 'lucide-react';
 import { TabName } from '../types/workcraft';
 import { SALONS, ARCHIVED_SALONS } from '../data/portalData';
@@ -22,23 +17,21 @@ interface TabsSectionProps {
   active: TabName;
   go: (tab: TabName) => void;
   setPaymentRouting: (method: string) => void;
+  onInspectSalon?: (salonName: string) => void;
 }
 
 export const TabsSection: React.FC<TabsSectionProps> = ({
   active,
   go,
   setPaymentRouting,
+  onInspectSalon,
 }) => {
-  // Conversational state router simulator state
-  const [testSimulatedState, setTestSimulatedState] = useState<
-    'IDLE' | 'CALL_INBOUND' | 'ROUTING_PROMPT' | 'BOOKING_LOCKED'
-  >('IDLE');
+  // Contact search state (Query 3)
+  const [clientSearch, setClientSearch] = useState('');
 
-  // Settings Toggles state
-  const [autoRecharge, setAutoRecharge] = useState(true);
-  const [biometricAudit, setBiometricAudit] = useState(true);
-  const [failoverRouting, setFailoverRouting] = useState(true);
-  const [debugLogs, setDebugLogs] = useState(false);
+  // Founder alert report phone state (Query 4)
+  const [founderAlertPhone, setFounderAlertPhone] = useState('+92 321 0000000');
+  const [savedPhoneToast, setSavedPhoneToast] = useState(false);
 
   // Selected Salon for Deep Dive Dossier
   const [selectedSalonDetail, setSelectedSalonDetail] = useState<{
@@ -152,16 +145,33 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
               </span>
             </div>
 
+            {/* Search Bar across all active salons (Query 3) */}
+            <div className="relative">
+              <Search className="size-4 text-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                value={clientSearch}
+                onChange={(e) => setClientSearch(e.target.value)}
+                placeholder="Search salon name, owner, or city..."
+                className="w-full rounded-xl border border-white/15 bg-black/40 pl-10 pr-4 py-2.5 text-xs font-mono text-[#F5F2E9] placeholder:text-white/40 focus:border-[#00FFFF] focus:outline-none"
+              />
+            </div>
+
             {/* Client Rows / Salon Cards */}
             <div className="space-y-2.5">
-              {SALONS.map((salon, idx) => (
-                <button
+              {SALONS.filter(
+                (s) =>
+                  !clientSearch.trim() ||
+                  s.name.toLowerCase().includes(clientSearch.toLowerCase()) ||
+                  s.owner.toLowerCase().includes(clientSearch.toLowerCase()) ||
+                  s.location.toLowerCase().includes(clientSearch.toLowerCase())
+              ).map((salon, idx) => (
+                <div
                   key={salon.name}
-                  onClick={() => handleOpenSalonDossier(salon.name)}
-                  className="w-full text-left rounded-xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-[#00FFFF]/40 hover:bg-white/[0.07] group flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className="w-full text-left rounded-xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-[#00FFFF]/40 hover:bg-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="flex items-center gap-3.5">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-black/40 border border-white/10 text-xs font-mono font-bold text-[#D9A441] group-hover:border-[#00FFFF] transition">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-black/40 border border-white/10 text-xs font-mono font-bold text-[#D9A441]">
                       {salon.initials}
                     </span>
                     <div>
@@ -169,21 +179,17 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                         <span className="font-mono text-xs font-bold text-[#00FFFF]">
                           [WC-{101 + idx}]
                         </span>
-                        <h5 className="text-base font-semibold text-[#F5F2E9] tracking-tight group-hover:text-[#00FFFF] transition">
+                        <h5 className="text-base font-semibold text-[#F5F2E9] tracking-tight">
                           {salon.name}
                         </h5>
                       </div>
                       <p className="mt-0.5 text-xs font-mono text-white/55">
-                        Owner: {salon.owner} · {salon.location} · Active Since May 2026
+                        Owner: {salon.owner} · {salon.location} · {salon.plan}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 self-end sm:self-center">
-                    <div className="text-right font-mono text-xs hidden sm:block">
-                      <span className="text-[#D9A441] font-bold block">PKR 42,000 Lifetime</span>
-                      <span className="text-white/45 text-[10px]">6 mos paid</span>
-                    </div>
+                  <div className="flex flex-wrap items-center gap-2 self-end sm:self-center">
                     <span
                       className={`font-mono text-xs px-2.5 py-0.5 rounded-full border ${
                         salon.status === 'Paid'
@@ -191,13 +197,25 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                           : 'bg-amber-500/10 text-amber-300 border-amber-500/30'
                       }`}
                     >
-                      {salon.status === 'Paid' ? 'Active' : 'Pending'}
+                      {salon.status === 'Paid' ? 'Paid ✓' : 'Due After 5th'}
                     </span>
-                    <span className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-mono text-[#00FFFF] group-hover:border-[#00FFFF] transition">
-                      View Details →
-                    </span>
+                    <button
+                      type="button"
+                      onClick={() => (onInspectSalon ? onInspectSalon(salon.name) : go('Salon Owner Dashboard'))}
+                      className="inline-flex items-center gap-1 rounded-lg border border-[#D9A441]/40 bg-[#D9A441]/10 hover:bg-[#D9A441]/20 px-3 py-1.5 text-xs font-mono font-bold text-[#D9A441] transition"
+                    >
+                      <Eye className="size-3.5" />
+                      <span>Inspect Salon</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenSalonDossier(salon.name)}
+                      className="rounded-lg border border-white/10 bg-white/[0.04] hover:border-[#00FFFF] px-3 py-1.5 text-xs font-mono text-[#00FFFF] transition"
+                    >
+                      Billing &amp; Receipts →
+                    </button>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
 
@@ -472,7 +490,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                 {[
                   { name: 'EasyPaisa Webhook', desc: 'Auto-unlocks salon analytics instantly upon incoming SMS payload matching tenant ID.', status: 'Webhook Ready' },
                   { name: 'JazzCash Webhook', desc: 'Simulates transaction regex string parser with fallback to manual founder review.', status: 'Webhook Ready' },
-                  { name: 'Bank Transfer (IBFT)', desc: '1-tap manual OCR clearing slip verification with encrypted transaction hash.', status: 'Manual Gate' },
+                  { name: 'Stripe Connect (Overseas 20/80 Split)', desc: 'Same-currency direct split outside Pakistan: 20% paid straight to Agent local bank/Stripe in deal currency, 80% to WorkCraft (zero double FX conversion loss).', status: 'Direct Split' },
                 ].map((item) => (
                   <button
                     key={item.name}
@@ -527,187 +545,146 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
             </div>
 
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 text-xs text-white/55 text-center space-y-1 font-mono">
-              <p className="text-[#F5F2E9] font-bold">Multi-Device Handshake: Go-Fiber WebSocket Active</p>
-              <p className="text-[10px] text-[#00FFFF]">wss://gateway.workcraft.local/ws/handshake · SIM: +92-300-WORKCRAFT-LOCAL</p>
+              <p className="text-[#F5F2E9] font-bold">WhatsApp Device Link Ready</p>
+              <p className="text-[10px] text-[#00FFFF]">Central SIM Protection Active · Instant Connection</p>
             </div>
           </div>
         )}
 
-        {/* 4. Flow Builder Tab */}
-        {active === 'Flow Builder' && (
-          <div className="space-y-4">
-            <div className="grid gap-3 sm:grid-cols-4 text-center font-mono text-xs">
-              {[
-                { state: 'IDLE', label: '1. Inbound Ping', desc: 'Greeting Trigger' },
-                { state: 'CALL_INBOUND', label: '2. Triage NLP', desc: 'Urdu / English' },
-                { state: 'ROUTING_PROMPT', label: '3. Service Match', desc: 'Price Table Lock' },
-                { state: 'BOOKING_LOCKED', label: '4. Booking Sealed', desc: 'Calendar Hold' },
-              ].map((step) => (
-                <button
-                  key={step.state}
-                  onClick={() => setTestSimulatedState(step.state as any)}
-                  className={`rounded-xl border p-3 transition ${
-                    testSimulatedState === step.state
-                      ? 'border-[#00FFFF] bg-white/[0.08] text-[#00FFFF] font-bold'
-                      : 'border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20'
-                  }`}
-                >
-                  <p className="font-bold">{step.label}</p>
-                  <p className="text-[10px] text-white/55 mt-1">{step.desc}</p>
-                </button>
-              ))}
-            </div>
-
-            <div className="rounded-xl border border-white/10 bg-black/50 p-4 font-mono text-xs space-y-2">
-              <div className="flex items-center justify-between text-[#00FFFF]">
-                <span>State Machine Inspector: {testSimulatedState}</span>
-                <span className="text-emerald-400">Zero Hallucination Guardrail Active</span>
-              </div>
-              <p className="text-white/70 font-sans leading-relaxed">
-                Deterministic slot lock state: verified against tenant SQLite / PostgreSQL records. Prices, stylist availability, and bridal slots are mathematically constrained without arbitrary AI drift.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* 5. Settings Tab */}
-        {active === 'Settings' && (
+        {/* 4. Settings Tab (Query 4: 100% Autonomous Self-Reporting — Zero Manual Switches) */}
+        {(active === 'Settings' || active === 'Flow Builder') && (
           <div className="space-y-6">
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 space-y-4">
-              <h4 className="text-xs font-mono font-bold text-[#D9A441] uppercase tracking-wider">
-                System Runtime Configuration &amp; Policies
-              </h4>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg border border-white/10 bg-black/30">
-                  <div>
-                    <p className="text-xs font-bold text-[#F5F2E9]">Central SIM Auto-Recharge Alerts</p>
-                    <p className="text-[11px] font-mono text-white/55">
-                      Sends notification when Android SIM balance drops below PKR 200
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setAutoRecharge(!autoRecharge)}
-                    className={`relative h-6 w-11 rounded-full transition-colors ${
-                      autoRecharge ? 'bg-[#D9A441]' : 'bg-zinc-800'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block size-5 transform rounded-full bg-[#12241C] transition-transform ${
-                        autoRecharge ? 'translate-x-5' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-emerald-300">
+                  <ShieldCheck className="size-4" />
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider">
+                    Auto-Managed System Protection (Zero Manual Work Needed)
+                  </h4>
                 </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg border border-white/10 bg-black/30">
-                  <div>
-                    <p className="text-xs font-bold text-[#F5F2E9]">Biometric Hash Audit Enforcement</p>
-                    <p className="text-[11px] font-mono text-white/55">
-                      Stores SHA-256 fingerprint hash on physical cash logger without image bytes
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setBiometricAudit(!biometricAudit)}
-                    className={`relative h-6 w-11 rounded-full transition-colors ${
-                      biometricAudit ? 'bg-emerald-500' : 'bg-zinc-800'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block size-5 transform rounded-full bg-[#12241C] transition-transform ${
-                        biometricAudit ? 'translate-x-5' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg border border-white/10 bg-black/30">
-                  <div>
-                    <p className="text-xs font-bold text-[#F5F2E9]">Dual SIM Gateway Failover</p>
-                    <p className="text-[11px] font-mono text-white/55">
-                      Automatically shifts WhatsApp session to SIM 2 if SIM 1 ping latency &gt; 800ms
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setFailoverRouting(!failoverRouting)}
-                    className={`relative h-6 w-11 rounded-full transition-colors ${
-                      failoverRouting ? 'bg-emerald-500' : 'bg-zinc-800'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block size-5 transform rounded-full bg-[#12241C] transition-transform ${
-                        failoverRouting ? 'translate-x-5' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg border border-white/10 bg-black/30">
-                  <div>
-                    <p className="text-xs font-bold text-[#F5F2E9]">Debug &amp; Packet Tracing</p>
-                    <p className="text-[11px] font-mono text-white/55">
-                      Streams raw Webhook payloads into founder notification audit drawer
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setDebugLogs(!debugLogs)}
-                    className={`relative h-6 w-11 rounded-full transition-colors ${
-                      debugLogs ? 'bg-emerald-500' : 'bg-zinc-800'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block size-5 transform rounded-full ${
-                        debugLogs ? 'bg-[#12241C] translate-x-5' : 'bg-zinc-400 translate-x-1'
-                      } transition-transform`}
-                    />
-                  </button>
-                </div>
-              </div>
-
-              {/* Input Configuration Fields */}
-              <div className="grid gap-3 pt-3 sm:grid-cols-2">
-                <label className="text-xs font-bold text-white/55 font-mono">
-                  DEFAULT FOUNDER PHONE (ALERTS)
-                  <input
-                    defaultValue="+92 321 0000000"
-                    className="mt-1.5 w-full rounded-lg border border-white/10 bg-[#102019] px-3 py-2 text-sm text-[#F5F2E9] font-mono focus:border-[#00FFFF] focus:outline-none"
-                  />
-                </label>
-
-                <label className="text-xs font-bold text-white/55 font-mono">
-                  CENTRAL SIM GATEWAY ENDPOINT
-                  <input
-                    defaultValue="ws://gateway.workcraft.local:8080 (+92-300-WORKCRAFT-LOCAL)"
-                    readOnly
-                    className="mt-1.5 w-full rounded-lg border border-white/10 bg-[#102019] px-3 py-2 text-sm text-[#00FFFF] font-mono focus:border-[#00FFFF] focus:outline-none select-none"
-                  />
-                </label>
-              </div>
-            </div>
-
-            {/* Architecture Metrics & Infrastructure Status Box (Moved from Overview) */}
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <p className="font-bold text-[#F5F2E9] text-xs font-mono uppercase tracking-wider">
-                  Infrastructure Telemetry &amp; Deterministic Isolation
-                </p>
-                <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-400">
-                  $0 BASE STACK · VERIFIED
+                <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-emerald-300">
+                  100% AUTOMATIC
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-[11px] text-white/60 pt-1 font-mono">
-                <div>Backend: Go 1.23 + whatsmeow</div>
-                <div>Runtime: Vercel Edge Serverless</div>
-                <div>Storage: Cloud Object Buckets (Optimized)</div>
-                <div>Server Cost: $0.00 SaaS Rent</div>
-                <div>Security: Biometric SHA-256 Hashes Active</div>
-                <div>Queue Throttling: 4s–9s Anti-Ban Jitter</div>
+              <p className="text-xs text-white/75 font-sans leading-relaxed">
+                You do not need to turn switches on or off manually. The system detects issues, sends reminders, switches backup lines, and protects client bookings automatically—and simply sends a clean summary report to your Founder number.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 space-y-3">
+              <h4 className="text-xs font-mono font-bold text-[#D9A441] uppercase tracking-wider">
+                What the System Handles Automatically For You
+              </h4>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  {
+                    title: '5th-of-Month Reminders & Overdue Lock',
+                    desc: 'Automatically reminds salons 2 days before month end, on the 3rd, and on the 5th—and reports overdue salons to you.',
+                  },
+                  {
+                    title: 'Backup SIM & Connection Guard',
+                    desc: 'If any WhatsApp phone line slows down or disconnects, the system shifts messages to the backup line automatically.',
+                  },
+                  {
+                    title: 'Automatic Deal Video Check & Broadcast',
+                    desc: 'Checks every uploaded salon video against quality rules and approves or guides the owner automatically in their language.',
+                  },
+                  {
+                    title: 'Customer Chat & Founder Privacy Shield',
+                    desc: 'Locks exact salon prices so customers never get wrong rates, and keeps your personal phone number 100% hidden.',
+                  },
+                ].map((rule) => (
+                  <div
+                    key={rule.title}
+                    className="rounded-xl border border-white/10 bg-black/35 p-3.5 space-y-1.5"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-[#F5F2E9]">{rule.title}</span>
+                      <span className="rounded bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-300 shrink-0">
+                        AUTO-RUNS ✓
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-white/60 font-sans leading-relaxed">
+                      {rule.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div className="rounded-lg border border-white/10 bg-black/40 p-3 text-xs text-white/60 space-y-1">
-                <p className="font-bold text-[#00FFFF] font-mono text-[11px]">Deterministic Knowledge Isolation Active</p>
-                <p className="text-[11px] text-white/55 leading-relaxed font-sans">
-                  The central SIM socket rejects arbitrary LLM hallucinations. Price tables, stylist schedules, and bridal slot locks are validated against immutable database records with zero drift.
+            </div>
+
+            {/* Single Founder Alert Phone Field */}
+            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 space-y-3">
+              <h4 className="text-xs font-mono font-bold text-[#00FFFF] uppercase tracking-wider">
+                Where the System Sends Your Founder Reports
+              </h4>
+              <div className="flex flex-col sm:flex-row sm:items-end gap-3">
+                <label className="text-xs font-bold text-white/65 font-mono flex-1">
+                  FOUNDER WHATSAPP NUMBER (SYSTEM REPORTS ONLY)
+                  <input
+                    value={founderAlertPhone}
+                    onChange={(e) => setFounderAlertPhone(e.target.value)}
+                    className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#102019] px-3 py-2.5 text-sm text-[#F5F2E9] font-mono focus:border-[#00FFFF] focus:outline-none"
+                  />
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSavedPhoneToast(true);
+                    setTimeout(() => setSavedPhoneToast(false), 3000);
+                  }}
+                  className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] px-5 py-2.5 text-xs font-mono font-bold text-[#12241C] uppercase transition active:scale-95 shrink-0"
+                >
+                  {savedPhoneToast ? 'Saved ✓' : 'Update Report Number'}
+                </button>
+              </div>
+              {savedPhoneToast && (
+                <p className="text-xs font-mono text-emerald-300 flex items-center gap-1.5">
+                  <CheckCircle2 className="size-3.5" />
+                  System will send automatic daily summaries &amp; overdue alerts to {founderAlertPhone}.
                 </p>
+              )}
+            </div>
+
+            {/* Query 1 Visual Review Panel: Mobile Home-Screen Shortcut Icon (Isolated strictly inside Settings) */}
+            <div className="rounded-xl border border-[#D9A441]/35 bg-black/45 p-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-[#D9A441]">
+                  <Smartphone className="size-4" />
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-wider">
+                    Mobile Home-Screen Shortcut Icon Review
+                  </h4>
+                </div>
+                <span className="rounded-full bg-[#D9A441]/15 border border-[#D9A441]/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#D9A441]">
+                  FOR FOUNDER REVIEW · HOME SCREEN ONLY
+                </span>
+              </div>
+              <p className="text-xs text-white/65 font-sans leading-relaxed">
+                This Gold Bullion &quot;W&quot; + crisp WORKCRAFT shortcut icon appears strictly when installed on a phone home screen (never modifying your dashboard headers or footers):
+              </p>
+              <div className="grid grid-cols-3 gap-3 pt-1">
+                {[
+                  { role: 'Founder App', label: 'WorkCraft' },
+                  { role: 'Field Agent App', label: 'WorkCraft Agent' },
+                  { role: 'Salon Owner App', label: 'WorkCraft Salon' },
+                ].map((item) => (
+                  <div
+                    key={item.role}
+                    className="rounded-xl border border-white/10 bg-[#102019] p-3 flex flex-col items-center text-center gap-2"
+                  >
+                    <img
+                      src="/icon.svg"
+                      alt={`${item.label} Mobile Shortcut Icon`}
+                      className="size-[60px] rounded-2xl shadow-[0_6px_18px_rgba(0,0,0,0.65)] border border-[#D9A441]/40"
+                    />
+                    <div>
+                      <p className="text-[11px] font-sans font-bold text-white leading-tight">
+                        {item.label}
+                      </p>
+                      <p className="text-[9px] font-mono text-white/45 mt-0.5">{item.role}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

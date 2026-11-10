@@ -28,6 +28,7 @@ import {
 import { PortalCard } from './PortalCard';
 import { SalonOwnerDashboard } from './SalonOwnerDashboard';
 import { ServiceItem } from '../types/workcraft';
+import { SalonWindowPosterPdf, PosterLang } from './SalonWindowPosterPdf';
 
 export type SalonLanguage = 'URDU' | 'ARABIC' | 'ROMAN_URDU' | 'ENGLISH';
 export type RegionalTier = 'PAKISTAN' | 'MENA' | 'EUROPE_GLOBAL';
@@ -360,7 +361,6 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       setIsPaymentProcessing(false);
       setIsPaymentConfirmed(true);
       setStep(4);
-      onPairingComplete(salonName);
     }, 1200);
   };
 
@@ -1061,14 +1061,34 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                       )}
                     </button>
                   ) : (
-                    <div className="rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-4 space-y-3 animate-in zoom-in-95">
+                    <div className="rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-4 space-y-4 animate-in zoom-in-95">
                       <div className="flex items-center gap-2 text-emerald-300 font-mono font-bold text-xs">
                         <CheckCircle2 className="size-5 text-emerald-400" />
                         <span>MashaAllah! WhatsApp Terminal 100% Paired!</span>
                       </div>
                       <p className="text-xs text-white/70 font-sans leading-relaxed">
-                        Your salon's WhatsApp is now connected to WORKCRAFT SIM Gateway cluster. Auto-replies and bookings are live.
+                        Your {selectedCategory === 'LADIES' ? 'ladies beauty parlor' : 'salon'} WhatsApp is now connected. Print or share your official Customer Window Poster PDF below so walk-in &amp; existing clients know they can book on WhatsApp 24/7.
                       </p>
+
+                      {/* 1-Click Branded Window Poster & Cabin Pamphlet PDF (Query 6) */}
+                      <SalonWindowPosterPdf
+                        salonName={salonName}
+                        salonCategory={selectedCategory}
+                        whatsappNumber={
+                          selectedRegion === '+971'
+                            ? '+971 50 778 9012'
+                            : selectedRegion === '+44'
+                            ? '+44 7911 445566'
+                            : '+92 300 4567890'
+                        }
+                        initialLanguage={
+                          (selectedLanguage === 'ARABIC'
+                            ? 'ar'
+                            : selectedLanguage === 'URDU' || selectedLanguage === 'ROMAN_URDU'
+                            ? 'ur'
+                            : 'en') as PosterLang
+                        }
+                      />
 
                       {/* 1-Tap Mobile Home Screen Pop-up */}
                       <div className="rounded-xl border border-white/15 bg-black/40 p-3.5 flex items-center justify-between gap-3">
@@ -1137,6 +1157,28 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                     <circle cx="80" cy="50" r="3" fill="currentColor" />
                     <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="3" />
                   </svg>
+                </div>
+
+                {/* Printable PDF Poster Ready Upon Agent QR Scan too */}
+                <div className="max-w-2xl mx-auto pt-2">
+                  <SalonWindowPosterPdf
+                    salonName={salonName}
+                    salonCategory={selectedCategory}
+                    whatsappNumber={
+                      selectedRegion === '+971'
+                        ? '+971 50 778 9012'
+                        : selectedRegion === '+44'
+                        ? '+44 7911 445566'
+                        : '+92 300 4567890'
+                    }
+                    initialLanguage={
+                      (selectedLanguage === 'ARABIC'
+                        ? 'ar'
+                        : selectedLanguage === 'URDU' || selectedLanguage === 'ROMAN_URDU'
+                        ? 'ur'
+                        : 'en') as PosterLang
+                    }
+                  />
                 </div>
 
                 <div className="pt-2 flex items-center justify-center gap-3">
