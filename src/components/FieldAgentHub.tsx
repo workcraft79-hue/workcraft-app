@@ -73,6 +73,7 @@ interface FieldAgentHubProps {
     city?: string;
   };
   userRole?: 'FOUNDER' | 'FIELD_AGENT';
+  onActiveCountriesChange?: (countries: Array<{ code: string; label: string; flag: string }>) => void;
 }
 
 const DEFAULT_MENS_SERVICES: ServiceItem[] = [
@@ -115,179 +116,131 @@ export interface CountryConfig {
   defaultCoords: string;
 }
 
-export const detectCountryFromPhone = (phoneStr: string): CountryConfig => {
-  const clean = phoneStr.trim();
-  if (clean.startsWith('+971')) {
-    return {
-      code: 'AE', name: 'UAE (MENA)', currency: 'USD', prefix: '$',
-      localCurrency: 'AED', localPrefix: 'AED ', localArabicPrefix: 'د.إ ', localRateMultiplier: 0.075,
-      flag: '🇦🇪', isDomestic: false, region: 'MENA', dialCode: '+971',
-      defaultCity: 'Dubai', defaultAddress: 'Al Rigga Road, Deira, Dubai', defaultCoords: '25.2631° N, 55.3264° E',
-    };
-  }
-  if (clean.startsWith('+966')) {
-    return {
-      code: 'SA', name: 'Saudi Arabia (MENA)', currency: 'USD', prefix: '$',
-      localCurrency: 'SAR', localPrefix: 'SAR ', localArabicPrefix: 'ر.س ', localRateMultiplier: 0.075,
-      flag: '🇸🇦', isDomestic: false, region: 'MENA', dialCode: '+966',
-      defaultCity: 'Riyadh', defaultAddress: 'Olaya Street, Al Olaya, Riyadh', defaultCoords: '24.6972° N, 46.6838° E',
-    };
-  }
-  if (clean.startsWith('+965')) {
-    return {
-      code: 'KW', name: 'Kuwait (MENA)', currency: 'USD', prefix: '$',
-      localCurrency: 'KWD', localPrefix: 'KWD ', localArabicPrefix: 'د.ك ', localRateMultiplier: 0.0065,
-      flag: '🇰🇼', isDomestic: false, region: 'MENA', dialCode: '+965',
-      defaultCity: 'Kuwait City', defaultAddress: 'Salmiya Block 4, Kuwait City', defaultCoords: '29.3375° N, 48.0758° E',
-    };
-  }
-  if (clean.startsWith('+974')) {
-    return {
-      code: 'QA', name: 'Qatar (MENA)', currency: 'USD', prefix: '$',
-      localCurrency: 'QAR', localPrefix: 'QAR ', localArabicPrefix: 'ر.ق ', localRateMultiplier: 0.075,
-      flag: '🇶🇦', isDomestic: false, region: 'MENA', dialCode: '+974',
-      defaultCity: 'Doha', defaultAddress: 'Al Sadd Street, Doha', defaultCoords: '25.2854° N, 51.5310° E',
-    };
-  }
-  if (clean.startsWith('+968')) {
-    return {
-      code: 'OM', name: 'Oman (MENA)', currency: 'USD', prefix: '$',
-      localCurrency: 'OMR', localPrefix: 'OMR ', localArabicPrefix: 'ر.ع ', localRateMultiplier: 0.008,
-      flag: '🇴🇲', isDomestic: false, region: 'MENA', dialCode: '+968',
-      defaultCity: 'Muscat', defaultAddress: 'Al Qurum Commercial, Muscat', defaultCoords: '23.5880° N, 58.3829° E',
-    };
-  }
-  if (clean.startsWith('+973')) {
-    return {
-      code: 'BH', name: 'Bahrain (MENA)', currency: 'USD', prefix: '$',
-      localCurrency: 'BHD', localPrefix: 'BHD ', localArabicPrefix: 'د.ب ', localRateMultiplier: 0.008,
-      flag: '🇧🇭', isDomestic: false, region: 'MENA', dialCode: '+973',
-      defaultCity: 'Manama', defaultAddress: 'Seef District, Manama', defaultCoords: '26.2285° N, 50.5860° E',
-    };
-  }
-  // Europe Region Prefixes
-  if (clean.startsWith('+44')) {
-    return {
-      code: 'GB', name: 'United Kingdom (Europe)', currency: 'USD', prefix: '$',
-      localCurrency: 'GBP', localPrefix: '£', localRateMultiplier: 0.03,
-      flag: '🇬🇧', isDomestic: false, region: 'EUROPE', dialCode: '+44',
-      defaultCity: 'London', defaultAddress: '48 Oxford Street, Soho, London', defaultCoords: '51.5154° N, 0.1419° W',
-    };
-  }
-  if (clean.startsWith('+49')) {
-    return {
-      code: 'DE', name: 'Germany (Europe / EU)', currency: 'USD', prefix: '$',
-      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
-      flag: '🇩🇪', isDomestic: false, region: 'EUROPE', dialCode: '+49',
-      defaultCity: 'Berlin', defaultAddress: 'Friedrichstrasse 112, Berlin', defaultCoords: '52.5200° N, 13.4050° E',
-    };
-  }
-  if (clean.startsWith('+33')) {
-    return {
-      code: 'FR', name: 'France (Europe / EU)', currency: 'USD', prefix: '$',
-      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
-      flag: '🇫🇷', isDomestic: false, region: 'EUROPE', dialCode: '+33',
-      defaultCity: 'Paris', defaultAddress: 'Rue de Rivoli 84, Paris', defaultCoords: '48.8566° N, 2.3522° E',
-    };
-  }
-  if (clean.startsWith('+39')) {
-    return {
-      code: 'IT', name: 'Italy (Europe / EU)', currency: 'USD', prefix: '$',
-      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
-      flag: '🇮🇹', isDomestic: false, region: 'EUROPE', dialCode: '+39',
-      defaultCity: 'Milan', defaultAddress: 'Corso Buenos Aires 22, Milan', defaultCoords: '45.4642° N, 9.1900° E',
-    };
-  }
-  if (clean.startsWith('+34')) {
-    return {
-      code: 'ES', name: 'Spain (Europe / EU)', currency: 'USD', prefix: '$',
-      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
-      flag: '🇪🇸', isDomestic: false, region: 'EUROPE', dialCode: '+34',
-      defaultCity: 'Madrid', defaultAddress: 'Gran Via 35, Madrid', defaultCoords: '40.4168° N, 3.7038° W',
-    };
-  }
-  if (clean.startsWith('+31')) {
-    return {
-      code: 'NL', name: 'Netherlands (Europe / EU)', currency: 'USD', prefix: '$',
-      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
-      flag: '🇳🇱', isDomestic: false, region: 'EUROPE', dialCode: '+31',
-      defaultCity: 'Amsterdam', defaultAddress: 'Kalverstraat 90, Amsterdam', defaultCoords: '52.3676° N, 4.9041° E',
-    };
-  }
-  if (clean.startsWith('+41')) {
-    return {
-      code: 'CH', name: 'Switzerland (Europe)', currency: 'USD', prefix: '$',
-      localCurrency: 'CHF', localPrefix: 'CHF ', localRateMultiplier: 0.035,
-      flag: '🇨🇭', isDomestic: false, region: 'EUROPE', dialCode: '+41',
-      defaultCity: 'Zurich', defaultAddress: 'Bahnhofstrasse 42, Zurich', defaultCoords: '47.3769° N, 8.5417° E',
-    };
-  }
-  if (clean.startsWith('+353')) {
-    return {
-      code: 'IE', name: 'Ireland (Europe / EU)', currency: 'USD', prefix: '$',
-      localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035,
-      flag: '🇮🇪', isDomestic: false, region: 'EUROPE', dialCode: '+353',
-      defaultCity: 'Dublin', defaultAddress: 'Grafton Street 18, Dublin', defaultCoords: '53.3498° N, 6.2603° W',
-    };
-  }
+const CANADIAN_AREA_CODES = new Set([
+  '204', '226', '236', '249', '250', '289', '306', '343', '365', '367',
+  '403', '416', '418', '431', '437', '438', '450', '506', '514', '519',
+  '548', '579', '581', '587', '604', '613', '639', '647', '672', '705',
+  '709', '742', '778', '780', '782', '807', '819', '825', '867', '873',
+  '902', '905',
+]);
+
+const CANADIAN_CITY_KEYWORDS = ['canada', 'toronto', 'vancouver', 'montreal', 'calgary', 'ottawa', 'edmonton', 'winnipeg', 'quebec'];
+
+const GLOBAL_DIAL_COUNTRIES: CountryConfig[] = [
+  { code: 'AE', name: 'UAE', currency: 'USD', prefix: '$', localCurrency: 'AED', localPrefix: 'AED ', localArabicPrefix: 'د.إ ', localRateMultiplier: 0.075, flag: '🇦🇪', isDomestic: false, region: 'MENA', dialCode: '+971', defaultCity: 'Dubai', defaultAddress: 'Al Rigga Road, Deira, Dubai', defaultCoords: '25.2631° N, 55.3264° E' },
+  { code: 'SA', name: 'Saudi Arabia', currency: 'USD', prefix: '$', localCurrency: 'SAR', localPrefix: 'SAR ', localArabicPrefix: 'ر.س ', localRateMultiplier: 0.075, flag: '🇸🇦', isDomestic: false, region: 'MENA', dialCode: '+966', defaultCity: 'Riyadh', defaultAddress: 'Olaya Street, Al Olaya, Riyadh', defaultCoords: '24.6972° N, 46.6838° E' },
+  { code: 'KW', name: 'Kuwait', currency: 'USD', prefix: '$', localCurrency: 'KWD', localPrefix: 'KWD ', localArabicPrefix: 'د.ك ', localRateMultiplier: 0.0065, flag: '🇰🇼', isDomestic: false, region: 'MENA', dialCode: '+965', defaultCity: 'Kuwait City', defaultAddress: 'Salmiya Block 4, Kuwait City', defaultCoords: '29.3375° N, 48.0758° E' },
+  { code: 'QA', name: 'Qatar', currency: 'USD', prefix: '$', localCurrency: 'QAR', localPrefix: 'QAR ', localArabicPrefix: 'ر.ق ', localRateMultiplier: 0.075, flag: '🇶🇦', isDomestic: false, region: 'MENA', dialCode: '+974', defaultCity: 'Doha', defaultAddress: 'Al Sadd Street, Doha', defaultCoords: '25.2854° N, 51.5310° E' },
+  { code: 'OM', name: 'Oman', currency: 'USD', prefix: '$', localCurrency: 'OMR', localPrefix: 'OMR ', localArabicPrefix: 'ر.ع ', localRateMultiplier: 0.008, flag: '🇴🇲', isDomestic: false, region: 'MENA', dialCode: '+968', defaultCity: 'Muscat', defaultAddress: 'Al Qurum Commercial, Muscat', defaultCoords: '23.5880° N, 58.3829° E' },
+  { code: 'BH', name: 'Bahrain', currency: 'USD', prefix: '$', localCurrency: 'BHD', localPrefix: 'BHD ', localArabicPrefix: 'د.ب ', localRateMultiplier: 0.008, flag: '🇧🇭', isDomestic: false, region: 'MENA', dialCode: '+973', defaultCity: 'Manama', defaultAddress: 'Seef District, Manama', defaultCoords: '26.2285° N, 50.5860° E' },
+  { code: 'JO', name: 'Jordan', currency: 'USD', prefix: '$', localCurrency: 'JOD', localPrefix: 'JOD ', localArabicPrefix: 'د.أ ', localRateMultiplier: 0.015, flag: '🇯🇴', isDomestic: false, region: 'MENA', dialCode: '+962', defaultCity: 'Amman', defaultAddress: 'Abdali Boulevard, Amman', defaultCoords: '31.9539° N, 35.9106° E' },
+  { code: 'LB', name: 'Lebanon', currency: 'USD', prefix: '$', localCurrency: 'USD', localPrefix: '$', localArabicPrefix: '$', localRateMultiplier: 0.04, flag: '🇱🇧', isDomestic: false, region: 'MENA', dialCode: '+961', defaultCity: 'Beirut', defaultAddress: 'Hamra Street, Beirut', defaultCoords: '33.8938° N, 35.5018° E' },
+  { code: 'MA', name: 'Morocco', currency: 'USD', prefix: '$', localCurrency: 'MAD', localPrefix: 'MAD ', localArabicPrefix: 'د.م ', localRateMultiplier: 0.2, flag: '🇲🇦', isDomestic: false, region: 'MENA', dialCode: '+212', defaultCity: 'Casablanca', defaultAddress: 'Boulevard Anfa, Casablanca', defaultCoords: '33.5731° N, 7.5898° W' },
+  { code: 'EG', name: 'Egypt', currency: 'USD', prefix: '$', localCurrency: 'EGP', localPrefix: 'EGP ', localArabicPrefix: 'ج.م ', localRateMultiplier: 0.95, flag: '🇪🇬', isDomestic: false, region: 'MENA', dialCode: '+20', defaultCity: 'Cairo', defaultAddress: 'Zamalek District, Cairo', defaultCoords: '30.0444° N, 31.2357° E' },
+  { code: 'GB', name: 'United Kingdom', currency: 'USD', prefix: '$', localCurrency: 'GBP', localPrefix: '£', localRateMultiplier: 0.03, flag: '🇬🇧', isDomestic: false, region: 'EUROPE', dialCode: '+44', defaultCity: 'London', defaultAddress: '48 Oxford Street, Soho, London', defaultCoords: '51.5154° N, 0.1419° W' },
+  { code: 'DE', name: 'Germany', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇩🇪', isDomestic: false, region: 'EUROPE', dialCode: '+49', defaultCity: 'Berlin', defaultAddress: 'Friedrichstrasse 112, Berlin', defaultCoords: '52.5200° N, 13.4050° E' },
+  { code: 'FR', name: 'France', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇫🇷', isDomestic: false, region: 'EUROPE', dialCode: '+33', defaultCity: 'Paris', defaultAddress: 'Rue de Rivoli 84, Paris', defaultCoords: '48.8566° N, 2.3522° E' },
+  { code: 'IT', name: 'Italy', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇮🇹', isDomestic: false, region: 'EUROPE', dialCode: '+39', defaultCity: 'Milan', defaultAddress: 'Corso Buenos Aires 22, Milan', defaultCoords: '45.4642° N, 9.1900° E' },
+  { code: 'ES', name: 'Spain', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇪🇸', isDomestic: false, region: 'EUROPE', dialCode: '+34', defaultCity: 'Madrid', defaultAddress: 'Gran Via 35, Madrid', defaultCoords: '40.4168° N, 3.7038° W' },
+  { code: 'NL', name: 'Netherlands', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇳🇱', isDomestic: false, region: 'EUROPE', dialCode: '+31', defaultCity: 'Amsterdam', defaultAddress: 'Kalverstraat 90, Amsterdam', defaultCoords: '52.3676° N, 4.9041° E' },
+  { code: 'IE', name: 'Ireland', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇮🇪', isDomestic: false, region: 'EUROPE', dialCode: '+353', defaultCity: 'Dublin', defaultAddress: 'Grafton Street 18, Dublin', defaultCoords: '53.3498° N, 6.2603° W' },
+  { code: 'CH', name: 'Switzerland', currency: 'USD', prefix: '$', localCurrency: 'CHF', localPrefix: 'CHF ', localRateMultiplier: 0.035, flag: '🇨🇭', isDomestic: false, region: 'EUROPE', dialCode: '+41', defaultCity: 'Zurich', defaultAddress: 'Bahnhofstrasse 42, Zurich', defaultCoords: '47.3769° N, 8.5417° E' },
+  { code: 'SE', name: 'Sweden', currency: 'USD', prefix: '$', localCurrency: 'SEK', localPrefix: 'SEK ', localRateMultiplier: 0.4, flag: '🇸🇪', isDomestic: false, region: 'EUROPE', dialCode: '+46', defaultCity: 'Stockholm', defaultAddress: 'Drottninggatan 45, Stockholm', defaultCoords: '59.3293° N, 18.0686° E' },
+  { code: 'NO', name: 'Norway', currency: 'USD', prefix: '$', localCurrency: 'NOK', localPrefix: 'NOK ', localRateMultiplier: 0.4, flag: '🇳🇴', isDomestic: false, region: 'EUROPE', dialCode: '+47', defaultCity: 'Oslo', defaultAddress: 'Karl Johans gate 18, Oslo', defaultCoords: '59.9139° N, 10.7522° E' },
+  { code: 'DK', name: 'Denmark', currency: 'USD', prefix: '$', localCurrency: 'DKK', localPrefix: 'DKK ', localRateMultiplier: 0.25, flag: '🇩🇰', isDomestic: false, region: 'EUROPE', dialCode: '+45', defaultCity: 'Copenhagen', defaultAddress: 'Stroget 22, Copenhagen', defaultCoords: '55.6761° N, 12.5683° E' },
+  { code: 'PT', name: 'Portugal', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇵🇹', isDomestic: false, region: 'EUROPE', dialCode: '+351', defaultCity: 'Lisbon', defaultAddress: 'Avenida da Liberdade 110, Lisbon', defaultCoords: '38.7223° N, 9.1393° W' },
+  { code: 'PL', name: 'Poland', currency: 'USD', prefix: '$', localCurrency: 'PLN', localPrefix: 'PLN ', localRateMultiplier: 0.15, flag: '🇵🇱', isDomestic: false, region: 'EUROPE', dialCode: '+48', defaultCity: 'Warsaw', defaultAddress: 'Marszalkowska 78, Warsaw', defaultCoords: '52.2297° N, 21.0122° E' },
+  { code: 'GR', name: 'Greece', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇬🇷', isDomestic: false, region: 'EUROPE', dialCode: '+30', defaultCity: 'Athens', defaultAddress: 'Ermou Street 44, Athens', defaultCoords: '37.9838° N, 23.7275° E' },
+  { code: 'AT', name: 'Austria', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇦🇹', isDomestic: false, region: 'EUROPE', dialCode: '+43', defaultCity: 'Vienna', defaultAddress: 'Kartner Strasse 28, Vienna', defaultCoords: '48.2082° N, 16.3738° E' },
+  { code: 'BE', name: 'Belgium', currency: 'USD', prefix: '$', localCurrency: 'EUR', localPrefix: '€', localRateMultiplier: 0.035, flag: '🇧🇪', isDomestic: false, region: 'EUROPE', dialCode: '+32', defaultCity: 'Brussels', defaultAddress: 'Avenue Louise 65, Brussels', defaultCoords: '50.8503° N, 4.3517° E' },
+  { code: 'TR', name: 'Turkey', currency: 'USD', prefix: '$', localCurrency: 'TRY', localPrefix: '₺', localRateMultiplier: 1.0, flag: '🇹🇷', isDomestic: false, region: 'GLOBAL', dialCode: '+90', defaultCity: 'Istanbul', defaultAddress: 'Nisantasi, Sisli, Istanbul', defaultCoords: '41.0082° N, 28.9784° E' },
+  { code: 'IN', name: 'India', currency: 'USD', prefix: '$', localCurrency: 'INR', localPrefix: '₹', localRateMultiplier: 0.75, flag: '🇮🇳', isDomestic: false, region: 'GLOBAL', dialCode: '+91', defaultCity: 'Mumbai', defaultAddress: 'Bandra West, Mumbai', defaultCoords: '19.0760° N, 72.8777° E' },
+  { code: 'BD', name: 'Bangladesh', currency: 'USD', prefix: '$', localCurrency: 'BDT', localPrefix: '৳', localRateMultiplier: 0.85, flag: '🇧🇩', isDomestic: false, region: 'GLOBAL', dialCode: '+880', defaultCity: 'Dhaka', defaultAddress: 'Gulshan 2, Dhaka', defaultCoords: '23.8103° N, 90.4125° E' },
+  { code: 'LK', name: 'Sri Lanka', currency: 'USD', prefix: '$', localCurrency: 'LKR', localPrefix: 'LKR ', localRateMultiplier: 1.2, flag: '🇱🇰', isDomestic: false, region: 'GLOBAL', dialCode: '+94', defaultCity: 'Colombo', defaultAddress: 'Galle Road, Colombo 03', defaultCoords: '6.9271° N, 79.8612° E' },
+  { code: 'MY', name: 'Malaysia', currency: 'USD', prefix: '$', localCurrency: 'MYR', localPrefix: 'RM ', localRateMultiplier: 0.08, flag: '🇲🇾', isDomestic: false, region: 'GLOBAL', dialCode: '+60', defaultCity: 'Kuala Lumpur', defaultAddress: 'Bukit Bintang, Kuala Lumpur', defaultCoords: '3.1390° N, 101.6869° E' },
+  { code: 'SG', name: 'Singapore', currency: 'USD', prefix: '$', localCurrency: 'SGD', localPrefix: 'S$', localRateMultiplier: 0.045, flag: '🇸🇬', isDomestic: false, region: 'GLOBAL', dialCode: '+65', defaultCity: 'Singapore', defaultAddress: 'Orchard Road, Singapore', defaultCoords: '1.3521° N, 103.8198° E' },
+  { code: 'ID', name: 'Indonesia', currency: 'USD', prefix: '$', localCurrency: 'IDR', localPrefix: 'Rp ', localRateMultiplier: 60, flag: '🇮🇩', isDomestic: false, region: 'GLOBAL', dialCode: '+62', defaultCity: 'Jakarta', defaultAddress: 'Sudirman Central, Jakarta', defaultCoords: '6.2088° S, 106.8456° E' },
+  { code: 'PH', name: 'Philippines', currency: 'USD', prefix: '$', localCurrency: 'PHP', localPrefix: '₱', localRateMultiplier: 2.2, flag: '🇵🇭', isDomestic: false, region: 'GLOBAL', dialCode: '+63', defaultCity: 'Manila', defaultAddress: 'Makati Avenue, Manila', defaultCoords: '14.5995° N, 120.9842° E' },
+  { code: 'TH', name: 'Thailand', currency: 'USD', prefix: '$', localCurrency: 'THB', localPrefix: '฿', localRateMultiplier: 1.3, flag: '🇹🇭', isDomestic: false, region: 'GLOBAL', dialCode: '+66', defaultCity: 'Bangkok', defaultAddress: 'Sukhumvit Road, Bangkok', defaultCoords: '13.7563° N, 100.5018° E' },
+  { code: 'JP', name: 'Japan', currency: 'USD', prefix: '$', localCurrency: 'JPY', localPrefix: '¥', localRateMultiplier: 5.5, flag: '🇯🇵', isDomestic: false, region: 'GLOBAL', dialCode: '+81', defaultCity: 'Tokyo', defaultAddress: 'Shibuya Crossing, Tokyo', defaultCoords: '35.6762° N, 139.6503° E' },
+  { code: 'KR', name: 'South Korea', currency: 'USD', prefix: '$', localCurrency: 'KRW', localPrefix: '₩', localRateMultiplier: 50, flag: '🇰🇷', isDomestic: false, region: 'GLOBAL', dialCode: '+82', defaultCity: 'Seoul', defaultAddress: 'Gangnam-gu, Seoul', defaultCoords: '37.5665° N, 126.9780° E' },
+  { code: 'AU', name: 'Australia', currency: 'USD', prefix: '$', localCurrency: 'AUD', localPrefix: 'A$', localRateMultiplier: 0.055, flag: '🇦🇺', isDomestic: false, region: 'GLOBAL', dialCode: '+61', defaultCity: 'Sydney', defaultAddress: 'George Street, Sydney', defaultCoords: '33.8688° S, 151.2093° E' },
+  { code: 'NZ', name: 'New Zealand', currency: 'USD', prefix: '$', localCurrency: 'NZD', localPrefix: 'NZ$', localRateMultiplier: 0.06, flag: '🇳🇿', isDomestic: false, region: 'GLOBAL', dialCode: '+64', defaultCity: 'Auckland', defaultAddress: 'Queen Street, Auckland', defaultCoords: '36.8509° S, 174.7645° E' },
+  { code: 'BR', name: 'Brazil', currency: 'USD', prefix: '$', localCurrency: 'BRL', localPrefix: 'R$', localRateMultiplier: 0.2, flag: '🇧🇷', isDomestic: false, region: 'GLOBAL', dialCode: '+55', defaultCity: 'Sao Paulo', defaultAddress: 'Avenida Paulista 1000, Sao Paulo', defaultCoords: '23.5505° S, 46.6333° W' },
+  { code: 'MX', name: 'Mexico', currency: 'USD', prefix: '$', localCurrency: 'MXN', localPrefix: 'MX$', localRateMultiplier: 0.7, flag: '🇲🇽', isDomestic: false, region: 'GLOBAL', dialCode: '+52', defaultCity: 'Mexico City', defaultAddress: 'Paseo de la Reforma, Mexico City', defaultCoords: '19.4326° N, 99.1332° W' },
+  { code: 'ZA', name: 'South Africa', currency: 'USD', prefix: '$', localCurrency: 'ZAR', localPrefix: 'R ', localRateMultiplier: 0.7, flag: '🇿🇦', isDomestic: false, region: 'GLOBAL', dialCode: '+27', defaultCity: 'Johannesburg', defaultAddress: 'Sandton City, Johannesburg', defaultCoords: '26.2041° S, 28.0473° E' },
+  { code: 'NG', name: 'Nigeria', currency: 'USD', prefix: '$', localCurrency: 'NGN', localPrefix: '₦', localRateMultiplier: 6.0, flag: '🇳🇬', isDomestic: false, region: 'GLOBAL', dialCode: '+234', defaultCity: 'Lagos', defaultAddress: 'Victoria Island, Lagos', defaultCoords: '6.5244° N, 3.3792° E' },
+  { code: 'KE', name: 'Kenya', currency: 'USD', prefix: '$', localCurrency: 'KES', localPrefix: 'KES ', localRateMultiplier: 0.5, flag: '🇰🇪', isDomestic: false, region: 'GLOBAL', dialCode: '+254', defaultCity: 'Nairobi', defaultAddress: 'Westlands, Nairobi', defaultCoords: '1.2921° S, 36.8219° E' },
+];
+
+export const detectCountryFromPhone = (phoneStr: string, cityOrCountryHint?: string): CountryConfig => {
+  const clean = (phoneStr || '').trim().replace(/[\s\-\(\)]/g, '');
+  const hint = (cityOrCountryHint || '').toLowerCase();
+
+  // North America (+1): Separate Canada vs United States cleanly
   if (clean.startsWith('+1')) {
+    const digitsAfterOne = clean.slice(2).replace(/\D/g, '');
+    const areaCode = digitsAfterOne.slice(0, 3);
+    const isCanada =
+      CANADIAN_AREA_CODES.has(areaCode) ||
+      CANADIAN_CITY_KEYWORDS.some((kw) => hint.includes(kw));
+    if (isCanada) {
+      return {
+        code: 'CA', name: 'Canada', currency: 'USD', prefix: '$',
+        localCurrency: 'CAD', localPrefix: 'C$', localRateMultiplier: 0.05,
+        flag: '🇨🇦', isDomestic: false, region: 'NORTH_AMERICA', dialCode: '+1',
+        defaultCity: 'Toronto', defaultAddress: 'Yonge Street, Downtown Toronto', defaultCoords: '43.6532° N, 79.3832° W',
+      };
+    }
     return {
-      code: 'US', name: 'USA / Canada (North America)', currency: 'USD', prefix: '$',
+      code: 'US', name: 'United States', currency: 'USD', prefix: '$',
       localCurrency: 'USD', localPrefix: '$', localRateMultiplier: 0.04,
       flag: '🇺🇸', isDomestic: false, region: 'NORTH_AMERICA', dialCode: '+1',
       defaultCity: 'New York', defaultAddress: '5th Avenue, Midtown, New York', defaultCoords: '40.7128° N, 74.0060° W',
     };
   }
-  if (clean.startsWith('+91')) {
+
+  // Sort longest dial codes first so +353 matches before +35 etc.
+  const matched = [...GLOBAL_DIAL_COUNTRIES]
+    .sort((a, b) => b.dialCode.length - a.dialCode.length)
+    .find((c) => clean.startsWith(c.dialCode));
+  if (matched) return matched;
+
+  // Explicit Pakistan check (+92, 92, 03, or empty before dialing)
+  if (!clean || clean.startsWith('+92') || clean.startsWith('92') || clean.startsWith('03')) {
     return {
-      code: 'IN', name: 'India (South Asia)', currency: 'USD', prefix: '$',
-      localCurrency: 'INR', localPrefix: '₹', localRateMultiplier: 0.75,
-      flag: '🇮🇳', isDomestic: false, region: 'GLOBAL', dialCode: '+91',
-      defaultCity: 'Mumbai', defaultAddress: 'Bandra West, Mumbai', defaultCoords: '19.0760° N, 72.8777° E',
+      code: 'PK', name: 'Pakistan', currency: 'PKR', prefix: 'PKR ',
+      localCurrency: 'PKR', localPrefix: 'PKR ', localRateMultiplier: 1,
+      flag: '🇵🇰', isDomestic: true, region: 'PK', dialCode: '+92',
+      defaultCity: 'Lahore', defaultAddress: 'Shop #4, Plaza 12, CCA Phase 5 DHA, Lahore', defaultCoords: '31.4705° N, 74.4109° E',
     };
   }
-  if (clean.startsWith('+880')) {
+
+  // Generic worldwide fallback for ANY other +XXX country code
+  if (clean.startsWith('+') && clean.length >= 2) {
+    const dialDigitsMatch = clean.match(/^\+(\d{1,3})/);
+    const dialPrefix = dialDigitsMatch ? `+${dialDigitsMatch[1]}` : '+INTL';
+    const codeKey = `INTL_${dialDigitsMatch ? dialDigitsMatch[1] : 'WW'}`;
     return {
-      code: 'BD', name: 'Bangladesh (South Asia)', currency: 'USD', prefix: '$',
-      localCurrency: 'BDT', localPrefix: '৳', localRateMultiplier: 0.85,
-      flag: '🇧🇩', isDomestic: false, region: 'GLOBAL', dialCode: '+880',
-      defaultCity: 'Dhaka', defaultAddress: 'Gulshan 2, Dhaka', defaultCoords: '23.8103° N, 90.4125° E',
+      code: codeKey,
+      name: `International (${dialPrefix})`,
+      currency: 'USD',
+      prefix: '$',
+      localCurrency: 'USD',
+      localPrefix: '$',
+      localRateMultiplier: 0.04,
+      flag: '🌐',
+      isDomestic: false,
+      region: 'GLOBAL',
+      dialCode: dialPrefix,
+      defaultCity: 'Metro City',
+      defaultAddress: 'Central Business District',
+      defaultCoords: '0.0000° N, 0.0000° E',
     };
   }
-  if (clean.startsWith('+90')) {
-    return {
-      code: 'TR', name: 'Turkey (Eurasia)', currency: 'USD', prefix: '$',
-      localCurrency: 'TRY', localPrefix: '₺', localRateMultiplier: 1.0,
-      flag: '🇹🇷', isDomestic: false, region: 'GLOBAL', dialCode: '+90',
-      defaultCity: 'Istanbul', defaultAddress: 'Nisantasi, Sisli, Istanbul', defaultCoords: '41.0082° N, 28.9784° E',
-    };
-  }
-  if (clean.startsWith('+60')) {
-    return {
-      code: 'MY', name: 'Malaysia (Asia)', currency: 'USD', prefix: '$',
-      localCurrency: 'MYR', localPrefix: 'RM ', localRateMultiplier: 0.08,
-      flag: '🇲🇾', isDomestic: false, region: 'GLOBAL', dialCode: '+60',
-      defaultCity: 'Kuala Lumpur', defaultAddress: 'Bukit Bintang, Kuala Lumpur', defaultCoords: '3.1390° N, 101.6869° E',
-    };
-  }
-  if (clean.startsWith('+65')) {
-    return {
-      code: 'SG', name: 'Singapore (Asia)', currency: 'USD', prefix: '$',
-      localCurrency: 'SGD', localPrefix: 'S$', localRateMultiplier: 0.045,
-      flag: '🇸🇬', isDomestic: false, region: 'GLOBAL', dialCode: '+65',
-      defaultCity: 'Singapore', defaultAddress: 'Orchard Road, Singapore', defaultCoords: '1.3521° N, 103.8198° E',
-    };
-  }
-  if (clean.startsWith('+61')) {
-    return {
-      code: 'AU', name: 'Australia (Oceania)', currency: 'USD', prefix: '$',
-      localCurrency: 'AUD', localPrefix: 'A$', localRateMultiplier: 0.055,
-      flag: '🇦🇺', isDomestic: false, region: 'GLOBAL', dialCode: '+61',
-      defaultCity: 'Sydney', defaultAddress: 'George Street, Sydney', defaultCoords: '33.8688° S, 151.2093° E',
-    };
-  }
+
   return {
-    code: 'PK', name: 'Pakistan (Domestic Metro)', currency: 'PKR', prefix: 'PKR ',
+    code: 'PK', name: 'Pakistan', currency: 'PKR', prefix: 'PKR ',
     localCurrency: 'PKR', localPrefix: 'PKR ', localRateMultiplier: 1,
     flag: '🇵🇰', isDomestic: true, region: 'PK', dialCode: '+92',
     defaultCity: 'Lahore', defaultAddress: 'Shop #4, Plaza 12, CCA Phase 5 DHA, Lahore', defaultCoords: '31.4705° N, 74.4109° E',
@@ -358,14 +311,335 @@ export const REGIONAL_CITY_MAP: Record<string, { country: string; flag: string; 
   NL: { country: 'Netherlands', flag: '🇳🇱', cities: ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'] },
   IE: { country: 'Ireland', flag: '🇮🇪', cities: ['Dublin', 'Cork', 'Galway', 'Limerick'] },
   CH: { country: 'Switzerland', flag: '🇨🇭', cities: ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'] },
+  SE: { country: 'Sweden', flag: '🇸🇪', cities: ['Stockholm', 'Gothenburg', 'Malmo', 'Uppsala'] },
+  NO: { country: 'Norway', flag: '🇳🇴', cities: ['Oslo', 'Bergen', 'Trondheim', 'Stavanger'] },
+  DK: { country: 'Denmark', flag: '🇩🇰', cities: ['Copenhagen', 'Aarhus', 'Odense'] },
+  PT: { country: 'Portugal', flag: '🇵🇹', cities: ['Lisbon', 'Porto', 'Faro'] },
+  PL: { country: 'Poland', flag: '🇵🇱', cities: ['Warsaw', 'Krakow', 'Gdansk', 'Wroclaw'] },
+  GR: { country: 'Greece', flag: '🇬🇷', cities: ['Athens', 'Thessaloniki', 'Heraklion'] },
+  AT: { country: 'Austria', flag: '🇦🇹', cities: ['Vienna', 'Salzburg', 'Graz'] },
+  BE: { country: 'Belgium', flag: '🇧🇪', cities: ['Brussels', 'Antwerp', 'Ghent'] },
+  EG: { country: 'Egypt', flag: '🇪🇬', cities: ['Cairo', 'Alexandria', 'Giza', 'القاهرة', 'الإسكندرية'] },
+  JO: { country: 'Jordan', flag: '🇯🇴', cities: ['Amman', 'Zarqa', 'Irbid', 'عمان'] },
+  LB: { country: 'Lebanon', flag: '🇱🇧', cities: ['Beirut', 'Tripoli', 'Sidon', 'بيروت'] },
+  MA: { country: 'Morocco', flag: '🇲🇦', cities: ['Casablanca', 'Rabat', 'Marrakesh', 'الدار البيضاء'] },
   US: { country: 'United States', flag: '🇺🇸', cities: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami', 'San Francisco', 'Dallas'] },
-  CA: { country: 'Canada', flag: '🇨🇦', cities: ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'] },
+  CA: { country: 'Canada', flag: '🇨🇦', cities: ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa', 'Edmonton'] },
   IN: { country: 'India', flag: '🇮🇳', cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad'] },
   BD: { country: 'Bangladesh', flag: '🇧🇩', cities: ['Dhaka', 'Chittagong', 'Sylhet', 'Khulna'] },
+  LK: { country: 'Sri Lanka', flag: '🇱🇰', cities: ['Colombo', 'Kandy', 'Galle'] },
   TR: { country: 'Turkey', flag: '🇹🇷', cities: ['Istanbul', 'Ankara', 'Izmir', 'Antalya', 'Bursa'] },
   MY: { country: 'Malaysia', flag: '🇲🇾', cities: ['Kuala Lumpur', 'Penang', 'Johor Bahru'] },
   SG: { country: 'Singapore', flag: '🇸🇬', cities: ['Singapore', 'Orchard', 'Jurong', 'Tampines'] },
+  ID: { country: 'Indonesia', flag: '🇮🇩', cities: ['Jakarta', 'Bali', 'Surabaya', 'Bandung'] },
+  PH: { country: 'Philippines', flag: '🇵🇭', cities: ['Manila', 'Cebu', 'Davao'] },
+  TH: { country: 'Thailand', flag: '🇹🇭', cities: ['Bangkok', 'Phuket', 'Chiang Mai'] },
+  JP: { country: 'Japan', flag: '🇯🇵', cities: ['Tokyo', 'Osaka', 'Kyoto', 'Yokohama'] },
+  KR: { country: 'South Korea', flag: '🇰🇷', cities: ['Seoul', 'Busan', 'Incheon'] },
   AU: { country: 'Australia', flag: '🇦🇺', cities: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide'] },
+  NZ: { country: 'New Zealand', flag: '🇳🇿', cities: ['Auckland', 'Wellington', 'Christchurch'] },
+  BR: { country: 'Brazil', flag: '🇧🇷', cities: ['Sao Paulo', 'Rio de Janeiro', 'Brasilia'] },
+  MX: { country: 'Mexico', flag: '🇲🇽', cities: ['Mexico City', 'Monterrey', 'Guadalajara', 'Cancun'] },
+  ZA: { country: 'South Africa', flag: '🇿🇦', cities: ['Johannesburg', 'Cape Town', 'Durban'] },
+  NG: { country: 'Nigeria', flag: '🇳🇬', cities: ['Lagos', 'Abuja', 'Port Harcourt'] },
+  KE: { country: 'Kenya', flag: '🇰🇪', cities: ['Nairobi', 'Mombasa', 'Kisumu'] },
+};
+
+export interface NationalIdFieldConfig {
+  label: string;
+  placeholder: string;
+  sampleId: string;
+}
+
+export const getNationalIdConfigForCountry = (
+  country: CountryConfig,
+  lang: 'en' | 'ur_roman' | 'ar' = 'en'
+): NationalIdFieldConfig => {
+  switch (country.code) {
+    case 'PK':
+      return {
+        label: lang === 'ur_roman' ? 'قومی شناختی کارڈ نمبر (CNIC 13 ہندسے) *' : 'CNIC Number (13 Digits) *',
+        placeholder: '35202-8491023-1',
+        sampleId: '35202-9841201-7',
+      };
+    case 'AE':
+      return {
+        label: lang === 'ar' ? 'رقم الهوية الإماراتية (Emirates ID) *' : 'Emirates ID (15 Digits) *',
+        placeholder: '784-1990-4829102-1',
+        sampleId: '784-1992-8192019-1',
+      };
+    case 'SA':
+      return {
+        label: lang === 'ar' ? 'رقم الهوية الوطنية / الإقامة (10 أرقام) *' : 'Saudi National ID / Iqama (10 Digits) *',
+        placeholder: '2491028491',
+        sampleId: '2491028491',
+      };
+    case 'GB':
+      return {
+        label: 'UK National Insurance (NINO) / Passport *',
+        placeholder: 'QQ 12 34 56 A',
+        sampleId: 'QQ 12 34 56 A',
+      };
+    case 'US':
+      return {
+        label: 'US State ID / Driver License / Tax ID *',
+        placeholder: 'US-DL-8491023',
+        sampleId: 'US-DL-8491023',
+      };
+    case 'CA':
+      return {
+        label: 'Canadian Driver License / SIN Reference *',
+        placeholder: 'CA-ON-4829103',
+        sampleId: 'CA-ON-4829103',
+      };
+    case 'DE':
+      return {
+        label: 'German Personalausweis / Tax ID *',
+        placeholder: 'DE-PA-8491028',
+        sampleId: 'DE-PA-8491028',
+      };
+    case 'IN':
+      return {
+        label: lang === 'ur_roman' ? 'آدھار / پین کارڈ نمبر *' : 'Aadhaar / PAN Number *',
+        placeholder: '4829-1029-4812',
+        sampleId: '4829-1029-4812',
+      };
+    case 'TR':
+      return {
+        label: 'Turkish Kimlik No / National ID *',
+        placeholder: '14829104826',
+        sampleId: '14829104826',
+      };
+    case 'AU':
+      return {
+        label: 'Australian Driver License / Medicare ID *',
+        placeholder: 'AU-NSW-7491023',
+        sampleId: 'AU-NSW-7491023',
+      };
+    default:
+      if (country.region === 'MENA') {
+        return {
+          label: lang === 'ar' ? `رقم الهوية الوطنية (${country.name}) *` : `${country.name} Civil ID / Passport *`,
+          placeholder: '290041201842',
+          sampleId: '290041201842',
+        };
+      }
+      return {
+        label: lang === 'ur_roman'
+          ? `${country.name} قومی شناختی نمبر / پاسپورٹ *`
+          : lang === 'ar'
+          ? `رقم الهوية الوطنية / جواز السفر (${country.name}) *`
+          : `${country.name} National ID / Passport Number *`,
+        placeholder: `${country.code.replace('INTL_', 'ID')}-4829103`,
+        sampleId: `${country.code.replace('INTL_', 'ID')}-4829103`,
+      };
+  }
+};
+
+export interface CountryPayoutConfig {
+  methods: Array<{ value: string; label: string; isBank: boolean }>;
+  bankPresets: string[];
+  defaultMethod: string;
+  defaultBank: string;
+  mobileFormatBadge: string;
+  mobilePlaceholder: string;
+  ibanBadge: string;
+  ibanPlaceholder: string;
+  ibanHelp: string;
+  walletPlaceholder: string;
+}
+
+export const getPayoutConfigForCountry = (country: CountryConfig): CountryPayoutConfig => {
+  switch (country.code) {
+    case 'PK':
+      return {
+        methods: [
+          { value: 'EasyPaisa', label: 'EasyPaisa Mobile Wallet (Instant)', isBank: false },
+          { value: 'JazzCash', label: 'JazzCash Mobile Wallet (Instant)', isBank: false },
+          { value: 'Bank Transfer (IBFT)', label: 'Pakistani Bank Account (Direct IBFT)', isBank: true },
+          { value: 'Raast Instant Pay', label: 'Raast Instant Pay (State Bank Rail)', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom Bank', isBank: true },
+        ],
+        bankPresets: ['Meezan Bank', 'HBL Bank', 'Bank Alfalah', 'Standard Chartered', 'Faysal Bank', 'Allied Bank'],
+        defaultMethod: 'EasyPaisa',
+        defaultBank: 'Meezan Bank',
+        mobileFormatBadge: 'Pakistan (+92)',
+        mobilePlaceholder: '0300 1234567 or +92 300 1234567',
+        ibanBadge: 'PKxx (24 chars) or 14-16 digit Account',
+        ibanPlaceholder: 'PK64 MEZN 0001 0203 0405 0607 or 16-Digit Account',
+        ibanHelp: 'Supported: Pakistani Bank Accounts (14-16 digits) or State Bank 24-char IBAN',
+        walletPlaceholder: '0300 1234567',
+      };
+    case 'AE':
+      return {
+        methods: [
+          { value: 'Wio Bank Direct', label: 'Wio Bank Business Direct', isBank: true },
+          { value: 'Emirates NBD', label: 'Emirates NBD AED Direct', isBank: true },
+          { value: 'FAB Bank', label: 'First Abu Dhabi Bank (FAB)', isBank: true },
+          { value: 'International Bank Wire', label: 'UAE Central Bank Direct Clearing', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom UAE Bank', isBank: true },
+        ],
+        bankPresets: ['Emirates NBD', 'Wio Bank', 'FAB Bank', 'ADCB', 'Mashreq Bank', 'DIB'],
+        defaultMethod: 'Emirates NBD',
+        defaultBank: 'Emirates NBD',
+        mobileFormatBadge: 'UAE (+971)',
+        mobilePlaceholder: '+971 50 123 4567 (9 digits)',
+        ibanBadge: 'AExx (Exact 23 chars IBAN)',
+        ibanPlaceholder: 'AE07 0331 2345 6789 0123 456',
+        ibanHelp: 'UAE Central Bank format: AE + 2 check digits + 19 account digits (23 chars total)',
+        walletPlaceholder: '+971 50 123 4567',
+      };
+    case 'SA':
+      return {
+        methods: [
+          { value: 'Al Rajhi Bank', label: 'Al Rajhi Bank (Saudi SARIE)', isBank: true },
+          { value: 'STC Pay', label: 'STC Pay Saudi Mobile Wallet', isBank: false },
+          { value: 'Saudi National Bank', label: 'SNB (Saudi National Bank)', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom Saudi Bank', isBank: true },
+        ],
+        bankPresets: ['Al Rajhi Bank', 'SNB Bank', 'Riyad Bank', 'Banque Saudi Fransi', 'Alinma Bank'],
+        defaultMethod: 'Al Rajhi Bank',
+        defaultBank: 'Al Rajhi Bank',
+        mobileFormatBadge: 'Saudi Arabia (+966)',
+        mobilePlaceholder: '+966 55 123 4567 (9 digits)',
+        ibanBadge: 'SAxx (Exact 24 chars IBAN)',
+        ibanPlaceholder: 'SA03 8000 0000 6080 1016 7519',
+        ibanHelp: 'Saudi SARIE format: SA + 2 check digits + 20 account digits (24 chars total)',
+        walletPlaceholder: '+966 55 123 4567',
+      };
+    case 'US':
+      return {
+        methods: [
+          { value: 'US ACH Direct Deposit', label: 'US ACH Direct Deposit (Routing + Account)', isBank: true },
+          { value: 'Zelle Business', label: 'Zelle Instant Payout (Mobile / Email)', isBank: false },
+          { value: 'US Bank Wire', label: 'US Domestic / FedWire Transfer', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom US Bank or Credit Union', isBank: true },
+        ],
+        bankPresets: ['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citibank', 'Mercury', 'Capital One'],
+        defaultMethod: 'US ACH Direct Deposit',
+        defaultBank: 'Chase Bank',
+        mobileFormatBadge: 'United States (+1)',
+        mobilePlaceholder: '+1 212 555 0198 (10 digits)',
+        ibanBadge: '9-Digit Routing + Account Number',
+        ibanPlaceholder: 'Routing 021000021 · Account 9841029481',
+        ibanHelp: 'US ACH format: ABA Routing Number + Checking/Savings Account Number',
+        walletPlaceholder: '+1 212 555 0198',
+      };
+    case 'CA':
+      return {
+        methods: [
+          { value: 'Interac e-Transfer', label: 'Interac e-Transfer (Instant CAD)', isBank: false },
+          { value: 'Canadian EFT Direct Deposit', label: 'Canadian EFT Direct Deposit', isBank: true },
+          { value: 'RBC / TD Bank Transfer', label: 'Canadian Bank Direct Wire', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom Canadian Bank', isBank: true },
+        ],
+        bankPresets: ['RBC Royal Bank', 'TD Canada Trust', 'Scotiabank', 'BMO', 'CIBC'],
+        defaultMethod: 'Interac e-Transfer',
+        defaultBank: 'RBC Royal Bank',
+        mobileFormatBadge: 'Canada (+1)',
+        mobilePlaceholder: '+1 416 555 0198 (10 digits)',
+        ibanBadge: 'Institution + Transit + Account Number',
+        ibanPlaceholder: 'Inst 003 · Transit 00012 · Acct 1234567',
+        ibanHelp: 'Canadian EFT format: 3-digit Institution + 5-digit Transit + Account Number',
+        walletPlaceholder: '+1 416 555 0198',
+      };
+    case 'GB':
+      return {
+        methods: [
+          { value: 'UK Faster Payments', label: 'UK Faster Payments / BACS (Instant)', isBank: true },
+          { value: 'Revolut Business', label: 'Revolut Business UK', isBank: true },
+          { value: 'Barclays Bank', label: 'Barclays / HSBC / Monzo UK', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom UK Bank', isBank: true },
+        ],
+        bankPresets: ['Barclays Bank', 'HSBC UK', 'Monzo', 'Revolut Business', 'NatWest', 'Lloyds Bank'],
+        defaultMethod: 'UK Faster Payments',
+        defaultBank: 'Barclays Bank',
+        mobileFormatBadge: 'United Kingdom (+44)',
+        mobilePlaceholder: '+44 7123 456789 (10 digits)',
+        ibanBadge: 'GBxx (22 chars) or Sort Code + Account',
+        ibanPlaceholder: 'GB29 NWBK 6016 1331 9268 19',
+        ibanHelp: 'UK Faster Payments: 6-digit Sort Code + 8-digit Account or 22-char GB IBAN',
+        walletPlaceholder: '+44 7123 456789',
+      };
+    case 'AU':
+      return {
+        methods: [
+          { value: 'PayID / NPP Instant', label: 'PayID / NPP Instant AUD', isBank: false },
+          { value: 'Australian Bank Direct', label: 'Australian BSB + Account Direct', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom Australian Bank', isBank: true },
+        ],
+        bankPresets: ['Commonwealth Bank', 'ANZ', 'Westpac', 'NAB', 'Macquarie'],
+        defaultMethod: 'Australian Bank Direct',
+        defaultBank: 'Commonwealth Bank',
+        mobileFormatBadge: 'Australia (+61)',
+        mobilePlaceholder: '+61 412 345 678',
+        ibanBadge: 'BSB (6 digits) + Account Number',
+        ibanPlaceholder: 'BSB 062-000 · Account 12345678',
+        ibanHelp: 'Australian Bank format: 6-digit BSB code + Bank Account Number',
+        walletPlaceholder: '+61 412 345 678',
+      };
+    case 'IN':
+      return {
+        methods: [
+          { value: 'UPI Instant Pay', label: 'UPI Instant Pay (Mobile / UPI ID)', isBank: false },
+          { value: 'IMPS / NEFT Bank Transfer', label: 'Indian Bank Direct (IFSC + Account)', isBank: true },
+          { value: 'Custom Bank', label: '+ Other / Add Custom Indian Bank', isBank: true },
+        ],
+        bankPresets: ['HDFC Bank', 'ICICI Bank', 'SBI', 'Axis Bank', 'Kotak Mahindra'],
+        defaultMethod: 'IMPS / NEFT Bank Transfer',
+        defaultBank: 'HDFC Bank',
+        mobileFormatBadge: 'India (+91)',
+        mobilePlaceholder: '+91 98200 12345',
+        ibanBadge: 'IFSC Code + Bank Account Number',
+        ibanPlaceholder: 'HDFC0001234 · Account 501002849102',
+        ibanHelp: 'Indian NEFT/IMPS format: 11-char IFSC + Bank Account Number',
+        walletPlaceholder: '+91 98200 12345',
+      };
+    default:
+      if (country.region === 'EUROPE') {
+        return {
+          methods: [
+            { value: 'Euro SEPA IBAN', label: `${country.name} SEPA Instant IBAN`, isBank: true },
+            { value: 'Wise / Revolut Business', label: 'Wise / Revolut Europe Direct', isBank: true },
+            { value: 'International Bank Wire', label: 'International SWIFT / IBAN Wire', isBank: true },
+            { value: 'Custom Bank', label: `+ Other / Add Custom ${country.name} Bank`, isBank: true },
+          ],
+          bankPresets: country.code === 'DE'
+            ? ['Deutsche Bank', 'Commerzbank', 'N26 Bank', 'ING Germany', 'Sparkasse']
+            : country.code === 'FR'
+            ? ['BNP Paribas', 'Societe Generale', 'Credit Agricole', 'Revolut France']
+            : ['Revolut Business', 'Wise Europe', 'ING Bank', 'Santander', 'UniCredit'],
+          defaultMethod: 'Euro SEPA IBAN',
+          defaultBank: country.code === 'DE' ? 'Deutsche Bank' : country.code === 'FR' ? 'BNP Paribas' : 'Revolut Business',
+          mobileFormatBadge: `${country.name} (${country.dialCode})`,
+          mobilePlaceholder: `${country.dialCode} ...`,
+          ibanBadge: `${country.code} SEPA IBAN`,
+          ibanPlaceholder: `${country.code}89 3704 0044 0532 0130 00`,
+          ibanHelp: `European SEPA format: Country IBAN (${country.code}xx...) + optional BIC/SWIFT`,
+          walletPlaceholder: `${country.dialCode} ...`,
+        };
+      }
+      return {
+        methods: [
+          { value: 'International Bank Wire', label: `${country.name} Local Bank / SWIFT IBAN`, isBank: true },
+          { value: 'Wise / Stripe Connect', label: 'Wise / Stripe Global Instant Payout', isBank: true },
+          { value: 'Custom Bank', label: `+ Other / Add Custom ${country.name} Bank`, isBank: true },
+        ],
+        bankPresets: country.code === 'TR'
+          ? ['Ziraat Bankasi', 'Garanti BBVA', 'Is Bankasi', 'Akbank']
+          : country.region === 'MENA'
+          ? ['QNB', 'NBK', 'Bank Muscat', 'Arab Bank', 'CIB Egypt']
+          : ['HSBC International', 'Citibank', 'Standard Chartered', 'Wise Business'],
+        defaultMethod: 'International Bank Wire',
+        defaultBank: country.code === 'TR' ? 'Garanti BBVA' : 'Standard Chartered',
+        mobileFormatBadge: `${country.name} (${country.dialCode})`,
+        mobilePlaceholder: `${country.dialCode} ...`,
+        ibanBadge: `${country.name} IBAN / Account + SWIFT`,
+        ibanPlaceholder: 'Local Account Number or IBAN',
+        ibanHelp: `International Settlement: Enter local bank account / IBAN for ${country.name}`,
+        walletPlaceholder: `${country.dialCode} ...`,
+      };
+  }
 };
 
 export const checkCityCountryIntegrity = (cityOrAddress: string, phone: string) => {
@@ -435,7 +709,7 @@ export const getEnrollmentLanguagesForPhone = (phoneStr: string): EnrollmentLang
       { code: 'en', label: 'English', nativeLabel: 'English', flag: '🌐', description: 'Standard English enrollment wizard' },
     ];
   }
-  // MENA Region (+971 UAE, +966 KSA, +965 Kuwait, +968 Oman, +974 Qatar, +973 Bahrain, +20 Egypt, +962 Jordan, etc.)
+  // MENA Region (+971 UAE, +966 KSA, +965 Kuwait, +968 Oman, +974 Qatar, +973 Bahrain, +20 Egypt, +962 Jordan, +961 Lebanon, +212 Morocco)
   if (
     clean.startsWith('+971') ||
     clean.startsWith('971') ||
@@ -450,16 +724,18 @@ export const getEnrollmentLanguagesForPhone = (phoneStr: string): EnrollmentLang
     clean.startsWith('+973') ||
     clean.startsWith('973') ||
     clean.startsWith('+20') ||
-    clean.startsWith('+962')
+    clean.startsWith('+962') ||
+    clean.startsWith('+961') ||
+    clean.startsWith('+212')
   ) {
     return [
       { code: 'ar', label: 'Arabic', nativeLabel: 'العربية', flag: '🇦🇪', description: 'التسجيل الميداني الكامل باللغة العربية' },
       { code: 'en', label: 'English', nativeLabel: 'English', flag: '🌐', description: 'Standard English enrollment wizard' },
     ];
   }
-  // Europe / Western (+44 UK, +1 US, +49 Germany, +33 France, +39 Italy, etc.) & Global
+  // Europe / North America / Global
   return [
-    { code: 'en', label: 'English', nativeLabel: 'English', flag: '🇬🇧', description: 'Day-1 Enrollment Wizard in English' },
+    { code: 'en', label: 'English', nativeLabel: 'English', flag: '🌐', description: 'Day-1 Enrollment Wizard in English' },
   ];
 };
 
@@ -482,22 +758,40 @@ export const DIAL_CODE_OPTIONS: DialOption[] = [
   { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dialCode: '+44', expectedDigits: 10, formatHint: '7123 456789 (starts with 7)', sampleDigits: '7123456789', mobilePrefixRegex: /^7\d{9}$/, prefixHint: 'Must be 10 UK mobile digits starting with 7 (e.g. 7123456789)' },
   { code: 'US', name: 'United States', flag: '🇺🇸', dialCode: '+1', expectedDigits: 10, formatHint: '212 5550198', sampleDigits: '2125550198', mobilePrefixRegex: /^[2-9]\d{9}$/, prefixHint: 'Must be 10 US digits (area code 2-9)' },
   { code: 'CA', name: 'Canada', flag: '🇨🇦', dialCode: '+1', expectedDigits: 10, formatHint: '416 5550198', sampleDigits: '4165550198', mobilePrefixRegex: /^[2-9]\d{9}$/, prefixHint: 'Must be 10 Canadian digits (area code 2-9)' },
-  { code: 'KW', name: 'Kuwait', flag: '🇰🇼', dialCode: '+965', expectedDigits: 8, formatHint: '99 123456', sampleDigits: '99123456', mobilePrefixRegex: /^[569]\d{7}$/, prefixHint: 'Must be 8 Kuwait digits starting with 5, 6, or 9' },
-  { code: 'QA', name: 'Qatar', flag: '🇶🇦', dialCode: '+974', expectedDigits: 8, formatHint: '55 123456', sampleDigits: '55123456', mobilePrefixRegex: /^[3567]\d{7}$/, prefixHint: 'Must be 8 Qatar digits starting with 3, 5, 6, or 7' },
-  { code: 'OM', name: 'Oman', flag: '🇴🇲', dialCode: '+968', expectedDigits: 8, formatHint: '91 123456', sampleDigits: '91123456', mobilePrefixRegex: /^[79]\d{7}$/, prefixHint: 'Must be 8 Oman digits starting with 7 or 9' },
-  { code: 'BH', name: 'Bahrain', flag: '🇧🇭', dialCode: '+973', expectedDigits: 8, formatHint: '39 123456', sampleDigits: '39123456', mobilePrefixRegex: /^[36]\d{7}$/, prefixHint: 'Must be 8 Bahrain digits starting with 3 or 6' },
   { code: 'DE', name: 'Germany', flag: '🇩🇪', dialCode: '+49', expectedDigits: 10, formatHint: '151 2345678 (starts with 1)', sampleDigits: '1512345678', mobilePrefixRegex: /^1\d{9}$/, prefixHint: 'Must be 10 German mobile digits starting with 1' },
   { code: 'FR', name: 'France', flag: '🇫🇷', dialCode: '+33', expectedDigits: 9, formatHint: '6 12345678 (starts with 6/7)', sampleDigits: '612345678', mobilePrefixRegex: /^[67]\d{8}$/, prefixHint: 'Must be 9 French mobile digits starting with 6 or 7' },
   { code: 'IT', name: 'Italy', flag: '🇮🇹', dialCode: '+39', expectedDigits: 10, formatHint: '320 1234567 (starts with 3)', sampleDigits: '3201234567', mobilePrefixRegex: /^3\d{9}$/, prefixHint: 'Must be 10 Italian mobile digits starting with 3' },
   { code: 'ES', name: 'Spain', flag: '🇪🇸', dialCode: '+34', expectedDigits: 9, formatHint: '612 345678 (starts with 6/7)', sampleDigits: '612345678', mobilePrefixRegex: /^[67]\d{8}$/, prefixHint: 'Must be 9 Spanish mobile digits starting with 6 or 7' },
   { code: 'NL', name: 'Netherlands', flag: '🇳🇱', dialCode: '+31', expectedDigits: 9, formatHint: '6 12345678 (starts with 6)', sampleDigits: '612345678', mobilePrefixRegex: /^6\d{8}$/, prefixHint: 'Must be 9 Dutch mobile digits starting with 6' },
   { code: 'IE', name: 'Ireland', flag: '🇮🇪', dialCode: '+353', expectedDigits: 9, formatHint: '87 1234567 (starts with 8)', sampleDigits: '871234567', mobilePrefixRegex: /^8\d{8}$/, prefixHint: 'Must be 9 Irish mobile digits starting with 8' },
+  { code: 'CH', name: 'Switzerland', flag: '🇨🇭', dialCode: '+41', expectedDigits: 9, formatHint: '79 1234567 (starts with 7)', sampleDigits: '791234567', mobilePrefixRegex: /^7\d{8}$/, prefixHint: 'Must be 9 Swiss mobile digits starting with 7' },
+  { code: 'SE', name: 'Sweden', flag: '🇸🇪', dialCode: '+46', expectedDigits: 9, formatHint: '70 1234567 (starts with 7)', sampleDigits: '701234567', mobilePrefixRegex: /^7\d{8}$/, prefixHint: 'Must be 9 Swedish mobile digits starting with 7' },
+  { code: 'NO', name: 'Norway', flag: '🇳🇴', dialCode: '+47', expectedDigits: 8, formatHint: '412 34567 (starts with 4/9)', sampleDigits: '41234567', mobilePrefixRegex: /^[49]\d{7}$/, prefixHint: 'Must be 8 Norwegian digits starting with 4 or 9' },
+  { code: 'DK', name: 'Denmark', flag: '🇩🇰', dialCode: '+45', expectedDigits: 8, formatHint: '20 123456', sampleDigits: '20123456', mobilePrefixRegex: /^\d{8}$/, prefixHint: 'Must be 8 Danish digits' },
+  { code: 'PT', name: 'Portugal', flag: '🇵🇹', dialCode: '+351', expectedDigits: 9, formatHint: '91 2345678', sampleDigits: '912345678', mobilePrefixRegex: /^9\d{8}$/, prefixHint: 'Must be 9 Portuguese mobile digits starting with 9' },
+  { code: 'PL', name: 'Poland', flag: '🇵🇱', dialCode: '+48', expectedDigits: 9, formatHint: '501 234567', sampleDigits: '501234567', mobilePrefixRegex: /^[4-8]\d{8}$/, prefixHint: 'Must be 9 Polish digits' },
+  { code: 'KW', name: 'Kuwait', flag: '🇰🇼', dialCode: '+965', expectedDigits: 8, formatHint: '99 123456', sampleDigits: '99123456', mobilePrefixRegex: /^[569]\d{7}$/, prefixHint: 'Must be 8 Kuwait digits starting with 5, 6, or 9' },
+  { code: 'QA', name: 'Qatar', flag: '🇶🇦', dialCode: '+974', expectedDigits: 8, formatHint: '55 123456', sampleDigits: '55123456', mobilePrefixRegex: /^[3567]\d{7}$/, prefixHint: 'Must be 8 Qatar digits starting with 3, 5, 6, or 7' },
+  { code: 'OM', name: 'Oman', flag: '🇴🇲', dialCode: '+968', expectedDigits: 8, formatHint: '91 123456', sampleDigits: '91123456', mobilePrefixRegex: /^[79]\d{7}$/, prefixHint: 'Must be 8 Oman digits starting with 7 or 9' },
+  { code: 'BH', name: 'Bahrain', flag: '🇧🇭', dialCode: '+973', expectedDigits: 8, formatHint: '39 123456', sampleDigits: '39123456', mobilePrefixRegex: /^[36]\d{7}$/, prefixHint: 'Must be 8 Bahrain digits starting with 3 or 6' },
+  { code: 'EG', name: 'Egypt', flag: '🇪🇬', dialCode: '+20', expectedDigits: 10, formatHint: '10 12345678 (starts with 1)', sampleDigits: '1012345678', mobilePrefixRegex: /^1\d{9}$/, prefixHint: 'Must be 10 Egyptian mobile digits starting with 1' },
+  { code: 'JO', name: 'Jordan', flag: '🇯🇴', dialCode: '+962', expectedDigits: 9, formatHint: '79 1234567 (starts with 7)', sampleDigits: '791234567', mobilePrefixRegex: /^7\d{8}$/, prefixHint: 'Must be 9 Jordanian digits starting with 7' },
+  { code: 'TR', name: 'Turkey', flag: '🇹🇷', dialCode: '+90', expectedDigits: 10, formatHint: '532 1234567 (starts with 5)', sampleDigits: '5321234567', mobilePrefixRegex: /^5\d{9}$/, prefixHint: 'Must be 10 Turkish digits starting with 5' },
   { code: 'IN', name: 'India', flag: '🇮🇳', dialCode: '+91', expectedDigits: 10, formatHint: '98200 12345', sampleDigits: '9820012345', mobilePrefixRegex: /^[6-9]\d{9}$/, prefixHint: 'Must be 10 Indian digits starting with 6-9' },
   { code: 'BD', name: 'Bangladesh', flag: '🇧🇩', dialCode: '+880', expectedDigits: 10, formatHint: '171 2345678', sampleDigits: '1712345678', mobilePrefixRegex: /^1\d{9}$/, prefixHint: 'Must be 10 Bangladesh digits starting with 1' },
-  { code: 'TR', name: 'Turkey', flag: '🇹🇷', dialCode: '+90', expectedDigits: 10, formatHint: '532 1234567 (starts with 5)', sampleDigits: '5321234567', mobilePrefixRegex: /^5\d{9}$/, prefixHint: 'Must be 10 Turkish digits starting with 5' },
   { code: 'MY', name: 'Malaysia', flag: '🇲🇾', dialCode: '+60', expectedDigits: 9, formatHint: '12 3456789 (starts with 1)', sampleDigits: '123456789', mobilePrefixRegex: /^1\d{8}$/, prefixHint: 'Must be 9 Malaysian digits starting with 1' },
   { code: 'SG', name: 'Singapore', flag: '🇸🇬', dialCode: '+65', expectedDigits: 8, formatHint: '9123 4567 (starts with 8/9)', sampleDigits: '91234567', mobilePrefixRegex: /^[89]\d{7}$/, prefixHint: 'Must be 8 Singapore digits starting with 8 or 9' },
+  { code: 'ID', name: 'Indonesia', flag: '🇮🇩', dialCode: '+62', expectedDigits: 10, formatHint: '812 3456789 (starts with 8)', sampleDigits: '8123456789', mobilePrefixRegex: /^8\d{9}$/, prefixHint: 'Must be 10 Indonesian digits starting with 8' },
+  { code: 'PH', name: 'Philippines', flag: '🇵🇭', dialCode: '+63', expectedDigits: 10, formatHint: '917 1234567 (starts with 9)', sampleDigits: '9171234567', mobilePrefixRegex: /^9\d{9}$/, prefixHint: 'Must be 10 Philippine digits starting with 9' },
+  { code: 'JP', name: 'Japan', flag: '🇯🇵', dialCode: '+81', expectedDigits: 10, formatHint: '90 12345678', sampleDigits: '9012345678', mobilePrefixRegex: /^[789]0\d{8}$/, prefixHint: 'Must be 10 Japanese mobile digits starting with 70, 80, or 90' },
+  { code: 'KR', name: 'South Korea', flag: '🇰🇷', dialCode: '+82', expectedDigits: 10, formatHint: '10 12345678', sampleDigits: '1012345678', mobilePrefixRegex: /^10\d{8}$/, prefixHint: 'Must be 10 South Korean mobile digits starting with 10' },
   { code: 'AU', name: 'Australia', flag: '🇦🇺', dialCode: '+61', expectedDigits: 9, formatHint: '412 345678 (starts with 4)', sampleDigits: '412345678', mobilePrefixRegex: /^4\d{8}$/, prefixHint: 'Must be 9 Australian mobile digits starting with 4' },
+  { code: 'NZ', name: 'New Zealand', flag: '🇳🇿', dialCode: '+64', expectedDigits: 9, formatHint: '21 1234567 (starts with 2)', sampleDigits: '211234567', mobilePrefixRegex: /^2\d{8}$/, prefixHint: 'Must be 9 New Zealand mobile digits starting with 2' },
+  { code: 'BR', name: 'Brazil', flag: '🇧🇷', dialCode: '+55', expectedDigits: 11, formatHint: '11 912345678', sampleDigits: '11912345678', mobilePrefixRegex: /^\d{11}$/, prefixHint: 'Must be 11 Brazilian digits (DDD + 9-digit mobile)' },
+  { code: 'MX', name: 'Mexico', flag: '🇲🇽', dialCode: '+52', expectedDigits: 10, formatHint: '55 12345678', sampleDigits: '5512345678', mobilePrefixRegex: /^\d{10}$/, prefixHint: 'Must be 10 Mexican digits' },
+  { code: 'ZA', name: 'South Africa', flag: '🇿🇦', dialCode: '+27', expectedDigits: 9, formatHint: '82 1234567 (starts with 6/7/8)', sampleDigits: '821234567', mobilePrefixRegex: /^[678]\d{8}$/, prefixHint: 'Must be 9 South African mobile digits' },
+  { code: 'NG', name: 'Nigeria', flag: '🇳🇬', dialCode: '+234', expectedDigits: 10, formatHint: '803 1234567', sampleDigits: '8031234567', mobilePrefixRegex: /^[789]\d{9}$/, prefixHint: 'Must be 10 Nigerian digits starting with 7, 8, or 9' },
+  { code: 'KE', name: 'Kenya', flag: '🇰🇪', dialCode: '+254', expectedDigits: 9, formatHint: '712 345678 (starts with 1/7)', sampleDigits: '712345678', mobilePrefixRegex: /^[17]\d{8}$/, prefixHint: 'Must be 9 Kenyan digits starting with 1 or 7' },
 ];
 
 export const validateNationalPhoneForCountry = (dialOpt: DialOption, rawValue: string) => {
@@ -691,7 +985,7 @@ export const ONBOARDING_I18N = {
     salonNameLabel: '1. سیلون کا نام *',
     salonNamePlaceholder: 'مثال: رائل کٹس سٹوڈیو',
     ownerNameLabel: '2. سیلون مالک کا نام *',
-    ownerNamePlaceholder: 'مثال: حمزہ طارق',
+    ownerNamePlaceholder: 'e.g. Hamza Tariq',
     phoneLabel: '3. واٹس ایپ موبائل نمبر *',
     phoneHint: 'خودکار ادائیگی چیک اور 24/7 واٹس ایپ بکنگ کے لیے استعمال ہوگا',
     phoneDigitsValidBadge: 'ہندسے درست ہیں',
@@ -844,7 +1138,7 @@ export const ONBOARDING_I18N = {
     salonNameLabel: '1. اسم الصالون *',
     salonNamePlaceholder: 'مثال: صالون النخبة للرجال',
     ownerNameLabel: '2. اسم المالك *',
-    ownerNamePlaceholder: 'مثال: طارق المنصور',
+    ownerNamePlaceholder: 'e.g. Tariq Al-Mansoor',
     phoneLabel: '3. رقم الواتساب المعتمد *',
     phoneHint: 'يُستخدم لتأكيد الدفع تلقائياً والرد على الحجوزات 24/7',
     phoneDigitsValidBadge: 'الأرقام صحيحة',
@@ -1301,6 +1595,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   initialAutoOpenEnrollment,
   initialEnrollAgentData,
   userRole = 'FOUNDER',
+  onActiveCountriesChange,
 }) => {
   // Agent Terminal Authentication State
   const [isAgentAuthenticated, setIsAgentAuthenticated] = useState(true);
@@ -1727,6 +2022,23 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
     },
   ]);
 
+  // Automatically report every distinct country among enrolled/onboarded agents to App.tsx Global Pause dropdown
+  React.useEffect(() => {
+    if (!onActiveCountriesChange) return;
+    const seen = new Map<string, { code: string; label: string; flag: string }>();
+    enrolledAgentsList.forEach((agent) => {
+      const detected = detectCountryFromPhone(agent.phone, agent.city);
+      if (!seen.has(detected.code)) {
+        seen.set(detected.code, {
+          code: detected.code,
+          label: detected.name,
+          flag: detected.flag,
+        });
+      }
+    });
+    onActiveCountriesChange(Array.from(seen.values()));
+  }, [enrolledAgentsList, onActiveCountriesChange]);
+
   // Day-1 Remote Enrollment Wizard Flow (Queries 5-14, 17-18)
   const [isRemoteEnrollmentWizardOpen, setIsRemoteEnrollmentWizardOpen] = useState(false);
   const [enrollmentLang, setEnrollmentLang] = useState<'en' | 'ur_roman' | 'ar'>('en');
@@ -1855,9 +2167,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         setEnrollPayoutTitle(initialEnrollAgentData.name);
       }
       if (initialEnrollAgentData?.phone) {
+        const det = detectCountryFromPhone(initialEnrollAgentData.phone, initialEnrollAgentData.city);
+        const payoutCfg = getPayoutConfigForCountry(det);
         setEnrollAgentPhone(initialEnrollAgentData.phone);
         setEnrollPayoutAccount(initialEnrollAgentData.phone);
         setEnrollBankMobile(initialEnrollAgentData.phone);
+        setEnrollPayoutMethod(payoutCfg.defaultMethod);
+        setEnrollBankName(payoutCfg.defaultBank);
         const langs = getEnrollmentLanguagesForPhone(initialEnrollAgentData.phone);
         setEnrollmentLang(langs[0].code);
       }
@@ -2708,18 +3024,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     />
                   </div>
 
-                  {/* Field 2: Owner Name */}
+                  {/* Field 2: Owner Name (Always English format & left-aligned) */}
                   <div>
                     <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1">
                       {t.ownerNameLabel}
                     </label>
                     <input
                       type="text"
+                      dir="ltr"
                       required
                       placeholder={t.ownerNamePlaceholder}
                       value={ownerName}
                       onChange={(e) => setOwnerName(e.target.value)}
-                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-left text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
 
@@ -3831,16 +4148,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           },
           {
             key: 'EUROPE',
-            title: 'UK & Europe Agents',
+            title: 'United Kingdom & Europe Agents',
             flag: '🇬🇧',
-            agents: filteredAgents.filter((a) => detectCountryFromPhone(a.phone).region === 'EUROPE'),
+            agents: filteredAgents.filter((a) => detectCountryFromPhone(a.phone, a.city).region === 'EUROPE'),
           },
           {
             key: 'GLOBAL',
-            title: 'Global & Other Markets',
+            title: 'North America, Asia-Pacific & Other Markets',
             flag: '🌐',
             agents: filteredAgents.filter((a) => {
-              const r = detectCountryFromPhone(a.phone).region;
+              const r = detectCountryFromPhone(a.phone, a.city).region;
               return r !== 'PK' && r !== 'MENA' && r !== 'EUROPE';
             }),
           },
@@ -3878,8 +4195,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     { key: 'ALL', label: `All (${enrolledAgentsList.length})` },
                     { key: 'PK', label: '🇵🇰 Pakistan' },
                     { key: 'MENA', label: '🇦🇪 UAE & MENA' },
-                    { key: 'EUROPE', label: '🇬🇧 UK & Europe' },
-                    { key: 'GLOBAL', label: '🌐 Global' },
+                    { key: 'EUROPE', label: '🇬🇧 United Kingdom & Europe' },
+                    { key: 'GLOBAL', label: '🌐 Americas & Intl' },
                   ].map((tab) => (
                     <button
                       key={tab.key}
@@ -4611,9 +4928,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <span className="text-[10px] text-[#8B949E] uppercase block">{pL.nameLabel}</span>
                   <input
                     type="text"
+                    dir="ltr"
                     value={`${agentFullName} (#${agentIdInput || 'AGT-409'})`}
                     disabled
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#8B949E] cursor-not-allowed"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#8B949E] cursor-not-allowed"
                   />
                 </label>
 
@@ -4624,16 +4942,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     dir="ltr"
                     value={draftAgentPhone}
                     onChange={(e) => setDraftAgentPhone(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
                   />
                 </label>
 
                 <label className="space-y-1.5">
                   <span className="text-[10px] text-[#06B6D4] uppercase block font-bold">{pL.countryLabel}</span>
                   <select
+                    dir="ltr"
                     value={draftAgentRegion}
                     onChange={(e) => setDraftAgentRegion(e.target.value as 'PK' | 'EUROPE' | 'MENA_UAE' | 'MENA_SA' | 'GLOBAL')}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] focus:border-[#06B6D4] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] focus:border-[#06B6D4] focus:outline-none"
                   >
                     <option value="PK" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optPk}</option>
                     <option value="MENA_UAE" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optUae}</option>
@@ -4647,18 +4966,20 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <span className="text-[10px] text-[#06B6D4] uppercase block font-bold">{pL.cityLabel}</span>
                   <input
                     type="text"
+                    dir="ltr"
                     value={draftAgentTerritory}
                     onChange={(e) => setDraftAgentTerritory(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
                   />
                 </label>
 
                 <label className="space-y-1.5">
                   <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.methodLabel}</span>
                   <select
+                    dir="ltr"
                     value={draftAgentPayoutMethod}
                     onChange={(e) => setDraftAgentPayoutMethod(e.target.value as 'EasyPaisa' | 'JazzCash' | 'Bank Transfer (IBFT)' | 'Raast Instant Pay' | 'International Bank Wire')}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] focus:border-[#D29922] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] focus:border-[#D29922] focus:outline-none"
                   >
                     <option value="EasyPaisa" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mEasy}</option>
                     <option value="JazzCash" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mJazz}</option>
@@ -4672,9 +4993,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.bankLabel}</span>
                   <input
                     type="text"
+                    dir="ltr"
                     value={draftAgentBankName}
                     onChange={(e) => setDraftAgentBankName(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
                   />
                 </label>
 
@@ -4685,7 +5007,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     dir="ltr"
                     value={draftAgentPayoutAccount}
                     onChange={(e) => setDraftAgentPayoutAccount(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
                   />
                 </label>
 
@@ -4693,9 +5015,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.titleLabel}</span>
                   <input
                     type="text"
+                    dir="ltr"
                     value={draftAgentPayoutTitle}
                     onChange={(e) => setDraftAgentPayoutTitle(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
                   />
                 </label>
 
@@ -4706,7 +5029,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     dir="ltr"
                     value={draftAgentIban}
                     onChange={(e) => setDraftAgentIban(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
                   />
                 </label>
               </div>
@@ -5698,6 +6021,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         isOpen={isAddAgentModalOpen}
         onClose={() => setIsAddAgentModalOpen(false)}
         onAgentAdded={(newAgent) => {
+          const det = detectCountryFromPhone(newAgent.phone, newAgent.city);
+          const idCfg = getNationalIdConfigForCountry(det, 'en');
+          const payoutCfg = getPayoutConfigForCountry(det);
           setEnrolledAgentsList((prev) => [
             ...prev,
             {
@@ -5707,14 +6033,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               phone: newAgent.phone,
               city: newAgent.city,
               category: newAgent.category,
-              cnicOrId: newAgent.phone.startsWith('+92')
-                ? '35202-9841201-7'
-                : newAgent.phone.startsWith('+971')
-                ? '784-1992-8192019-1'
-                : 'ID-AUTO-DETECTED',
-              payoutMethod: newAgent.phone.startsWith('+92') ? 'EasyPaisa' : 'International Bank Wire',
+              cnicOrId: idCfg.sampleId,
+              payoutMethod: payoutCfg.defaultMethod,
               payoutAccount: newAgent.phone,
               payoutTitle: newAgent.name,
+              bankName: payoutCfg.defaultBank,
               status: 'INVITATION DISPATCHED',
               enrolledAt: 'Pending Day-1 Activation',
               selfieVerified: false,
@@ -5725,20 +6048,22 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           ]);
         }}
         onOpenRemoteEnrollment={(newAgent) => {
+          const det = detectCountryFromPhone(newAgent.phone, newAgent.city);
+          const allowed = getEnrollmentLanguagesForPhone(newAgent.phone);
+          const initialLang = allowed[0].code;
+          const idCfg = getNationalIdConfigForCountry(det, initialLang);
+          const payoutCfg = getPayoutConfigForCountry(det);
+
           setEnrollAgentName(newAgent.name);
           setEnrollAgentPhone(newAgent.phone);
           setEnrollAgentCity(newAgent.city);
-          const detected = detectCountryFromPhone(newAgent.phone);
-          if (detected.code === 'PK') setEnrollAgentId('35202-9841201-7');
-          else if (detected.code === 'AE') setEnrollAgentId('784-1992-8192019-1');
-          else if (detected.code === 'SA') setEnrollAgentId('2491028491');
-          else setEnrollAgentId('GB-8491028-A');
+          setEnrollAgentId(idCfg.sampleId);
           setEnrollPayoutTitle(newAgent.name);
           setEnrollPayoutAccount(newAgent.phone);
-
-          // Query 1: Default enrollment language to regional preference
-          const allowed = getEnrollmentLanguagesForPhone(newAgent.phone);
-          setEnrollmentLang(allowed[0].code);
+          setEnrollBankMobile(newAgent.phone);
+          setEnrollPayoutMethod(payoutCfg.defaultMethod);
+          setEnrollBankName(payoutCfg.defaultBank);
+          setEnrollmentLang(initialLang);
 
           setEnrollmentStep(1);
           setIsRemoteEnrollmentWizardOpen(true);
@@ -6054,7 +6379,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </span>
                   <h3 className="text-base font-black text-[#F0F6FC]">
                     {enrollmentLang === 'ur_roman'
-                      ? 'Naye Field Agent ka Indiraj'
+                      ? 'ایجنٹ کا اندراج'
                       : enrollmentLang === 'ar'
                       ? 'تسجيل الوكيل الميداني الجديد'
                       : 'Field Agent Remote Enrollment'}
@@ -6124,182 +6449,214 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               ))}
             </div>
 
-            {/* STEP 1: IDENTITY & COUNTRY DETECTION (QUERY 7 & 8) */}
-            {enrollmentStep === 1 && (
-              <div
-                dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
-                className={`space-y-3.5 animate-in fade-in min-w-0 ${
-                  enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
-                }`}
-              >
+            {/* STEP 1: IDENTITY & WORLDWIDE COUNTRY DETECTION */}
+            {enrollmentStep === 1 && (() => {
+              const detected = detectCountryFromPhone(enrollAgentPhone, enrollAgentCity);
+              const idCfg = getNationalIdConfigForCountry(detected, enrollmentLang);
+              const validCities = REGIONAL_CITY_MAP[detected.code]?.cities || [];
 
-                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
-                  <span className="text-[10px] font-mono text-[#06B6D4] font-bold uppercase">
-                    {enrollmentLang === 'ur_roman'
-                      ? 'بنیادی معلومات'
-                      : enrollmentLang === 'ar'
-                      ? 'المعلومات الشخصية والبلد'
-                      : 'Personal Details & Auto-Detected Country'}
-                  </span>
-                  <p className="text-xs text-[#8B949E] font-sans">
-                    {enrollmentLang === 'ur_roman'
-                      ? 'اپنا پورا نام، واٹس ایپ نمبر، اور قومی شناختی کارڈ درج کریں۔'
-                      : enrollmentLang === 'ar'
-                      ? 'أدخل اسمك الكامل ورقم الواتساب ورقم الهوية المعتمدة.'
-                      : 'Enter your full legal name, registered WhatsApp number, and national identity details.'}
-                  </p>
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-bold">
-                    {enrollmentLang === 'ur_roman' ? 'پورا نام (Full Legal Name)' : enrollmentLang === 'ar' ? 'الاسم الكامل' : 'Full Name *'}
-                  </label>
-                  <input
-                    type="text"
-                    value={enrollAgentName}
-                    onChange={(e) => setEnrollAgentName(e.target.value)}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
-                      {enrollmentLang === 'ur_roman' ? 'واٹس ایپ نمبر (WhatsApp)' : enrollmentLang === 'ar' ? 'رقم الواتساب' : 'WhatsApp Number *'}
-                    </label>
-                    {(() => {
-                      const detected = detectCountryFromPhone(enrollAgentPhone);
-                      return (
-                        <span className="text-[10px] font-mono font-bold text-[#06B6D4] flex items-center gap-1">
-                          <span>{detected.flag}</span>
-                          <span>{detected.name}</span>
-                        </span>
-                      );
-                    })()}
+              return (
+                <div
+                  dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+                  className={`space-y-3.5 animate-in fade-in min-w-0 ${
+                    enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+                  }`}
+                >
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
+                    <span className="text-[10px] font-mono text-[#06B6D4] font-bold uppercase">
+                      {enrollmentLang === 'ur_roman'
+                        ? 'بنیادی معلومات اور ملک کی خودکار شناخت'
+                        : enrollmentLang === 'ar'
+                        ? 'المعلومات الشخصية والكشف التلقائي للدولة'
+                        : 'Personal Details & Worldwide Country Detection'}
+                    </span>
+                    <p className="text-xs text-[#8B949E] font-sans">
+                      {enrollmentLang === 'ur_roman'
+                        ? 'اپنا پورا نام (انگریزی میں)، ملک، واٹس ایپ نمبر اور قومی شناختی نمبر درج کریں۔'
+                        : enrollmentLang === 'ar'
+                        ? 'أدخل اسمك الكامل (بالإنجليزية)، الدولة، رقم الواتساب ورقم الهوية المعتمدة.'
+                        : 'Enter your full legal name, WhatsApp number with country dial code, and local identity details.'}
+                    </p>
                   </div>
-                  <input
-                    type="text"
-                    value={enrollAgentPhone}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setEnrollAgentPhone(val);
-                      const detected = detectCountryFromPhone(val);
-                      if (detected.code === 'PK') setEnrollAgentId('35202-9841201-7');
-                      else if (detected.code === 'AE') setEnrollAgentId('784-1992-8192019-1');
-                      else if (detected.code === 'SA') setEnrollAgentId('2491028491');
-                      else setEnrollAgentId('GB-8491028-A');
 
-                      // Query 1: Synchronize allowed regional languages
-                      const langs = getEnrollmentLanguagesForPhone(val);
-                      if (!langs.some((l) => l.code === enrollmentLang)) {
-                        setEnrollmentLang(langs[0].code);
-                      }
-                    }}
-                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
-                  />
-                </div>
-
-                {/* Dynamic Identity Field Auto-Detected from Country (Query 7) */}
-                <div>
-                  {(() => {
-                    const detected = detectCountryFromPhone(enrollAgentPhone);
-                    const isPk = detected.code === 'PK';
-                    const isUae = detected.code === 'AE';
-                    const isSa = detected.code === 'SA';
-                    const labelText = isPk
-                      ? (enrollmentLang === 'ur_roman' ? 'قومی شناختی کارڈ نمبر (CNIC Number 13 Digits) *' : 'CNIC Number (e.g. 35202-8491023-1) *')
-                      : isUae
-                      ? (enrollmentLang === 'ar' ? 'رقم الهوية الإماراتية (Emirates ID 15 Digits) *' : 'Emirates ID (e.g. 784-1988-1234567-1) *')
-                      : isSa
-                      ? (enrollmentLang === 'ar' ? 'رقم الإقامة / الهوية الوطنية (Iqama ID 10 Digits) *' : 'Iqama / Muqeem ID (10 Digits) *')
-                      : 'National ID / UK NINO / European ID / Passport Number *';
-
-                    return (
-                      <>
-                        <label className="text-[11px] font-mono text-[#D29922] block mb-1 uppercase font-bold">
-                          {labelText}
-                        </label>
-                        <input
-                          type="text"
-                          value={enrollAgentId}
-                          onChange={(e) => setEnrollAgentId(e.target.value)}
-                          placeholder={isPk ? '35202-8491023-1' : isUae ? '784-1988-1234567-1' : isSa ? '2491028491' : 'QQ 12 34 56 A'}
-                          className="w-full min-h-[48px] rounded-xl border border-[#9E6A03] bg-[#0D1117] px-3.5 py-2.5 text-sm font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
-                        />
-                      </>
-                    );
-                  })()}
-                </div>
-
-                {/* Territory / City Field with Country-to-City Validation (Query 2) */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
-                      {enrollmentLang === 'ur_roman' ? 'علاقہ / شہر (Assigned Territory)' : enrollmentLang === 'ar' ? 'المدينة / المنطقة' : 'Assigned Territory / City *'}
+                  {/* Full Name (Label in selected language; Input always LTR left-aligned & English format) */}
+                  <div>
+                    <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-bold">
+                      {enrollmentLang === 'ur_roman'
+                        ? 'پورا نام (انگریزی میں درج کریں) *'
+                        : enrollmentLang === 'ar'
+                        ? 'الاسم الكامل (بالحروف الإنجليزية) *'
+                        : 'Full Legal Name *'}
                     </label>
-                    {(() => {
-                      const detected = detectCountryFromPhone(enrollAgentPhone);
-                      return (
-                        <span className="text-[10px] font-mono text-[#3FB950]">
-                          {detected.flag} {detected.name} Dial Auto-Locked ({detected.dialCode})
-                        </span>
-                      );
-                    })()}
+                    <input
+                      type="text"
+                      dir="ltr"
+                      value={enrollAgentName}
+                      onChange={(e) => setEnrollAgentName(e.target.value)}
+                      placeholder="e.g. Bilal Sheikh"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    value={enrollAgentCity}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setEnrollAgentCity(val);
-                      const err = checkCityCountryIntegrity(val, enrollAgentPhone);
-                      setCityValidationError(err);
-                    }}
-                    placeholder={
-                      detectCountryFromPhone(enrollAgentPhone).code === 'AE'
-                        ? 'Dubai, Abu Dhabi, Sharjah...'
-                        : detectCountryFromPhone(enrollAgentPhone).code === 'SA'
-                        ? 'Riyadh, Jeddah, Dammam...'
-                        : detectCountryFromPhone(enrollAgentPhone).code === 'PK'
-                        ? 'Lahore, Karachi, Islamabad...'
-                        : 'London, Manchester...'
-                    }
-                    className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-sm font-sans focus:outline-none transition ${
-                      cityValidationError
-                        ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] focus:border-[#F85149]'
-                        : 'border-[#30363D] bg-[#0D1117] text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4]'
-                    }`}
-                  />
 
-                  {/* Inline Geographic Conflict Error Banner (Query 2) */}
-                  {cityValidationError && (
-                    <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1.5 animate-in fade-in">
-                      <div className="flex items-center gap-1.5 text-[#F85149] font-mono text-xs font-bold">
-                        <AlertOctagon className="size-4 shrink-0 text-[#F85149]" />
-                        <span>
-                          {enrollmentLang === 'ar'
-                            ? 'خطأ: تعارض بين رمز الدولة والمدينة المختارة'
-                            : enrollmentLang === 'ur_roman'
-                            ? 'انتباہ: ڈائل کوڈ اور منتخب شہر میں تضاد'
-                            : 'Geographic Dial Code & City Conflict'}
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
-                        {enrollmentLang === 'ar'
-                          ? cityValidationError.ar
-                          : enrollmentLang === 'ur_roman'
-                          ? cityValidationError.ur
-                          : cityValidationError.en}
-                      </p>
+                  {/* Country Selector (Synced with WhatsApp dial code worldwide) */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
+                        {enrollmentLang === 'ur_roman'
+                          ? 'ملک منتخب کریں *'
+                          : enrollmentLang === 'ar'
+                          ? 'الدولة *'
+                          : 'Operational Country *'}
+                      </label>
+                      <span dir="ltr" className="text-[10px] font-mono font-bold text-[#3FB950]">
+                        {detected.flag} {detected.name} ({detected.dialCode})
+                      </span>
                     </div>
-                  )}
+                    <select
+                      dir="ltr"
+                      value={DIAL_CODE_OPTIONS.some((d) => d.code === detected.code) ? detected.code : 'CUSTOM'}
+                      onChange={(e) => {
+                        const chosen = DIAL_CODE_OPTIONS.find((d) => d.code === e.target.value);
+                        if (!chosen) return;
+                        const nextPhone = `${chosen.dialCode} ${chosen.sampleDigits}`;
+                        const nextDet = detectCountryFromPhone(nextPhone, chosen.name);
+                        const nextLangs = getEnrollmentLanguagesForPhone(nextPhone);
+                        const nextLang = nextLangs.some((l) => l.code === enrollmentLang) ? enrollmentLang : nextLangs[0].code;
+                        const nextIdCfg = getNationalIdConfigForCountry(nextDet, nextLang);
+                        const nextPayoutCfg = getPayoutConfigForCountry(nextDet);
 
-                  {/* Suggested Valid Territory Pills for the Auto-Locked Country */}
-                  {(() => {
-                    const detected = detectCountryFromPhone(enrollAgentPhone);
-                    const validCities = REGIONAL_CITY_MAP[detected.code]?.cities || [];
-                    if (validCities.length === 0) return null;
-                    return (
+                        setEnrollAgentPhone(nextPhone);
+                        setEnrollAgentCity(nextDet.defaultCity);
+                        setEnrollAgentId(nextIdCfg.sampleId);
+                        setEnrollPayoutMethod(nextPayoutCfg.defaultMethod);
+                        setEnrollBankName(nextPayoutCfg.defaultBank);
+                        setEnrollBankMobile(nextPhone);
+                        setCityValidationError(null);
+                        setEnrollmentLang(nextLang);
+                      }}
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono text-left text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
+                    >
+                      {!DIAL_CODE_OPTIONS.some((d) => d.code === detected.code) && (
+                        <option value="CUSTOM" className="bg-[#161B22] text-[#06B6D4]">
+                          {detected.flag} {detected.name} ({detected.dialCode})
+                        </option>
+                      )}
+                      {DIAL_CODE_OPTIONS.map((d) => (
+                        <option key={d.code} value={d.code} className="bg-[#161B22] text-[#F0F6FC]">
+                          {d.flag} {d.name} ({d.dialCode})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* WhatsApp Number (Always LTR left-aligned) */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
+                        {enrollmentLang === 'ur_roman' ? 'واٹس ایپ نمبر (WhatsApp) *' : enrollmentLang === 'ar' ? 'رقم الواتساب *' : 'WhatsApp Number *'}
+                      </label>
+                      <span dir="ltr" className="text-[10px] font-mono font-bold text-[#06B6D4] flex items-center gap-1">
+                        <span>{detected.flag}</span>
+                        <span>{detected.name} · {detected.localCurrency}</span>
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      dir="ltr"
+                      value={enrollAgentPhone}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEnrollAgentPhone(val);
+                        const nextDet = detectCountryFromPhone(val, enrollAgentCity);
+                        const langs = getEnrollmentLanguagesForPhone(val);
+                        const nextLang = langs.some((l) => l.code === enrollmentLang) ? enrollmentLang : langs[0].code;
+                        if (nextLang !== enrollmentLang) {
+                          setEnrollmentLang(nextLang);
+                        }
+                        const nextIdCfg = getNationalIdConfigForCountry(nextDet, nextLang);
+                        const nextPayoutCfg = getPayoutConfigForCountry(nextDet);
+                        setEnrollAgentId(nextIdCfg.sampleId);
+                        setEnrollPayoutMethod(nextPayoutCfg.defaultMethod);
+                        setEnrollBankName(nextPayoutCfg.defaultBank);
+                        setCityValidationError(checkCityCountryIntegrity(enrollAgentCity, val));
+                      }}
+                      placeholder="+92 300 4819204 / +1 416 5550198 / +49 151 2345678"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm font-mono text-left text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                    />
+                  </div>
+
+                  {/* Dynamic National Identity Field Auto-Detected Worldwide (Always LTR left-aligned) */}
+                  <div>
+                    <label className="text-[11px] font-mono text-[#D29922] block mb-1 uppercase font-bold">
+                      {idCfg.label}
+                    </label>
+                    <input
+                      type="text"
+                      dir="ltr"
+                      value={enrollAgentId}
+                      onChange={(e) => setEnrollAgentId(e.target.value)}
+                      placeholder={idCfg.placeholder}
+                      className="w-full min-h-[48px] rounded-xl border border-[#9E6A03] bg-[#0D1117] px-3.5 py-2.5 text-sm font-mono text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                    />
+                  </div>
+
+                  {/* Territory / City Field (Always LTR left-aligned) */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
+                        {enrollmentLang === 'ur_roman' ? 'علاقہ / شہر (Assigned Territory) *' : enrollmentLang === 'ar' ? 'المدينة / المنطقة *' : 'Assigned Territory / City *'}
+                      </label>
+                      <span dir="ltr" className="text-[10px] font-mono text-[#3FB950]">
+                        {detected.flag} {detected.name} ({detected.dialCode})
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      dir="ltr"
+                      value={enrollAgentCity}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEnrollAgentCity(val);
+                        const err = checkCityCountryIntegrity(val, enrollAgentPhone);
+                        setCityValidationError(err);
+                      }}
+                      placeholder={
+                        validCities.length > 0
+                          ? `${validCities.slice(0, 3).join(', ')}...`
+                          : `${detected.defaultCity}...`
+                      }
+                      className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-sm font-sans text-left focus:outline-none transition ${
+                        cityValidationError
+                          ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] focus:border-[#F85149]'
+                          : 'border-[#30363D] bg-[#0D1117] text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4]'
+                      }`}
+                    />
+
+                    {/* Inline Geographic Conflict Error Banner */}
+                    {cityValidationError && (
+                      <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1.5 animate-in fade-in">
+                        <div className="flex items-center gap-1.5 text-[#F85149] font-mono text-xs font-bold">
+                          <AlertOctagon className="size-4 shrink-0 text-[#F85149]" />
+                          <span>
+                            {enrollmentLang === 'ar'
+                              ? 'خطأ: تعارض بين رمز الدولة والمدينة المختارة'
+                              : enrollmentLang === 'ur_roman'
+                              ? 'انتباہ: ڈائل کوڈ اور منتخب شہر میں تضاد'
+                              : 'Geographic Dial Code & City Conflict'}
+                          </span>
+                        </div>
+                        <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
+                          {enrollmentLang === 'ar'
+                            ? cityValidationError.ar
+                            : enrollmentLang === 'ur_roman'
+                            ? cityValidationError.ur
+                            : cityValidationError.en}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Suggested Valid Territory Pills for the Detected Country */}
+                    {validCities.length > 0 && (
                       <div className="mt-2 space-y-1">
                         <span className="text-[10px] font-mono text-[#8B949E] block">
                           {enrollmentLang === 'ar'
@@ -6328,29 +6685,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           ))}
                         </div>
                       </div>
-                    );
-                  })()}
-                </div>
+                    )}
+                  </div>
 
-                <div className="pt-2 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const err = checkCityCountryIntegrity(enrollAgentCity, enrollAgentPhone);
-                      if (err) {
-                        setCityValidationError(err);
-                        return;
-                      }
-                      setCityValidationError(null);
-                      setEnrollmentStep(2);
-                    }}
-                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
-                  >
-                    <span>{enrollmentLang === 'ur_roman' ? 'اگلا قدم: بایومیٹرک' : enrollmentLang === 'ar' ? 'التالي: البصمة' : 'Next: Biometric Capture →'}</span>
-                  </button>
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const err = checkCityCountryIntegrity(enrollAgentCity, enrollAgentPhone);
+                        if (err) {
+                          setCityValidationError(err);
+                          return;
+                        }
+                        setCityValidationError(null);
+                        setEnrollmentStep(2);
+                      }}
+                      className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                    >
+                      <span>{enrollmentLang === 'ur_roman' ? 'اگلا قدم: بایومیٹرک' : enrollmentLang === 'ar' ? 'التالي: البصمة' : 'Next: Biometric Capture →'}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* STEP 2: LIVE SELFIE & HARDWARE BIOMETRIC (QUERY 9) */}
             {enrollmentStep === 2 && (
@@ -6360,20 +6717,30 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
                 }`}
               >
-                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
-                  <span className="text-[10px] font-mono text-[#06B6D4] font-bold uppercase">
-                    {enrollmentLang === 'ur_roman'
-                      ? 'تصویر اور بایومیٹرک تصدیق'
-                      : enrollmentLang === 'ar'
-                      ? 'التقاط الصورة الشخصية وبصمة الإبهام'
-                      : 'Live Photo & Hardware Thumbprint'}
-                  </span>
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-[10px] font-mono text-[#06B6D4] font-bold uppercase">
+                      {enrollmentLang === 'ur_roman'
+                        ? 'لائیو سیلفی اور بایومیٹرک (دونوں لازمی)'
+                        : enrollmentLang === 'ar'
+                        ? 'السيلفي المباشر والبصمة (كلاهما إلزامي)'
+                        : 'Live Selfie & Biometric (Both Mandatory)'}
+                    </span>
+                    <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono font-bold">
+                      <span className={`px-2 py-0.5 rounded border ${enrollSelfieDone ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]' : 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'}`}>
+                        {enrollSelfieDone ? '✓ Selfie' : '1. Selfie Req'}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded border ${enrollThumbDone ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]' : 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'}`}>
+                        {enrollThumbDone ? '✓ Biometric' : '2. Biometric Req'}
+                      </span>
+                    </div>
+                  </div>
                   <p className="text-xs text-[#8B949E] font-sans">
                     {enrollmentLang === 'ur_roman'
-                      ? 'کیمرے کے سامنے چہرہ رکھیں اور نیچے انگوٹھے کے سینسر کو چھوئیں۔'
+                      ? 'اگلے مرحلے پر جانے کے لیے لائیو فرنٹ کیمرے سے سیلفی اور نیچے انگوٹھے کی بایومیٹرک تصدیق دونوں مکمل کریں۔'
                       : enrollmentLang === 'ar'
-                      ? 'وجه الكاميرا نحو وجهك، ثم المس مستشعر بصمة الإبهام للتحقق.'
-                      : 'Take a clear photo for client verification, then touch the thumbprint sensor below to confirm your identity.'}
+                      ? 'يجب إتمام التقاط صورة السيلفي المباشرة وبصمة الإبهام البيومترية معاً للانتقال للخطوة التالية.'
+                      : 'Both Live Front Selfie capture and Hardware Thumbprint Biometric scan are strictly required before unlocking the next step.'}
                   </p>
                 </div>
 
@@ -6578,52 +6945,81 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               </div>
             )}
 
-            {/* STEP 3: LOCAL PAYOUT RAIL & BENEFICIARY/GUARANTOR SPECIFICATION (QUERIES 1, 3, 5, 6, 7, 8) */}
+            {/* STEP 3: WORLDWIDE LOCAL PAYOUT RAIL & BENEFICIARY SPECIFICATION */}
             {enrollmentStep === 3 && (() => {
-              const isPk = enrollAgentPhone.startsWith('+92');
-              const isUae = enrollAgentPhone.startsWith('+971');
-              const isKsa = enrollAgentPhone.startsWith('+966');
-              const isMena = isUae || isKsa;
-              const isBankSelected = enrollPayoutMethod === 'Bank Transfer' || 
-                enrollPayoutMethod === 'Custom Bank' ||
-                enrollPayoutMethod.includes('Bank') || 
-                enrollPayoutMethod.includes('IBFT') || 
-                enrollPayoutMethod.includes('SEPA') || 
-                enrollPayoutMethod.includes('Direct') || 
-                enrollPayoutMethod.includes('Barclays') || 
-                enrollPayoutMethod.includes('Revolut') ||
-                enrollPayoutMethod.includes('Wire');
-              const showBicSwift = !isPk && !isMena && (enrollPayoutMethod.includes('Wire') || enrollPayoutMethod.includes('SEPA') || enrollPayoutMethod.includes('International'));
+              const detected = detectCountryFromPhone(enrollAgentPhone, enrollAgentCity);
+              const payoutCfg = getPayoutConfigForCountry(detected);
+              const isPk = detected.code === 'PK';
+              const isMena = detected.region === 'MENA';
+              const matchedMethod = payoutCfg.methods.find((m) => m.value === enrollPayoutMethod);
+              const effectivePayoutMethod = matchedMethod ? enrollPayoutMethod : payoutCfg.defaultMethod;
+              const isBankSelected = matchedMethod
+                ? matchedMethod.isBank
+                : effectivePayoutMethod === 'Bank Transfer' ||
+                  effectivePayoutMethod === 'Custom Bank' ||
+                  effectivePayoutMethod.includes('Bank') ||
+                  effectivePayoutMethod.includes('IBFT') ||
+                  effectivePayoutMethod.includes('SEPA') ||
+                  effectivePayoutMethod.includes('Direct') ||
+                  effectivePayoutMethod.includes('ACH') ||
+                  effectivePayoutMethod.includes('EFT') ||
+                  effectivePayoutMethod.includes('IMPS') ||
+                  effectivePayoutMethod.includes('Barclays') ||
+                  effectivePayoutMethod.includes('Revolut') ||
+                  effectivePayoutMethod.includes('Wise') ||
+                  effectivePayoutMethod.includes('Wire');
+              const showBicSwift =
+                !isPk &&
+                !isMena &&
+                (effectivePayoutMethod.includes('Wire') ||
+                  effectivePayoutMethod.includes('SEPA') ||
+                  effectivePayoutMethod.includes('International'));
 
-              // Query 1: Detect if a user entered a phone number instead of a bank account or IBAN
+              // Detect if user entered a phone number instead of a bank account or IBAN
               const isPhoneFormatInBank = (() => {
                 if (!isBankSelected) return false;
                 const clean = enrollPayoutAccount.trim().replace(/[\s-]/g, '');
                 if (clean.startsWith('03') && clean.length >= 10 && clean.length <= 12 && /^\d+$/.test(clean)) return true;
                 if (clean.startsWith('+') && clean.length >= 10 && clean.length <= 15) return true;
-                if (/^\d{10,11}$/.test(clean)) return true;
+                if (/^\d{10,11}$/.test(clean) && !detected.code.match(/^(US|CA|AU|IN)$/)) return true;
                 return false;
               })();
 
-              // Query 2: Country-Specific IBAN Format Validator (length and prefix check)
+              // Country-Specific IBAN / Routing Format Validator
               const isIbanValidLength = (() => {
                 if (!isBankSelected) return true;
                 const raw = enrollPayoutAccount.replace(/\s/g, '').toUpperCase();
                 if (!raw) return false;
-                if (isPk) {
+                if (detected.code === 'PK') {
                   return (raw.startsWith('PK') && raw.length === 24) || (/^\d+$/.test(raw) && raw.length >= 14 && raw.length <= 18);
                 }
-                if (isUae) {
+                if (detected.code === 'AE') {
                   return raw.startsWith('AE') && raw.length === 23;
                 }
-                if (isKsa) {
+                if (detected.code === 'SA') {
                   return raw.startsWith('SA') && raw.length === 24;
                 }
-                if (raw.startsWith('GB')) {
-                  return raw.length === 22;
+                if (detected.code === 'GB') {
+                  return (raw.startsWith('GB') && raw.length === 22) || raw.length >= 8;
                 }
-                return raw.length >= 12;
+                if (detected.region === 'EUROPE' && /^[A-Z]{2}\d{2}/.test(raw)) {
+                  return raw.length >= 15 && raw.length <= 34;
+                }
+                return raw.length >= 8;
               })();
+
+              const accountTitlePlaceholder =
+                detected.code === 'PK'
+                  ? 'e.g. Muhammad Kamran Tariq'
+                  : detected.code === 'AE'
+                  ? 'e.g. Rashid Abdullah Al-Maktoum'
+                  : detected.code === 'SA'
+                  ? 'e.g. Faisal Abdulaziz Al-Qahtani'
+                  : detected.code === 'US' || detected.code === 'CA'
+                  ? 'e.g. Daniel Robert Miller'
+                  : detected.code === 'DE'
+                  ? 'e.g. Lukas Weber'
+                  : 'e.g. James Edward Smith';
 
               return (
                 <div
@@ -6633,13 +7029,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   }`}
                 >
                   <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
-                    <span className="text-[10px] font-mono text-[#D29922] font-bold uppercase">
-                      {enrollmentLang === 'ur_roman'
-                        ? 'کمیشن کی ادائیگی کا طریقہ'
-                        : enrollmentLang === 'ar'
-                        ? 'حساب استلام العمولات'
-                        : 'Commission Payout Account'}
-                    </span>
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-[10px] font-mono text-[#D29922] font-bold uppercase">
+                        {enrollmentLang === 'ur_roman'
+                          ? 'کمیشن کی ادائیگی کا طریقہ'
+                          : enrollmentLang === 'ar'
+                          ? 'حساب استلام العمولات'
+                          : 'Commission Payout Account'}
+                      </span>
+                      <span dir="ltr" className="text-[10px] font-mono text-[#06B6D4] font-bold">
+                        {detected.flag} {detected.name} ({detected.localCurrency})
+                      </span>
+                    </div>
                     <p className="text-xs text-[#8B949E] font-sans">
                       {enrollmentLang === 'ur_roman'
                         ? 'اپنا اکاؤنٹ منتخب کریں جہاں ہر سیلون کی کمیشن فوری منتقل کی جائے گی۔'
@@ -6649,86 +7050,57 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     </p>
                   </div>
 
-                  {/* Payment Method Selector with Dark Background, High-Contrast Text, and + Add Custom Bank Option (Query 3) */}
+                  {/* Payment Method Selector (Label in selected language; select box LTR left-aligned) */}
                   <div>
                     <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-bold">
                       {enrollmentLang === 'ur_roman' ? 'ادائیگی کا ذریعہ *' : enrollmentLang === 'ar' ? 'وسيلة الدفع *' : 'Payment Method *'}
                     </label>
                     <select
-                      value={enrollPayoutMethod}
+                      dir="ltr"
+                      value={effectivePayoutMethod}
                       onChange={(e) => setEnrollPayoutMethod(e.target.value)}
-                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono text-left text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
                     >
-                      {isPk ? (
-                        <>
-                          <option value="EasyPaisa" className="bg-[#161B22] text-[#F0F6FC] py-1">EasyPaisa Mobile Wallet (Instant)</option>
-                          <option value="JazzCash" className="bg-[#161B22] text-[#F0F6FC] py-1">JazzCash Mobile Wallet (Instant)</option>
-                          <option value="Bank Transfer" className="bg-[#161B22] text-[#F0F6FC] py-1">Pakistani Bank Account (Direct IBFT)</option>
-                          <option value="Raast Instant Pay" className="bg-[#161B22] text-[#F0F6FC] py-1">Raast Instant Pay (State Bank Rail)</option>
-                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom Bank</option>
-                        </>
-                      ) : enrollAgentPhone.startsWith('+971') ? (
-                        <>
-                          <option value="Wio Bank Direct" className="bg-[#161B22] text-[#F0F6FC] py-1">Wio Bank Business Direct</option>
-                          <option value="Emirates NBD" className="bg-[#161B22] text-[#F0F6FC] py-1">Emirates NBD AED Direct</option>
-                          <option value="FAB Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">First Abu Dhabi Bank (FAB)</option>
-                          <option value="International Bank Wire" className="bg-[#161B22] text-[#F0F6FC] py-1">UAE Central Bank Direct Clearing</option>
-                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom UAE Bank</option>
-                        </>
-                      ) : enrollAgentPhone.startsWith('+966') ? (
-                        <>
-                          <option value="Al Rajhi Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">Al Rajhi Bank (Saudi SARIE)</option>
-                          <option value="STC Pay" className="bg-[#161B22] text-[#F0F6FC] py-1">STC Pay Saudi Mobile Wallet</option>
-                          <option value="Saudi National Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">SNB (Saudi National Bank)</option>
-                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom Saudi Bank</option>
-                        </>
-                      ) : (
-                        <>
-                          <option value="UK Faster Payments" className="bg-[#161B22] text-[#F0F6FC] py-1">UK Faster Payments / BACS (Instant)</option>
-                          <option value="Euro SEPA IBAN" className="bg-[#161B22] text-[#F0F6FC] py-1">Euro SEPA Instant IBAN</option>
-                          <option value="Revolut Business" className="bg-[#161B22] text-[#F0F6FC] py-1">Revolut Business Account</option>
-                          <option value="Barclays Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">Barclays Bank UK</option>
-                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom Bank / Credit Union</option>
-                        </>
-                      )}
+                      {payoutCfg.methods.map((m) => (
+                        <option
+                          key={m.value}
+                          value={m.value}
+                          className={`bg-[#161B22] py-1 ${m.value === 'Custom Bank' ? 'text-[#D29922] font-bold' : 'text-[#F0F6FC]'}`}
+                        >
+                          {m.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
-                  {/* Bank Account Mode: 4 Distinct Fields (Title, Bank Name & Branch, Registered Mobile, Account/IBAN) */}
+                  {/* Bank Account Mode: 4 Distinct Fields (All inputs LTR left-aligned; Name always English format) */}
                   {isBankSelected ? (
                     <div className="space-y-3 rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-mono text-[#06B6D4] font-bold uppercase">
                           {enrollmentLang === 'ur_roman' ? 'بینک اکاؤنٹ کی تفصیلات (۴ خانے لازمی)' : enrollmentLang === 'ar' ? 'تفاصيل الحساب البنكي (٤ حقول مطلوبة)' : 'Bank Account Details (4 Required Fields)'}
                         </span>
-                        <span className="text-[10px] font-mono text-[#3FB950] bg-[#0D3822] border border-[#116329] px-2 py-0.5 rounded">
-                          {enrollPayoutMethod === 'Custom Bank' ? 'CUSTOM BANK / IBFT' : 'IBFT / DIRECT'}
+                        <span dir="ltr" className="text-[10px] font-mono text-[#3FB950] bg-[#0D3822] border border-[#116329] px-2 py-0.5 rounded">
+                          {effectivePayoutMethod === 'Custom Bank' ? 'CUSTOM BANK / IBFT' : `${detected.code} DIRECT RAIL`}
                         </span>
                       </div>
 
-                      {/* 1. Account Title (Localized Placeholders by Region) */}
+                      {/* 1. Beneficiary Account Title (Always English format & left-aligned) */}
                       <div>
                         <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-semibold">
-                          {enrollmentLang === 'ur_roman' ? '۱. اکاؤنٹ کا ٹائٹل (اکاؤنٹ ہولڈر کا پورا نام) *' : enrollmentLang === 'ar' ? '١. اسم صاحب الحساب (المستفيد) *' : '1. Beneficiary Account Title *'}
+                          {enrollmentLang === 'ur_roman' ? '۱. اکاؤنٹ کا ٹائٹل (انگریزی میں پورا نام) *' : enrollmentLang === 'ar' ? '١. اسم صاحب الحساب (بالإنجليزية) *' : '1. Beneficiary Account Title *'}
                         </label>
                         <input
                           type="text"
+                          dir="ltr"
                           value={enrollPayoutTitle}
                           onChange={(e) => setEnrollPayoutTitle(e.target.value)}
-                          placeholder={
-                            isPk
-                              ? enrollmentLang === 'ur_roman' ? 'مثال: محمد کامران طارق' : 'e.g. Muhammad Kamran Tariq'
-                              : isUae
-                              ? enrollmentLang === 'ar' ? 'مثال: راشد عبد الله المكتوم' : 'e.g. Rashid Abdullah Al-Maktoum'
-                              : isKsa
-                              ? enrollmentLang === 'ar' ? 'مثال: فيصل بن عبد العزيز القحطاني' : 'e.g. Faisal Abdulaziz Al-Qahtani'
-                              : 'e.g. James Edward Smith'
-                          }
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder={accountTitlePlaceholder}
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
 
-                      {/* 2. Bank Name & Branch (with Quick Presets & + Custom Bank Input, Query 3) */}
+                      {/* 2. Bank Name & Branch (Always LTR left-aligned; English bank examples) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <label className="text-[11px] font-mono text-[#8B949E] uppercase font-semibold">
@@ -6740,30 +7112,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </div>
                         <input
                           type="text"
+                          dir="ltr"
                           value={enrollBankName}
                           onChange={(e) => setEnrollBankName(e.target.value)}
-                          placeholder={
-                            isPk
-                              ? 'مثال: میزان بینک / حبیب بینک / بینک الفلاح / یا کوئی بھی بینک'
-                              : isUae
-                              ? 'e.g. Emirates NBD / Wio / FAB / ADCB / Mashreq'
-                              : isKsa
-                              ? 'e.g. Al Rajhi / SNB / Riyad Bank / Alinma'
-                              : 'e.g. Barclays / HSBC / Revolut / Monzo / NatWest'
-                          }
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder={`e.g. ${payoutCfg.bankPresets.slice(0, 3).join(' / ')}`}
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
 
                         {/* Quick Bank Presets for Instant Tap */}
                         <div className="flex flex-wrap gap-1.5 mt-2">
-                          {(isPk
-                            ? ['Meezan Bank', 'HBL Bank', 'Bank Alfalah', 'Standard Chartered', 'Faysal Bank', 'Allied Bank']
-                            : isUae
-                            ? ['Emirates NBD', 'Wio Bank', 'FAB Bank', 'ADCB', 'Mashreq Bank', 'DIB']
-                            : isKsa
-                            ? ['Al Rajhi Bank', 'SNB Bank', 'Riyad Bank', 'Banque Saudi Fransi']
-                            : ['Barclays Bank', 'Revolut Business', 'HSBC UK', 'Lloyds Bank', 'NatWest']
-                          ).map((preset) => (
+                          {payoutCfg.bankPresets.map((preset) => (
                             <button
                               key={preset}
                               type="button"
@@ -6780,72 +7138,51 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </div>
                       </div>
 
-                      {/* 3. Registered Mobile Number (Localized Placeholders by Region) */}
+                      {/* 3. Registered Mobile Number (Always LTR left-aligned) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <label className="text-[11px] font-mono text-[#8B949E] uppercase font-semibold">
                             {enrollmentLang === 'ur_roman' ? '۳. بینک میں رجسٹرڈ موبائل نمبر *' : enrollmentLang === 'ar' ? '٣. رقم الجوال المسجل بالبنك *' : '3. Registered Mobile Number *'}
                           </label>
-                          <span className="text-[10px] font-mono text-[#06B6D4]">
-                            {isPk ? 'Pakistan Metro (+92)' : isUae ? 'UAE (+971)' : isKsa ? 'Saudi Arabia (+966)' : 'UK / Europe (+44)'}
+                          <span dir="ltr" className="text-[10px] font-mono text-[#06B6D4]">
+                            {payoutCfg.mobileFormatBadge}
                           </span>
                         </div>
                         <input
                           type="tel"
+                          dir="ltr"
                           value={enrollBankMobile}
                           onChange={(e) => setEnrollBankMobile(e.target.value)}
-                          placeholder={
-                            isPk
-                              ? '0300 1234567 or +92 300 1234567 (10 digits)'
-                              : isUae
-                              ? '050 123 4567 or +971 50 123 4567 (9 digits)'
-                              : isKsa
-                              ? '055 123 4567 or +966 55 123 4567 (9 digits)'
-                              : '07123 456789 or +44 7123 456789 (10 digits)'
-                          }
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder={payoutCfg.mobilePlaceholder}
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs font-mono text-left text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
 
-                      {/* 4. Account or IBAN Number with Country-Exact Formatting & Non-Phone Validation (Query 1 & 2) */}
+                      {/* 4. Account or IBAN Number (Always LTR left-aligned) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <label className="text-[11px] font-mono text-[#8B949E] uppercase font-semibold">
                             {enrollmentLang === 'ur_roman' ? '۴. اکاؤنٹ نمبر یا مکمل IBAN نمبر *' : enrollmentLang === 'ar' ? '٤. رقم الحساب أو الآيبان الكامل *' : '4. Account Number or IBAN *'}
                           </label>
-                          <span className="text-[10px] font-mono text-[#3FB950] font-bold">
-                            {isPk
-                              ? 'PKxx (24 chars) or 14-16 digit Account'
-                              : isUae
-                              ? 'AExx (Exact 23 chars IBAN)'
-                              : isKsa
-                              ? 'SAxx (Exact 24 chars IBAN)'
-                              : 'GBxx (Exact 22 chars IBAN) or Account'}
+                          <span dir="ltr" className="text-[10px] font-mono text-[#3FB950] font-bold">
+                            {payoutCfg.ibanBadge}
                           </span>
                         </div>
                         <input
                           type="text"
+                          dir="ltr"
                           value={enrollPayoutAccount}
                           onChange={(e) => {
                             let val = e.target.value.toUpperCase();
-                            // If user is typing an IBAN, automatically group in blocks of 4
-                            if (val.startsWith('PK') || val.startsWith('AE') || val.startsWith('SA') || val.startsWith('GB') || val.startsWith('DE')) {
+                            if (/^(PK|AE|SA|GB|DE|FR|ES|IT|NL|IE|CH|SE|NO|DK|PT|PL|GR|AT|BE|QA|KW|BH|OM|JO|EG|TR)/.test(val)) {
                               const raw = val.replace(/[^A-Z0-9]/g, '');
                               const chunks = raw.match(/.{1,4}/g);
                               val = chunks ? chunks.join(' ') : raw;
                             }
                             setEnrollPayoutAccount(val);
                           }}
-                          placeholder={
-                            isPk
-                              ? 'PK64 MEZN 0001 0203 0405 0607 or 16-Digit Account'
-                              : isUae
-                              ? 'AE07 0331 2345 6789 0123 456 (23 chars)'
-                              : isKsa
-                              ? 'SA03 8000 0000 6080 1016 7519 (24 chars)'
-                              : 'GB29 NWBK 6016 1331 9268 19 (22 chars)'
-                          }
-                          className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-xs font-mono transition focus:outline-none ${
+                          placeholder={payoutCfg.ibanPlaceholder}
+                          className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-xs font-mono text-left transition focus:outline-none ${
                             isPhoneFormatInBank
                               ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] focus:border-[#F85149]'
                               : isIbanValidLength
@@ -6854,23 +7191,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           }`}
                         />
 
-                        {/* Character count / Format guide pill */}
                         <div className="flex items-center justify-between text-[10px] font-mono mt-1 text-[#8B949E]">
-                          <span>
-                            {isPk
-                              ? 'Supported: Pakistani Bank Accounts (14-16 digits) or State Bank 24-char IBAN'
-                              : isUae
-                              ? 'UAE Central Bank format: AE + 2 check digits + 19 account digits (23 chars total)'
-                              : isKsa
-                              ? 'Saudi SARIE format: SA + 2 check digits + 20 account digits (24 chars total)'
-                              : 'UK / European format: GB + 20 alphanumeric chars (22 total) or Sort Code + Account'}
-                          </span>
-                          <span className={isIbanValidLength ? 'text-[#3FB950] font-bold' : 'text-[#6E7681]'}>
+                          <span>{payoutCfg.ibanHelp}</span>
+                          <span dir="ltr" className={isIbanValidLength ? 'text-[#3FB950] font-bold' : 'text-[#6E7681]'}>
                             {enrollPayoutAccount.replace(/\s/g, '').length} chars
                           </span>
                         </div>
 
-                        {/* Inline Warning if Agent Entered Phone Number Instead of Account/IBAN (Query 1) */}
                         {isPhoneFormatInBank && (
                           <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1 animate-in fade-in">
                             <div className="flex items-center gap-1.5 text-[#F85149] font-mono text-xs font-bold">
@@ -6887,45 +7214,47 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               {enrollmentLang === 'ar'
                                 ? 'للحسابات البنكية والتحويلات المباشرة يجب إدخال رقم الحساب البنكي أو رقم الآيبان المعتمد (IBAN) وليس رقم الهاتف. رقم الهاتف صالح فقط للمحافظ الإلكترونية.'
                                 : enrollmentLang === 'ur_roman'
-                                ? 'بینک ٹرانسفر کے لیے اکاؤنٹ نمبر یا 24 ہندسوں کا IBAN درکار ہے، فون نمبر نہیں۔ فون نمبر صرف ایزی پیسہ یا جاز کیش والیٹ کے لیے استعمال ہوتا ہے۔'
-                                : 'Bank payout rails require an official Bank Account Number or country IBAN (e.g. PK64MEZN..., AE07..., SA03..., GB29...), not a mobile number. Phone numbers are only valid for mobile wallets.'}
+                                ? 'بینک ٹرانسفر کے لیے اکاؤنٹ نمبر یا IBAN درکار ہے، فون نمبر نہیں۔ فون نمبر صرف موبائل والٹ کے لیے استعمال ہوتا ہے۔'
+                                : 'Bank payout rails require an official Bank Account Number or country IBAN, not a mobile number. Phone numbers are only valid for mobile wallets.'}
                             </p>
                           </div>
                         )}
                       </div>
                     </div>
                   ) : (
-                    /* Mobile Wallet Mode (EasyPaisa / JazzCash / STC Pay) */
+                    /* Mobile Wallet / Instant Local Rail Mode (EasyPaisa / JazzCash / STC Pay / Zelle / Interac / UPI / PayID) */
                     <div className="space-y-3 rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
                       <div>
                         <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-semibold">
-                          {enrollmentLang === 'ur_roman' ? 'والیٹ اکاؤنٹ ٹائٹل (اکاؤنٹ ہولڈر کا نام) *' : enrollmentLang === 'ar' ? 'اسم صاحب المحفظة *' : 'Wallet Account Title *'}
+                          {enrollmentLang === 'ur_roman' ? 'والیٹ اکاؤنٹ ٹائٹل (انگریزی میں نام) *' : enrollmentLang === 'ar' ? 'اسم صاحب المحفظة (بالإنجليزية) *' : 'Wallet Account Title *'}
                         </label>
                         <input
                           type="text"
+                          dir="ltr"
                           value={enrollPayoutTitle}
                           onChange={(e) => setEnrollPayoutTitle(e.target.value)}
-                          placeholder="Registered Full Name"
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder={accountTitlePlaceholder}
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
 
                       <div>
                         <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-semibold">
-                          {enrollmentLang === 'ur_roman' ? 'موبائل والیٹ نمبر *' : enrollmentLang === 'ar' ? 'رقم المحفظة الإلكترونية *' : 'Registered Mobile Wallet Number *'}
+                          {enrollmentLang === 'ur_roman' ? 'موبائل والیٹ نمبر *' : enrollmentLang === 'ar' ? 'رقم المحفظة الإلكترونية *' : 'Registered Mobile Wallet / ID Number *'}
                         </label>
                         <input
                           type="tel"
+                          dir="ltr"
                           value={enrollPayoutAccount}
                           onChange={(e) => setEnrollPayoutAccount(e.target.value)}
-                          placeholder={isPk ? '0300 1234567' : 'Mobile number'}
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder={payoutCfg.walletPlaceholder}
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs font-mono text-left text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                     </div>
                   )}
 
-                  {/* BIC/SWIFT Code: ONLY shown for International Wire outside Pakistan and MENA */}
+                  {/* BIC/SWIFT Code: International Wire outside Pakistan and MENA */}
                   {showBicSwift && (
                     <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
                       <label className="text-[10px] font-mono text-[#8B949E] block mb-1 uppercase">
@@ -6933,15 +7262,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </label>
                       <input
                         type="text"
+                        dir="ltr"
                         value={enrollBicSwift}
                         onChange={(e) => setEnrollBicSwift(e.target.value)}
-                        placeholder="e.g. MEZNPKKA / BARCGB22"
-                        className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                        placeholder="e.g. BARCGB22 / DEUTDEFF"
+                        className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                       />
                     </div>
                   )}
 
-                  {/* ROW 1: GUARANTOR DETAILS (Pakistan Only, Strictly NO "optional" or "mandatory" tag) */}
+                  {/* ROW 1: GUARANTOR DETAILS (Pakistan Only) */}
                   {isPk && (
                     <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B]/35 p-3.5 space-y-2.5">
                       <div className="space-y-0.5">
@@ -6950,9 +7280,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </span>
                         <p className="text-[11px] text-[#8B949E] font-sans">
                           {enrollmentLang === 'ur_roman'
-                            ? 'کاروباری یا ذاتی ضامن کا نام اور واٹس ایپ رابطہ'
+                            ? 'کاروباری یا ذاتی ضامن کا نام (انگریزی میں) اور واٹس ایپ رابطہ'
                             : enrollmentLang === 'ar'
-                            ? 'اسم الضامن ورقم الاتصال المعتمد'
+                            ? 'اسم الضامن (بالإنجليزية) ورقم الاتصال المعتمد'
                             : 'Business or personal reference guarantor name & direct contact'}
                         </p>
                       </div>
@@ -6963,10 +7293,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           </label>
                           <input
                             type="text"
+                            dir="ltr"
                             value={enrollGuarantorName}
                             onChange={(e) => setEnrollGuarantorName(e.target.value)}
-                            placeholder={enrollmentLang === 'ur_roman' ? 'ضامن کا نام درج کریں' : 'Guarantor Name'}
-                            className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                            placeholder="e.g. Tariq Mehmood"
+                            className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                           />
                         </div>
                         <div>
@@ -6975,10 +7306,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           </label>
                           <input
                             type="tel"
+                            dir="ltr"
                             value={enrollGuarantorPhone}
                             onChange={(e) => setEnrollGuarantorPhone(e.target.value)}
                             placeholder="0300 1234567"
-                            className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                            className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs font-mono text-left text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                           />
                         </div>
                       </div>
@@ -7001,9 +7333,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     </div>
                     <p className="text-[11px] text-[#8B949E] font-sans">
                       {enrollmentLang === 'ur_roman'
-                        ? 'ہنگامی رابطے کے لیے فیملی یا قریبی رشتہ دار کا حوالہ'
+                        ? 'ہنگامی رابطے کے لیے فیملی یا قریبی رشتہ دار کا نام (انگریزی میں)'
                         : enrollmentLang === 'ar'
-                        ? 'جهة اتصال للطوارئ في حال تعذر الوصول'
+                        ? 'جهة اتصال للطوارئ في حال تعذر الوصول (الاسم بالإنجليزية)'
                         : 'Emergency family contact reference'}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -7013,10 +7345,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </label>
                         <input
                           type="text"
+                          dir="ltr"
                           value={enrollNextOfKin}
                           onChange={(e) => setEnrollNextOfKin(e.target.value)}
-                          placeholder={enrollmentLang === 'ur_roman' ? 'نام درج کریں' : 'Full Name'}
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder="e.g. Shahid Tariq"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                       <div>
@@ -7025,16 +7358,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </label>
                         <input
                           type="tel"
+                          dir="ltr"
                           value={enrollNextOfKinPhone}
                           onChange={(e) => setEnrollNextOfKinPhone(e.target.value)}
-                          placeholder={isPk ? '0300 9876543' : '+ Phone number'}
-                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                          placeholder={payoutCfg.mobilePlaceholder}
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono text-left text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                     </div>
                   </div>
 
-                  {/* Step 3 Navigation Buttons with Full Localization and Validation Gating */}
+                  {/* Step 3 Navigation Buttons */}
                   <div className="pt-2 flex justify-between gap-2">
                     <button
                       type="button"
@@ -7085,7 +7419,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </span>
                     </span>
                     <span className="text-[10px] font-mono text-[#D29922] bg-[#3B2E0B] border border-[#9E6A03] px-2 py-0.5 rounded font-bold shrink-0">
-                      {enrollAgentPhone.startsWith('+92') ? '48H CASH RULE' : '100% CASHLESS'}
+                      {detectCountryFromPhone(enrollAgentPhone, enrollAgentCity).code === 'PK' ? '48H CASH RULE' : '100% CASHLESS'}
                     </span>
                   </div>
 
@@ -7100,7 +7434,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       className="mt-1 size-4 rounded border-[#30363D] bg-[#0D1117] text-[#D29922] focus:ring-0 shrink-0"
                     />
                     <div className="space-y-1 min-w-0">
-                      {enrollAgentPhone.startsWith('+92') ? (
+                      {detectCountryFromPhone(enrollAgentPhone, enrollAgentCity).code === 'PK' ? (
                         enrollmentLang === 'ur_roman' ? (
                           <p dir="rtl" className="text-sm text-[#F0F6FC] font-sans leading-relaxed text-right break-words [overflow-wrap:break-word]">
                             &ldquo;میں اقرار کرتا ہوں کہ تمام وصول شدہ نقدی رقم ۴۸ گھنٹے کے اندر اندر ورک کرافٹ کے آفیشل اکاؤنٹس (ایزی پیسہ، جاز کیش یا بینک اکاؤنٹ) میں جمع کرواؤں گا۔ اگر ۴۸ گھنٹے کے اندر رقم جمع نہ کروائی گئی تو میرا ایجنٹ آئی ڈی فوری طور پر معطل کر دیا جائے گا اور ورک کرافٹ پاکستان کے قوانین کے تحت قانونی چارہ جوئی کا مکمل حق محفوظ رکھتا ہے۔&rdquo;
@@ -7199,6 +7533,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         return;
                       }
                       setStep4BiometricError(null);
+                      const detStep4 = detectCountryFromPhone(enrollAgentPhone, enrollAgentCity);
+                      const payoutCfgStep4 = getPayoutConfigForCountry(detStep4);
+                      const resolvedMethod = payoutCfgStep4.methods.some((m) => m.value === enrollPayoutMethod)
+                        ? enrollPayoutMethod
+                        : payoutCfgStep4.defaultMethod;
                       // Add to enrolledAgentsList
                       setEnrolledAgentsList((prev) => [
                         ...prev.filter(a => a.name !== enrollAgentName),
@@ -7210,16 +7549,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           city: enrollAgentCity,
                           category: 'Universal (All Salons, Barbershops & Parlors)',
                           cnicOrId: enrollAgentId,
-                          payoutMethod: enrollPayoutMethod,
+                          payoutMethod: resolvedMethod,
                           payoutAccount: enrollPayoutAccount,
                           payoutTitle: enrollPayoutTitle,
-                          bankName: enrollBankName,
+                          bankName: enrollBankName || payoutCfgStep4.defaultBank,
                           status: 'ACTIVE · ON-FIELD',
                           enrolledAt: 'Just Now · 100% Verified',
                           selfieVerified: true,
                           thumbHash: enrollThumbHash || 'SHA256: 3c9f-88a1-agent-thumb-enrolled',
                           legalRemittanceAgreed: true,
-                          legalTermsText: enrollAgentPhone.startsWith('+92')
+                          legalTermsText: detStep4.code === 'PK'
                             ? 'Agreed: Remit physical cash within 48h to WORKCRAFT Official Accounts under Pakistani law.'
                             : 'Agreed: 100% cashless digital policy, immediate contract termination on misconduct.',
                           guarantorName: enrollGuarantorName || undefined,

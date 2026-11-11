@@ -129,13 +129,15 @@ export default function App() {
   const [paymentRoutingMethod, setPaymentRoutingMethod] = useState<string | null>(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isGlobalPaused, setIsGlobalPaused] = useState(false);
-  const [pausedCountries, setPausedCountries] = useState<Record<'PK' | 'AE' | 'SA' | 'EU' | 'GLOBAL', boolean>>({
+  const [pausedCountries, setPausedCountries] = useState<Record<string, boolean>>({
     PK: false,
     AE: false,
     SA: false,
-    EU: false,
-    GLOBAL: false,
+    GB: false,
   });
+  const [dynamicAgentCountries, setDynamicAgentCountries] = useState<
+    Array<{ code: string; label: string; flag: string }>
+  >([]);
   const [isCountryPauseOpen, setIsCountryPauseOpen] = useState(false);
   const [whatsAppHealth, setWhatsAppHealth] = useState<'HEALTHY' | 'ISSUE'>('HEALTHY');
   const [isPairingModalOpen, setIsPairingModalOpen] = useState(false);
@@ -217,17 +219,27 @@ export default function App() {
     };
   }, [activeRole]);
 
-  const COUNTRY_PAUSE_LIST: { code: 'PK' | 'AE' | 'SA' | 'EU' | 'GLOBAL'; label: string; flag: string }[] = [
+  const BASE_COUNTRY_PAUSE_LIST: { code: string; label: string; flag: string }[] = [
     { code: 'PK', label: 'Pakistan', flag: '🇵🇰' },
     { code: 'AE', label: 'UAE', flag: '🇦🇪' },
     { code: 'SA', label: 'Saudi Arabia', flag: '🇸🇦' },
-    { code: 'EU', label: 'UK & Europe', flag: '🇬🇧' },
-    { code: 'GLOBAL', label: 'Global', flag: '🌍' },
+    { code: 'GB', label: 'United Kingdom', flag: '🇬🇧' },
   ];
 
-  const activePausedCountryList = COUNTRY_PAUSE_LIST.filter((c) => pausedCountries[c.code]);
+  const COUNTRY_PAUSE_LIST = React.useMemo(() => {
+    const map = new Map<string, { code: string; label: string; flag: string }>();
+    BASE_COUNTRY_PAUSE_LIST.forEach((c) => map.set(c.code, c));
+    dynamicAgentCountries.forEach((c) => {
+      if (!map.has(c.code)) {
+        map.set(c.code, c);
+      }
+    });
+    return Array.from(map.values());
+  }, [dynamicAgentCountries]);
 
-  const toggleCountryPause = (code: 'PK' | 'AE' | 'SA' | 'EU' | 'GLOBAL') => {
+  const activePausedCountryList = COUNTRY_PAUSE_LIST.filter((c) => !!pausedCountries[c.code]);
+
+  const toggleCountryPause = (code: string) => {
     setPausedCountries((prev) => {
       const nextVal = !prev[code];
       const countryName = COUNTRY_PAUSE_LIST.find((c) => c.code === code)?.label || code;
@@ -739,6 +751,7 @@ export default function App() {
                   initialAutoOpenEnrollment={!!initialEnrollAgentData}
                   initialEnrollAgentData={initialEnrollAgentData || undefined}
                   userRole={activeRole === 'FIELD_AGENT' ? 'FIELD_AGENT' : 'FOUNDER'}
+                  onActiveCountriesChange={setDynamicAgentCountries}
                 />
               </SilentSelfHealingBoundary>
             ) : activeTab === 'Salon Owner Dashboard' ? (

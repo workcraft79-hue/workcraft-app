@@ -15,7 +15,13 @@ import {
   AlertTriangle,
   AlertOctagon,
 } from 'lucide-react';
-import { detectCountryFromPhone, REGIONAL_CITY_MAP, checkCityCountryIntegrity } from './FieldAgentHub';
+import {
+  detectCountryFromPhone,
+  REGIONAL_CITY_MAP,
+  checkCityCountryIntegrity,
+  DIAL_CODE_OPTIONS,
+  getEnrollmentLanguagesForPhone,
+} from './FieldAgentHub';
 
 interface AddNewAgentModalProps {
   isOpen: boolean;
@@ -55,25 +61,29 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
   const [generatedId] = useState(() => 'AGT-' + Math.floor(410 + Math.random() * 50));
   const [generatedPin] = useState(() => Math.floor(1000 + Math.random() * 9000).toString());
 
-  const detectedCountry = detectCountryFromPhone(agentPhone);
+  const detectedCountry = detectCountryFromPhone(agentPhone, `${agentCity} ${agentCountry}`);
 
-  // Query 1: Real-time City vs Country Integrity Checker
+  // Real-time City vs Country Integrity Checker
   const cityConflict = checkCityCountryIntegrity(agentCity, agentPhone);
   const validTerritories = REGIONAL_CITY_MAP[detectedCountry.code]?.cities || [];
 
   const countryPresets = [
-    { name: 'Pakistan', flag: '🇵🇰', prefix: '+92', defaultCity: 'Karachi South' },
-    { name: 'United Arab Emirates', flag: '🇦🇪', prefix: '+971', defaultCity: 'Dubai Marina' },
-    { name: 'Saudi Arabia', flag: '🇸🇦', prefix: '+966', defaultCity: 'Riyadh Olaya' },
-    { name: 'United Kingdom', flag: '🇬🇧', prefix: '+44', defaultCity: 'London Central' },
-    { name: 'United States', flag: '🇺🇸', prefix: '+1', defaultCity: 'New York City' },
+    { code: 'PK', name: 'Pakistan', flag: '🇵🇰', prefix: '+92', defaultCity: 'Karachi South' },
+    { code: 'AE', name: 'UAE', flag: '🇦🇪', prefix: '+971', defaultCity: 'Dubai Marina' },
+    { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', prefix: '+966', defaultCity: 'Riyadh Olaya' },
+    { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', prefix: '+44', defaultCity: 'London Central' },
+    { code: 'US', name: 'United States', flag: '🇺🇸', prefix: '+1', defaultCity: 'New York City' },
+    { code: 'CA', name: 'Canada', flag: '🇨🇦', prefix: '+1', defaultCity: 'Toronto Downtown' },
+    { code: 'DE', name: 'Germany', flag: '🇩🇪', prefix: '+49', defaultCity: 'Berlin Mitte' },
+    { code: 'AU', name: 'Australia', flag: '🇦🇺', prefix: '+61', defaultCity: 'Sydney CBD' },
   ];
 
-  const handleCountrySelect = (preset: typeof countryPresets[0]) => {
+  const handleCountrySelect = (preset: { name: string; prefix: string; defaultCity: string; sampleDigits?: string }) => {
     setAgentCountry(preset.name);
     setAgentCity(preset.defaultCity);
-    // If phone starts with old prefix, swap it
-    if (!agentPhone || agentPhone.startsWith('+')) {
+    if (preset.sampleDigits) {
+      setAgentPhone(`${preset.prefix} ${preset.sampleDigits}`);
+    } else if (!agentPhone || agentPhone.startsWith('+')) {
       setAgentPhone(`${preset.prefix} `);
     }
   };
@@ -81,13 +91,14 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
   if (!isOpen) return null;
 
   const enrollUrl = `https://portal.workcraft.local/enroll?id=${generatedId}&pin=${generatedPin}&phone=${encodeURIComponent(agentPhone)}&name=${encodeURIComponent(agentName || 'Agent')}`;
-  
-  // Query 1: Regional Greeting Customization:
-  // - Pakistan (+92) / MENA (+971, +966, etc.): Starts with Assalamu Alaikum
-  // - Europe (+44 UK, +49 Germany, etc.) & North America / Western: Starts with "Mr. {agentName}"
-  const isEuropeOrWestern = detectedCountry.region === 'EUROPE' || detectedCountry.region === 'NORTH_AMERICA' || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+44') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+1') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+49');
-  
-  const greetingHeader = isEuropeOrWestern
+
+  const isWesternGreeting =
+    detectedCountry.region === 'EUROPE' ||
+    detectedCountry.region === 'NORTH_AMERICA' ||
+    detectedCountry.code === 'AU' ||
+    detectedCountry.code === 'NZ';
+
+  const greetingHeader = isWesternGreeting
     ? `Mr. ${agentName || '[Agent Name]'}`
     : `Assalamu Alaikum ${agentName || '[Agent Name]'}`;
 
@@ -225,56 +236,85 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               Register a new field agent. The system automatically provisions a unique ID, generates a 4-digit PIN, and dispatches the terminal link to the agent&apos;s WhatsApp via the Central SIM Gateway.
             </p>
 
-            {/* Field 1: Agent Name */}
+            {/* Field 1: Agent Name (Always English format & left-aligned) */}
             <div>
               <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1.5">
-                1. Field Agent Full Name *
+                1. Field Agent Full Name (English Format) *
               </label>
               <input
                 type="text"
+                dir="ltr"
                 required
                 placeholder="e.g. Zahid Hussain or Bilal Sheikh"
                 value={agentName}
                 onChange={(e) => setAgentName(e.target.value)}
-                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
+                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-left text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
               />
             </div>
 
-            {/* Field 2: Country Selection (Query 4) */}
+            {/* Field 2: Worldwide Operational Country Selection */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] flex items-center gap-1.5">
                   <Globe className="size-3.5 text-[#D29922]" />
-                  <span>2. Operational Country *</span>
+                  <span>2. Operational Country (Worldwide) *</span>
                 </label>
                 <span className="text-[10px] font-mono text-[#D29922] font-bold">
-                  {agentCountry}
+                  {detectedCountry.flag} {agentCountry}
                 </span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 mb-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mb-2">
                 {countryPresets.map((preset) => (
                   <button
-                    key={preset.name}
+                    key={preset.code}
                     type="button"
                     onClick={() => handleCountrySelect(preset)}
-                    className={`min-h-[44px] rounded-lg border px-2 py-1.5 text-xs font-mono transition flex items-center justify-center gap-1 ${
-                      agentCountry === preset.name
+                    className={`min-h-[40px] rounded-lg border px-2 py-1.5 text-xs font-mono transition flex items-center justify-center gap-1 ${
+                      detectedCountry.code === preset.code || agentCountry === preset.name
                         ? 'border-[#06B6D4] bg-[#06B6D4]/15 text-[#06B6D4] font-bold'
                         : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]'
                     }`}
                   >
                     <span>{preset.flag}</span>
-                    <span className="truncate">{preset.name.split(' ')[0]}</span>
+                    <span className="truncate">{preset.name}</span>
                   </button>
                 ))}
               </div>
+              <select
+                dir="ltr"
+                value={DIAL_CODE_OPTIONS.some((d) => d.code === detectedCountry.code) ? detectedCountry.code : 'CUSTOM'}
+                onChange={(e) => {
+                  const chosen = DIAL_CODE_OPTIONS.find((d) => d.code === e.target.value);
+                  if (!chosen) return;
+                  const nextDet = detectCountryFromPhone(`${chosen.dialCode} ${chosen.sampleDigits}`, chosen.name);
+                  handleCountrySelect({
+                    name: nextDet.name,
+                    prefix: chosen.dialCode,
+                    defaultCity: nextDet.defaultCity,
+                    sampleDigits: chosen.sampleDigits,
+                  });
+                }}
+                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-xs font-mono text-left text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4] mb-2"
+              >
+                {!DIAL_CODE_OPTIONS.some((d) => d.code === detectedCountry.code) && (
+                  <option value="CUSTOM" className="bg-[#161B22] text-[#06B6D4]">
+                    {detectedCountry.flag} {agentCountry} ({detectedCountry.dialCode})
+                  </option>
+                )}
+                {DIAL_CODE_OPTIONS.map((d) => (
+                  <option key={d.code} value={d.code} className="bg-[#161B22] text-[#F0F6FC]">
+                    {d.flag} {d.name} ({d.dialCode})
+                  </option>
+                ))}
+              </select>
               <input
                 type="text"
+                dir="ltr"
                 required
-                placeholder="Country Name (e.g. Pakistan, United Arab Emirates, Saudi Arabia, UK)"
+                placeholder="Country Name (e.g. Pakistan, Canada, Germany, United States, UAE, UK)"
                 value={agentCountry}
                 onChange={(e) => setAgentCountry(e.target.value)}
-                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
+                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-sm text-left text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
               />
             </div>
 
@@ -357,11 +397,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                   <span>{detectedCountry.name}</span>
                   <span className="text-[#6E7681]">·</span>
                   <span className="text-[#D29922]">
-                    {agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+92') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+91')
-                      ? 'Urdu + English'
-                      : agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+971') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+966') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+965')
-                      ? 'Arabic + English'
-                      : 'English'}
+                    {getEnrollmentLanguagesForPhone(agentPhone).map((l) => l.label).join(' + ')}
                   </span>
                 </span>
               </div>
@@ -369,18 +405,17 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                 <Smartphone className="absolute left-3 top-3.5 size-4 text-[#06B6D4]" />
                 <input
                   type="text"
+                  dir="ltr"
                   required
-                  placeholder="+92 300 1234567, +44 7911 123456, or +971 50 1234567"
+                  placeholder="+92 300 1234567, +1 416 5550198, +49 151 2345678"
                   value={agentPhone}
                   onChange={(e) => {
                     const val = e.target.value;
                     setAgentPhone(val);
-                    const det = detectCountryFromPhone(val);
-                    if (det.name !== 'Global') {
-                      setAgentCountry(det.name);
-                    }
+                    const det = detectCountryFromPhone(val, agentCity);
+                    setAgentCountry(det.name);
                   }}
-                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] pl-9.5 pr-3.5 py-2.5 text-sm font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] pl-9.5 pr-3.5 py-2.5 text-sm font-mono text-left text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                 />
               </div>
             </div>
