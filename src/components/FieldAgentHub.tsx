@@ -1762,7 +1762,6 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [step4BiometricError, setStep4BiometricError] = useState<string | null>(null);
   const selfieVideoRef = React.useRef<HTMLVideoElement | null>(null);
   const selfieStreamRef = React.useRef<MediaStream | null>(null);
-  const selfieFileInputRef = React.useRef<HTMLInputElement | null>(null);
 
   const stopSelfieCamera = React.useCallback(() => {
     if (selfieStreamRef.current) {
@@ -1781,30 +1780,37 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setCameraError(
         enrollmentLang === 'ur_roman'
-          ? 'براؤزر میں لائیو کیمرہ دستیاب نہیں، براہِ کرم نیچے سے موبائل کیمرہ کھولیں۔'
+          ? 'براؤزر میں لائیو فرنٹ کیمرہ دستیاب نہیں۔ براہِ کرم کیمرہ اجازت آن کریں۔'
           : enrollmentLang === 'ar'
-          ? 'الكاميرا المباشرة غير متاحة، يرجى استخدام كاميرا الهاتف أدناه.'
-          : 'Live camera API unavailable here. Use the Phone Camera button below to snap your selfie.'
+          ? 'الكاميرا الأمامية المباشرة غير متاحة في هذا المتصفح. يرجى تفعيل أذونات الكاميرا.'
+          : 'Live front camera stream is unavailable in this browser context. Please allow camera access on HTTPS.'
       );
-      selfieFileInputRef.current?.click();
       return;
     }
     try {
       stopSelfieCamera();
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user' },
-        audio: false,
-      });
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { exact: 'user' } },
+          audio: false,
+        });
+      } catch {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user' },
+          audio: false,
+        });
+      }
       selfieStreamRef.current = stream;
       setEnrollSelfieDone(false);
       setIsCameraActive(true);
     } catch {
       setCameraError(
         enrollmentLang === 'ur_roman'
-          ? 'کیمرہ اجازت نہیں ملی — براہِ کرم موبائل کیمرہ بٹن سے تصویر لیں۔'
+          ? 'فرنٹ کیمرہ کی اجازت نہیں ملی — براہِ کرم براؤزر سیٹنگز میں کیمرہ کی اجازت دیں۔'
           : enrollmentLang === 'ar'
-          ? 'تم رفض إذن الكاميرا — يرجى استخدام زر كاميرا الهاتف لالتقاط الصورة.'
-          : 'Camera permission blocked in preview — tap "Use Phone Camera" below to capture a real selfie.'
+          ? 'تم رفض إذن الكاميرا الأمامية — يرجى السماح بالوصول إلى الكاميرا في إعدادات المتصفح.'
+          : 'Front camera permission was denied — please allow camera access to capture your live agent selfie.'
       );
     }
   };
@@ -1824,22 +1830,6 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       setStep2BiometricError(null);
       stopSelfieCamera();
     }
-  };
-
-  const handleSelfieFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        setEnrollSelfiePreviewUrl(reader.result);
-        setEnrollSelfieDone(true);
-        setCameraError(null);
-        setStep2BiometricError(null);
-        stopSelfieCamera();
-      }
-    };
-    reader.readAsDataURL(file);
   };
 
   React.useEffect(() => {
@@ -6387,9 +6377,25 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </p>
                 </div>
 
-                {/* Live Selfie Viewfinder (Real Front Camera + Native Phone Camera Fallback) */}
+                {/* Live Selfie Viewfinder (Strict Front-Facing Live Camera Only) */}
                 <div className="rounded-2xl bg-[#0D1117] border border-[#30363D] p-4 text-center space-y-3">
-                  <div className="mx-auto size-40 rounded-2xl border-2 border-[#06B6D4] bg-[#161B22] grid place-items-center relative overflow-hidden">
+                  <div
+                    role={!isCameraActive ? 'button' : undefined}
+                    tabIndex={!isCameraActive ? 0 : undefined}
+                    onClick={() => {
+                      if (!isCameraActive) startSelfieCamera();
+                    }}
+                    onKeyDown={(e) => {
+                      if (!isCameraActive && (e.key === 'Enter' || e.key === ' ')) {
+                        e.preventDefault();
+                        startSelfieCamera();
+                      }
+                    }}
+                    aria-label={!isCameraActive ? 'Open Live Selfie Camera' : 'Live Selfie Camera Feed'}
+                    className={`mx-auto size-40 rounded-2xl border-2 border-[#06B6D4] bg-[#161B22] grid place-items-center relative overflow-hidden ${
+                      !isCameraActive ? 'cursor-pointer hover:border-[#22D3EE] transition' : ''
+                    }`}
+                  >
                     {isCameraActive ? (
                       <video
                         ref={selfieVideoRef}
@@ -6414,23 +6420,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         <Camera className="size-8 text-[#06B6D4] mx-auto opacity-80" />
                         <span className="text-[9px] font-mono text-[#8B949E] block mt-1.5">
                           {enrollmentLang === 'ur_roman'
-                            ? 'لائیو کیمرہ کھولنے کے لیے نیچے دبائیں'
+                            ? 'لائیو سیلفی کیمرہ کھولنے کے لیے یہاں کلک کریں'
                             : enrollmentLang === 'ar'
-                            ? 'اضغط لفتح الكاميرا المباشرة'
-                            : 'TAP TO OPEN LIVE CAMERA'}
+                            ? 'اضغط هنا لفتح كاميرا السيلفي المباشرة'
+                            : 'OPEN LIVE SELFIE CAMERA'}
                         </span>
                       </div>
                     )}
                   </div>
-
-                  <input
-                    ref={selfieFileInputRef}
-                    type="file"
-                    accept="image/*"
-                    capture="user"
-                    onChange={handleSelfieFileSelect}
-                    className="hidden"
-                  />
 
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     {isCameraActive ? (
@@ -6458,30 +6455,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         </button>
                       </>
                     ) : (
-                      <>
-                        <button
-                          type="button"
-                          onClick={startSelfieCamera}
-                          className="min-h-[44px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2 text-xs font-mono font-bold text-[#0D1117] transition flex items-center gap-1.5"
-                        >
-                          <Camera className="size-4" />
-                          <span>
-                            {enrollSelfieDone
-                              ? (enrollmentLang === 'ur_roman' ? 'دوبارہ لائیو تصویر لیں' : enrollmentLang === 'ar' ? 'إعادة فتح الكاميرا' : 'Re-Open Live Camera')
-                              : (enrollmentLang === 'ur_roman' ? 'لائیو کیمرہ کھولیں' : enrollmentLang === 'ar' ? 'فتح الكاميرا المباشرة' : 'Open Live Selfie Camera')}
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => selfieFileInputRef.current?.click()}
-                          className="min-h-[44px] rounded-xl bg-[#21262D] hover:bg-[#30363D] border border-[#30363D] px-3.5 py-2 text-xs font-mono text-[#F0F6FC] transition flex items-center gap-1.5"
-                        >
-                          <Camera className="size-3.5 text-[#06B6D4]" />
-                          <span>
-                            {enrollmentLang === 'ur_roman' ? 'فون کیمرہ استعمال کریں' : enrollmentLang === 'ar' ? 'استخدام كاميرا الهاتف' : 'Use Phone Camera'}
-                          </span>
-                        </button>
-                      </>
+                      <button
+                        type="button"
+                        onClick={startSelfieCamera}
+                        className="min-h-[44px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2 text-xs font-mono font-bold text-[#0D1117] transition flex items-center gap-1.5"
+                      >
+                        <Camera className="size-4" />
+                        <span>
+                          {enrollSelfieDone
+                            ? (enrollmentLang === 'ur_roman' ? 'دوبارہ لائیو سیلفی لیں' : enrollmentLang === 'ar' ? 'إعادة فتح كاميرا السيلفي' : 'Re-Open Live Selfie Camera')
+                            : (enrollmentLang === 'ur_roman' ? 'لائیو سیلفی کیمرہ کھولیں' : enrollmentLang === 'ar' ? 'فتح كاميرا السيلفي المباشرة' : 'Open Live Selfie Camera')}
+                        </span>
+                      </button>
                     )}
                   </div>
 

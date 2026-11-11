@@ -178,13 +178,13 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
 
       {/* 2. NEEDS YOUR ATTENTION TODAY (UNREAD VOICE MESSAGES + AGENT CASH HANDOVER ONLY) */}
       {(dismissedVoiceCard || dismissedCashCard) && (
-        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2 text-xs font-mono">
+        <div className="lg:hidden flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2 text-xs font-mono">
           <span className="text-[#8B949E]">
             {dismissedVoiceCard && dismissedCashCard
-              ? 'Attention alerts minimized on home view.'
+              ? 'Attention alerts minimized on mobile view.'
               : dismissedVoiceCard
-              ? 'Unread Voice alert closed on home view.'
-              : 'Agent Cash Held alert closed on home view.'}
+              ? 'Unread Voice alert closed on mobile view.'
+              : 'Agent Cash Held alert closed on mobile view.'}
           </span>
           <button
             type="button"
@@ -199,106 +199,108 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
         </div>
       )}
 
-      {(!dismissedVoiceCard || !dismissedCashCard) && (
-        <div className="grid gap-4 lg:grid-cols-2 min-w-0">
-          {/* Card A: Unread Salon Owner Voice Messages */}
-          {!dismissedVoiceCard && (
-            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 flex flex-col justify-between gap-3.5 min-w-0 overflow-hidden">
-              <div className="flex items-start justify-between gap-2.5 min-w-0">
-                <div className="flex items-start gap-3 min-w-0 flex-1">
-                  <span className="grid size-10 sm:size-11 shrink-0 place-items-center rounded-xl border border-[#06B6D4]/40 bg-[#06B6D4]/15 text-cyan-400">
-                    <Mic className="size-5" />
+      <div className="grid gap-4 lg:grid-cols-2 min-w-0">
+        {/* Card A: Unread Salon Owner Voice Messages */}
+        <div
+          className={`${
+            dismissedVoiceCard ? 'hidden lg:flex' : 'flex'
+          } rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 flex-col justify-between gap-3.5 min-w-0 overflow-hidden`}
+        >
+          <div className="flex items-start justify-between gap-2.5 min-w-0">
+            <div className="flex items-start gap-3 min-w-0 flex-1">
+              <span className="grid size-10 sm:size-11 shrink-0 place-items-center rounded-xl border border-[#06B6D4]/40 bg-[#06B6D4]/15 text-cyan-400">
+                <Mic className="size-5" />
+              </span>
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word]">
+                    2 Unread Voice Messages
                   </span>
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word]">
-                        2 Unread Voice Messages
-                      </span>
-                      <span className="rounded-full border border-[#06B6D4]/40 bg-[#06B6D4]/15 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-400 shrink-0">
-                        NEW VOICE
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
-                      From Seven Cuts Salon &amp; Noor Beauty Lounge · Tap Listen below to play &amp; reply
-                    </p>
-                    <p className="text-[11px] font-mono text-[#3FB950] break-words [overflow-wrap:break-word]">
-                      ✓ Deal videos are verified automatically by system
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setDismissedVoiceCard(true)}
-                  aria-label="Close Unread Voice Messages card"
-                  title="Close card"
-                  className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-[#30363D] bg-[#21262D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition shrink-0"
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => go('Voice')}
-                className="w-full sm:w-auto sm:self-end min-h-[48px] inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2.5 text-xs font-mono font-bold text-[#0D1117] transition active:scale-[0.99]"
-              >
-                <span>Listen &amp; Reply</span>
-                <ArrowRight className="size-3.5" />
-              </button>
-            </div>
-          )}
-
-          {/* Card B: Field Agent Cash Limit & Automatic Commission Settlement */}
-          {!dismissedCashCard && (
-            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 flex flex-col justify-between gap-3.5 min-w-0 overflow-hidden">
-              <div className="flex items-start justify-between gap-2.5 min-w-0">
-                <div className="flex items-start gap-3 min-w-0 flex-1">
-                  <span className="grid size-10 sm:size-11 shrink-0 place-items-center rounded-xl border border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]">
-                    <WalletCards className="size-5" />
+                  <span className="rounded-full border border-[#06B6D4]/40 bg-[#06B6D4]/15 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-400 shrink-0">
+                    NEW VOICE
                   </span>
-                  <div className="min-w-0 flex-1 space-y-1.5">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word]">
-                        Agent Cash Held: <span className="text-[#D29922]">PKR {kamranCashHeld.toLocaleString()}</span> / 50,000
-                      </span>
-                      <span className="rounded-full border border-[#9E6A03] bg-[#3B2E0B] px-2 py-0.5 text-[10px] font-mono font-bold text-[#D29922] shrink-0">
-                        48H · 2-DEAL CAP
-                      </span>
-                    </div>
-                    <p className="text-xs text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
-                      System automatically blocks a 3rd deal past 48h or PKR 50,000, auto-deducts from agent commission if overdue, and notifies the agent.
-                    </p>
-                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setDismissedCashCard(true)}
-                  aria-label="Close Agent Cash Held card"
-                  title="Close card"
-                  className="min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-[#30363D] bg-[#21262D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition shrink-0"
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-xl border border-[#116329] bg-[#0D3822] px-3 py-1.5 text-[10px] font-mono font-bold text-[#3FB950]">
-                  <CheckCircle2 className="size-3.5 shrink-0" />
-                  <span>AUTO-ENFORCED</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => go('Revenue')}
-                  className="min-h-[40px] inline-flex items-center gap-1 rounded-xl border border-[#30363D] bg-[#21262D] hover:border-[#06B6D4] px-3 py-1.5 text-[11px] font-mono font-bold text-[#06B6D4] transition"
-                >
-                  <span>View Cash &amp; Bank Ledger</span>
-                  <ArrowRight className="size-3.5" />
-                </button>
+                <p className="text-xs text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
+                  From Seven Cuts Salon &amp; Noor Beauty Lounge · Tap Listen below to play &amp; reply
+                </p>
+                <p className="text-[11px] font-mono text-[#3FB950] break-words [overflow-wrap:break-word]">
+                  ✓ Deal videos are verified automatically by system
+                </p>
               </div>
             </div>
-          )}
+            <button
+              type="button"
+              onClick={() => setDismissedVoiceCard(true)}
+              aria-label="Close Unread Voice Messages card"
+              title="Close card"
+              className="lg:hidden min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-[#30363D] bg-[#21262D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition shrink-0"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => go('Voice')}
+            className="w-full sm:w-auto sm:self-end min-h-[48px] inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2.5 text-xs font-mono font-bold text-[#0D1117] transition active:scale-[0.99]"
+          >
+            <span>Listen &amp; Reply</span>
+            <ArrowRight className="size-3.5" />
+          </button>
         </div>
-      )}
+
+        {/* Card B: Field Agent Cash Limit & Automatic Commission Settlement */}
+        <div
+          className={`${
+            dismissedCashCard ? 'hidden lg:flex' : 'flex'
+          } rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 flex-col justify-between gap-3.5 min-w-0 overflow-hidden`}
+        >
+          <div className="flex items-start justify-between gap-2.5 min-w-0">
+            <div className="flex items-start gap-3 min-w-0 flex-1">
+              <span className="grid size-10 sm:size-11 shrink-0 place-items-center rounded-xl border border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]">
+                <WalletCards className="size-5" />
+              </span>
+              <div className="min-w-0 flex-1 space-y-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word]">
+                    Agent Cash Held: <span className="text-[#D29922]">PKR {kamranCashHeld.toLocaleString()}</span> / 50,000
+                  </span>
+                  <span className="rounded-full border border-[#9E6A03] bg-[#3B2E0B] px-2 py-0.5 text-[10px] font-mono font-bold text-[#D29922] shrink-0">
+                    48H · 2-DEAL CAP
+                  </span>
+                </div>
+                <p className="text-xs text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
+                  System automatically blocks a 3rd deal past 48h or PKR 50,000, auto-deducts from agent commission if overdue, and notifies the agent.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDismissedCashCard(true)}
+              aria-label="Close Agent Cash Held card"
+              title="Close card"
+              className="lg:hidden min-h-[40px] min-w-[40px] grid place-items-center rounded-xl border border-[#30363D] bg-[#21262D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition shrink-0"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-xl border border-[#116329] bg-[#0D3822] px-3 py-1.5 text-[10px] font-mono font-bold text-[#3FB950]">
+              <CheckCircle2 className="size-3.5 shrink-0" />
+              <span>AUTO-ENFORCED</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => go('Revenue')}
+              className="min-h-[40px] inline-flex items-center gap-1 rounded-xl border border-[#30363D] bg-[#21262D] hover:border-[#06B6D4] px-3 py-1.5 text-[11px] font-mono font-bold text-[#06B6D4] transition"
+            >
+              <span>View Cash &amp; Bank Ledger</span>
+              <ArrowRight className="size-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* 3. CORE EXECUTIVE GRID: SALONS NEEDING ATTENTION TODAY + 1-GLANCE MONEY SUMMARY */}
       <div className="grid gap-6 lg:grid-cols-2">
