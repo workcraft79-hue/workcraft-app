@@ -50,15 +50,15 @@ export class SilentSelfHealingBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="rounded-2xl border border-emerald-500/30 bg-[#102019] p-6 text-center space-y-2.5 max-w-md mx-auto my-8">
-          <div className="mx-auto size-10 rounded-xl border border-emerald-500/40 bg-emerald-500/15 grid place-items-center text-emerald-300">
+        <div className="rounded-2xl border border-[#116329] bg-[#161B22] p-6 text-center space-y-2.5 max-w-md mx-auto my-8">
+          <div className="mx-auto size-10 rounded-xl border border-[#116329] bg-[#0D3822] grid place-items-center text-[#3FB950]">
             <RefreshCw className="size-5 animate-spin" />
           </div>
-          <p className="text-sm font-bold text-white flex items-center justify-center gap-1.5">
-            <ShieldCheck className="size-4 text-emerald-400" />
+          <p className="text-sm font-bold text-[#F0F6FC] flex items-center justify-center gap-1.5">
+            <ShieldCheck className="size-4 text-[#3FB950]" />
             <span>Refreshing {this.props.areaName}...</span>
           </p>
-          <p className="text-xs text-white/65 font-sans">
+          <p className="text-xs text-[#8B949E] font-sans">
             System detected a display hiccup and restored your screen automatically.
           </p>
         </div>

@@ -18,6 +18,7 @@ interface TabsSectionProps {
   go: (tab: TabName) => void;
   setPaymentRouting: (method: string) => void;
   onInspectSalon?: (salonName: string) => void;
+  onLaunchFounderPreview?: (mode: 'AGENT' | 'SALON_ONBOARD' | 'SALON_LIVE') => void;
 }
 
 export const TabsSection: React.FC<TabsSectionProps> = ({
@@ -25,6 +26,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
   go,
   setPaymentRouting,
   onInspectSalon,
+  onLaunchFounderPreview,
 }) => {
   // Contact search state (Query 3)
   const [clientSearch, setClientSearch] = useState('');
@@ -124,36 +126,36 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
 
   return (
     <PortalCard title={getTitle()} kicker="WORKCRAFT LOCAL" onClose={() => go('Overview')}>
-      <div className="flex flex-col gap-5 text-sm text-[#F5F2E9]">
+      <div className="flex flex-col gap-5 pb-28 lg:pb-8 min-w-0 text-sm text-[#F0F6FC]">
         {/* 1. Contact / Clients Tab */}
         {active === 'Contact / Clients' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] p-4">
-              <div className="flex items-center gap-3">
-                <span className="grid size-9 place-items-center rounded-lg bg-black/40 border border-white/10 text-[#D9A441]">
+            <div className="flex items-center justify-between gap-3 rounded-xl border border-[#30363D] bg-[#0D1117] p-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-[#21262D] border border-[#30363D] text-[#D29922]">
                   <Archive className="size-5" />
                 </span>
-                <div>
-                  <h4 className="text-sm font-bold text-[#F5F2E9]">Active Salon Partners</h4>
-                  <p className="text-[11px] font-mono text-white/55">
+                <div className="min-w-0">
+                  <h4 className="text-sm font-bold text-[#F0F6FC]">Active Salon Partners</h4>
+                  <p className="text-[11px] font-mono text-[#8B949E]">
                     Click any salon (e.g. Seven Cuts Salon) to view start date, months paid, lifetime revenue, and auto-reactivation.
                   </p>
                 </div>
               </div>
-              <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 text-xs font-mono font-bold text-emerald-300">
+              <span className="rounded-md bg-[#0D3822] border border-[#116329] px-2.5 py-1 text-xs font-mono font-bold text-[#3FB950] shrink-0">
                 {SALONS.length} LIVE
               </span>
             </div>
 
             {/* Search Bar across all active salons (Query 3) */}
             <div className="relative">
-              <Search className="size-4 text-white/45 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="size-4 text-[#8B949E] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={clientSearch}
                 onChange={(e) => setClientSearch(e.target.value)}
                 placeholder="Search salon name, owner, or city..."
-                className="w-full rounded-xl border border-white/15 bg-black/40 pl-10 pr-4 py-2.5 text-xs font-mono text-[#F5F2E9] placeholder:text-white/40 focus:border-[#00FFFF] focus:outline-none"
+                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] pl-10 pr-4 py-2.5 text-sm font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
               />
             </div>
 
@@ -168,22 +170,22 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
               ).map((salon, idx) => (
                 <div
                   key={salon.name}
-                  className="w-full text-left rounded-xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-[#00FFFF]/40 hover:bg-white/[0.07] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className="w-full text-left rounded-xl border border-[#30363D] bg-[#0D1117] p-4 transition-colors hover:border-[#484F58] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
-                  <div className="flex items-center gap-3.5">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-black/40 border border-white/10 text-xs font-mono font-bold text-[#D9A441]">
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-[#21262D] border border-[#30363D] text-xs font-mono font-bold text-[#D29922]">
                       {salon.initials}
                     </span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-[#00FFFF]">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono text-xs font-bold text-[#06B6D4]">
                           [WC-{101 + idx}]
                         </span>
-                        <h5 className="text-base font-semibold text-[#F5F2E9] tracking-tight">
+                        <h5 className="text-base font-semibold text-[#F0F6FC] tracking-tight">
                           {salon.name}
                         </h5>
                       </div>
-                      <p className="mt-0.5 text-xs font-mono text-white/55">
+                      <p className="mt-0.5 text-xs font-mono text-[#8B949E]">
                         Owner: {salon.owner} · {salon.location} · {salon.plan}
                       </p>
                     </div>
@@ -191,10 +193,10 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
 
                   <div className="flex flex-wrap items-center gap-2 self-end sm:self-center">
                     <span
-                      className={`font-mono text-xs px-2.5 py-0.5 rounded-full border ${
+                      className={`font-mono text-xs px-2.5 py-1 rounded-md border ${
                         salon.status === 'Paid'
-                          ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
-                          : 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+                          ? 'bg-[#0D3822] text-[#3FB950] border-[#116329]'
+                          : 'bg-[#3B2E0B] text-[#D29922] border-[#9E6A03]'
                       }`}
                     >
                       {salon.status === 'Paid' ? 'Paid ✓' : 'Due After 5th'}
@@ -202,7 +204,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                     <button
                       type="button"
                       onClick={() => (onInspectSalon ? onInspectSalon(salon.name) : go('Salon Owner Dashboard'))}
-                      className="inline-flex items-center gap-1 rounded-lg border border-[#D9A441]/40 bg-[#D9A441]/10 hover:bg-[#D9A441]/20 px-3 py-1.5 text-xs font-mono font-bold text-[#D9A441] transition"
+                      className="min-h-[44px] inline-flex items-center gap-1.5 rounded-lg border border-[#30363D] bg-[#21262D] hover:border-[#06B6D4] px-3 py-1.5 text-xs font-mono font-bold text-[#D29922] transition"
                     >
                       <Eye className="size-3.5" />
                       <span>Inspect Salon</span>
@@ -210,7 +212,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                     <button
                       type="button"
                       onClick={() => handleOpenSalonDossier(salon.name)}
-                      className="rounded-lg border border-white/10 bg-white/[0.04] hover:border-[#00FFFF] px-3 py-1.5 text-xs font-mono text-[#00FFFF] transition"
+                      className="min-h-[44px] rounded-lg border border-[#30363D] bg-[#21262D] hover:border-[#06B6D4] px-3 py-1.5 text-xs font-mono font-bold text-[#06B6D4] transition"
                     >
                       Billing &amp; Receipts →
                     </button>
@@ -222,27 +224,27 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
             {/* DEEP-DIVE SALON OWNER DOSSIER MODAL */}
             {selectedSalonDetail && (
               <div
-                className="fixed inset-0 z-[80] grid place-items-center bg-black/85 p-4 backdrop-blur-md"
+                className="fixed inset-0 z-[80] grid place-items-center bg-[#0D1117]/80 p-4 backdrop-blur-md"
                 onClick={() => setSelectedSalonDetail(null)}
               >
                 <div
                   onClick={(e) => e.stopPropagation()}
-                  className="w-full max-w-2xl rounded-3xl border border-[#00FFFF]/30 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto space-y-5"
+                  className="w-full max-w-2xl rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto space-y-5"
                 >
                   {/* Header */}
-                  <div className="flex items-start justify-between border-b border-white/10 pb-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs font-bold text-[#00FFFF]">[WC-101]</span>
-                        <h3 className="text-xl font-bold text-[#F5F2E9]">{selectedSalonDetail.name}</h3>
-                        <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
+                  <div className="flex items-start justify-between border-b border-[#21262D] pb-4 gap-3">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono text-xs font-bold text-[#06B6D4]">[WC-101]</span>
+                        <h3 className="text-xl font-bold text-[#F0F6FC]">{selectedSalonDetail.name}</h3>
+                        <span className="rounded-md bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[9px] font-mono font-bold text-[#3FB950]">
                           VERIFIED PARTNER
                         </span>
                       </div>
-                      <p className="text-xs font-mono text-white/55 mt-1">
+                      <p className="text-xs font-mono text-[#8B949E] mt-1">
                         Owner: {selectedSalonDetail.owner} · WhatsApp: {selectedSalonDetail.phone}
                       </p>
-                      <p className="text-[11px] font-mono text-white/45 mt-0.5">
+                      <p className="text-[11px] font-mono text-[#6E7681] mt-0.5">
                         Location: {selectedSalonDetail.location} ({selectedSalonDetail.gps})
                       </p>
                     </div>
@@ -253,7 +255,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                         e.stopPropagation();
                         setSelectedSalonDetail(null);
                       }}
-                      className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+                      className="min-h-[44px] min-w-[44px] grid place-items-center rounded-xl bg-[#21262D] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition active:scale-95 shrink-0"
                       title="Close Dossier Modal"
                       aria-label="Close Dossier Modal"
                     >
@@ -263,12 +265,12 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
 
                   {/* Feedback Banner */}
                   {reactivationSuccessMsg && (
-                    <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 space-y-1 animate-in fade-in">
+                    <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-xs font-mono text-[#3FB950] space-y-1 animate-in fade-in overflow-hidden">
                       <p className="font-bold flex items-center gap-1.5">
-                        <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                        <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
                         <span>System Auto-Reactivation Triggered</span>
                       </p>
-                      <p className="text-[11px] text-white/80 font-sans leading-relaxed">
+                      <p className="text-[11px] text-[#F0F6FC] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
                         {reactivationSuccessMsg}
                       </p>
                     </div>
@@ -276,74 +278,74 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
 
                   {/* Summary Metric Cards */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs">
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                      <span className="text-[10px] text-white/45 uppercase block">Services Started</span>
-                      <span className="text-xs font-bold text-[#F5F2E9] mt-0.5 block truncate">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">Services Started</span>
+                      <span className="text-xs font-bold text-[#F0F6FC] mt-0.5 block truncate">
                         {selectedSalonDetail.startDate}
                       </span>
-                      <span className="text-[9px] text-[#00FFFF]">{selectedSalonDetail.monthsActive} Months Active</span>
+                      <span className="text-[9px] text-[#06B6D4]">{selectedSalonDetail.monthsActive} Months Active</span>
                     </div>
 
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                      <span className="text-[10px] text-white/45 uppercase block">Months Paid</span>
-                      <span className="text-base font-bold text-emerald-400 mt-0.5 block">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">Months Paid</span>
+                      <span className="text-base font-bold text-[#3FB950] mt-0.5 block">
                         {selectedSalonDetail.monthsPaid} / {selectedSalonDetail.monthsActive} Paid
                       </span>
-                      <span className="text-[9px] text-emerald-300">100% On-Time Record</span>
+                      <span className="text-[9px] text-[#3FB950]">100% On-Time Record</span>
                     </div>
 
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                      <span className="text-[10px] text-white/45 uppercase block">Lifetime Revenue</span>
-                      <span className="text-base font-bold text-[#D9A441] mt-0.5 block">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">Lifetime Revenue</span>
+                      <span className="text-base font-bold text-[#D29922] mt-0.5 block">
                         PKR {selectedSalonDetail.totalRevenue.toLocaleString()}
                       </span>
-                      <span className="text-[9px] text-white/45">Setup + Recurring</span>
+                      <span className="text-[9px] text-[#6E7681]">Setup + Recurring</span>
                     </div>
 
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-                      <span className="text-[10px] text-white/45 uppercase block">Monthly Tier</span>
-                      <span className="text-xs font-bold text-[#F5F2E9] mt-0.5 block">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">Monthly Tier</span>
+                      <span className="text-xs font-bold text-[#F0F6FC] mt-0.5 block">
                         PKR {selectedSalonDetail.monthlyFee.toLocaleString()} / mo
                       </span>
-                      <span className="text-[9px] text-[#00FFFF]">Self-Paid Direct</span>
+                      <span className="text-[9px] text-[#06B6D4]">Self-Paid Direct</span>
                     </div>
                   </div>
 
                   {/* 6-Month Operational & Revenue Review Status (Promo on hold as decided) */}
-                  <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-bold text-white/70 flex items-center gap-1.5 uppercase tracking-wider">
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-mono font-bold text-[#8B949E] flex items-center gap-1.5 uppercase tracking-wider">
                         6-Month Operational &amp; Revenue Audit Status
                       </span>
-                      <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                      <span className="text-[10px] font-mono text-[#3FB950] font-bold bg-[#0D3822] px-2 py-0.5 rounded border border-[#116329] shrink-0">
                         100% COMPLIANT
                       </span>
                     </div>
-                    <p className="text-xs text-[#F5F2E9] font-sans leading-relaxed">
-                      <strong>{selectedSalonDetail.name}</strong> has maintained continuous on-time payments across {selectedSalonDetail.monthsPaid} active billing cycles. Total revenue generated to date: <strong className="text-[#D9A441] font-mono">PKR {selectedSalonDetail.totalRevenue.toLocaleString()}</strong>.
+                    <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
+                      <strong>{selectedSalonDetail.name}</strong> has maintained continuous on-time payments across {selectedSalonDetail.monthsPaid} active billing cycles. Total revenue generated to date: <strong className="text-[#D29922] font-mono">PKR {selectedSalonDetail.totalRevenue.toLocaleString()}</strong>.
                     </p>
-                    <p className="text-[11px] text-white/45 font-mono">
+                    <p className="text-[11px] text-[#6E7681] font-mono">
                       * Operational Policy: Promotional deals and marketing bonus programs are on hold. The founder will review aggregate 6-month revenue performance before deciding on promo launches.
                     </p>
                   </div>
 
                   {/* Disconnected Salon & Instant Auto-Reactivation Flow with Native Dialect Support */}
-                  <div className="rounded-xl border border-white/10 bg-black/40 p-4 space-y-3 font-mono">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#00FFFF] uppercase">
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3 font-mono">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-[#06B6D4] uppercase">
                         Autonomous Payment Detection &amp; Native Welcome Dispatch
                       </span>
-                      <span className="text-[9px] text-emerald-400">TOUCHLESS ENGINE</span>
+                      <span className="text-[9px] text-[#3FB950] shrink-0">TOUCHLESS ENGINE</span>
                     </div>
-                    <p className="text-xs text-white/70 font-sans leading-relaxed">
+                    <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
                       If the salon owner is remote (or in MENA / abroad) and maintenance charges were disconnected post-5th:
                       <br />
-                      <strong>No agent physical visit is required.</strong> As soon as the owner pays via EasyPaisa, JazzCash, IBFT, or Stripe/Tap, the system automatically detects the payment, clears the analytics lock, activates the metric box, and pushes the welcome-back message in the owner's preferred dialect starting with <em>“Assalam o alaikum”</em>:
+                      <strong className="text-[#F0F6FC]">No agent physical visit is required.</strong> As soon as the owner pays via EasyPaisa, JazzCash, IBFT, or Stripe/Tap, the system automatically detects the payment, clears the analytics lock, activates the metric box, and pushes the welcome-back message in the owner&apos;s preferred dialect starting with <em>“Assalam o alaikum”</em>:
                     </p>
 
-                    <div className="rounded-lg bg-black/60 border border-white/10 p-3 text-[11px] font-mono text-emerald-300 space-y-1">
-                      <p className="text-white/45 text-[10px] uppercase font-bold">Auto-Generated Native WhatsApp Template (Strict Greeting Rule):</p>
-                      <p className="italic font-sans">
+                    <div className="rounded-lg bg-[#161B22] border border-[#30363D] p-3 text-[11px] font-mono text-[#3FB950] space-y-1 overflow-hidden">
+                      <p className="text-[#6E7681] text-[10px] uppercase font-bold">Auto-Generated Native WhatsApp Template (Strict Greeting Rule):</p>
+                      <p className="italic font-sans break-words [overflow-wrap:break-word]">
                         “Assalamu Alaikum {selectedSalonDetail.owner}! Aap ki 10% maintenance payment PKR {selectedSalonDetail.monthlyFee.toLocaleString()} receive ho gayi hai. Continuous Care SLA (&lt;60 min recovery) active hai aur booking lines dubara open ho chuki hain. Aap ka metric box ab live hai.”
                       </p>
                     </div>
@@ -351,7 +353,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                     <button
                       type="button"
                       onClick={handleSimulateAutoReactivation}
-                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                      className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95"
                     >
                       <span>Simulate Auto-Detection &amp; Metric Box Reactivation</span>
                     </button>
@@ -360,10 +362,10 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                   {/* Complete Month-by-Month Financial Ledger */}
                   <div className="space-y-2 font-mono">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-white/55 font-bold uppercase tracking-wider">
+                      <span className="text-[#8B949E] font-bold uppercase tracking-wider">
                         Payment History Ledger ({selectedSalonDetail.history.length} Months)
                       </span>
-                      <span className="text-[#D9A441] font-bold">
+                      <span className="text-[#D29922] font-bold">
                         Total Settled: PKR {selectedSalonDetail.totalRevenue.toLocaleString()}
                       </span>
                     </div>
@@ -372,20 +374,20 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                       {selectedSalonDetail.history.map((h, i) => (
                         <div
                           key={i}
-                          className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.03] p-2.5"
+                          className="flex items-center justify-between rounded-lg border border-[#30363D] bg-[#0D1117] p-2.5"
                         >
-                          <div>
-                            <span className="text-[#F5F2E9] font-bold">{h.month}</span>
-                            <span className="text-white/45 text-[11px] block">
+                          <div className="min-w-0">
+                            <span className="text-[#F0F6FC] font-bold">{h.month}</span>
+                            <span className="text-[#8B949E] text-[11px] block break-all [overflow-wrap:break-word]">
                               {h.method} · Ref: {h.txn}
                             </span>
                           </div>
 
-                          <div className="text-right">
-                            <span className="text-[#D9A441] font-bold block">
+                          <div className="text-right shrink-0">
+                            <span className="text-[#D29922] font-bold block">
                               PKR {h.amount.toLocaleString()}
                             </span>
-                            <span className="text-emerald-400 text-[10px]">{h.status}</span>
+                            <span className="text-[#3FB950] text-[10px]">{h.status}</span>
                           </div>
                         </div>
                       ))}
@@ -396,12 +398,12 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
             )}
 
             {/* Archived Salon Profiles Container */}
-            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 mt-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <p className="text-xs font-mono font-bold text-[#F5F2E9] uppercase tracking-wider">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 mt-6">
+              <div className="flex items-center justify-between border-b border-[#21262D] pb-3">
+                <p className="text-xs font-mono font-bold text-[#F0F6FC] uppercase tracking-wider">
                   Archived / Restorable Profiles (12 Profiles)
                 </p>
-                <span className="text-[10px] font-mono text-white/55">
+                <span className="text-[10px] font-mono text-[#6E7681]">
                   Historical templates preserved
                 </span>
               </div>
@@ -409,17 +411,17 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                 {ARCHIVED_SALONS.slice(0, 4).map((arch) => (
                   <div
                     key={arch.name}
-                    className="flex items-center justify-between rounded-lg border border-white/10 bg-black/30 p-2.5"
+                    className="flex items-center justify-between rounded-lg border border-[#30363D] bg-[#161B22] p-3"
                   >
-                    <div>
-                      <p className="text-xs font-bold text-[#F5F2E9]">{arch.name}</p>
-                      <p className="text-[10px] font-mono text-white/55">
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-[#F0F6FC] truncate">{arch.name}</p>
+                      <p className="text-[10px] font-mono text-[#8B949E] truncate">
                         {arch.owner} · {arch.plan}
                       </p>
                     </div>
                     <button
                       onClick={() => go('Pairing')}
-                      className="text-[10px] font-mono font-bold text-[#D9A441] hover:underline"
+                      className="min-h-[36px] px-2 text-[10px] font-mono font-bold text-[#06B6D4] hover:underline shrink-0"
                     >
                       Reactivate
                     </button>
@@ -435,46 +437,46 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
           <div className="space-y-6">
             {/* Top Financial Stat Highlights */}
             <div className="grid gap-3.5 sm:grid-cols-3">
-              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                <p className="text-xs font-mono uppercase tracking-wider text-white/55">
+              <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4">
+                <p className="text-xs font-mono uppercase tracking-wider text-[#8B949E]">
                   Total Verified MRR
                 </p>
-                <p className="mt-2 text-2xl font-bold font-mono text-[#D9A441]">
+                <p className="mt-2 text-2xl font-bold font-mono text-[#D29922]">
                   PKR 108,000
                 </p>
                 <div className="mt-2 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-white/55">24 of 27 Paid</span>
-                  <span className="rounded bg-emerald-950 px-2 py-0.5 text-[10px] font-mono text-emerald-300 border border-emerald-500/30">
+                  <span className="text-[10px] font-mono text-[#8B949E]">24 of 27 Paid</span>
+                  <span className="rounded bg-[#0D3822] px-2 py-0.5 text-[10px] font-mono text-[#3FB950] border border-[#116329]">
                     Verified
                   </span>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                <p className="text-xs font-mono uppercase tracking-wider text-white/55">
+              <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4">
+                <p className="text-xs font-mono uppercase tracking-wider text-[#8B949E]">
                   In-Hand Cash Held (Kamran)
                 </p>
-                <p className="mt-2 text-2xl font-bold font-mono text-[#D9A441]">
+                <p className="mt-2 text-2xl font-bold font-mono text-[#D29922]">
                   PKR 25,000
                 </p>
                 <div className="mt-2 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-white/55">Target: 48h Handover</span>
-                  <span className="rounded bg-amber-500/20 px-2 py-0.5 text-[10px] font-mono text-amber-300 border border-amber-500/40">
+                  <span className="text-[10px] font-mono text-[#8B949E]">Target: 48h Handover</span>
+                  <span className="rounded bg-[#3B2E0B] px-2 py-0.5 text-[10px] font-mono text-[#D29922] border border-[#9E6A03]">
                     Liability
                   </span>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                <p className="text-xs font-mono uppercase tracking-wider text-white/55">
+              <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4">
+                <p className="text-xs font-mono uppercase tracking-wider text-[#8B949E]">
                   Server &amp; WhatsApp Rent
                 </p>
-                <p className="mt-2 text-2xl font-bold font-mono text-emerald-300">
+                <p className="mt-2 text-2xl font-bold font-mono text-[#3FB950]">
                   $0.00 / mo
                 </p>
                 <div className="mt-2 flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-white/55">Self-Hosted Android SIM</span>
-                  <span className="rounded bg-emerald-950 px-2 py-0.5 text-[10px] font-mono text-emerald-300 border border-emerald-500/30">
+                  <span className="text-[10px] font-mono text-[#8B949E]">Self-Hosted Android SIM</span>
+                  <span className="rounded bg-[#0D3822] px-2 py-0.5 text-[10px] font-mono text-[#3FB950] border border-[#116329]">
                     Active
                   </span>
                 </div>
@@ -483,7 +485,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
 
             {/* Payment Verification Gateways */}
             <div className="space-y-3">
-              <h4 className="text-xs font-mono font-bold text-[#D9A441] uppercase tracking-wider">
+              <h4 className="text-xs font-mono font-bold text-[#D29922] uppercase tracking-wider">
                 Automated Webhook Channels &amp; Reconciliation
               </h4>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -495,16 +497,16 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                   <button
                     key={item.name}
                     onClick={() => setPaymentRouting(item.name)}
-                    className="rounded-xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-white/20 group"
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] p-4 text-left transition hover:border-[#06B6D4] group"
                   >
                     <div className="flex items-center justify-between">
-                      <CreditCard className="size-5 text-[#D9A441] group-hover:scale-105 transition-transform" />
-                      <span className="rounded bg-white/[0.06] px-2 py-0.5 text-[10px] font-mono text-[#F5F2E9] border border-white/10">
+                      <CreditCard className="size-5 text-[#D29922] group-hover:scale-105 transition-transform" />
+                      <span className="rounded bg-[#21262D] px-2 py-0.5 text-[10px] font-mono text-[#F0F6FC] border border-[#30363D]">
                         {item.status}
                       </span>
                     </div>
-                    <p className="mt-3 text-sm font-bold text-[#F5F2E9]">{item.name}</p>
-                    <p className="mt-1 text-[11px] text-white/55 font-sans leading-relaxed">
+                    <p className="mt-3 text-sm font-bold text-[#F0F6FC]">{item.name}</p>
+                    <p className="mt-1 text-[11px] text-[#8B949E] font-sans leading-relaxed">
                       {item.desc}
                     </p>
                   </button>
@@ -517,7 +519,7 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
         {/* 3. Pairing Tab */}
         {active === 'Pairing' && (
           <div className="space-y-4">
-            <div className="mx-auto grid size-52 place-items-center rounded-2xl bg-white p-5 text-[#12241C] shadow-[0_0_24px_rgba(0,255,255,0.2)] border-2 border-[#00FFFF]">
+            <div className="mx-auto grid size-52 place-items-center rounded-2xl bg-white p-5 text-[#0D1117] border-2 border-[#06B6D4]">
               <svg viewBox="0 0 100 100" className="w-full h-full text-slate-900">
                 <rect x="5" y="5" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
                 <rect x="10" y="10" width="12" height="12" fill="currentColor" rx="1" />
@@ -531,22 +533,22 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                 <circle cx="12" cy="34" r="2.5" fill="currentColor" />
                 <circle cx="12" cy="50" r="2.5" fill="currentColor" />
                 <circle cx="12" cy="66" r="2.5" fill="currentColor" />
-                <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="2" />
+                <rect x="42" y="42" width="16" height="16" fill="#D29922" rx="2" />
               </svg>
             </div>
 
             <div className="text-center space-y-1">
-              <p className="text-xs font-mono font-bold text-[#F5F2E9]">
+              <p className="text-xs font-mono font-bold text-[#F0F6FC]">
                 Scan with WhatsApp on Salon Terminal
               </p>
-              <p className="text-[11px] font-mono text-emerald-400">
-                Active Alphanumeric Pairing Key: <span className="text-[#00FFFF] font-bold">WC-7892-SYS</span>
+              <p className="text-[11px] font-mono text-[#3FB950]">
+                Active Alphanumeric Pairing Key: <span className="text-[#06B6D4] font-bold">WC-7892-SYS</span>
               </p>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 text-xs text-white/55 text-center space-y-1 font-mono">
-              <p className="text-[#F5F2E9] font-bold">WhatsApp Device Link Ready</p>
-              <p className="text-[10px] text-[#00FFFF]">Central SIM Protection Active · Instant Connection</p>
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 text-xs text-[#8B949E] text-center space-y-1 font-mono">
+              <p className="text-[#F0F6FC] font-bold">WhatsApp Device Link Ready</p>
+              <p className="text-[10px] text-[#06B6D4]">Central SIM Protection Active · Instant Connection</p>
             </div>
           </div>
         )}
@@ -554,25 +556,25 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
         {/* 4. Settings Tab (Query 4: 100% Autonomous Self-Reporting — Zero Manual Switches) */}
         {(active === 'Settings' || active === 'Flow Builder') && (
           <div className="space-y-6">
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 text-emerald-300">
-                  <ShieldCheck className="size-4" />
+            <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-4 space-y-2">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div className="flex items-center gap-2 text-[#3FB950]">
+                  <ShieldCheck className="size-4 shrink-0" />
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider">
                     Auto-Managed System Protection (Zero Manual Work Needed)
                   </h4>
                 </div>
-                <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-emerald-300">
+                <span className="rounded-md bg-[#161B22] border border-[#116329] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#3FB950]">
                   100% AUTOMATIC
                 </span>
               </div>
-              <p className="text-xs text-white/75 font-sans leading-relaxed">
+              <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                 You do not need to turn switches on or off manually. The system detects issues, sends reminders, switches backup lines, and protects client bookings automatically—and simply sends a clean summary report to your Founder number.
               </p>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 space-y-3">
-              <h4 className="text-xs font-mono font-bold text-[#D9A441] uppercase tracking-wider">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
+              <h4 className="text-xs font-mono font-bold text-[#D29922] uppercase tracking-wider">
                 What the System Handles Automatically For You
               </h4>
 
@@ -597,15 +599,15 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                 ].map((rule) => (
                   <div
                     key={rule.title}
-                    className="rounded-xl border border-white/10 bg-black/35 p-3.5 space-y-1.5"
+                    className="rounded-xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-[#F5F2E9]">{rule.title}</span>
-                      <span className="rounded bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-300 shrink-0">
+                      <span className="text-xs font-bold text-[#F0F6FC]">{rule.title}</span>
+                      <span className="rounded bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[9px] font-mono font-bold text-[#3FB950] shrink-0">
                         AUTO-RUNS ✓
                       </span>
                     </div>
-                    <p className="text-[11px] text-white/60 font-sans leading-relaxed">
+                    <p className="text-[11px] text-[#8B949E] font-sans leading-relaxed">
                       {rule.desc}
                     </p>
                   </div>
@@ -614,17 +616,17 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
             </div>
 
             {/* Single Founder Alert Phone Field */}
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 space-y-3">
-              <h4 className="text-xs font-mono font-bold text-[#00FFFF] uppercase tracking-wider">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
+              <h4 className="text-xs font-mono font-bold text-[#06B6D4] uppercase tracking-wider">
                 Where the System Sends Your Founder Reports
               </h4>
               <div className="flex flex-col sm:flex-row sm:items-end gap-3">
-                <label className="text-xs font-bold text-white/65 font-mono flex-1">
+                <label className="text-xs font-bold text-[#8B949E] font-mono flex-1">
                   FOUNDER WHATSAPP NUMBER (SYSTEM REPORTS ONLY)
                   <input
                     value={founderAlertPhone}
                     onChange={(e) => setFounderAlertPhone(e.target.value)}
-                    className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#102019] px-3 py-2.5 text-sm text-[#F5F2E9] font-mono focus:border-[#00FFFF] focus:outline-none"
+                    className="mt-1.5 w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-2.5 text-sm text-[#F0F6FC] font-mono focus:border-[#06B6D4] focus:outline-none"
                   />
                 </label>
                 <button
@@ -633,60 +635,105 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                     setSavedPhoneToast(true);
                     setTimeout(() => setSavedPhoneToast(false), 3000);
                   }}
-                  className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] px-5 py-2.5 text-xs font-mono font-bold text-[#12241C] uppercase transition active:scale-95 shrink-0"
+                  className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-5 py-2.5 text-xs font-mono font-bold text-[#0D1117] uppercase transition active:scale-95 shrink-0"
                 >
                   {savedPhoneToast ? 'Saved ✓' : 'Update Report Number'}
                 </button>
               </div>
               {savedPhoneToast && (
-                <p className="text-xs font-mono text-emerald-300 flex items-center gap-1.5">
+                <p className="text-xs font-mono text-[#3FB950] flex items-center gap-1.5">
                   <CheckCircle2 className="size-3.5" />
                   System will send automatic daily summaries &amp; overdue alerts to {founderAlertPhone}.
                 </p>
               )}
             </div>
 
-            {/* Query 1 Visual Review Panel: Mobile Home-Screen Shortcut Icon (Isolated strictly inside Settings) */}
-            <div className="rounded-xl border border-[#D9A441]/35 bg-black/45 p-4 space-y-3">
+            {/* Query 1 Visual Review Panel: Single Unified WorkCraft Mobile Home-Screen Shortcut Icon */}
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-2 text-[#D9A441]">
+                <div className="flex items-center gap-2 text-[#06B6D4]">
                   <Smartphone className="size-4" />
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider">
                     Mobile Home-Screen Shortcut Icon Review
                   </h4>
                 </div>
-                <span className="rounded-full bg-[#D9A441]/15 border border-[#D9A441]/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#D9A441]">
-                  FOR FOUNDER REVIEW · HOME SCREEN ONLY
+                <span className="rounded-md bg-[#21262D] border border-[#30363D] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#06B6D4]">
+                  GOLD W + CYAN-BLUE WORKCRAFT
                 </span>
               </div>
-              <p className="text-xs text-white/65 font-sans leading-relaxed">
-                This Gold Bullion &quot;W&quot; + crisp WORKCRAFT shortcut icon appears strictly when installed on a phone home screen (never modifying your dashboard headers or footers):
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+                This Gold Bullion &quot;W&quot; + Cyan-Blue WORKCRAFT icon appears when anyone installs the mobile shortcut. Every user sees the simple name <strong className="text-[#F0F6FC]">WorkCraft</strong>—the system detects Founder, Agent, or Salon Owner automatically from their link.
               </p>
-              <div className="grid grid-cols-3 gap-3 pt-1">
-                {[
-                  { role: 'Founder App', label: 'WorkCraft' },
-                  { role: 'Field Agent App', label: 'WorkCraft Agent' },
-                  { role: 'Salon Owner App', label: 'WorkCraft Salon' },
-                ].map((item) => (
-                  <div
-                    key={item.role}
-                    className="rounded-xl border border-white/10 bg-[#102019] p-3 flex flex-col items-center text-center gap-2"
-                  >
-                    <img
-                      src="/icon.svg"
-                      alt={`${item.label} Mobile Shortcut Icon`}
-                      className="size-[60px] rounded-2xl shadow-[0_6px_18px_rgba(0,0,0,0.65)] border border-[#D9A441]/40"
-                    />
-                    <div>
-                      <p className="text-[11px] font-sans font-bold text-white leading-tight">
-                        {item.label}
-                      </p>
-                      <p className="text-[9px] font-mono text-white/45 mt-0.5">{item.role}</p>
-                    </div>
-                  </div>
-                ))}
+              <div className="flex items-center gap-4 pt-1">
+                <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 flex flex-col items-center text-center gap-2 min-w-[110px]">
+                  <img
+                    src="/icon.svg"
+                    alt="WorkCraft Mobile Shortcut Icon"
+                    className="size-[60px] rounded-2xl border border-[#30363D]"
+                  />
+                  <p className="text-xs font-sans font-bold text-[#F0F6FC] leading-tight">
+                    WorkCraft
+                  </p>
+                </div>
+                <div className="text-xs text-[#8B949E] font-sans space-y-1">
+                  <p>• Same Gold &quot;W&quot; emblem + Dark Obsidian badge</p>
+                  <p>• <strong className="text-[#06B6D4]">WORKCRAFT</strong> wordmark in matching Cyan-Blue</p>
+                  <p>• Single clean title: <strong className="text-[#F0F6FC]">WorkCraft</strong></p>
+                </div>
               </div>
             </div>
+
+            {/* Founder-Only Independent Role Inspector */}
+            {onLaunchFounderPreview && (
+              <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-[#D29922]">
+                    <Eye className="size-4" />
+                    <h4 className="text-xs font-mono font-bold uppercase tracking-wider">
+                      Inspect Agent Hub &amp; Salon Portal Separately
+                    </h4>
+                  </div>
+                  <span className="rounded-md bg-[#3B2E0B] border border-[#9E6A03] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#D29922]">
+                    FOUNDER TEST TOOL
+                  </span>
+                </div>
+                <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+                  Test the exact isolated screens that a real Field Agent or Salon Owner sees (with Founder tools completely hidden). Tap <strong className="text-[#F0F6FC]">Return to Founder View</strong> at the top anytime to come back.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => onLaunchFounderPreview('AGENT')}
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] hover:border-[#06B6D4] p-3.5 text-left transition"
+                  >
+                    <p className="text-xs font-mono font-bold text-[#06B6D4]">1. Real Field Agent Hub →</p>
+                    <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
+                      See personal Commission Ledger, Urdu/Arabic Profile &amp; Bank, and Onboarding.
+                    </p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onLaunchFounderPreview('SALON_ONBOARD')}
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] hover:border-[#06B6D4] p-3.5 text-left transition"
+                  >
+                    <p className="text-xs font-mono font-bold text-[#D29922]">2. New Salon Onboarding →</p>
+                    <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
+                      Test the 4-step signup flow &amp; mobile package drawer a new salon sees.
+                    </p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onLaunchFounderPreview('SALON_LIVE')}
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] hover:border-[#06B6D4] p-3.5 text-left transition"
+                  >
+                    <p className="text-xs font-mono font-bold text-[#3FB950]">3. Live Salon Dashboard →</p>
+                    <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
+                      Inspect live queue, voice alerts, rates, video deals &amp; PDF poster.
+                    </p>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

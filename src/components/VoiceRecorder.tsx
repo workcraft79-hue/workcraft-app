@@ -66,21 +66,21 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onUploaded }) => {
   };
 
   return (
-    <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/[.06] p-4">
+    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-black text-cyan-100">In-Portal Voice Support</p>
-          <p className="mt-1 text-[10px] text-white/45">
+          <p className="text-xs font-black text-[#F0F6FC]">In-Portal Voice Support</p>
+          <p className="mt-1 text-[10px] text-[#8B949E]">
             Hold to record up to 60 seconds. Your number stays private.
           </p>
         </div>
         <button
           onClick={isRecording ? stopRecording : startRecording}
           aria-label={isRecording ? 'Stop voice recording' : 'Start voice recording'}
-          className={`grid size-11 shrink-0 place-items-center rounded-full transition-transform active:scale-95 ${
+          className={`grid size-12 min-h-[48px] min-w-[48px] shrink-0 place-items-center rounded-full transition-transform active:scale-95 ${
             isRecording
-              ? 'bg-red-400 text-[#12241C]'
-              : 'bg-cyan-300 text-[#12241C]'
+              ? 'bg-[#F85149] text-[#0D1117]'
+              : 'bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117]'
           }`}
         >
           {isRecording ? <Square className="size-4" /> : <Mic className="size-5" />}
@@ -88,13 +88,13 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onUploaded }) => {
       </div>
 
       {isRecording && (
-        <p className="mt-3 text-[10px] font-black text-red-200">
+        <p className="mt-3 text-[10px] font-black text-[#F85149]">
           Recording {String(seconds).padStart(2, '0')} / 60 sec
         </p>
       )}
 
       {errorMsg && (
-        <p className="mt-3 text-[10px] text-red-200">{errorMsg}</p>
+        <p className="mt-3 text-[10px] text-[#F85149]">{errorMsg}</p>
       )}
     </div>
   );

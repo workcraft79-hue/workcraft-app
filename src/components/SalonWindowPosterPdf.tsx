@@ -446,29 +446,29 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
   return (
     <div className="space-y-4 text-left">
       {/* Top Action & Format/Language Selector Bar */}
-      <div className="rounded-2xl border border-[#D9A441]/35 bg-black/40 p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <Printer className="size-4 text-[#D9A441]" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#D9A441]">
+            <Printer className="size-4 text-[#D29922]" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#D29922]">
               {isLadies ? 'Ladies Beauty Parlor' : 'Salon'} Printable Client PDF
             </span>
           </div>
-          <p className="text-xs text-white/70 font-sans mt-1">
+          <p className="text-xs text-[#8B949E] font-sans mt-1">
             Download PDF, print it, and paste on shop entrance glass, mirror, or reception cabin so clients book on WhatsApp.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           {/* Format Selector */}
-          <div className="flex items-center rounded-xl border border-white/15 bg-[#102019] p-1 text-[11px] font-mono">
+          <div className="flex items-center rounded-xl border border-[#30363D] bg-[#161B22] p-1 text-[11px] font-mono">
             <button
               type="button"
               onClick={() => setPosterFormat('WINDOW_A4')}
-              className={`px-2.5 py-1 rounded-lg transition ${
+              className={`min-h-[40px] px-3 py-1 rounded-lg transition ${
                 posterFormat === 'WINDOW_A4'
-                  ? 'bg-[#D9A441] text-[#12241C] font-bold'
-                  : 'text-white/70 hover:text-white'
+                  ? 'bg-[#06B6D4] text-[#0D1117] font-bold'
+                  : 'text-[#8B949E] hover:text-[#F0F6FC]'
               }`}
             >
               Window Poster (A4)
@@ -476,10 +476,10 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
             <button
               type="button"
               onClick={() => setPosterFormat('CABIN_PAMPHLET')}
-              className={`px-2.5 py-1 rounded-lg transition ${
+              className={`min-h-[40px] px-3 py-1 rounded-lg transition ${
                 posterFormat === 'CABIN_PAMPHLET'
-                  ? 'bg-[#D9A441] text-[#12241C] font-bold'
-                  : 'text-white/70 hover:text-white'
+                  ? 'bg-[#06B6D4] text-[#0D1117] font-bold'
+                  : 'text-[#8B949E] hover:text-[#F0F6FC]'
               }`}
             >
               Cabin Pamphlet (A5)
@@ -490,15 +490,15 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
           <select
             value={posterLang}
             onChange={(e) => setPosterLang(e.target.value as PosterLang)}
-            className="rounded-xl border border-white/15 bg-[#102019] px-3 py-1.5 text-xs font-mono font-bold text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+            className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono font-bold text-[#06B6D4] focus:outline-none focus:border-[#06B6D4]"
           >
-            <option value="ur" className="bg-[#102019] text-[#F5F2E9]">
+            <option value="ur" className="bg-[#161B22] text-[#F0F6FC]">
               Language: Urdu (اردو)
             </option>
-            <option value="ar" className="bg-[#102019] text-[#F5F2E9]">
+            <option value="ar" className="bg-[#161B22] text-[#F0F6FC]">
               Language: Arabic (العربية)
             </option>
-            <option value="en" className="bg-[#102019] text-[#F5F2E9]">
+            <option value="en" className="bg-[#161B22] text-[#F0F6FC]">
               Language: English
             </option>
           </select>
@@ -508,7 +508,7 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
             type="button"
             disabled={isGeneratingPdf}
             onClick={handleDownloadPdf}
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-4 py-2 text-xs font-mono font-black uppercase transition active:scale-95 shadow-lg"
+            className="min-h-[48px] inline-flex items-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2 text-xs font-mono font-black uppercase transition active:scale-95"
           >
             <Download className="size-4" />
             <span>
@@ -521,22 +521,22 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
       </div>
 
       {pdfError && (
-        <div className="rounded-xl border border-red-500/40 bg-red-950/50 px-3.5 py-2.5 text-xs font-mono text-red-300">
+        <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] px-3.5 py-2.5 text-xs font-mono text-[#F85149]">
           {pdfError}
         </div>
       )}
 
       {downloadSuccess && (
-        <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/50 px-3.5 py-2.5 text-xs font-mono text-emerald-300 flex flex-wrap items-center justify-between gap-2 animate-in fade-in">
+        <div className="rounded-xl border border-[#116329] bg-[#0D3822] px-3.5 py-2.5 text-xs font-mono text-[#3FB950] flex flex-wrap items-center justify-between gap-2 animate-in fade-in">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+            <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
             <span>{downloadSuccess}</span>
           </div>
           {pdfDownloadUrl && (
             <a
               href={pdfDownloadUrl}
               download={pdfDownloadName}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/50 bg-emerald-500/20 hover:bg-emerald-500/30 px-3 py-1 text-[11px] font-bold text-white transition"
+              className="min-h-[40px] inline-flex items-center gap-1.5 rounded-lg border border-[#116329] bg-[#161B22] hover:border-[#3FB950] px-3 py-1 text-[11px] font-bold text-[#F0F6FC] transition"
             >
               <Download className="size-3.5" />
               <span>Save PDF File Again</span>
@@ -547,7 +547,7 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
 
       {/* LIVE VISUAL PDF THEME PREVIEW (EXACT LAYOUT ON ALL SALONS & LADIES PARLORS) */}
       {!compact && (
-        <div className="rounded-3xl border-2 border-[#D9A441]/70 bg-gradient-to-b from-[#102019] via-[#12241C] to-[#0B1712] p-5 sm:p-7 shadow-2xl space-y-6">
+        <div className="min-w-0 max-w-full overflow-hidden rounded-3xl border-2 border-[#D9A441]/70 bg-gradient-to-b from-[#102019] via-[#12241C] to-[#0B1712] p-5 sm:p-7 shadow-2xl space-y-6">
           {/* TOP SECTION: TOP-LEFT WORKCRAFT LOCAL LOGO + TOP-RIGHT QR WITH WHATSAPP NUMBER UNDERNEATH */}
           <div className="flex flex-col sm:flex-row items-start justify-between gap-5">
             {/* LEFT COLUMN: Top-Left WorkCraft Local Logo + Salon/Parlor Name */}
@@ -648,19 +648,19 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
       )}
 
       {compact && (
-        <div className="rounded-xl border border-white/10 bg-black/40 p-3 flex items-center justify-between gap-3 text-xs">
+        <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 flex items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5 min-w-0">
-            <FileText className="size-4 text-[#00FFFF] shrink-0" />
+            <FileText className="size-4 text-[#06B6D4] shrink-0" />
             <div className="min-w-0">
-              <p className="font-bold text-white truncate">
+              <p className="font-bold text-[#F0F6FC] truncate">
                 {salonName} — {isLadies ? 'Ladies Parlor' : 'Salon'} Window Poster PDF Ready
               </p>
-              <p className="text-[10px] text-white/60 font-sans truncate">
+              <p className="text-[10px] text-[#8B949E] font-sans truncate">
                 Top-Left Logo · Top-Right QR ({whatsappNumber}) · Bottom {copy.langLabel} Notice
               </p>
             </div>
           </div>
-          <Sparkles className="size-4 text-[#D9A441] shrink-0" />
+          <Sparkles className="size-4 text-[#D29922] shrink-0" />
         </div>
       )}
     </div>

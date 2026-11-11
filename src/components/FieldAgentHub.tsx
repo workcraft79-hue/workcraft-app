@@ -529,42 +529,42 @@ export type ClientOnboardingLanguage = 'en' | 'ur' | 'ar';
 
 export const ONBOARDING_I18N = {
   en: {
-    steps: ['1. Lead & Geo-Pin', '2. Service Menu', '3. Package & Setup Fee', '4. Pairing QR'],
-    step1Title: 'Step 1: Salon Lead Capture & Hardware GPS Pinning',
-    step1Kicker: 'ON-SITE INITIALIZATION',
-    routingLabel: 'Auto-Detected Smart Routing',
-    routingDesc: 'Assisted On-Site Session: System alerts are simultaneously pushed to both Salon Owner and Field Agent Terminal.',
-    routingBadge: '⚡ Dual Alert Active (Owner + Agent)',
+    steps: ['1. Salon Info & Location', '2. Service Menu', '3. Package & Payment', '4. Link WhatsApp'],
+    step1Title: 'Step 1: Salon Details & Map Location',
+    step1Kicker: 'QUICK SALON SETUP',
+    routingLabel: 'Automatic Dual Alerts',
+    routingDesc: 'On-Site Visit: Booking & setup alerts go to both the Salon Owner and Field Agent at the same time.',
+    routingBadge: '⚡ Dual Alert On (Owner + Agent)',
     salonNameLabel: '1. Salon Name *',
     salonNamePlaceholder: 'e.g. Seven Cuts Studio',
     ownerNameLabel: '2. Owner Name *',
     ownerNamePlaceholder: 'e.g. Hamza Tariq',
     phoneLabel: '3. WhatsApp Mobile Number *',
-    phoneHint: 'Used for Layer 1 auto-verification & 24/7 Concierge',
+    phoneHint: 'Used for automatic payment verification & 24/7 auto-booking',
     phoneDigitsValidBadge: 'Digits Valid',
     phoneDigitsCountLabel: 'Digits',
     phoneFormatValidLabel: 'Valid mobile format',
     countryDetected: 'Auto-Detected Country / Region',
-    pricingEngineLabel: 'Pricing Engine',
-    domesticRailBadge: 'Domestic Rail (PKR)',
-    intlRailBadge: 'International Rail (USD $)',
-    addressLabel: '4. Physical Address & Location *',
+    pricingEngineLabel: 'Billing Currency',
+    domesticRailBadge: 'Pakistan Local (PKR)',
+    intlRailBadge: 'International (USD $)',
+    addressLabel: '4. Shop Address & City *',
     addressPlaceholder: 'Shop #, Plaza, Street, Area, City',
     suggestedCitiesLabel: 'Quick Local City:',
-    coordsLabel: '5. Hardware GPS Coordinates *',
-    captureGps: 'Capture GPS Geotag',
-    capturingGps: 'Acquiring GPS...',
+    coordsLabel: '5. Map Location (GPS) *',
+    captureGps: 'Save Current Location',
+    capturingGps: 'Finding Location...',
     gpsAccuracyBadge: '±3m Pin Accuracy',
-    previewTitle: 'Automated WhatsApp Welcome Preview',
-    previewBadge: 'Ready for Instant Push',
+    previewTitle: 'Automatic WhatsApp Welcome Preview',
+    previewBadge: 'Ready to Send',
     step1Next: 'Save & Next: Service Menu →',
     step1ErrorMissingNames: 'Please enter both Salon Name and Owner Name.',
-    step1ErrorEmptyAddress: 'Please enter the physical salon address and city.',
+    step1ErrorEmptyAddress: 'Please enter the shop address and city.',
 
-    step2Title: 'Step 2: Service Menu & Local Pricing Configuration',
-    step2Kicker: 'RAPID ON-SITE SETUP',
-    step2Desc: 'Configure service offerings for your salon. Add custom services or modify rates to match your printed menu.',
-    serviceCurrencyLabel: 'Service Menu Currency',
+    step2Title: 'Step 2: Service Menu & Rate List',
+    step2Kicker: 'FAST SALON SETUP',
+    step2Desc: 'Select services offered by this salon. Add custom services or adjust prices to match the shop rate card.',
+    serviceCurrencyLabel: 'Menu Currency',
     packageBillingLabel: 'WORKCRAFT Billing',
     mensCategory: "Men's Salon & Grooming",
     ladiesCategory: "Ladies' Beauty Parlor",
@@ -573,308 +573,308 @@ export const ONBOARDING_I18N = {
     customPricePlaceholder: 'Price',
     addBtn: 'Add',
     cancelBtn: 'Cancel',
-    step2Back: 'Back to Lead Capture',
-    step2Next: 'Save & Next: Package Selection →',
+    step2Back: 'Back to Salon Info',
+    step2Next: 'Save & Next: Choose Package →',
 
-    step3Title: 'Step 3: Package & Setup Fee Rail (Digital Clearance)',
-    step3Kicker: 'STRICT STATE MACHINE GUARD',
-    step3PackageHeading: 'Select Salon Onboarding Package Tier',
-    formulaNotice: 'Formula: Monthly maintenance is strictly 10% of package fee / mo',
+    step3Title: 'Step 3: Choose Package & Setup Payment',
+    step3Kicker: 'SECURE PAYMENT STEP',
+    step3PackageHeading: 'Select Salon Onboarding Package',
+    formulaNotice: 'Simple Rule: Monthly fee is 10% of the setup fee per month',
     setupShortLabel: 'Setup',
-    maintShortLabel: 'Maint',
+    maintShortLabel: 'Monthly',
     perMonthShort: '/mo',
-    oneTimeFeeLabel: 'One-Time Initial Setup Fee',
-    monthlyMaintNote: 'Monthly maintenance will strictly be 10% SLA. Zero cash is ever accepted for monthly maintenance.',
-    paymentConfirmed: 'Payment Confirmed & Sealed',
-    paymentUnverified: 'Unverified · Tap Channel Below',
-    layer1Title: 'LAYER 1: SETUP FEE FLEXIBILITY VS. STRICT 10% MAINTENANCE SIM-LOCK',
-    layer1Desc: 'Initial setup fee can be cleared from any mobile or authorized payment channel (EasyPaisa, JazzCash, Meezan Bank, or Card). However, all recurring monthly 10% maintenance must strictly originate from the registered salon number via the Central SIM Gateway.',
-    zeroCopyBadge: 'Zero Copy-Pasting Required',
-    boundNumber: 'Bound WhatsApp Account',
-    boundOwner: 'Registered Payee',
-    featuresTitle: 'Complete Package Features Breakdown (Expandable)',
-    expandFeatures: 'Inspect Package Features',
-    collapseFeatures: 'Hide Features',
+    oneTimeFeeLabel: 'One-Time Setup Fee',
+    monthlyMaintNote: 'Monthly service fee is strictly 10%. Cash is never accepted for monthly fees.',
+    paymentConfirmed: 'Payment Confirmed & Saved',
+    paymentUnverified: 'Not Paid Yet · Choose Payment Option Below',
+    layer1Title: 'SETUP FLEXIBILITY VS. MONTHLY PAYMENT NUMBER RULE',
+    layer1Desc: 'The one-time setup fee can be paid from any wallet, bank account, or card. However, future 10% monthly fees must always be sent from the salon’s registered WhatsApp number so our system matches it automatically.',
+    zeroCopyBadge: 'Auto-Matched · No Extra Steps',
+    boundNumber: 'Registered WhatsApp Number',
+    boundOwner: 'Registered Owner',
+    featuresTitle: 'What Is Included in This Package',
+    expandFeatures: 'View Package Details',
+    collapseFeatures: 'Hide Details',
     includedLabel: 'Included',
     notIncludedLabel: 'Not Included',
-    slaAccordionLeft: '⚡ 10% SLA: Cloud hosting, live menu edits & <60min auto-repair SLA.',
-    slaAccordionRight: 'Zero-Cash Policy for recurring monthly fees.',
-    selectChannelLabel: 'Select Payment Channel to Verify Settlement',
-    openDrawerHint: 'Clicking channel opens secure verification drawer',
-    proofGenerated: 'Automated Settlement Proof Generated',
-    channelLabel: 'CHANNEL',
-    tidLabel: 'TRANSACTION ID',
-    routeLabel: 'ROUTED NOTIFICATION',
-    digestLabel: 'SECURITY DIGEST',
-    optionAOffsetApplied: 'Option A Commission Offset Applied:',
-    optionAOffsetDesc: 'commission automatically adjusted against cash liability for',
+    slaAccordionLeft: '⚡ 10% Monthly Fee: Covers 24/7 hosting, live rate updates & automatic reconnection.',
+    slaAccordionRight: 'Monthly fees are paid digitally only (never cash).',
+    selectChannelLabel: 'Select Payment Method to Confirm Setup Fee',
+    openDrawerHint: 'Tap an option to confirm payment details',
+    proofGenerated: 'Official Digital Payment Receipt Ready',
+    channelLabel: 'PAYMENT METHOD',
+    tidLabel: 'RECEIPT ID (TID)',
+    routeLabel: 'SENT TO',
+    digestLabel: 'RECEIPT CODE',
+    optionAOffsetApplied: 'Commission Auto-Adjusted:',
+    optionAOffsetDesc: 'commission automatically subtracted from cash balance for',
     remainingCashDueLabel: 'Remaining cash due to WORKCRAFT:',
-    zeroCashTitle: 'Zero-Cash Maintenance Policy: Strictly Digital Self-Pay',
-    zeroCashDesc: 'Physical cash is permissible strictly for initial on-site setup only (inside Pakistan). All subsequent recurring monthly maintenance is self-paid digitally by the salon owner via the PWA. Field agents never accept cash for monthly fees.',
-    slaCardTitle: 'Continuous Care & Uptime Guarantee (10% SLA)',
-    slaCardBadge: '< 60-Minute Resolution SLA',
-    slaCardDesc: 'Includes continuous 24/7 WhatsApp auto-reply, autonomous self-healing, real-time menu updates, and guaranteed priority recovery within 60 minutes.',
+    zeroCashTitle: 'Monthly Fee Policy: Digital Self-Pay Only (No Cash)',
+    zeroCashDesc: 'Cash is only allowed for the first setup inside Pakistan. Every 10% monthly renewal is paid directly by the salon owner from the WorkCraft app—agents never collect monthly cash.',
+    slaCardTitle: '24/7 Auto-Protection & Uptime Support (10% Monthly)',
+    slaCardBadge: 'Fast Auto-Fix Active 24/7',
+    slaCardDesc: 'Includes 24/7 WhatsApp auto-replies, automatic connection repair, instant price list edits, and priority help whenever needed.',
     statusPaidPrefix: 'Status: Paid',
-    lockedConfirmBtn: 'Confirm Setup Fee & Launch Pairing QR',
-    verifyBtn: 'Verify Digital Settlement Webhook',
+    lockedConfirmBtn: 'Confirm Payment & Link WhatsApp',
+    verifyBtn: 'Confirm Payment Details',
     step3Back: 'Back to Service Menu',
-    step3Next: 'Confirm Setup Fee & Launch Pairing QR →',
+    step3Next: 'Confirm Payment & Link WhatsApp →',
 
-    drawerKicker: 'SETTLEMENT CLEARANCE RAIL',
-    drawerTitlePrefix: 'Verify Settlement',
-    receivingDestTitle: 'Official WORKCRAFT Receiving Destination (Pre-Configured):',
-    routingAssisted: 'Routing: ASSISTED (Auto-Detected Dual Alert)',
-    ownerAgentPush: 'Owner + Agent WhatsApp Push',
-    layer1PolicyTitle: 'Layer 1 Phone Policy',
-    layer1PolicyBadge: 'Setup Flexible · Maintenance Locked',
-    registeredSimLabel: 'Registered Salon SIM:',
-    layer1PolicyDesc: 'Setup fee may be paid from any authorized account. All future recurring 10% monthly maintenance must strictly originate from registered SIM',
-    simGatewayTitle: 'Central SIM Gateway Webhook',
-    liveListenerBadge: 'Live Listener Active',
-    listeningSimText: 'Listening on SIM cluster for incoming transfer from',
-    webhookCapturedTitle: 'Incoming Telco Webhook Auto-Captured:',
-    otherSimHint: 'If paying from another SIM, edit sender details below.',
-    reScanBtn: '⚡ Re-scan Webhook',
-    intlRailTitle: '24-48h Rolling International Settlement Rail',
-    instantActivationBadge: 'Instant Terminal Activation',
-    intlRailDesc: 'Cross-border wire/Stripe funds take 24–48 hours to clear into WORKCRAFT Pakistan Meezan Bank account. The terminal is unlocked immediately with zero downtime, and dual confirmation receipts are sent via WhatsApp to both Salon Owner and Field Agent.',
-    payerDetailsLabel: 'Payer Sender Phone / Account Details *',
-    payerDetailsHint: 'Initial setup fee can be paid from any account. Recurring 10% monthly maintenance is strictly bound to registered SIM.',
+    drawerKicker: 'PAYMENT CONFIRMATION',
+    drawerTitlePrefix: 'Confirm Payment',
+    receivingDestTitle: 'Official WORKCRAFT Receiving Account:',
+    routingAssisted: 'Dual WhatsApp Confirmation On',
+    ownerAgentPush: 'Sent to Owner + Agent',
+    layer1PolicyTitle: 'Registered Number Rule',
+    layer1PolicyBadge: 'Setup Flexible · Monthly Locked',
+    registeredSimLabel: 'Registered Salon Number:',
+    layer1PolicyDesc: 'First setup payment can come from any account. All future 10% monthly renewals must come from the salon’s registered number:',
+    simGatewayTitle: 'Automatic Payment Detector',
+    liveListenerBadge: 'Auto-Check Active',
+    listeningSimText: 'Checking for incoming payment from:',
+    webhookCapturedTitle: 'Incoming Transfer Auto-Detected:',
+    otherSimHint: 'If paid from another number or card, edit the sender details below.',
+    reScanBtn: '⚡ Re-Check Payment',
+    intlRailTitle: '24–48h International Bank Clearing (Instant Start)',
+    instantActivationBadge: 'Salon Starts Right Away',
+    intlRailDesc: 'International cards or bank wires take 24–48 hours to reach the Pakistan Meezan Bank account, but the salon goes live immediately with WhatsApp receipts sent to both Owner and Agent.',
+    payerDetailsLabel: 'Sender Mobile Number / Account Name *',
+    payerDetailsHint: 'First setup payment can be from any account. Future monthly 10% fees must come from the registered number.',
     tidInputLabel: 'Transaction ID (TID) / Reference *',
-    smsAutoCapture: 'Auto-captured / Instant Ref',
-    lockedAmountLabel: 'Required Settlement Amount (Locked)',
-    cashGuardTitle: 'Cash Custody Velocity Guard',
-    cashLimitExceeded: '🚨 Hard limit exceeded! Hold > PKR 50,000 cash. Deposit current funds at an EasyPaisa shop or Meezan Bank first.',
-    cashHeldPrefix: 'Current held liability:',
-    biometricTitle: 'Biometric Thumbprint Authorization',
-    zeroPinBadge: 'ZERO PIN FALLBACK',
-    scanningThumbText: 'Reading optical hardware sensor...',
-    thumbVerifiedText: '✓ Thumbprint Authenticated',
-    pressThumbText: 'Press thumb on sensor to sign physical cash custody',
-    antiFraudTitle: '4-Layer Server Ledger Verification Active',
-    antiFraudDesc: 'System verifies cryptographic TID uniqueness, amount matching, and incoming server ledger events. Edited or duplicated slips are rejected automatically.',
+    smsAutoCapture: 'Auto-Detected / Instant Ref',
+    lockedAmountLabel: 'Exact Amount Required',
+    cashGuardTitle: 'Cash Holding Limit Check (PKR 50,000)',
+    cashLimitExceeded: '🚨 Cash limit reached! You are holding over PKR 50,000 cash. Deposit current funds at EasyPaisa or Meezan Bank before collecting more.',
+    cashHeldPrefix: 'Current cash held by you:',
+    biometricTitle: 'Thumbprint Confirmation',
+    zeroPinBadge: 'THUMBPRINT ONLY',
+    scanningThumbText: 'Reading thumbprint...',
+    thumbVerifiedText: '✓ Thumbprint Confirmed',
+    pressThumbText: 'Touch sensor to confirm cash collection',
+    antiFraudTitle: '4-Step Payment Check Active',
+    antiFraudDesc: 'System checks that every receipt ID is unique, the exact amount matches, and prevents fake or reused payment slips.',
     cancelLabel: 'Cancel',
-    verifyingBtn: 'Verifying Webhook & Binding...',
-    verifyBindBtn: 'Verify & Proceed to Step 4 QR Pairing →',
+    verifyingBtn: 'Confirming & Saving...',
+    verifyBindBtn: 'Confirm Payment & Link WhatsApp →',
 
-    step4Title: 'Step 4: Terminal Multi-Device Pairing & Handshake',
-    step4Kicker: 'ON-SITE ACTIVATION',
-    setupVerified: 'Setup Payment Verified',
-    modeLabel: 'Pairing Handshake Delivery Mode:',
-    modeQr: 'On-Site QR Camera Scan',
-    modeLink: 'Remote Link & PWA',
-    scanInstructions: 'Owner opens WhatsApp ➔ Linked Devices ➔ Link a Device ➔ Scan this screen.',
-    pairingKeyLabel: 'Terminal Key:',
-    tokenBoundBadge: '1:1 Cryptographic Single-Use Node Binding',
-    tokenBurned: '🔥 TOKEN BURNED (BOUND)',
-    tokenActive: 'ACTIVE (UNCLAIMED)',
-    tokenExpl: 'This QR key is cryptographically locked to this salon only. The moment a handshake occurs, the ephemeral token is permanently burned, strictly preventing reuse.',
-    remoteLinkTitle: 'Remote Web App & PWA Shortcut',
-    remoteLinkDesc: 'For remote salon onboarding or direct link delivery, send this one-tap PWA link to the salon owner:',
-    copyLink: 'Copy PWA Portal Link',
-    copiedLink: 'Copied to Clipboard!',
-    outboundTitle: 'Automated Outbound Dispatch',
-    outboundStatus: 'Ready for Instant WhatsApp Push',
-    handshakeSuccess: '1:1 Pairing Handshake 100% Successful!',
-    handshakeDesc: 'Terminal node is now active on the WORKCRAFT SIM Gateway cluster. Cryptographic key bound strictly to this salon. Zero multi-salon reuse permitted.',
-    completeBtn: 'Complete Onboarding & Return to Hub',
-    simulateBtn: 'Simulate Salon WhatsApp Handshake',
-    step4Back: 'Back to Setup Fee Rail',
+    step4Title: 'Step 4: Link Salon WhatsApp & Finish',
+    step4Kicker: 'FINAL STEP',
+    setupVerified: 'Setup Payment Confirmed',
+    modeLabel: 'Choose How to Link WhatsApp:',
+    modeQr: 'Scan QR Code Now',
+    modeLink: 'Send App Link',
+    scanInstructions: 'Salon owner opens WhatsApp ➔ Linked Devices ➔ Link a Device ➔ Scan this QR code.',
+    pairingKeyLabel: 'Salon Link Code:',
+    tokenBoundBadge: 'One-Time Safe Salon Link',
+    tokenBurned: '🔥 LINKED & LOCKED TO THIS SALON',
+    tokenActive: 'READY TO SCAN',
+    tokenExpl: 'This QR code works once for this salon only. Once scanned, it cannot be reused anywhere else.',
+    remoteLinkTitle: 'One-Tap App Link for Owner',
+    remoteLinkDesc: 'If you are setting up remotely, send this private link to the salon owner to open WorkCraft on their phone:',
+    copyLink: 'Copy App Link',
+    copiedLink: 'Copied!',
+    outboundTitle: 'Automatic Welcome Message',
+    outboundStatus: 'Ready to Send',
+    handshakeSuccess: 'Salon WhatsApp Connected 100%!',
+    handshakeDesc: 'This salon is now live on WORKCRAFT and safely linked to its WhatsApp number. Customers can book 24/7 starting right now.',
+    completeBtn: 'Finish Setup & Return Home',
+    simulateBtn: 'Confirm WhatsApp Linked',
+    step4Back: 'Back to Payment',
   },
   ur: {
-    steps: ['1. سیلون معلومات', '2. سروس مینو', '3. پیکیج اور فیس', '4. کیو آر پیئرنگ'],
-    step1Title: 'پہلا مرحلہ: سیلون معلومات اور لوکیشن کا اندراج',
-    step1Kicker: 'آن سائٹ انسٹالیشن',
-    routingLabel: 'خودکار تشخیص اور اسمارٹ الرٹ روٹنگ',
-    routingDesc: 'فیلڈ ایجنٹ کی موجودگی خودکار شناخت ہو گئی۔ سسٹم بیک وقت سیلون مالک اور ایجنٹ دونوں کو الرٹ جاری کرے گا۔',
-    routingBadge: '⚡ ڈوئل الرٹ فعال (مالک + ایجنٹ)',
+    steps: ['1. سیلون معلومات', '2. سروس مینو', '3. پیکیج اور ادائیگی', '4. واٹس ایپ لنک'],
+    step1Title: 'پہلا مرحلہ: سیلون کا نام اور پتہ درج کریں',
+    step1Kicker: 'آسان سیلون سیٹ اپ',
+    routingLabel: 'خودکار ڈوئل واٹس ایپ اطلاع',
+    routingDesc: 'سیلون وزٹ موڈ فعال ہے: ہر بکنگ اور ادائیگی کی اطلاع بیک وقت مالک اور ایجنٹ دونوں کو ملے گی۔',
+    routingBadge: '⚡ ڈوئل اطلاع فعال (مالک + ایجنٹ)',
     salonNameLabel: '1. سیلون کا نام *',
     salonNamePlaceholder: 'مثال: رائل کٹس سٹوڈیو',
     ownerNameLabel: '2. سیلون مالک کا نام *',
     ownerNamePlaceholder: 'مثال: حمزہ طارق',
     phoneLabel: '3. واٹس ایپ موبائل نمبر *',
-    phoneHint: 'لیئر 1 تصدیق اور 24/7 کسٹمر بکنگ کے لیے استعمال ہوگا',
+    phoneHint: 'خودکار ادائیگی چیک اور 24/7 واٹس ایپ بکنگ کے لیے استعمال ہوگا',
     phoneDigitsValidBadge: 'ہندسے درست ہیں',
     phoneDigitsCountLabel: 'ہندسے',
-    phoneFormatValidLabel: 'موبائل فارمیٹ درست ہے',
+    phoneFormatValidLabel: 'موبائل نمبر درست ہے',
     countryDetected: 'ملک اور خطہ: خودکار منتخب',
-    pricingEngineLabel: 'پرائسنگ انجن',
-    domesticRailBadge: 'مقامی پیمنٹ چینل (PKR)',
-    intlRailBadge: 'انٹرنیشنل پیمنٹ چینل (USD $)',
-    addressLabel: '4. سیلون کا مکمل پتہ *',
+    pricingEngineLabel: 'کرنسی',
+    domesticRailBadge: 'پاکستان مقامی (PKR)',
+    intlRailBadge: 'انٹرنیشنل (USD $)',
+    addressLabel: '4. دکان کا مکمل پتہ اور شہر *',
     addressPlaceholder: 'مثال: دکان نمبر 4، پلازہ 12، ڈی ایچ اے فیز 5، لاہور',
-    suggestedCitiesLabel: 'درست مقامی شہر منتخب کریں:',
-    coordsLabel: '5. ہارڈ ویئر GPS کوآرڈینیٹس *',
-    captureGps: 'GPS لوکیشن حاصل کریں',
-    capturingGps: 'لوکیشن حاصل کی جا رہی ہے...',
-    gpsAccuracyBadge: '±3m درست پن لوکیشن',
-    previewTitle: 'واٹس ایپ خوش آمدید میسج کا پیش نظارہ',
-    previewBadge: 'فوری ارسال کے لیے تیار',
-    step1Next: 'محفوظ کریں اور سروس مینو منتخب کریں ←',
+    suggestedCitiesLabel: 'اپنا شہر منتخب کریں:',
+    coordsLabel: '5. میپ لوکیشن محفوظ کریں *',
+    captureGps: 'موجودہ لوکیشن محفوظ کریں',
+    capturingGps: 'لوکیشن تلاش کی جا رہی ہے...',
+    gpsAccuracyBadge: '±3m درست لوکیشن',
+    previewTitle: 'واٹس ایپ خوش آمدید میسج دیکھیں',
+    previewBadge: 'بھیجنے کے لیے تیار',
+    step1Next: 'محفوظ کریں اور سروس مینو پر جائیں ←',
     step1ErrorMissingNames: 'براہ کرم سیلون کا نام اور مالک کا نام دونوں درج کریں۔',
-    step1ErrorEmptyAddress: 'براہ کرم سیلون کا مکمل پتہ اور شہر درج کریں۔',
+    step1ErrorEmptyAddress: 'براہ کرم دکان کا مکمل پتہ اور شہر درج کریں۔',
 
-    step2Title: 'دوسرا مرحلہ: سروسز اور ریٹ لسٹ سیٹ اپ',
-    step2Kicker: 'فوری آن سائٹ سیٹ اپ',
-    step2Desc: 'سیلون کی فراہم کردہ سروسز اور ریٹ منتخب کریں، یا ریٹ کارڈ کے مطابق نئی سروس شامل کریں۔',
-    serviceCurrencyLabel: 'سروس مینو کرنسی',
-    packageBillingLabel: 'WORKCRAFT بلنگ',
+    step2Title: 'دوسرا مرحلہ: سروسز اور ریٹ لسٹ',
+    step2Kicker: 'فوری سیٹ اپ',
+    step2Desc: 'سیلون کی سروسز اور قیمتیں منتخب کریں، یا ریٹ کارڈ کے مطابق نئی سروس شامل کریں۔',
+    serviceCurrencyLabel: 'مینو کرنسی',
+    packageBillingLabel: 'ورک کرافٹ بلنگ',
     mensCategory: 'مردانہ سیلون (Men\'s Salon)',
     ladiesCategory: 'لیڈیز پارلر (Ladies\' Parlor)',
     addCustomService: '+ نئی سروس شامل کریں',
-    customNamePlaceholder: 'سروس کا نام (مثلاً: داڑھی پروٹین ٹریٹمنٹ)',
+    customNamePlaceholder: 'سروس کا نام (مثلاً: داڑھی ٹریٹمنٹ)',
     customPricePlaceholder: 'قیمت',
     addBtn: 'شامل کریں',
     cancelBtn: 'منسوخ',
     step2Back: 'واپس سیلون معلومات',
     step2Next: 'محفوظ کریں اور پیکیج منتخب کریں ←',
 
-    step3Title: 'تیسرا مرحلہ: پیکیج اور سیٹ اپ فیس کی ادائیگی',
-    step3Kicker: 'ڈیجیٹل سیکیورٹی انجن',
-    step3PackageHeading: 'سیلون آن بورڈنگ پیکیج منتخب کریں',
-    formulaNotice: 'فارمولا: ماہانہ دیکھ بھال کی فیس منتخب پیکیج کا ٹھیک 10 فیصد ہوگی',
+    step3Title: 'تیسرا مرحلہ: پیکیج اور سیٹ اپ ادائیگی',
+    step3Kicker: 'محفوظ ادائیگی مرحلہ',
+    step3PackageHeading: 'سیلون پیکیج منتخب کریں',
+    formulaNotice: 'آسان اصول: ماہانہ فیس پیکیج کی قیمت کا 10% ہوگی',
     setupShortLabel: 'سیٹ اپ',
-    maintShortLabel: 'ماہانہ فیس',
+    maintShortLabel: 'ماہانہ',
     perMonthShort: '/ماہ',
-    oneTimeFeeLabel: 'یک مشت ابتدائی سیٹ اپ فیس',
-    monthlyMaintNote: 'ماہانہ دیکھ بھال فیس ٹھیک 10 فیصد ہوگی۔ ماہانہ دیکھ بھال کے لیے نقد رقم ہرگز قبول نہیں کی جائے گی۔',
-    paymentConfirmed: 'ادائیگی موصول و محفوظ ہو گئی',
-    paymentUnverified: 'غیر تصدیق شدہ · نیچے ادائیگی چینل منتخب کریں',
-    layer1Title: 'لیئر 1: سیٹ اپ فیس کی لچک بمقابلہ 10% ماہانہ مینٹیننس کا سم لاک',
-    layer1Desc: 'ابتدائی سیٹ اپ فیس کسی بھی موبائل اکاؤنٹ یا بینک سے ادا کی جا سکتی ہے۔ تاہم، تمام آئندہ ماہانہ 10% مینٹیننس لازمی طور پر سیلون کے رجسٹرڈ نمبر سے بذریعہ سینٹرل سم گیٹ وے ہی خودکار طریقے سے ادا ہوگی۔',
-    zeroCopyBadge: 'کاپی پیسٹ کی ضرورت نہیں',
-    boundNumber: 'رجسٹرڈ واٹس ایپ اکاؤنٹ',
-    boundOwner: 'سیلون پارٹنر کا نام',
-    featuresTitle: 'پیکیج کی مکمل تفصیلات اور خصوصیات (تفصیل دیکھیں)',
-    expandFeatures: 'پیکیج کی تمام خصوصیات دیکھیں',
-    collapseFeatures: 'خصوصیات بند کریں',
+    oneTimeFeeLabel: 'ایک بار کی سیٹ اپ فیس',
+    monthlyMaintNote: 'ماہانہ فیس 10% ہوگی۔ ماہانہ فیس کے لیے نقد رقم کبھی قبول نہیں کی جاتی۔',
+    paymentConfirmed: 'ادائیگی مکمل اور محفوظ ہو گئی',
+    paymentUnverified: 'ابھی ادا نہیں ہوئی · نیچے ادائیگی کا طریقہ منتخب کریں',
+    layer1Title: 'پہلی ادائیگی میں آسانی بمقابلہ ماہانہ فیس کا رجسٹرڈ نمبر اصول',
+    layer1Desc: 'پہلی سیٹ اپ فیس کسی بھی اکاؤنٹ، والٹ یا کارڈ سے ادا کی جا سکتی ہے۔ تاہم آئندہ تمام 10% ماہانہ فیس صرف سیلون کے رجسٹرڈ واٹس ایپ نمبر سے بھیجی جائے گی تاکہ سسٹم خودکار تصدیق کر سکے۔',
+    zeroCopyBadge: 'خودکار تصدیق · کوئی کاپی پیسٹ نہیں',
+    boundNumber: 'رجسٹرڈ واٹس ایپ نمبر',
+    boundOwner: 'سیلون مالک کا نام',
+    featuresTitle: 'اس پیکیج میں کیا شامل ہے',
+    expandFeatures: 'پیکیج کی تفصیلات دیکھیں',
+    collapseFeatures: 'تفصیل بند کریں',
     includedLabel: 'شامل ہے',
     notIncludedLabel: 'شامل نہیں',
-    slaAccordionLeft: '⚡ 10% SLA: کلاؤڈ ہوسٹنگ، لائیو مینو ترمیم اور 60 منٹ میں خودکار بحالی۔',
-    slaAccordionRight: 'ماہانہ فیس کے لیے نقد رقم (زیرو کیش) پالیسی نافذ ہے۔',
-    selectChannelLabel: 'تصدیق کے لیے ادائیگی کا چینل منتخب کریں',
-    openDrawerHint: 'کلک کرنے سے محفوظ تصدیقی پینل کھل جائے گا',
-    proofGenerated: 'خودکار ادائیگی ثبوت (Receipt) تیار ہو گیا',
-    channelLabel: 'ادائیگی چینل',
-    tidLabel: 'ٹرانزیکشن آئی ڈی (TID)',
-    routeLabel: 'ارسال کردہ نوٹیفکیشن',
-    digestLabel: 'سیکیورٹی ہیش (SHA-256)',
-    optionAOffsetApplied: 'آپشن A کمیشن ایڈجسٹمنٹ نافذ:',
-    optionAOffsetDesc: 'کمیشن خودکار طور پر بقایا کیش ذمہ داری میں ایڈجسٹ کر دیا گیا برائے',
+    slaAccordionLeft: '⚡ 10% ماہانہ فیس: 24/7 سسٹم، لائیو ریٹ تبدیلیاں اور خودکار کنکشن مرمت شامل ہے۔',
+    slaAccordionRight: 'ماہانہ فیس صرف ڈیجیٹل ادا ہوتی ہے (نقد نہیں)۔',
+    selectChannelLabel: 'تصدیق کے لیے ادائیگی کا طریقہ منتخب کریں',
+    openDrawerHint: 'تفصیل درج کرنے کے لیے نیچے کلک کریں',
+    proofGenerated: 'ڈیجیٹل رسید تیار ہو گئی',
+    channelLabel: 'ادائیگی کا طریقہ',
+    tidLabel: 'رسید نمبر (TID)',
+    routeLabel: 'بھیجا گیا',
+    digestLabel: 'رسید کوڈ',
+    optionAOffsetApplied: 'کمیشن خودکار ایڈجسٹ ہو گیا:',
+    optionAOffsetDesc: 'آپ کا کمیشن خودکار طور پر بقایا کیش میں سے منہا کر دیا گیا برائے',
     remainingCashDueLabel: 'ورک کرافٹ کو واجب الادا بقایا کیش:',
-    zeroCashTitle: 'زیرو کیش مینٹیننس پالیسی: صرف ڈیجیٹل ادائیگی',
-    zeroCashDesc: 'نقد رقم صرف پاکستان میں ابتدائی آن سائٹ سیٹ اپ کے وقت ایجنٹ وصول کر سکتا ہے۔ تمام ماہانہ 10% مینٹیننس فیس سیلون مالک خود PWA سے ڈیجیٹل ادا کرے گا۔',
-    slaCardTitle: 'مسلسل نگہداشت اور اپ ٹائم گارنٹی (10% SLA)',
-    slaCardBadge: '60 منٹ میں مسئلہ حل گارنٹی',
-    slaCardDesc: 'اس میں 24/7 واٹس ایپ آٹو ریپلائی، خودکار مرمت، فوری مینو تبدیلی اور 60 منٹ کے اندر ترجیحی بحالی شامل ہے۔',
-    statusPaidPrefix: 'اسٹیٹس: ادائیگی مکمل',
-    lockedConfirmBtn: 'سیٹ اپ فیس تصدیق کریں اور کیو آر شروع کریں',
-    verifyBtn: 'ڈیجیٹل ادائیگی ویب ہک تصدیق کریں',
+    zeroCashTitle: 'ماہانہ فیس پالیسی: صرف ڈیجیٹل ادائیگی (نقد ممنوع)',
+    zeroCashDesc: 'نقد رقم صرف پاکستان میں پہلے دن سیٹ اپ کے وقت لی جا سکتی ہے۔ ہر مہینے کی 10% فیس سیلون مالک خود WorkCraft ایپ سے ادا کرے گا۔',
+    slaCardTitle: '24/7 خودکار تحفظ اور سپورٹ (10% ماہانہ)',
+    slaCardBadge: '24/7 خودکار مرمت فعال',
+    slaCardDesc: 'اس میں 24/7 واٹس ایپ آٹو ریپلائی، کنکشن کی خودکار بحالی، فوری ریٹ تبدیلی اور ترجیحی مدد شامل ہے۔',
+    statusPaidPrefix: 'اسٹیٹس: ادا شدہ',
+    lockedConfirmBtn: 'ادائیگی کنفرم کریں اور واٹس ایپ جوڑیں',
+    verifyBtn: 'ادائیگی کی تصدیق کریں',
     step3Back: 'واپس سروس مینو',
-    step3Next: 'سیٹ اپ فیس تصدیق کریں اور پیئرنگ کیو آر شروع کریں ←',
+    step3Next: 'ادائیگی کنفرم کریں اور واٹس ایپ جوڑیں ←',
 
-    drawerKicker: 'ادائیگی کلیئرنس گیٹ وے',
-    drawerTitlePrefix: 'ادائیگی کی تصدیق کریں',
-    receivingDestTitle: 'ورک کرافٹ کا آفیشل وصول کنندہ اکاؤنٹ (پہلے سے سیٹ):',
-    routingAssisted: 'راؤٹنگ: ASSISTED (خودکار ڈوئل الرٹ فعال)',
-    ownerAgentPush: 'مالک + ایجنٹ کو واٹس ایپ اطلاع',
-    layer1PolicyTitle: 'لیئر 1 موبائل سم پالیسی',
-    layer1PolicyBadge: 'سیٹ اپ میں لچک · مینٹیننس سم لاک',
-    registeredSimLabel: 'رجسٹرڈ سیلون سم:',
-    layer1PolicyDesc: 'ابتدائی سیٹ اپ فیس کسی بھی اکاؤنٹ سے ادا ہو سکتی ہے۔ تمام ماہانہ 10% فیس لازمی طور پر رجسٹرڈ سم سے ادا ہوگی:',
-    simGatewayTitle: 'سینٹرل سم گیٹ وے ویب ہک',
-    liveListenerBadge: 'لائیو لسنر فعال',
-    listeningSimText: 'آنے والی رقم کے لیے سم کلسٹر پر نگرانی جاری ہے از:',
-    webhookCapturedTitle: 'ٹیلی کام ویب ہک خودکار موصول ہو گیا:',
-    otherSimHint: 'اگر ادائیگی کسی دوسرے نمبر سے ہوئی ہے تو نیچے تفصیل تبدیل کریں۔',
-    reScanBtn: '⚡ ویب ہک دوبارہ چیک کریں',
-    intlRailTitle: '24 تا 48 گھنٹے انٹرنیشنل رولنگ سیٹلمنٹ ریل',
-    instantActivationBadge: 'فوری ٹرمینل ایکٹیویشن',
-    intlRailDesc: 'بیرونِ ملک سے کارڈ یا بینک ٹرانسفر ورک کرافٹ کے پاکستانی میزان بینک اکاؤنٹ میں پہنچنے میں 24–48 گھنٹے لگتے ہیں۔ تاہم سیلون ٹرمینل فوراً بغیر انتظار کے فعال ہو جاتا ہے اور مالک و ایجنٹ دونوں کو واٹس ایپ رسید بھیج دی جاتی ہے۔',
-    payerDetailsLabel: 'بھیجنے والے کا فون نمبر یا اکاؤنٹ تفصیل *',
-    payerDetailsHint: 'سیٹ اپ فیس کسی بھی اکاؤنٹ سے دی جا سکتی ہے، جبکہ ماہانہ 10% فیس رجسٹرڈ سم سے مشروط ہے۔',
-    tidInputLabel: 'ٹرانزیکشن آئی ڈی (TID) / بینک حوالہ *',
-    smsAutoCapture: 'SMS سے خودکار / فوری حوالہ',
-    lockedAmountLabel: 'مطلوبہ سیٹلمنٹ رقم (لاکم شدہ)',
-    cashGuardTitle: 'کیش کسٹڈی حد نگرانی (PKR 50,000)',
-    cashLimitExceeded: '🚨 زیادہ سے زیادہ کیش حد مکمل! آپ کے پاس 50,000 روپے سے زائد کیش موجود ہے۔ پہلے میزان بینک یا ایزی پیسہ میں جمع کرائیں۔',
-    cashHeldPrefix: 'موجودہ زیرِ تحویل کیش:',
-    biometricTitle: 'بایومیٹرک انگوٹھے کی تصدیق (لازمی)',
-    zeroPinBadge: 'صرف بائیومیٹرک · پن کی اجازت نہیں',
-    scanningThumbText: 'انگوٹھے کا سینسر پڑھا جا رہا ہے...',
-    thumbVerifiedText: '✓ انگوٹھے کی تصدیق مکمل ہو گئی',
-    pressThumbText: 'نقد وصولی کی تصدیق کے لیے سینسر پر انگوٹھا رکھیں',
-    antiFraudTitle: '4-لیئر سرور لیجر سیکیورٹی فعال',
-    antiFraudDesc: 'سسٹم TID کی اصلیت، رقم کی مطابقت اور سرور لیجر خودکار چیک کرتا ہے۔ جعلی یا پرانی رسید فوری مسترد ہو جاتی ہے۔',
+    drawerKicker: 'ادائیگی کی تصدیق',
+    drawerTitlePrefix: 'ادائیگی کنفرم کریں',
+    receivingDestTitle: 'ورک کرافٹ کا آفیشل اکاؤنٹ:',
+    routingAssisted: 'مالک اور ایجنٹ دونوں کو اطلاع فعال',
+    ownerAgentPush: 'مالک + ایجنٹ کو واٹس ایپ رسید',
+    layer1PolicyTitle: 'رجسٹرڈ نمبر کا اصول',
+    layer1PolicyBadge: 'سیٹ اپ آسان · ماہانہ نمبر لاک',
+    registeredSimLabel: 'رجسٹرڈ سیلون نمبر:',
+    layer1PolicyDesc: 'ابتدائی فیس کسی بھی اکاؤنٹ سے ادا ہو سکتی ہے۔ آئندہ تمام 10% ماہانہ فیس رجسٹرڈ نمبر سے ہی آئے گی:',
+    simGatewayTitle: 'خودکار ادائیگی چیک سسٹم',
+    liveListenerBadge: 'آٹو چیک فعال',
+    listeningSimText: 'آنے والی رقم چیک کی جا رہی ہے از:',
+    webhookCapturedTitle: 'رقم کی اطلاع خودکار موصول ہو گئی:',
+    otherSimHint: 'اگر ادائیگی کسی اور نمبر سے ہوئی ہے تو نیچے نمبر تبدیل کریں۔',
+    reScanBtn: '⚡ دوبارہ چیک کریں',
+    intlRailTitle: '24 تا 48 گھنٹے انٹرنیشنل بینک کلیئرنگ (فوری آغاز)',
+    instantActivationBadge: 'سیلون فوراً آن ہو جاتا ہے',
+    intlRailDesc: 'بیرونِ ملک سے کارڈ یا بینک ٹرانسفر پاکستان میزان بینک میں آنے میں 24–48 گھنٹے لگتے ہیں، لیکن سیلون کا نظام فوراً شروع ہو جاتا ہے اور مالک و ایجنٹ دونوں کو واٹس ایپ رسید مل جاتی ہے۔',
+    payerDetailsLabel: 'بھیجنے والے کا فون یا اکاؤنٹ نام *',
+    payerDetailsHint: 'سیٹ اپ فیس کسی بھی اکاؤنٹ سے دی جا سکتی ہے، جبکہ ماہانہ فیس رجسٹرڈ نمبر سے مشروط ہے۔',
+    tidInputLabel: 'ٹرانزیکشن آئی ڈی (TID) / حوالہ نمبر *',
+    smsAutoCapture: 'خودکار / فوری حوالہ',
+    lockedAmountLabel: 'مطلوبہ رقم',
+    cashGuardTitle: 'نقد رقم رکھنے کی حد (PKR 50,000)',
+    cashLimitExceeded: '🚨 نقد حد مکمل ہو گئی! آپ کے پاس 50,000 روپے سے زیادہ کیش ہے۔ مزید لینے سے پہلے میزان بینک یا ایزی پیسہ میں جمع کرائیں۔',
+    cashHeldPrefix: 'اس وقت آپ کے پاس موجود کیش:',
+    biometricTitle: 'انگوٹھے کے نشان سے تصدیق (لازمی)',
+    zeroPinBadge: 'صرف انگوٹھے کی تصدیق',
+    scanningThumbText: 'انگوٹھا اسکین ہو رہا ہے...',
+    thumbVerifiedText: '✓ انگوٹھے کی تصدیق مکمل',
+    pressThumbText: 'نقد وصولی پکی کرنے کے لیے انگوٹھا رکھیں',
+    antiFraudTitle: '4-لیئر محفوظ رسید چیک فعال',
+    antiFraudDesc: 'سسٹم خودکار چیک کرتا ہے کہ رسید نمبر نیا ہو، رقم پوری ہو، اور کوئی پرانی یا جعلی رسید نہ لگائی جائے۔',
     cancelLabel: 'منسوخ کریں',
-    verifyingBtn: 'تصدیق اور بائنڈنگ جاری ہے...',
-    verifyBindBtn: 'تصدیق کریں اور مرحلہ 4 QR پر جائیں ←',
+    verifyingBtn: 'تصدیق اور محفوظ ہو رہا ہے...',
+    verifyBindBtn: 'ادائیگی کنفرم کریں اور واٹس ایپ جوڑیں ←',
 
-    step4Title: 'چوتھا مرحلہ: واٹس ایپ ڈیوائس لنک اور پیئرنگ',
-    step4Kicker: 'آن سائٹ ایکٹیویشن',
-    setupVerified: 'سیٹ اپ فیس تصدیق شدہ',
-    modeLabel: 'پیئرنگ کنکشن کا طریقہ:',
-    modeQr: 'طریقہ A: کیو آر کوڈ کیمرہ اسکین',
-    modeLink: 'طریقہ B: ریموٹ لنک اور PWA ایپ',
-    scanInstructions: 'سیلون مالک اپنے فون پر واٹس ایپ کھول کر Linked Devices میں جائیں اور یہ اسکرین اسکین کریں۔',
-    pairingKeyLabel: 'ٹرمینل سیکیورٹی کوڈ:',
-    tokenBoundBadge: '1:1 سنگل یوز کرپٹوگرافک نوڈ بائنڈنگ',
-    tokenBurned: '🔥 کوڈ استعمال ہو چکا (سیلون سے منسلک)',
-    tokenActive: 'فعال (اسکین کا منتظر)',
-    tokenExpl: 'یہ کیو آر کوڈ صرف اسی سیلون کے لیے مخصوص ہے۔ جونہی کنکشن مکمل ہوگا، یہ کوڈ ہمیشہ کے لیے برن ہو جائے گا تاکہ کوئی دوسرا استعمال نہ کر سکے۔',
-    remoteLinkTitle: 'ریموٹ ویب پورٹل اور PWA لنک',
-    remoteLinkDesc: 'ریموٹ آن بورڈنگ کے لیے یہ ایک کلک والا پورٹل لنک سیلون مالک کے واٹس ایپ پر ارسال کریں:',
-    copyLink: 'پورٹل لنک کاپی کریں',
-    copiedLink: 'لنک کاپی ہو گیا!',
+    step4Title: 'چوتھا مرحلہ: سیلون واٹس ایپ جوڑیں',
+    step4Kicker: 'آخری مرحلہ',
+    setupVerified: 'سیٹ اپ ادائیگی کنفرم ہو گئی',
+    modeLabel: 'واٹس ایپ جوڑنے کا طریقہ منتخب کریں:',
+    modeQr: 'کیمرہ سے کیو آر اسکین کریں',
+    modeLink: 'مالک کو ایپ لنک بھیجیں',
+    scanInstructions: 'سیلون مالک واٹس ایپ کھولیں ➔ Linked Devices ➔ Link a Device ➔ یہ اسکرین اسکین کریں۔',
+    pairingKeyLabel: 'سیلون لنک کوڈ:',
+    tokenBoundBadge: 'ایک بار کا محفوظ سیلون لنک',
+    tokenBurned: '🔥 سیلون کامیابی سے جڑ گیا (محفوظ)',
+    tokenActive: 'اسکین کے لیے تیار',
+    tokenExpl: 'یہ کیو آر کوڈ صرف اسی سیلون کے لیے ایک بار کام کرتا ہے۔ جڑنے کے بعد کوئی اور اسے استعمال نہیں کر سکتا۔',
+    remoteLinkTitle: 'مالک کے لیے آسان ون ٹیپ ایپ لنک',
+    remoteLinkDesc: 'اگر آپ دور بیٹھے سیلون جوڑ رہے ہیں تو یہ لنک سیلون مالک کو بھیجیں تاکہ وہ WorkCraft کھول سکیں:',
+    copyLink: 'ایپ لنک کاپی کریں',
+    copiedLink: 'کاپی ہو گیا!',
     outboundTitle: 'خودکار واٹس ایپ خوش آمدید میسج',
-    outboundStatus: 'فوری ارسال کے لیے تیار',
-    handshakeSuccess: '1:1 پیئرنگ کنکشن 100% کامیاب ہو گیا!',
-    handshakeDesc: 'سیلون ٹرمینل اب ورک کرافٹ سم گیٹ وے کلسٹر پر مکمل طور پر لائیو ہے۔ کرپٹوگرافک کی اس سیلون سے کامیابی سے لنک ہو چکی ہے۔',
-    completeBtn: 'آن بورڈنگ مکمل کریں اور واپس جائیں',
-    simulateBtn: 'سیلون واٹس ایپ کنکشن ٹیسٹ کریں',
-    step4Back: 'واپس پیکیج اور فیس',
+    outboundStatus: 'بھیجنے کے لیے تیار',
+    handshakeSuccess: 'سیلون واٹس ایپ 100% جڑ گیا!',
+    handshakeDesc: 'یہ سیلون اب WORKCRAFT پر لائیو ہے۔ اب کسٹمرز 24/7 خودکار طریقے سے اپائنٹمنٹ بک کر سکتے ہیں۔',
+    completeBtn: 'سیٹ اپ مکمل کریں اور ہوم پر جائیں',
+    simulateBtn: 'واٹس ایپ لنک کنفرم کریں',
+    step4Back: 'واپس ادائیگی',
   },
   ar: {
-    steps: ['1. بيانات الصالون', '2. قائمة الخدمات', '3. الباقة والدفع', '4. ربط الباركود'],
-    step1Title: 'الخطوة 1: تسجيل بيانات الصالون والموقع الجغرافي',
-    step1Kicker: 'الإعداد الميداني المباشر',
-    routingLabel: 'التوجيه الذكي التلقائي للتنبيهات',
-    routingDesc: 'تم التحقق من حضور الوكيل الميداني تلقائياً. سيتم إرسال تنبيه مزدوج متزامن لمالك الصالون والوكيل.',
+    steps: ['1. بيانات الصالون', '2. قائمة الخدمات', '3. الباقة والدفع', '4. ربط واتساب'],
+    step1Title: 'الخطوة 1: بيانات الصالون وموقعه على الخريطة',
+    step1Kicker: 'تهيئة سريعة للصالون',
+    routingLabel: 'تنبيهات واتساب تلقائية مزدوجة',
+    routingDesc: 'تم تفعيل الزيارة الميدانية: تصل إشعارات الحجز والدفع لمالك الصالون والوكيل في نفس الوقت.',
     routingBadge: '⚡ تنبيه مزدوج نشط (المالك + الوكيل)',
     salonNameLabel: '1. اسم الصالون *',
     salonNamePlaceholder: 'مثال: صالون النخبة للرجال',
     ownerNameLabel: '2. اسم المالك *',
     ownerNamePlaceholder: 'مثال: طارق المنصور',
     phoneLabel: '3. رقم الواتساب المعتمد *',
-    phoneHint: 'يُستخدم للمطابقة الآلية في المستوى 1 والرد الذكي 24/7',
+    phoneHint: 'يُستخدم لتأكيد الدفع تلقائياً والرد على الحجوزات 24/7',
     phoneDigitsValidBadge: 'الأرقام صحيحة',
     phoneDigitsCountLabel: 'أرقام',
     phoneFormatValidLabel: 'صيغة الجوال صحيحة',
     countryDetected: 'البلد والمنطقة: تم التحديد تلقائياً',
-    pricingEngineLabel: 'محرك التسعير',
-    domesticRailBadge: 'بوابة محلية (PKR)',
-    intlRailBadge: 'بوابة دولية (USD $)',
-    addressLabel: '4. العنوان وموقع الصالون بالتفصيل *',
+    pricingEngineLabel: 'العملة',
+    domesticRailBadge: 'محلي (PKR)',
+    intlRailBadge: 'دولي (USD $)',
+    addressLabel: '4. عنوان الصالون والمدينة *',
     addressPlaceholder: 'مثال: شارع الرقة، ديرة، دبي',
-    suggestedCitiesLabel: 'تحديد مدينة محلية سريعة:',
-    coordsLabel: '5. إحداثيات الموقع الجغرافي GPS *',
-    captureGps: 'تحديد الموقع GPS',
+    suggestedCitiesLabel: 'اختر المدينة:',
+    coordsLabel: '5. موقع الصالون على الخريطة *',
+    captureGps: 'حفظ الموقع الحالي',
     capturingGps: 'جاري تحديد الموقع...',
-    gpsAccuracyBadge: 'دقة الموقع ±3 أمتار',
-    previewTitle: 'معاينة رسالة الترحيب عبر واتساب',
-    previewBadge: 'جاهز للإرسال الفوري',
+    gpsAccuracyBadge: 'دقة ±3 أمتار',
+    previewTitle: 'معاينة رسالة الترحيب التلقائية',
+    previewBadge: 'جاهز للإرسال',
     step1Next: 'حفظ ومتابعة لقائمة الخدمات ←',
     step1ErrorMissingNames: 'يرجى إدخال اسم الصالون واسم المالك للمتابعة.',
     step1ErrorEmptyAddress: 'يرجى إدخال عنوان الصالون والمدينة بالتفصيل.',
 
-    step2Title: 'الخطوة 2: قائمة الخدمات والأسعار المعتمدة',
-    step2Kicker: 'التهيئة السريعة',
-    step2Desc: 'حدد قائمة الخدمات والأسعار المعتمدة في الصالون، أو أضف خدمات مخصصة مطابقة لقائمة الأسعار.',
-    serviceCurrencyLabel: 'عملة قائمة الخدمات',
-    packageBillingLabel: 'فوترة الباقة (WORKCRAFT)',
+    step2Title: 'الخطوة 2: قائمة الخدمات والأسعار',
+    step2Kicker: 'إعداد سريع',
+    step2Desc: 'اختر خدمات الصالون وأسعاره المعتمدة، أو أضف خدمات جديدة حسب قائمة الأسعار.',
+    serviceCurrencyLabel: 'عملة القائمة',
+    packageBillingLabel: 'عملة الاشتراك',
     mensCategory: 'صالون رجالي (Men\'s Salon)',
     ladiesCategory: 'صالون نسائي (Ladies\' Parlor)',
-    addCustomService: '+ إضافة خدمة مخصصة',
+    addCustomService: '+ إضافة خدمة جديدة',
     customNamePlaceholder: 'اسم الخدمة (مثال: تنظيف بشرة VIP)',
     customPricePlaceholder: 'السعر',
     addBtn: 'إضافة',
@@ -883,109 +883,109 @@ export const ONBOARDING_I18N = {
     step2Next: 'حفظ ومتابعة لاختيار الباقة ←',
 
     step3Title: 'الخطوة 3: اختيار الباقة وتأكيد رسوم التأسيس',
-    step3Kicker: 'محرك الأمان الرقمي',
+    step3Kicker: 'خطوة الدفع الآمنة',
     step3PackageHeading: 'اختر باقة تأسيس الصالون',
-    formulaNotice: 'المعادلة: رسوم الصيانة الشهرية هي 10% بالضبط من قيمة الباقة شهرياً',
+    formulaNotice: 'قاعدة واضحة: الرسوم الشهرية هي 10% فقط من رسوم التأسيس شهرياً',
     setupShortLabel: 'التأسيس',
-    maintShortLabel: 'الصيانة',
+    maintShortLabel: 'شهرياً',
     perMonthShort: '/شهرياً',
-    oneTimeFeeLabel: 'رسوم التأسيس لمرة واحدة فقط',
-    monthlyMaintNote: 'الصيانة الشهرية 10% بموجب اتفاقية الخدمة. لا يتم قبول أي مدفوعات نقدية للصيانة الشهرية نهائياً.',
-    paymentConfirmed: 'تم التحقق من الدفع وتثبيته بنجاح',
-    paymentUnverified: 'غير مؤكد · اختر قناة الدفع أدناه',
-    layer1Title: 'المستوى 1: مرونة دفع رسوم التأسيس وقفل الصيانة الشهرية على شريحة الصالون',
-    layer1Desc: 'يمكن سداد رسوم التأسيس الأولى من أي حساب بنكي أو محفظة معتمدة. بينما تخضع الصيانة الشهرية (10%) لشرط التحويل الحصري من شريحة الصالون المسجلة عبر بوابة SIM المركزية.',
-    zeroCopyBadge: 'تعبئة تلقائية بدون نسخ',
-    boundNumber: 'رقم الواتساب المعتمد للدفع',
-    boundOwner: 'اسم الشريك المسجل',
-    featuresTitle: 'التفاصيل الشاملة ومميزات الباقة (قابلة للتوسيع)',
-    expandFeatures: 'عرض كافة مميزات الباقة',
-    collapseFeatures: 'إخفاء مميزات الباقة',
+    oneTimeFeeLabel: 'رسوم التأسيس لمرة واحدة',
+    monthlyMaintNote: 'الرسوم الشهرية 10% من الباقة. لا يتم قبول الدفع النقدي للرسوم الشهرية أبداً.',
+    paymentConfirmed: 'تم تأكيد الدفع وحفظه بنجاح',
+    paymentUnverified: 'لم يتم الدفع بعد · اختر طريقة الدفع أدناه',
+    layer1Title: 'مرونة التأسيس مقابل شرط الرقم المسجل للرسوم الشهرية',
+    layer1Desc: 'يمكن سداد رسوم التأسيس الأولى من أي بطاقة أو حساب بنكي. أما الرسوم الشهرية (10%) فيجب إرسالها دائماً من رقم الواتساب المسجل للصالون ليتم التحقق منها تلقائياً.',
+    zeroCopyBadge: 'مطابقة تلقائية · بدون نسخ',
+    boundNumber: 'رقم الواتساب المسجل',
+    boundOwner: 'المالك المسجل',
+    featuresTitle: 'المميزات المشمولة في هذه الباقة',
+    expandFeatures: 'عرض تفاصيل الباقة',
+    collapseFeatures: 'إخفاء التفاصيل',
     includedLabel: 'مشمول',
     notIncludedLabel: 'غير مشمول',
-    slaAccordionLeft: '⚡ اتفاقية 10%: استضافة سحابية، تعديل فوري للقائمة وإصلاح ذاتي خلال <60 دقيقة.',
-    slaAccordionRight: 'سياسة الدفع الرقمي الحصري (بدون كاش) للرسوم الشهرية.',
-    selectChannelLabel: 'اختر وسيلة الدفع لتأكيد التحصيل والتفعيل',
-    openDrawerHint: 'الضغط على الوسيلة يفتح نافذة التحقق الآمنة',
-    proofGenerated: 'تم إصدار إثبات السداد الرقمي تلقائياً',
+    slaAccordionLeft: '⚡ رسوم 10% شهرية: تشمل الاستضافة 24/7، تعديل الأسعار فوراً، والإصلاح التلقائي.',
+    slaAccordionRight: 'الرسوم الشهرية إلكترونية فقط (بدون نقد).',
+    selectChannelLabel: 'اختر وسيلة الدفع لتأكيد رسوم التأسيس',
+    openDrawerHint: 'اضغط على وسيلة الدفع لإدخال التفاصيل',
+    proofGenerated: 'تم إصدار إيصال الدفع الرقمي بنجاح',
     channelLabel: 'وسيلة الدفع',
-    tidLabel: 'رقم المرجع (TID)',
-    routeLabel: 'توجيه الإشعارات',
-    digestLabel: 'البصمة الأمنية (SHA-256)',
-    optionAOffsetApplied: 'تم تطبيق تسوية العمولة (خيار A):',
-    optionAOffsetDesc: 'تم خصم العمولة تلقائياً من رصيد النقد المستحق لـ',
-    remainingCashDueLabel: 'الرصيد النقدي المتبقي المستحق لـ WORKCRAFT:',
-    zeroCashTitle: 'سياسة منع النقد للصيانة: دفع رقمي ذاتي حصراً',
-    zeroCashDesc: 'يُسمح بالتحصيل النقدي حصراً لرسوم التأسيس الأولى داخل باكستان فقط. جميع رسوم الصيانة الشهرية (10%) تُدفع رقمياً من خلال التطبيق ولا يُقبل النقد نهائياً.',
-    slaCardTitle: 'ضمان الرعاية المستمرة وتشغيل النظام (اتفاقية 10%)',
-    slaCardBadge: 'حل الأعطال خلال < 60 دقيقة',
-    slaCardDesc: 'تشمل الرد التلقائي عبر واتساب 24/7، المعالجة الذاتية للأعطال، تحديثات فورية للأسعار، وضمان استعادة الخدمة خلال 60 دقيقة.',
+    tidLabel: 'رقم العملية (TID)',
+    routeLabel: 'أُرسل إلى',
+    digestLabel: 'رمز الإيصال',
+    optionAOffsetApplied: 'تم تعديل العمولة تلقائياً:',
+    optionAOffsetDesc: 'تم خصم عمولتك تلقائياً من الرصيد النقدي المستحق لـ',
+    remainingCashDueLabel: 'النقد المتبقي المستحق لـ WORKCRAFT:',
+    zeroCashTitle: 'سياسة الرسوم الشهرية: دفع إلكتروني ذاتي فقط (بدون نقد)',
+    zeroCashDesc: 'يُقبل النقد لرسوم التأسيس الأولى داخل باكستان فقط. جميع الرسوم الشهرية (10%) يدفعها مالك الصالون مباشرة من تطبيق WorkCraft.',
+    slaCardTitle: 'حماية تلقائية وتشغيل مستمر 24/7 (10% شهرياً)',
+    slaCardBadge: 'إصلاح تلقائي نشط 24/7',
+    slaCardDesc: 'تشمل الرد التلقائي عبر واتساب 24/7، إعادة الربط التلقائي، تحديث الأسعار فوراً، والدعم السريع.',
     statusPaidPrefix: 'الحالة: مدفوع',
-    lockedConfirmBtn: 'تأكيد رسوم التأسيس وتشغيل باركود الربط',
-    verifyBtn: 'التحقق من إشعار الدفع الرقمي',
+    lockedConfirmBtn: 'تأكيد الدفع وربط واتساب',
+    verifyBtn: 'تأكيد تفاصيل الدفع',
     step3Back: 'الرجوع لقائمة الخدمات',
-    step3Next: 'تأكيد رسوم التثبيت وتشغيل باركود الربط ←',
+    step3Next: 'تأكيد الدفع وربط واتساب ←',
 
-    drawerKicker: 'بوابة تسوية المدفوعات المعتمدة',
+    drawerKicker: 'تأكيد الدفع',
     drawerTitlePrefix: 'تأكيد سداد',
-    receivingDestTitle: 'الحساب الرسمي المعتمد للاستلام لدى WORKCRAFT:',
-    routingAssisted: 'التوجيه: إشعار مزدوج تلقائي (ASSISTED)',
-    ownerAgentPush: 'إرسال واتساب للمالك + الوكيل',
-    layer1PolicyTitle: 'سياسة رقم الهاتف (المستوى 1)',
-    layer1PolicyBadge: 'مرونة التأسيس · الصيانة مقفلة بالرقم',
-    registeredSimLabel: 'شريحة الصالون المسجلة:',
-    layer1PolicyDesc: 'يمكن دفع رسوم التأسيس من أي بطاقة أو حساب. أما الصيانة الشهرية (10%) فيجب سدادها حصراً من الشريحة المسجلة:',
-    simGatewayTitle: 'بوابة التحقق الآلي للشريحة المركزية',
-    liveListenerBadge: 'المستشعر المباشر نشط',
-    listeningSimText: 'جاري رصد التحويل الوارد تلقائياً من الرقم:',
-    webhookCapturedTitle: 'تم التقاط إشعار الدفع البنكي تلقائياً:',
-    otherSimHint: 'في حال الدفع من رقم أو بطاقة أخرى، يمكنك تعديل بيانات المرسل أدناه.',
-    reScanBtn: '⚡ إعادة فحص الإشعار',
-    intlRailTitle: 'تسوية المدفوعات الدولية خلال 24-48 ساعة',
-    instantActivationBadge: 'تفعيل فوري للصالون',
-    intlRailDesc: 'تستغرق الحوالات البنكية والبطاقات الدولية 24–48 ساعة للوصول إلى حساب بنك ميزان الباكستاني الخاص بـ WORKCRAFT. يتم تفعيل النظام فوراً دون انتظار، مع إرسال إشعار استلام موثق عبر واتساب لمالك الصالون والوكيل.',
-    payerDetailsLabel: 'بيانات المرسل (رقم الهاتف / صاحب البطاقة) *',
-    payerDetailsHint: 'يُقبل دفع التأسيس من أي حساب، بينما تلتزم الصيانة الشهرية 10% بالرقم المسجل فقط.',
+    receivingDestTitle: 'حساب الاستلام الرسمي لـ WORKCRAFT:',
+    routingAssisted: 'تأكيد مزدوج عبر واتساب',
+    ownerAgentPush: 'يُرسل للمالك + الوكيل',
+    layer1PolicyTitle: 'شرط الرقم المسجل',
+    layer1PolicyBadge: 'مرونة التأسيس · الشهرية بالرقم المسجل',
+    registeredSimLabel: 'رقم الصالون المسجل:',
+    layer1PolicyDesc: 'يمكن سداد رسوم التأسيس من أي حساب، بينما يجب سداد الرسوم الشهرية (10%) من الرقم المسجل فقط:',
+    simGatewayTitle: 'نظام فحص الدفع التلقائي',
+    liveListenerBadge: 'فحص تلقائي نشط',
+    listeningSimText: 'جاري البحث عن الحوالة الواردة من:',
+    webhookCapturedTitle: 'تم رصد الدفع تلقائياً:',
+    otherSimHint: 'إذا تم الدفع من رقم أو بطاقة أخرى، عدل بيانات المرسل أدناه.',
+    reScanBtn: '⚡ إعادة فحص الدفع',
+    intlRailTitle: 'تسوية دولية خلال 24–48 ساعة (تفعيل فوري للصالون)',
+    instantActivationBadge: 'يبدأ الصالون فوراً',
+    intlRailDesc: 'تستغرق البطاقات الدولية والتحويلات 24–48 ساعة للوصول إلى حساب بنك ميزان الباكستاني، لكن نظام الصالون يعمل فوراً مع إرسال إيصالات واتساب للمالك والوكيل.',
+    payerDetailsLabel: 'رقم هاتف المرسل / اسم الحساب *',
+    payerDetailsHint: 'يمكن دفع التأسيس من أي حساب، أما الشهرية 10% فمن الرقم المسجل فقط.',
     tidInputLabel: 'رقم العملية / المرجع البنكي (TID) *',
-    smsAutoCapture: 'مرجع فوري / تلقائي',
-    lockedAmountLabel: 'مبلغ التسوية المطلوب (مقفول آلياً)',
-    cashGuardTitle: 'مراقب سقف التحصيل النقدي (50,000 PKR)',
-    cashLimitExceeded: '🚨 تم تجاوز الحد الأقصى للنقد! يرجى إيداع المبالغ المحصلة في بنك ميزان أو إيزي بيسا أولاً.',
-    cashHeldPrefix: 'الرصيد النقدي الحالي بعهدتك:',
-    biometricTitle: 'توقيع البصمة الحيوية للتحصيل النقدي',
-    zeroPinBadge: 'بصمة فقط · بدون رمز سري',
-    scanningThumbText: 'جاري قراءة مستشعر البصمة...',
-    thumbVerifiedText: '✓ تم التحقق من البصمة بنجاح',
-    pressThumbText: 'اضغط بإصبعك لتوثيق استلام المبلغ النقدي',
-    antiFraudTitle: 'حماية السجل الرقمي رباعية الطبقات نشطة',
-    antiFraudDesc: 'يتحقق النظام آلياً من عدم تكرار رقم العملية وتطابق المبلغ ومنع الإيصالات المعدلة أو الوهمية.',
+    smsAutoCapture: 'مرجع تلقائي / فوري',
+    lockedAmountLabel: 'المبلغ المطلوب',
+    cashGuardTitle: 'مراقب حد النقد (50,000 PKR)',
+    cashLimitExceeded: '🚨 وصلت للحد الأقصى للنقد! يرجى إيداع المبالغ المحصلة في بنك ميزان أو إيزي بيسا أولاً.',
+    cashHeldPrefix: 'الرصيد النقدي بعهدتك الآن:',
+    biometricTitle: 'تأكيد ببصمة الإبهام',
+    zeroPinBadge: 'بصمة فقط',
+    scanningThumbText: 'جاري قراءة البصمة...',
+    thumbVerifiedText: '✓ تم تأكيد البصمة',
+    pressThumbText: 'المس مستشعر البصمة لتوثيق استلام النقد',
+    antiFraudTitle: 'فحص أمان الإيصالات الرباعي نشط',
+    antiFraudDesc: 'يتحقق النظام تلقائياً من عدم تكرار رقم العملية ومطابقة المبلغ ومنع الإيصالات المعدلة.',
     cancelLabel: 'إلغاء',
-    verifyingBtn: 'جاري التحقق والربط الآمن...',
-    verifyBindBtn: 'تأكيد السداد والانتقال لباركود الربط ←',
+    verifyingBtn: 'جاري التأكيد والحفظ...',
+    verifyBindBtn: 'تأكيد الدفع وربط واتساب ←',
 
-    step4Title: 'الخطوة 4: ربط جهاز الصالون بالواتساب والاقتران',
-    step4Kicker: 'التفعيل النهائي',
-    setupVerified: 'تم التحقق من دفع رسوم التأسيس',
-    modeLabel: 'نمط إتمام عملية الربط:',
-    modeQr: 'النمط أ: مسح رمز الباركود QR',
-    modeLink: 'النمط ب: رابط البوابة وتطبيق PWA',
-    scanInstructions: 'يفتح مالك الصالون تطبيق واتساب ➔ الأجهزة المرتبطة ➔ ربط جهاز ➔ ومسح هذا الرمز.',
-    pairingKeyLabel: 'مفتاح الربط الأمني:',
-    tokenBoundBadge: 'ربط أحادي الاستخدام مشفر 1:1',
-    tokenBurned: '🔥 تم استهلاك الرمز وتثبيته للصالون',
-    tokenActive: 'نشط (بانتظار المسح)',
-    tokenExpl: 'هذا الرمز مشفر وخاص بهذا الصالون حصراً. فور الاقتران، يتم إتلاف الرمز فوراً لمنع إعادة استخدامه على أي جهاز آخر.',
-    remoteLinkTitle: 'رابط البوابة وتطبيق PWA',
-    remoteLinkDesc: 'للتسجيل عن بُعد، أرسل هذا الرابط السريع إلى واتساب مالك الصالون:',
-    copyLink: 'نسخ رابط البوابة',
-    copiedLink: 'تم النسخ بنجاح!',
-    outboundTitle: 'إرسال رسالة الترحيب الآلية',
-    outboundStatus: 'جاهز للإرسال الفوري',
-    handshakeSuccess: 'تم اقتران الجهاز بنجاح 100%!',
-    handshakeDesc: 'تم تفعيل نقطة اتصال الصالون على شبكة WORKCRAFT بنجاح، وربط المفتاح الأمني بالصالون نهائياً.',
-    completeBtn: 'إتمام التسجيل والعودة للمركز',
-    simulateBtn: 'محاكاة اختبار ربط الواتساب',
-    step4Back: 'الرجوع لرسوم التأسيس',
+    step4Title: 'الخطوة 4: ربط واتساب الصالون والإنهاء',
+    step4Kicker: 'الخطوة الأخيرة',
+    setupVerified: 'تم تأكيد رسوم التأسيس',
+    modeLabel: 'اختر طريقة ربط واتساب:',
+    modeQr: 'مسح رمز الباركود QR',
+    modeLink: 'إرسال رابط التطبيق',
+    scanInstructions: 'يفتح مالك الصالون واتساب ➔ الأجهزة المرتبطة ➔ ربط جهاز ➔ ومسح هذا الرمز.',
+    pairingKeyLabel: 'رمز ربط الصالون:',
+    tokenBoundBadge: 'رابط آمن لمرة واحدة للصالون',
+    tokenBurned: '🔥 تم الربط والتثبيت لهذا الصالون',
+    tokenActive: 'جاهز للمسح',
+    tokenExpl: 'يعمل هذا الرمز مرة واحدة لهذا الصالون فقط، ولا يمكن إعادة استخدامه لأي جهاز آخر.',
+    remoteLinkTitle: 'رابط تطبيق سريع للمالك',
+    remoteLinkDesc: 'للتسجيل عن بُعد، أرسل هذا الرابط الخاص إلى مالك الصالون ليفتح تطبيق WorkCraft:',
+    copyLink: 'نسخ رابط التطبيق',
+    copiedLink: 'تم النسخ!',
+    outboundTitle: 'رسالة الترحيب التلقائية',
+    outboundStatus: 'جاهز للإرسال',
+    handshakeSuccess: 'تم ربط واتساب الصالون بنجاح 100%!',
+    handshakeDesc: 'الصالون الآن متصل ويعمل على WORKCRAFT. يمكن للعملاء الحجز عبر واتساب 24/7 من الآن.',
+    completeBtn: 'إنهاء التسجيل والعودة للرئيسية',
+    simulateBtn: 'تأكيد ربط واتساب',
+    step4Back: 'الرجوع للدفع',
   },
 };
 
@@ -1055,10 +1055,10 @@ export const getRegionalPaymentRails = (
       label: getLocalizedPaymentMethodName('EasyPaisa', lang),
       note:
         lang === 'ur'
-          ? 'مرچنٹ ٹِل · سینٹرل سم ویب ہک خودکار تصدیق'
+          ? 'مرچنٹ ٹِل · خودکار تصدیق'
           : lang === 'ar'
-          ? 'حساب التاجر · التحقق التلقائي عبر بوابة SIM'
-          : 'Merchant Till · Central SIM Webhook',
+          ? 'حساب التاجر · تأكيد تلقائي'
+          : 'Merchant Till · Instant Auto-Check',
     },
     {
       name: 'JazzCash',
@@ -1182,7 +1182,7 @@ export const getLocalizedPackageFeatures = (pkgId: string, lang: ClientOnboardin
           { title: 'لامحدود بکنگز اور ملٹی برانچ نیٹ ورک کنٹرول', included: true },
           { title: 'لامحدود گوگل 5-اسٹار پروموشنل مہمات', included: true },
           { title: 'کسٹم ویڈیو پروڈکشن اور سوشل ریلز پروموشن', included: true },
-          { title: '24/7 ترجیحی سینئر انجینئر اسٹینڈ بائی (10% SLA)', included: true },
+          { title: '24/7 ترجیحی سپورٹ اور فوری مدد (10% ماہانہ)', included: true },
         ];
     }
   }
@@ -1247,26 +1247,26 @@ export const getLocalizedPackageFeatures = (pkgId: string, lang: ClientOnboardin
         { title: 'Google 5-Star Review Booster (Auto-prompted 30 mins after checkout)', included: true, highlight: true },
         { title: 'Direct Google Maps 5★ filter & review multiplier', included: true },
         { title: 'Viral Video Deals & Reels Feature (Disabled)', included: false },
-        { title: 'Monthly 10% Maintenance with < 60-min recovery SLA', included: true },
+        { title: 'Monthly 10% Maintenance with 24/7 auto-fix protection', included: true },
       ];
     case 'VIP':
       return [
-        { title: 'Priority Multi-Threaded WhatsApp Concierge Cluster', included: true },
+        { title: 'Priority Multi-Branch WhatsApp Auto-Reply System', included: true },
         { title: '3,000 salon bookings / month capacity', included: true },
         { title: 'Google 5-Star Review Booster (VIP priority)', included: true },
         { title: 'Viral Video Deals & Reels Feature Unlocked', included: true, highlight: true },
         { title: '1 video deal ($15 / PKR 1.5k) or 4 video deals ($40 / PKR 4k / mo)', included: true },
-        { title: '7 to 10 day conversion audit & analytics', included: true },
+        { title: '7 to 10 day conversion tracking & results', included: true },
         { title: 'Monthly 10% Maintenance & dedicated account manager', included: true },
       ];
     case 'CUSTOM':
     default:
       return [
-        { title: 'Multi-SIM Cluster & Customized Branch Routing', included: true },
+        { title: 'Multi-Branch WhatsApp & Custom Shop Routing', included: true },
         { title: 'Unlimited salon bookings / multi-branch network', included: true },
         { title: 'Unlimited Google 5-Star campaigns & viral promo broadcast', included: true },
         { title: 'Custom video marketing production & creator coordination', included: true },
-        { title: 'Dedicated senior engineer 24/7 standby (10% SLA)', included: true },
+        { title: 'Priority 24/7 support & fast auto-recovery (10% monthly)', included: true },
       ];
   }
 };
@@ -1398,7 +1398,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       currency: 'PKR',
       prefix: 'PKR ',
       bookings: '> 3,000 bookings / Multi-Branch',
-      scope: 'Enterprise Multi-SIM & Custom SLA (Video Feature Unlocked: 1 to 4 videos/mo · 10% maintenance)',
+      scope: 'Enterprise Multi-Branch & Priority Support (Video Feature Unlocked: 1 to 4 videos/mo · 10% monthly)',
       agentCommission: 7000,
     },
   ];
@@ -1445,7 +1445,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       currency: 'USD',
       prefix: '$',
       bookings: '> 3,000 bookings / Multi-Branch',
-      scope: 'Enterprise Multi-SIM & Custom SLA (Video Feature Unlocked: 1 to 4 videos/mo · 10% maintenance)',
+      scope: 'Enterprise Multi-Branch & Priority Support (Video Feature Unlocked: 1 to 4 videos/mo · 10% monthly)',
       agentCommission: 50,
     },
   ];
@@ -2088,19 +2088,20 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
   const totalLifetimeAttributed = agentRevenueLedger.reduce((acc, row) => acc + row.totalRevenue, 0);
   const totalSalonsOnboarded = 19;
+  const isHubRtl = agentLanguage === 'ur' || agentLanguage === 'ur_roman' || agentLanguage === 'ar';
 
   if (!isAgentAuthenticated) {
     return (
-      <div className="max-w-md mx-auto my-8 p-6 sm:p-7 rounded-3xl border border-[#D9A441]/40 bg-[#102019] shadow-2xl space-y-6 animate-in zoom-in-95">
+      <div className="max-w-md mx-auto my-8 mb-28 lg:mb-10 p-6 sm:p-7 rounded-3xl border border-[#30363D] bg-[#161B22] space-y-6 animate-in zoom-in-95">
         <div className="text-center space-y-2">
-          <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-[#D9A441]/10 border border-[#D9A441]/30">
-            <Lock className="size-8 text-[#D9A441]" />
+          <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-[#3B2E0B] border border-[#9E6A03]">
+            <Lock className="size-8 text-[#D29922]" />
           </div>
-          <span className="text-[10px] font-mono font-bold uppercase tracking-[.22em] text-[#00FFFF] block">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-[.22em] text-[#06B6D4] block">
             WORKCRAFT FIELD FORCE · AGENT TERMINAL
           </span>
-          <h2 className="text-2xl font-black text-white">Agent Portal Login</h2>
-          <p className="text-xs text-white/60 font-sans">
+          <h2 className="text-2xl font-black text-[#F0F6FC]">Agent Portal Login</h2>
+          <p className="text-xs text-[#8B949E] font-sans">
             Enter your assigned Agent ID & Security PIN to access field onboarding and commission adjustments.
           </p>
         </div>
@@ -2118,7 +2119,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           className="space-y-4"
         >
           <div>
-            <label className="text-xs font-mono font-bold text-white/70 block mb-1">
+            <label className="text-xs font-mono font-bold text-[#8B949E] block mb-1">
               Field Agent ID
             </label>
             <input
@@ -2127,12 +2128,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               value={agentIdInput}
               onChange={(e) => setAgentIdInput(e.target.value)}
               placeholder="e.g. AGT-409"
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2.5 text-xs font-mono font-bold text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+              className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono font-bold text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
             />
           </div>
 
           <div>
-            <label className="text-xs font-mono font-bold text-white/70 block mb-1">
+            <label className="text-xs font-mono font-bold text-[#8B949E] block mb-1">
               4-Digit Security PIN
             </label>
             <input
@@ -2142,17 +2143,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               value={agentPinInput}
               onChange={(e) => setAgentPinInput(e.target.value)}
               placeholder="••••"
-              className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2.5 text-xs font-mono font-bold text-[#D9A441] tracking-widest focus:outline-none focus:border-[#D9A441]"
+              className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono font-bold text-[#D29922] placeholder:text-[#484F58] tracking-widest focus:outline-none focus:border-[#D29922]"
             />
           </div>
 
           {loginError && (
-            <p className="text-xs font-mono text-red-400 text-center">{loginError}</p>
+            <p className="text-xs font-mono text-[#F85149] text-center">{loginError}</p>
           )}
 
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+            className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] py-3 text-xs font-mono font-bold uppercase transition active:scale-95"
           >
             <Lock className="size-4" />
             <span>Unlock Agent Terminal & Pipeline →</span>
@@ -2165,7 +2166,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               setAgentPinInput('7892');
               setIsAgentAuthenticated(true);
             }}
-            className="w-full text-center text-[11px] font-mono text-[#00FFFF] hover:underline pt-1 block"
+            className="w-full min-h-[40px] text-center text-[11px] font-mono text-[#06B6D4] hover:underline pt-1 block"
           >
             ⚡ Quick Login as Kamran Tariq (Verified Agent)
           </button>
@@ -2175,40 +2176,45 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-28 lg:pb-10 min-w-0">
       {/* 1. FIELD AGENT COMMAND HUB & OPERATIONAL ACTIONS (QUERIES 4 & 5) */}
-      <div className="rounded-2xl border border-white/10 bg-[#102019] p-4 sm:p-5 shadow-lg space-y-4">
+      <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 space-y-4 overflow-hidden">
         {/* Top Header Row: Operational Hub Branding (Left) & Top-Right Language Switcher + Terminal Controls (Right) */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-3.5">
+        <div
+          dir={isHubRtl ? 'rtl' : 'ltr'}
+          className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#21262D] pb-3.5 ${
+            isHubRtl ? 'text-right' : 'text-left'
+          }`}
+        >
           <div className="flex items-center gap-3">
-            <div className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-[#00FFFF]/20 to-emerald-500/20 border border-[#00FFFF]/40 text-[#00FFFF]">
+            <div className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[#21262D] border border-[#06B6D4]/40 text-[#06B6D4]">
               <Smartphone className="size-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-black text-white tracking-wide">
-                  {agentLanguage === 'ur' ? 'فیلڈ ایجنٹ کمانڈ ہب' : agentLanguage === 'ar' ? 'بوابة الوكيل الميداني' : 'Field Agent Command Hub'}
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-base font-black text-[#F0F6FC] tracking-wide">
+                  {agentLanguage === 'ur' ? 'فیلڈ ایجنٹ پورٹل' : agentLanguage === 'ar' ? 'بوابة الوكيل الميداني' : 'Field Agent Hub'}
                 </h2>
-                <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
-                  LIVE SIM CLUSTER
+                <span className="rounded-full bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[9px] font-mono font-bold text-[#3FB950]">
+                  {agentLanguage === 'ur' ? 'واٹس ایپ آٹو سنک فعال' : agentLanguage === 'ar' ? 'مزامنة واتساب التلقائية نشطة' : 'WhatsApp Auto-Sync Active'}
                 </span>
               </div>
-              <p className="text-xs text-white/50 font-mono mt-0.5">
+              <p className="text-xs text-[#8B949E] font-mono mt-0.5">
                 {agentLanguage === 'ur'
-                  ? 'سیلون آن بورڈنگ، ڈیوائس پیئرنگ اور فلیٹ کمانڈ پورٹل'
+                  ? 'نیا سیلون شامل کریں، واٹس ایپ جوڑیں اور اپنی کمیشن دیکھیں'
                   : agentLanguage === 'ar'
-                  ? 'تهيئة الصالونات والربط الميداني وإدارة الأسطول'
-                  : 'Salon Onboarding · Direct QR Pairing · Fleet Registry'}
+                  ? 'إضافة صالون جديد، ربط واتساب، ومتابعة عمولتك'
+                  : 'Add Salons · Link WhatsApp · Track Commissions'}
               </p>
             </div>
           </div>
 
-          {/* Top-Right Language Switcher & Terminal Actions */}
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Top-Right Language Switcher & App Actions */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             {/* Language Switcher */}
-            <div className="flex items-center rounded-xl bg-black/60 border border-white/10 p-1 text-xs font-mono">
-              <span className="px-1.5 text-white/40 flex items-center gap-1">
-                <Globe className="size-3.5 text-[#00FFFF]" />
+            <div className="flex items-center rounded-xl bg-[#0D1117] border border-[#30363D] p-1 text-xs font-mono">
+              <span className="px-1.5 text-[#6E7681] flex items-center gap-1">
+                <Globe className="size-3.5 text-[#06B6D4]" />
               </span>
               <button
                 type="button"
@@ -2216,7 +2222,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   setAgentLanguage('en');
                   setEnrollmentLang('en');
                 }}
-                className={`px-2.5 py-1 rounded-lg transition ${agentLanguage === 'en' ? 'bg-[#D9A441] text-[#12241C] font-bold' : 'text-white/60 hover:text-white'}`}
+                className={`min-h-[36px] px-2.5 py-1 rounded-lg transition ${agentLanguage === 'en' ? 'bg-[#D29922] text-[#0D1117] font-bold' : 'text-[#8B949E] hover:text-[#F0F6FC]'}`}
               >
                 EN
               </button>
@@ -2226,7 +2232,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   setAgentLanguage('ur');
                   setEnrollmentLang('ur_roman');
                 }}
-                className={`px-2.5 py-1 rounded-lg transition ${agentLanguage === 'ur' || agentLanguage === 'ur_roman' ? 'bg-[#D9A441] text-[#12241C] font-bold' : 'text-white/60 hover:text-white'}`}
+                className={`min-h-[36px] px-2.5 py-1 rounded-lg transition ${agentLanguage === 'ur' || agentLanguage === 'ur_roman' ? 'bg-[#D29922] text-[#0D1117] font-bold' : 'text-[#8B949E] hover:text-[#F0F6FC]'}`}
               >
                 اردو
               </button>
@@ -2236,33 +2242,33 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   setAgentLanguage('ar');
                   setEnrollmentLang('ar');
                 }}
-                className={`px-2.5 py-1 rounded-lg transition ${agentLanguage === 'ar' ? 'bg-[#D9A441] text-[#12241C] font-bold' : 'text-white/60 hover:text-white'}`}
+                className={`min-h-[36px] px-2.5 py-1 rounded-lg transition ${agentLanguage === 'ar' ? 'bg-[#D29922] text-[#0D1117] font-bold' : 'text-[#8B949E] hover:text-[#F0F6FC]'}`}
               >
                 العربية
               </button>
             </div>
 
-            {/* Query 5: Lock & PWA buttons shown strictly for Field Agent mobile terminals (hidden from Founder dashboard) */}
+            {/* Query 5: Lock & Save App buttons shown strictly for Field Agent mobile terminals */}
             {userRole === 'FIELD_AGENT' && (
               <>
                 <button
                   type="button"
                   onClick={() => setIsAgentAuthenticated(false)}
-                  className="rounded-lg px-2.5 py-1.5 text-xs font-mono text-white/50 hover:text-amber-300 transition flex items-center gap-1 border border-white/10 hover:border-amber-400/40"
-                  title="Lock Agent Terminal & Logout"
+                  className="min-h-[40px] rounded-lg px-2.5 py-1.5 text-xs font-mono text-[#8B949E] hover:text-[#D29922] transition flex items-center gap-1 border border-[#30363D] bg-[#21262D] hover:border-[#D29922]"
+                  title="Lock App & Logout"
                 >
                   <Lock className="size-3.5" />
-                  <span>Lock</span>
+                  <span>{agentLanguage === 'ur' ? 'لاک' : agentLanguage === 'ar' ? 'قفل' : 'Lock'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setShowPwaInstallModal(true)}
-                  className="rounded-lg px-2.5 py-1.5 text-xs font-mono border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 transition flex items-center gap-1"
-                  title="Add Field Agent Hub to Home Screen"
+                  className="min-h-[40px] rounded-lg px-2.5 py-1.5 text-xs font-mono border border-[#116329] bg-[#0D3822] hover:bg-[#116329]/50 text-[#3FB950] transition flex items-center gap-1"
+                  title="Save WorkCraft to Phone Home Screen"
                 >
                   <Download className="size-3.5" />
-                  <span>PWA</span>
+                  <span>{agentLanguage === 'ur' ? 'ایپ محفوظ کریں' : agentLanguage === 'ar' ? 'حفظ التطبيق' : 'Save App'}</span>
                 </button>
               </>
             )}
@@ -2270,7 +2276,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             {onClose && (
               <button
                 onClick={onClose}
-                className="rounded-lg p-1.5 text-white/50 hover:text-white hover:bg-white/[0.05] transition"
+                className="min-h-[40px] rounded-lg p-1.5 text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] transition"
                 title="Close Hub"
               >
                 <X className="size-5" />
@@ -2300,10 +2306,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <button
               type="button"
               onClick={() => setIsAddAgentModalOpen(true)}
-              className="rounded-xl px-3.5 py-2 text-xs font-mono font-bold bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] shadow-md transition active:scale-95 flex items-center gap-1.5"
+              className="min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] shadow-md transition active:scale-95 flex items-center gap-1.5"
               title="Founder: Add New Field Agent & Dispatch WhatsApp Invitation"
             >
-              <UserPlus className="size-3.5 text-[#12241C]" />
+              <UserPlus className="size-3.5 text-[#0D1117]" />
               <span>+ Add New Field Agent</span>
             </button>
           )}
@@ -2312,10 +2318,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           <button
             type="button"
             onClick={() => setIsRemoteEnrollmentWizardOpen(true)}
-            className="rounded-xl px-3.5 py-2 text-xs font-mono font-bold border border-[#00FFFF]/40 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 text-[#00FFFF] shadow-md transition active:scale-95 flex items-center gap-1.5"
+            className="min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold border border-[#06B6D4]/50 bg-[#21262D] hover:border-[#06B6D4] text-[#06B6D4] shadow-md transition active:scale-95 flex items-center gap-1.5"
             title="Launch Day-1 Remote Agent Enrollment Wizard"
           >
-            <Sparkles className="size-3.5 text-[#00FFFF]" />
+            <Sparkles className="size-3.5 text-[#06B6D4]" />
             <span>Agent Enrollment Link</span>
           </button>
 
@@ -2326,10 +2332,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               setActiveHubView('ONBOARDING');
               setCurrentStep(1);
             }}
-            className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+            className={`min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
               activeHubView === 'ONBOARDING'
-                ? 'bg-[#00FFFF] text-[#12241C] shadow-md'
-                : 'bg-white/[0.04] text-white/70 hover:text-white border border-white/10 hover:border-white/20'
+                ? 'bg-[#06B6D4] text-[#0D1117] shadow-md'
+                : 'bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] border border-[#30363D] hover:border-[#484F58]'
             }`}
             title="Launch 4-Step Salon Lead Onboarding & Instant QR Pairing Handshake"
           >
@@ -2342,10 +2348,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <button
               type="button"
               onClick={() => setActiveHubView('FLEET')}
-              className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+              className={`min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
                 activeHubView === 'FLEET'
-                  ? 'bg-[#00FFFF] text-[#12241C] shadow-md'
-                  : 'bg-white/[0.04] text-white/70 hover:text-white border border-white/10 hover:border-white/20'
+                  ? 'bg-[#06B6D4] text-[#0D1117] shadow-md'
+                  : 'bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] border border-[#30363D] hover:border-[#484F58]'
               }`}
             >
               <Smartphone className="size-3.5" />
@@ -2353,18 +2359,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             </button>
           )}
 
-          {/* 5. Node Repair & Diagnostics */}
+          {/* 5. Fix Salon Connection */}
           <button
             type="button"
             onClick={() => setActiveHubView('RE_PAIR')}
-            className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+            className={`min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
               activeHubView === 'RE_PAIR'
-                ? 'bg-[#00FFFF] text-[#12241C] shadow-md'
-                : 'bg-white/[0.04] text-white/70 hover:text-white border border-white/10 hover:border-white/20'
+                ? 'bg-[#06B6D4] text-[#0D1117] shadow-md'
+                : 'bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] border border-[#30363D] hover:border-[#484F58]'
             }`}
           >
-            <ShieldAlert className="size-3.5 text-amber-400" />
-            <span>{agentLanguage === 'ur' ? 'ٹرمینل ریپیئر' : agentLanguage === 'ar' ? 'فحص المحطة' : 'Node Repair & Diagnostics'}</span>
+            <ShieldAlert className={`size-3.5 ${activeHubView === 'RE_PAIR' ? 'text-[#0D1117]' : 'text-[#D29922]'}`} />
+            <span>{agentLanguage === 'ur' ? 'سیلون کنکشن درست کریں' : agentLanguage === 'ar' ? 'إصلاح اتصال الصالون' : 'Fix Salon Connection'}</span>
           </button>
 
           {/* 6. My Profile & Payout Details (Biometric-Locked Edits) */}
@@ -2382,14 +2388,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               setPayoutSaveStatus(null);
               setActiveHubView('PROFILE');
             }}
-            className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+            className={`min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 ${
               activeHubView === 'PROFILE'
-                ? 'bg-[#D9A441] text-[#12241C] shadow-md'
-                : 'bg-white/[0.04] text-white/75 hover:text-white border border-white/10 hover:border-[#D9A441]/50'
+                ? 'bg-[#D29922] text-[#0D1117] shadow-md'
+                : 'bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] border border-[#30363D] hover:border-[#D29922]'
             }`}
             title="Edit mobile, city, country & bank details (requires fresh biometric check)"
           >
-            <Fingerprint className="size-3.5 text-[#D9A441]" />
+            <Fingerprint className={`size-3.5 ${activeHubView === 'PROFILE' ? 'text-[#0D1117]' : 'text-[#D29922]'}`} />
             <span>
               {agentLanguage === 'ur'
                 ? 'میرا پروفائل اور بینک'
@@ -2405,10 +2411,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             onClick={() => {
               setActiveHubView('LEDGER');
             }}
-            className={`rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 sm:ml-auto ${
+            className={`min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-mono font-bold transition flex items-center gap-1.5 sm:ml-auto ${
               activeHubView === 'LEDGER'
-                ? 'bg-[#00FFFF] text-[#12241C] shadow-md'
-                : 'bg-white/[0.04] text-white/70 hover:text-white border border-white/10 hover:border-white/20'
+                ? 'bg-[#06B6D4] text-[#0D1117] shadow-md'
+                : 'bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] border border-[#30363D] hover:border-[#484F58]'
             }`}
           >
             <FileText className="size-3.5" />
@@ -2431,16 +2437,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
       {/* Query 9: Founder Root Kill-Switch Suspended Overlay Screen */}
       {isAgentSuspendedByFounder && (
-        <div className="rounded-2xl border-2 border-red-500 bg-red-950/80 p-5 sm:p-6 text-center space-y-3.5 shadow-2xl backdrop-blur-md animate-in zoom-in-95">
-          <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-red-600/30 border border-red-500 text-red-400">
+        <div className="rounded-2xl border-2 border-[#da3633] bg-[#4C1C1D] p-5 sm:p-6 text-center space-y-3.5 shadow-2xl backdrop-blur-md animate-in zoom-in-95">
+          <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#0D1117] border border-[#da3633] text-[#F85149]">
             <AlertOctagon className="size-7" />
           </div>
           <div className="space-y-1">
-            <span className="text-[10px] font-mono uppercase tracking-[.25em] text-red-300 font-bold">
+            <span className="text-[10px] font-mono uppercase tracking-[.25em] text-[#F85149] font-bold">
               ROOT DEACTIVATION ORDER ACTIVE · FOUNDER OVERRIDE
             </span>
-            <h3 className="text-lg font-black text-white">Agent Terminal Suspended by WORKCRAFT Founder</h3>
-            <p className="text-xs text-red-200/80 max-w-lg mx-auto font-sans leading-relaxed">
+            <h3 className="text-lg font-black text-[#F0F6FC]">Agent Terminal Suspended by WORKCRAFT Founder</h3>
+            <p className="text-xs text-[#F0F6FC] max-w-lg mx-auto font-sans leading-relaxed">
               Central Command has remotely locked Field Agent <strong>Kamran Tariq (#AGT-409)</strong>. All on-site physical cash collections, new salon leads, and cryptographic QR pairing token generation are frozen.
             </p>
           </div>
@@ -2448,9 +2454,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <button
               type="button"
               onClick={() => setIsAgentSuspendedByFounder(false)}
-              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold transition border border-white/20 flex items-center gap-2"
+              className="min-h-[44px] px-4 py-2 rounded-xl bg-[#21262D] hover:border-[#3FB950] text-[#F0F6FC] text-xs font-mono font-bold transition border border-[#30363D] flex items-center gap-2"
             >
-              <Power className="size-3.5 text-emerald-400" />
+              <Power className="size-3.5 text-[#3FB950]" />
               <span>Founder Restore: Unlock Agent Terminal</span>
             </button>
           </div>
@@ -2463,13 +2469,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       {activeHubView === 'ONBOARDING' && (
         <div
           dir={clientOnboardingLanguage === 'en' ? 'ltr' : 'rtl'}
-          className="space-y-6"
+          className={`space-y-6 min-w-0 ${clientOnboardingLanguage === 'en' ? 'text-left' : 'text-right'}`}
         >
           {/* Query 3: Sticky Persistent Tri-Language Switcher (English, Native Urdu, Arabic) */}
-          <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/15 bg-[#12241C]/95 p-3 shadow-2xl backdrop-blur-md">
+          <div className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#30363D] bg-[#161B22]/95 p-3 shadow-2xl backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <Globe className="size-4 text-[#00FFFF]" />
-              <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+              <Globe className="size-4 text-[#06B6D4]" />
+              <span className="text-xs font-mono font-bold text-[#F0F6FC] uppercase tracking-wider">
                 {clientOnboardingLanguage === 'ur'
                   ? 'سیلون آن بورڈنگ زبان منتخب کریں (اردو فعال)'
                   : clientOnboardingLanguage === 'ar'
@@ -2477,14 +2483,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   : 'Salon Onboarding Language (English Active)'}
               </span>
             </div>
-            <div className="flex items-center rounded-xl bg-black/60 border border-white/10 p-1 text-xs font-mono">
+            <div className="flex items-center rounded-xl bg-[#0D1117] border border-[#30363D] p-1 text-xs font-mono">
               <button
                 type="button"
                 onClick={() => setClientOnboardingLanguage('en')}
-                className={`px-3 py-1.5 rounded-lg transition font-bold flex items-center gap-1.5 ${
+                className={`min-h-[36px] px-3 py-1.5 rounded-lg transition font-bold flex items-center gap-1.5 ${
                   clientOnboardingLanguage === 'en'
-                    ? 'bg-[#00FFFF] text-[#12241C]'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-[#06B6D4] text-[#0D1117]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <span>🇬🇧</span>
@@ -2493,10 +2499,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               <button
                 type="button"
                 onClick={() => setClientOnboardingLanguage('ur')}
-                className={`px-3 py-1.5 rounded-lg transition font-bold flex items-center gap-1.5 ${
+                className={`min-h-[36px] px-3 py-1.5 rounded-lg transition font-bold flex items-center gap-1.5 ${
                   clientOnboardingLanguage === 'ur'
-                    ? 'bg-[#D9A441] text-[#12241C]'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-[#D29922] text-[#0D1117]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <span>🇵🇰</span>
@@ -2505,10 +2511,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               <button
                 type="button"
                 onClick={() => setClientOnboardingLanguage('ar')}
-                className={`px-3 py-1.5 rounded-lg transition font-bold flex items-center gap-1.5 ${
+                className={`min-h-[36px] px-3 py-1.5 rounded-lg transition font-bold flex items-center gap-1.5 ${
                   clientOnboardingLanguage === 'ar'
-                    ? 'bg-emerald-400 text-[#12241C]'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-[#3FB950] text-[#0D1117]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <span>🇦🇪</span>
@@ -2529,19 +2535,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 key={s.num}
                 className={`rounded-xl border p-2.5 flex items-center gap-2.5 transition ${
                   currentStep === s.num
-                    ? 'border-[#00FFFF] bg-[#00FFFF]/10 text-white font-bold'
+                    ? 'border-[#06B6D4] bg-[#21262D] text-[#F0F6FC] font-bold'
                     : currentStep > s.num
-                    ? 'border-emerald-500/30 bg-emerald-500/5 text-emerald-300'
-                    : 'border-white/5 bg-white/[0.02] text-white/40'
+                    ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                    : 'border-[#30363D] bg-[#0D1117] text-[#6E7681]'
                 }`}
               >
                 <span
                   className={`grid size-6 place-items-center rounded-lg text-xs font-mono font-bold ${
                     currentStep === s.num
-                      ? 'bg-[#00FFFF] text-[#12241C]'
+                      ? 'bg-[#06B6D4] text-[#0D1117]'
                       : currentStep > s.num
-                      ? 'bg-emerald-500/20 text-emerald-300'
-                      : 'bg-white/10 text-white/50'
+                      ? 'bg-[#3FB950] text-[#0D1117]'
+                      : 'bg-[#21262D] text-[#8B949E]'
                   }`}
                 >
                   {currentStep > s.num ? '✓' : s.num}
@@ -2556,32 +2562,32 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <PortalCard title={t.step1Title} kicker={t.step1Kicker}>
               <form onSubmit={handleDispatchStep1} className="space-y-4">
                 {/* Query 1: Smart Recipient Routing & Auto Detection Display */}
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 space-y-3">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-3">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#D9A441] font-bold">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#D29922] font-bold">
                         {t.routingLabel}
                       </span>
-                      <p className="text-xs text-white/70 font-sans mt-0.5">
+                      <p className="text-xs text-[#8B949E] font-sans mt-0.5">
                         {t.routingDesc}
                       </p>
                     </div>
-                    <div className="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold flex items-center gap-1.5 shrink-0">
-                      <Radio className="size-3.5 text-emerald-400 animate-pulse" />
+                    <div className="px-3 py-1.5 rounded-lg bg-[#0D3822] border border-[#116329] text-[#3FB950] text-xs font-mono font-bold flex items-center gap-1.5 shrink-0">
+                      <Radio className="size-3.5 text-[#3FB950] animate-pulse" />
                       <span>{t.routingBadge}</span>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+                  <div className="pt-2 border-t border-[#21262D] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div>
-                      <span className="text-[11px] font-mono font-bold uppercase text-[#00FFFF]">
+                      <span className="text-[11px] font-mono font-bold uppercase text-[#06B6D4]">
                         {clientOnboardingLanguage === 'ur'
                           ? 'فعال زبان کی کیفیت:'
                           : clientOnboardingLanguage === 'ar'
                           ? 'حالة اللغة النشطة:'
                           : 'Active Language State:'}
                       </span>
-                      <p className="text-[11px] text-white/55 font-sans">
+                      <p className="text-[11px] text-[#8B949E] font-sans">
                         {clientOnboardingLanguage === 'ur'
                           ? 'تمام فارمز، سروسز مینو اور واٹس ایپ الرٹس اردو میں تبدیل ہیں۔ اوپر موجود بار سے کسی بھی وقت زبان تبدیل کر سکتے ہیں۔'
                           : clientOnboardingLanguage === 'ar'
@@ -2590,7 +2596,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-[#D9A441] font-bold">
+                      <span className="px-3 py-1 rounded-lg bg-[#161B22] border border-[#30363D] text-xs font-mono text-[#D29922] font-bold">
                         {clientOnboardingLanguage === 'ur' ? '🇵🇰 اردو (Urdu)' : clientOnboardingLanguage === 'ar' ? '🇦🇪 العربية (Arabic)' : '🇬🇧 English'}
                       </span>
                     </div>
@@ -2600,7 +2606,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 <div className="grid gap-3 sm:grid-cols-3">
                   {/* Field 1: Salon Name */}
                   <div>
-                    <label className="text-[11px] font-mono font-bold uppercase text-white/55 block mb-1">
+                    <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1">
                       {t.salonNameLabel}
                     </label>
                     <input
@@ -2609,13 +2615,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       placeholder={t.salonNamePlaceholder}
                       value={salonName}
                       onChange={(e) => setSalonName(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none focus:border-[#00FFFF]"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
 
                   {/* Field 2: Owner Name */}
                   <div>
-                    <label className="text-[11px] font-mono font-bold uppercase text-white/55 block mb-1">
+                    <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1">
                       {t.ownerNameLabel}
                     </label>
                     <input
@@ -2624,22 +2630,22 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       placeholder={t.ownerNamePlaceholder}
                       value={ownerName}
                       onChange={(e) => setOwnerName(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none focus:border-[#00FFFF]"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
 
                   {/* Field 3: WhatsApp Number with Selectable Country Code & Strict Digit/Prefix Validation */}
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <label className="text-[11px] font-mono font-bold uppercase text-white/55">
+                      <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E]">
                         {t.phoneLabel}
                       </label>
                       <span className={`text-[10px] font-mono font-bold shrink-0 ${
                         phoneValidation.valid
-                          ? 'text-emerald-400'
+                          ? 'text-[#3FB950]'
                           : nationalPhone.replace(/\D/g, '').length === selectedDialConfig.expectedDigits
-                          ? 'text-rose-400'
-                          : 'text-amber-400'
+                          ? 'text-[#F85149]'
+                          : 'text-[#D29922]'
                       }`}>
                         {phoneValidation.valid
                           ? `✓ ${selectedDialConfig.expectedDigits}/${selectedDialConfig.expectedDigits} ${t.phoneDigitsValidBadge}`
@@ -2653,16 +2659,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         <button
                           type="button"
                           onClick={() => setIsDialDropdownOpen(!isDialDropdownOpen)}
-                          className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-black/60 px-3 py-2.5 text-xs font-mono font-bold text-white hover:border-[#00FFFF] transition cursor-pointer"
+                          className="min-h-[48px] flex items-center gap-1.5 rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-xs font-mono font-bold text-[#F0F6FC] hover:border-[#06B6D4] transition cursor-pointer"
                         >
                           <span className="text-base leading-none">{selectedDialConfig.flag}</span>
-                          <span className="text-[#00FFFF]">{selectedDialCode}</span>
-                          <span className="text-[9px] text-white/40">▼</span>
+                          <span className="text-[#06B6D4]">{selectedDialCode}</span>
+                          <span className="text-[9px] text-[#6E7681]">▼</span>
                         </button>
 
                         {/* Searchable Dropdown Flyout */}
                         {isDialDropdownOpen && (
-                          <div className="absolute left-0 top-full mt-1.5 z-50 w-72 max-h-72 rounded-2xl border border-[#00FFFF]/40 bg-[#102019] p-2.5 shadow-2xl backdrop-blur-md overflow-hidden flex flex-col animate-in fade-in zoom-in-95">
+                          <div className="absolute left-0 top-full mt-1.5 z-50 w-72 max-h-72 rounded-2xl border border-[#30363D] bg-[#161B22] p-2.5 shadow-2xl backdrop-blur-md overflow-hidden flex flex-col animate-in fade-in zoom-in-95">
                             {/* Search Box */}
                             <div className="mb-2">
                               <input
@@ -2671,7 +2677,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                 placeholder="Search country or code (e.g. UAE, +971, UK, +92)..."
                                 value={countrySearchQuery}
                                 onChange={(e) => setCountrySearchQuery(e.target.value)}
-                                className="w-full rounded-lg border border-white/10 bg-black/50 px-2.5 py-1.5 text-xs font-mono text-white placeholder:text-white/40 focus:outline-none focus:border-[#00FFFF]"
+                                className="w-full min-h-[40px] rounded-lg border border-[#30363D] bg-[#0D1117] px-2.5 py-1.5 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                               />
                             </div>
 
@@ -2711,15 +2717,15 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                   }}
                                   className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-mono transition text-left ${
                                     selectedDialCode === d.dialCode
-                                      ? 'bg-[#00FFFF] text-[#12241C] font-bold'
-                                      : 'hover:bg-white/[0.06] text-white/80'
+                                      ? 'bg-[#06B6D4] text-[#0D1117] font-bold'
+                                      : 'hover:bg-[#21262D] text-[#F0F6FC]'
                                   }`}
                                 >
                                   <div className="flex items-center gap-2 truncate">
                                     <span className="text-base">{d.flag}</span>
                                     <span className="truncate">{d.name}</span>
                                   </div>
-                                  <span className={selectedDialCode === d.dialCode ? 'text-[#12241C] font-bold shrink-0 ml-1' : 'text-[#00FFFF] font-bold shrink-0 ml-1'}>
+                                  <span className={selectedDialCode === d.dialCode ? 'text-[#0D1117] font-bold shrink-0 ml-1' : 'text-[#06B6D4] font-bold shrink-0 ml-1'}>
                                     {d.dialCode}
                                   </span>
                                 </button>
@@ -2742,70 +2748,70 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           setNationalPhone(digitsOnly);
                           if (step1Error) setStep1Error(null);
                         }}
-                        className={`w-full rounded-xl border bg-white/[0.04] px-3 py-2.5 text-sm font-mono focus:outline-none ${
+                        className={`w-full min-h-[48px] rounded-xl border bg-[#0D1117] px-3 py-2.5 text-sm font-mono placeholder:text-[#484F58] focus:outline-none ${
                           phoneValidation.valid
-                            ? 'border-emerald-500/40 text-emerald-300 focus:border-emerald-400'
+                            ? 'border-[#3FB950] text-[#3FB950] focus:border-[#3FB950]'
                             : nationalPhone.length > 0 && !phoneValidation.valid
-                            ? 'border-amber-500/40 text-amber-200 focus:border-[#00FFFF]'
-                            : 'border-white/10 text-[#00FFFF] focus:border-[#00FFFF]'
+                            ? 'border-[#9E6A03] text-[#D29922] focus:border-[#06B6D4]'
+                            : 'border-[#30363D] text-[#06B6D4] focus:border-[#06B6D4]'
                         }`}
                       />
                     </div>
                     {!phoneValidation.valid && nationalPhone.length > 0 && phoneValidation.reason ? (
-                      <p className="text-[10px] font-mono text-amber-300 mt-1 leading-snug">
+                      <p className="text-[10px] font-mono text-[#D29922] mt-1 leading-snug">
                         ⚠ {phoneValidation.reason[clientOnboardingLanguage]}
                       </p>
                     ) : (
-                      <span className="text-[10px] font-mono text-white/45 block mt-1">
-                        {t.phoneHint}: <strong className="text-white/80" dir="ltr">{selectedDialCode} {nationalPhone || selectedDialConfig.sampleDigits}</strong> ({selectedDialConfig.name})
+                      <span className="text-[10px] font-mono text-[#6E7681] block mt-1">
+                        {t.phoneHint}: <strong className="text-[#F0F6FC]" dir="ltr">{selectedDialCode} {nationalPhone || selectedDialConfig.sampleDigits}</strong> ({selectedDialConfig.name})
                       </span>
                     )}
                   </div>
                 </div>
 
                 {/* Country Detection Banner */}
-                <div className="rounded-xl border border-white/10 bg-black/40 p-3 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                   <div className="flex items-center gap-2">
-                    <Globe className="size-4 text-[#00FFFF] shrink-0" />
-                    <span className="text-white/80">
-                      {t.countryDetected}: <strong className="text-white">{detectedCountry.flag} {detectedCountry.name}</strong> ({detectedCountry.localCurrency} · {detectedCountry.currency} {t.pricingEngineLabel})
+                    <Globe className="size-4 text-[#06B6D4] shrink-0" />
+                    <span className="text-[#8B949E]">
+                      {t.countryDetected}: <strong className="text-[#F0F6FC]">{detectedCountry.flag} {detectedCountry.name}</strong> ({detectedCountry.localCurrency} · {detectedCountry.currency} {t.pricingEngineLabel})
                     </span>
                   </div>
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                     detectedCountry.isDomestic
-                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                      : 'border-[#00FFFF]/30 bg-[#00FFFF]/10 text-[#00FFFF]'
+                      ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                      : 'border-[#06B6D4]/40 bg-[#21262D] text-[#06B6D4]'
                   }`}>
                     {detectedCountry.isDomestic ? t.domesticRailBadge : t.intlRailBadge}
                   </span>
                 </div>
 
                 {/* GPS Hardware Capture */}
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3.5 space-y-2">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono font-bold text-white/55 uppercase flex items-center gap-1.5">
-                      <MapPin className="size-3.5 text-[#00FFFF]" />
+                    <span className="text-[10px] font-mono font-bold text-[#8B949E] uppercase flex items-center gap-1.5">
+                      <MapPin className="size-3.5 text-[#06B6D4]" />
                       <span>{t.coordsLabel}</span>
                     </span>
                     <button
                       type="button"
                       onClick={handleCaptureGps}
-                      className="text-[10px] font-mono font-bold text-[#00FFFF] hover:underline flex items-center gap-1"
+                      className="text-[10px] font-mono font-bold text-[#06B6D4] hover:underline flex items-center gap-1"
                     >
                       <RotateCcw className={`size-3 ${isCapturingGps ? 'animate-spin' : ''}`} />
                       <span>{isCapturingGps ? t.capturingGps : t.captureGps}</span>
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between rounded-lg bg-black/40 p-2 text-xs font-mono">
-                    <span className="text-[#F5F2E9] font-bold" dir="ltr">{coords}</span>
-                    <span className="text-emerald-400 text-[10px]">{t.gpsAccuracyBadge}</span>
+                  <div className="flex items-center justify-between rounded-lg bg-[#161B22] border border-[#30363D] p-2 text-xs font-mono">
+                    <span className="text-[#F0F6FC] font-bold" dir="ltr">{coords}</span>
+                    <span className="text-[#3FB950] text-[10px]">{t.gpsAccuracyBadge}</span>
                   </div>
                 </div>
 
                 {/* Field 4: Physical Address with Real-Time City-Country Integrity Cross-Check */}
                 <div>
-                  <label className="text-[11px] font-mono font-bold uppercase text-white/55 block mb-1">
+                  <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1">
                     {t.addressLabel}
                   </label>
                   <input
@@ -2817,21 +2823,21 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       setAddress(e.target.value);
                       if (step1Error) setStep1Error(null);
                     }}
-                    className={`w-full rounded-xl border px-3.5 py-2.5 text-sm font-sans focus:outline-none ${
+                    className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-sm font-sans placeholder:text-[#484F58] focus:outline-none ${
                       addressConflict
-                        ? 'border-red-500/60 bg-red-950/20 text-red-200 focus:border-red-400'
-                        : 'border-white/10 bg-white/[0.04] text-[#F5F2E9] focus:border-[#00FFFF]'
+                        ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] focus:border-[#F85149]'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#F0F6FC] focus:border-[#06B6D4]'
                     }`}
                   />
 
                   {addressConflict && (
-                    <div className="mt-2 rounded-xl border border-red-500/40 bg-red-950/30 p-2.5 space-y-2 text-xs">
-                      <p className="font-mono text-red-300 font-bold flex items-start gap-1.5">
-                        <AlertTriangle className="size-4 text-red-400 shrink-0 mt-0.5" />
+                    <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-2.5 space-y-2 text-xs">
+                      <p className="font-mono text-[#F85149] font-bold flex items-start gap-1.5">
+                        <AlertTriangle className="size-4 text-[#F85149] shrink-0 mt-0.5" />
                         <span>{addressConflict[clientOnboardingLanguage]}</span>
                       </p>
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="text-[10px] font-mono text-white/60">{t.suggestedCitiesLabel}</span>
+                        <span className="text-[10px] font-mono text-[#F0F6FC]">{t.suggestedCitiesLabel}</span>
                         {(REGIONAL_CITY_MAP[detectedCountry.code]?.cities || [detectedCountry.defaultCity])
                           .slice(0, 4)
                           .map((city) => (
@@ -2842,7 +2848,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                 setAddress(city === detectedCountry.defaultCity ? detectedCountry.defaultAddress : `${city}, ${detectedCountry.name.split(' (')[0]}`);
                                 setStep1Error(null);
                               }}
-                              className="px-2 py-0.5 rounded-lg bg-[#00FFFF]/15 hover:bg-[#00FFFF]/25 border border-[#00FFFF]/30 text-[#00FFFF] text-[10px] font-mono font-bold transition"
+                              className="min-h-[32px] px-2.5 py-0.5 rounded-lg bg-[#21262D] hover:border-[#06B6D4] border border-[#30363D] text-[#06B6D4] text-[10px] font-mono font-bold transition"
                             >
                               {detectedCountry.flag} {city}
                             </button>
@@ -2853,22 +2859,27 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
 
                 {/* Outbound WhatsApp Preview Card */}
-                <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-3.5 space-y-2">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
                   <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-[#00FFFF] font-bold uppercase flex items-center gap-1.5">
+                    <span className="text-[#06B6D4] font-bold uppercase flex items-center gap-1.5">
                       <Sparkles className="size-3.5" />
                       <span>{t.previewTitle}</span>
                     </span>
-                    <span className="text-emerald-400 font-bold">{t.previewBadge}</span>
+                    <span className="text-[#3FB950] font-bold">{t.previewBadge}</span>
                   </div>
-                  <div className="rounded-lg bg-black/60 p-3 text-xs font-mono text-[#F5F2E9] border border-white/10 whitespace-pre-line leading-relaxed">
+                  <div
+                    dir={clientOnboardingLanguage === 'en' ? 'ltr' : 'rtl'}
+                    className={`rounded-lg bg-[#161B22] p-3 text-xs font-mono text-[#F0F6FC] border border-[#30363D] whitespace-pre-line leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                      clientOnboardingLanguage === 'en' ? 'text-left' : 'text-right'
+                    }`}
+                  >
                     {formatWelcomeMessage(clientOnboardingLanguage, ownerName, salonName, pairingKey)}
                   </div>
                 </div>
 
                 {step1Error && (
-                  <div className="rounded-xl border border-red-500/40 bg-red-950/40 p-3 text-xs font-mono text-red-200 flex items-start gap-2 animate-in fade-in">
-                    <AlertTriangle className="size-4 text-red-400 shrink-0 mt-0.5" />
+                  <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 text-xs font-mono text-[#F85149] flex items-start gap-2 animate-in fade-in">
+                    <AlertTriangle className="size-4 text-[#F85149] shrink-0 mt-0.5" />
                     <span>{step1Error}</span>
                   </div>
                 )}
@@ -2877,7 +2888,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 <div className="flex items-center gap-3 pt-2">
                   <button
                     type="submit"
-                    className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                    className="flex-1 min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
                   >
                     <Send className="size-4" />
                     <span>{t.step1Next}</span>
@@ -2892,18 +2903,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <PortalCard title={t.step2Title} kicker={t.step2Kicker}>
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <p className="text-xs text-white/55 font-sans">
+                  <p className="text-xs text-[#8B949E] font-sans">
                     {t.step2Desc}
                   </p>
 
-                  <div className="flex items-center rounded-xl bg-white/[0.04] border border-white/10 p-1">
+                  <div className="flex items-center rounded-xl bg-[#0D1117] border border-[#30363D] p-1">
                     <button
                       type="button"
                       onClick={() => setServiceCategory('MENS')}
-                      className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
+                      className={`min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
                         serviceCategory === 'MENS'
-                          ? 'bg-[#00FFFF] text-[#12241C]'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#06B6D4] text-[#0D1117]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       {t.mensCategory}
@@ -2911,10 +2922,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <button
                       type="button"
                       onClick={() => setServiceCategory('LADIES')}
-                      className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
+                      className={`min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition ${
                         serviceCategory === 'LADIES'
-                          ? 'bg-[#00FFFF] text-[#12241C]'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#06B6D4] text-[#0D1117]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       {t.ladiesCategory}
@@ -2923,14 +2934,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
 
                 {/* Local Salon Menu Currency Banner */}
-                <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                  <span className="text-[#D9A441] font-bold flex items-center gap-1.5">
+                <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                  <span className="text-[#D29922] font-bold flex items-center gap-1.5">
                     <span>{detectedCountry.flag}</span>
                     <span>
                       {t.serviceCurrencyLabel}: <strong>{detectedCountry.localCurrency}</strong> ({getLocalizedLocalCurrencyPrefix(detectedCountry, clientOnboardingLanguage).trim()})
                     </span>
                   </span>
-                  <span className="text-[10px] text-white/65">
+                  <span className="text-[10px] text-[#8B949E]">
                     {t.packageBillingLabel}: {detectedCountry.currency}
                   </span>
                 </div>
@@ -2942,38 +2953,38 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       key={service.id}
                       className={`flex items-center justify-between gap-3 rounded-xl border p-3 transition ${
                         service.enabled
-                          ? 'border-white/10 bg-white/[0.04]'
-                          : 'border-white/5 bg-white/[0.01] opacity-50'
+                          ? 'border-[#30363D] bg-[#0D1117]'
+                          : 'border-[#21262D] bg-[#0D1117] opacity-50'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <button
                           type="button"
                           onClick={() => handleToggleService(service.id)}
-                          className={`size-5 rounded-md border flex items-center justify-center transition ${
+                          className={`size-6 rounded-md border flex items-center justify-center transition ${
                             service.enabled
-                              ? 'border-emerald-500 bg-emerald-500/20 text-emerald-400'
-                              : 'border-white/20 bg-transparent text-transparent'
+                              ? 'border-[#3FB950] bg-[#0D3822] text-[#3FB950]'
+                              : 'border-[#30363D] bg-transparent text-transparent'
                           }`}
                         >
-                          <Check className="size-3 stroke-[3]" />
+                          <Check className="size-3.5 stroke-[3]" />
                         </button>
                         <div>
-                          <p className={`text-xs font-bold ${service.enabled ? 'text-[#F5F2E9]' : 'text-white/40'}`}>
+                          <p className={`text-xs font-bold ${service.enabled ? 'text-[#F0F6FC]' : 'text-[#6E7681]'}`}>
                             {getLocalizedServiceName(service.name, clientOnboardingLanguage)}
                           </p>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <span className="text-xs font-mono font-bold text-[#D9A441]">
+                        <span className="text-xs font-mono font-bold text-[#D29922]">
                           {getLocalizedLocalCurrencyPrefix(detectedCountry, clientOnboardingLanguage)}
                         </span>
                         <input
                           type="number"
                           value={service.price}
                           onChange={(e) => handleChangePrice(service.id, parseInt(e.target.value, 10) || 0)}
-                          className="w-20 rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-xs font-mono font-bold text-white focus:outline-none focus:border-[#00FFFF]"
+                          className="w-24 min-h-[40px] rounded-lg border border-[#30363D] bg-[#161B22] px-2.5 py-1 text-xs font-mono font-bold text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                     </div>
@@ -2982,8 +2993,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                 {/* Add Custom Service Form */}
                 {isAddingCustomService ? (
-                  <form onSubmit={handleAddCustomService} className="rounded-xl border border-white/15 bg-white/[0.03] p-3.5 space-y-3">
-                    <p className="text-xs font-mono font-bold text-[#00FFFF] uppercase">
+                  <form onSubmit={handleAddCustomService} className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-3">
+                    <p className="text-xs font-mono font-bold text-[#06B6D4] uppercase">
                       {t.addCustomService}
                     </p>
                     <div className="grid gap-2 sm:grid-cols-2">
@@ -2993,7 +3004,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         placeholder={t.customNamePlaceholder}
                         value={newServiceName}
                         onChange={(e) => setNewServiceName(e.target.value)}
-                        className="rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#00FFFF]"
+                        className="min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                       />
                       <input
                         type="number"
@@ -3001,20 +3012,20 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         placeholder={`${t.customPricePlaceholder} (${getLocalizedLocalCurrencyPrefix(detectedCountry, clientOnboardingLanguage).trim()})`}
                         value={newServicePrice}
                         onChange={(e) => setNewServicePrice(e.target.value)}
-                        className="rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-[#00FFFF]"
+                        className="min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                       />
                     </div>
                     <div className="flex items-center gap-2">
                       <button
                         type="submit"
-                        className="rounded-lg bg-[#00FFFF] text-[#12241C] px-3.5 py-1.5 text-xs font-mono font-bold hover:bg-[#38e8e8]"
+                        className="min-h-[40px] rounded-lg bg-[#06B6D4] text-[#0D1117] px-3.5 py-1.5 text-xs font-mono font-bold hover:bg-[#22D3EE]"
                       >
                         {t.addBtn}
                       </button>
                       <button
                         type="button"
                         onClick={() => setIsAddingCustomService(false)}
-                        className="rounded-lg border border-white/10 px-3 py-1.5 text-xs font-mono text-white/60 hover:text-white"
+                        className="min-h-[40px] rounded-lg border border-[#30363D] bg-[#21262D] px-3 py-1.5 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC]"
                       >
                         {t.cancelBtn}
                       </button>
@@ -3024,7 +3035,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsAddingCustomService(true)}
-                    className="flex items-center gap-2 text-xs font-mono font-bold text-[#00FFFF] hover:underline pt-1"
+                    className="flex items-center gap-2 text-xs font-mono font-bold text-[#06B6D4] hover:underline pt-1"
                   >
                     <Plus className="size-4" />
                     <span>{t.addCustomService}</span>
@@ -3032,11 +3043,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 )}
 
                 {/* Step 2 Actions */}
-                <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                <div className="flex items-center justify-between pt-3 border-t border-[#21262D]">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(1)}
-                    className="flex items-center gap-1.5 text-xs font-mono text-white/60 hover:text-white"
+                    className="min-h-[44px] flex items-center gap-1.5 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC]"
                   >
                     <ArrowLeft className="size-4" />
                     <span>{t.step2Back}</span>
@@ -3044,7 +3055,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <button
                     type="button"
                     onClick={() => setCurrentStep(3)}
-                    className="flex items-center gap-2 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                    className="min-h-[48px] flex items-center gap-2 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
                   >
                     <span>{t.step2Next}</span>
                     <ArrowRight className="size-4" />
@@ -3061,89 +3072,146 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 {/* 4 Packages Selector */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-[11px] font-mono font-bold uppercase text-white/70 block">
+                    <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block">
                       {t.step3PackageHeading} ({detectedCountry.currency})
                     </label>
-                    <span className="text-[10px] font-mono text-[#D9A441] font-bold">
+                    <span className="text-[10px] font-mono text-[#D29922] font-bold">
                       {t.formulaNotice}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 items-start">
                     {currentPackageList.map((pkg) => {
                       const isSelected = selectedOnboardingPackage === pkg.id;
+                      const isExpanded = expandedPackageId === pkg.id;
+                      const cardFeatures = getLocalizedPackageFeatures(pkg.id, clientOnboardingLanguage);
                       return (
-                        <div
-                          key={pkg.id}
-                          onClick={() => {
-                            setSelectedOnboardingPackage(pkg.id as any);
-                            setExpandedPackageId(pkg.id);
-                            setIsPaymentVerified(false); // reset verification if package changes
-                          }}
-                          className={`rounded-xl border p-3 text-left transition flex flex-col justify-between cursor-pointer ${
-                            isSelected
-                              ? 'border-[#00FFFF] bg-white/[0.08] ring-1 ring-[#00FFFF]'
-                              : 'border-white/10 bg-white/[0.02] hover:border-white/20'
-                          }`}
-                        >
-                          <div>
-                            <div className="flex items-center justify-between">
-                              <p className="text-xs font-bold text-[#F5F2E9]">
-                                {getLocalizedPackageName(pkg.name, clientOnboardingLanguage)}
-                              </p>
-                              {isSelected && <Check className="size-3.5 text-[#00FFFF]" />}
-                            </div>
-                            <p className="text-[10px] font-mono font-bold text-[#00FFFF] mt-1">
-                              ⚡ {pkg.bookings}
-                            </p>
-                            <p className="text-[9px] text-white/55 font-sans mt-1">
-                              {pkg.scope}
-                            </p>
-                          </div>
-                          <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between">
+                        <div key={pkg.id} className="flex flex-col gap-2">
+                          <div
+                            onClick={() => {
+                              setSelectedOnboardingPackage(pkg.id as any);
+                              setExpandedPackageId(pkg.id);
+                              setIsPaymentVerified(false); // reset verification if package changes
+                            }}
+                            className={`rounded-xl border p-3 text-left transition flex flex-col justify-between cursor-pointer ${
+                              isSelected
+                                ? 'border-[#06B6D4] bg-[#21262D] ring-1 ring-[#06B6D4]'
+                                : 'border-[#30363D] bg-[#0D1117] hover:border-[#484F58]'
+                            }`}
+                          >
                             <div>
-                              <span className="text-xs font-mono font-bold text-[#D9A441] block">
-                                {t.setupShortLabel}: {pkg.prefix}{pkg.setupFee.toLocaleString()}
-                              </span>
-                              <span className="text-[9px] font-mono text-emerald-300 block">
-                                {t.maintShortLabel}: {pkg.prefix}{pkg.monthlyMaint.toLocaleString()}{t.perMonthShort} (10%)
-                              </span>
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs font-bold text-[#F0F6FC]">
+                                  {getLocalizedPackageName(pkg.name, clientOnboardingLanguage)}
+                                </p>
+                                {isSelected && <Check className="size-3.5 text-[#06B6D4]" />}
+                              </div>
+                              <p className="text-[10px] font-mono font-bold text-[#06B6D4] mt-1">
+                                ⚡ {pkg.bookings}
+                              </p>
+                              <p className="text-[9px] text-[#8B949E] font-sans mt-1">
+                                {pkg.scope}
+                              </p>
                             </div>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setExpandedPackageId(expandedPackageId === pkg.id ? null : pkg.id);
-                              }}
-                              className="size-6 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-[#00FFFF] transition"
-                              title={t.expandFeatures}
-                            >
-                              {expandedPackageId === pkg.id ? (
-                                <ChevronUp className="size-3.5 text-[#00FFFF]" />
-                              ) : (
-                                <ChevronDown className="size-3.5" />
-                              )}
-                            </button>
+                            <div className="mt-2.5 pt-2 border-t border-[#21262D] flex items-center justify-between">
+                              <div>
+                                <span className="text-xs font-mono font-bold text-[#D29922] block">
+                                  {t.setupShortLabel}: {pkg.prefix}{pkg.setupFee.toLocaleString()}
+                                </span>
+                                <span className="text-[9px] font-mono text-[#3FB950] block">
+                                  {t.maintShortLabel}: {pkg.prefix}{pkg.monthlyMaint.toLocaleString()}{t.perMonthShort} (10%)
+                                </span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedPackageId(expandedPackageId === pkg.id ? null : pkg.id);
+                                }}
+                                className="size-7 rounded-md bg-[#21262D] border border-[#30363D] hover:border-[#06B6D4] flex items-center justify-center text-[#8B949E] hover:text-[#06B6D4] transition"
+                                title={t.expandFeatures}
+                              >
+                                {isExpanded ? (
+                                  <ChevronUp className="size-3.5 text-[#06B6D4]" />
+                                ) : (
+                                  <ChevronDown className="size-3.5" />
+                                )}
+                              </button>
+                            </div>
                           </div>
+
+                          {/* Mobile Inline Package Slide — Appears Directly Beneath Tapped Card */}
+                          {isExpanded && (
+                            <div className="lg:hidden rounded-2xl border border-[#06B6D4]/40 bg-[#0D1117] p-3.5 space-y-2.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                              <div className="flex items-center justify-between gap-2 border-b border-[#21262D] pb-2">
+                                <span className="text-[10px] font-mono font-bold uppercase text-[#06B6D4]">
+                                  {t.featuresTitle}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setExpandedPackageId(null);
+                                  }}
+                                  className="text-[10px] font-mono text-[#8B949E] hover:text-[#F0F6FC] flex items-center gap-1"
+                                >
+                                  <span>{t.collapseFeatures}</span>
+                                  <ChevronUp className="size-3" />
+                                </button>
+                              </div>
+                              <div className="space-y-1.5 text-xs">
+                                {cardFeatures.map((feat, idx) => (
+                                  <div
+                                    key={idx}
+                                    className={`p-2 rounded-xl border flex items-center justify-between gap-2 ${
+                                      feat.included
+                                        ? feat.highlight
+                                          ? 'border-[#06B6D4]/40 bg-[#21262D] text-[#F0F6FC]'
+                                          : 'border-[#30363D] bg-[#161B22] text-[#F0F6FC]'
+                                        : 'border-[#21262D] bg-[#0D1117] text-[#484F58] line-through'
+                                    }`}
+                                  >
+                                    <div className="flex items-center gap-2 min-w-0">
+                                      {feat.included ? (
+                                        <CheckCircle2 className="size-3.5 text-[#3FB950] shrink-0" />
+                                      ) : (
+                                        <X className="size-3.5 text-[#F85149]/70 shrink-0" />
+                                      )}
+                                      <span className={`font-sans truncate ${feat.highlight ? 'font-bold text-[#06B6D4]' : ''}`}>
+                                        {feat.title}
+                                      </span>
+                                    </div>
+                                    <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded shrink-0 ${
+                                      feat.included
+                                        ? 'bg-[#0D3822] text-[#3FB950] border border-[#116329]'
+                                        : 'bg-[#21262D] text-[#6E7681]'
+                                    }`}>
+                                      {feat.included ? t.includedLabel : t.notIncludedLabel}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
                   </div>
                 </div>
 
-                {/* Recommendation 3: Expandable Localized Package Feature Breakdown Accordion */}
+                {/* Desktop Package Feature Breakdown Accordion (Full 2-Column Layout on Desktop) */}
                 {expandedPackageId && (() => {
                   const targetPkg = currentPackageList.find((p) => p.id === expandedPackageId) || activePackage;
                   const features = getLocalizedPackageFeatures(targetPkg.id, clientOnboardingLanguage);
 
                   return (
-                    <div className="rounded-2xl border border-[#00FFFF]/30 bg-black/40 p-4 space-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+                    <div className="hidden lg:block rounded-2xl border border-[#06B6D4]/40 bg-[#0D1117] p-4 space-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#21262D] pb-2.5">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#00FFFF] bg-[#00FFFF]/10 px-2 py-0.5 rounded border border-[#00FFFF]/20">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#06B6D4] bg-[#21262D] px-2 py-0.5 rounded border border-[#06B6D4]/30">
                             {t.featuresTitle}
                           </span>
-                          <span className="text-xs font-bold text-[#F5F2E9]">
+                          <span className="text-xs font-bold text-[#F0F6FC]">
                             {getLocalizedPackageName(targetPkg.name, clientOnboardingLanguage)} ({targetPkg.prefix}{targetPkg.setupFee.toLocaleString()} + {targetPkg.prefix}{targetPkg.monthlyMaint.toLocaleString()}/mo)
                           </span>
                         </div>
@@ -3151,7 +3219,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         <button
                           type="button"
                           onClick={() => setExpandedPackageId(null)}
-                          className="text-[11px] font-mono text-white/50 hover:text-white flex items-center gap-1 self-start sm:self-center"
+                          className="text-[11px] font-mono text-[#8B949E] hover:text-[#F0F6FC] flex items-center gap-1 self-start sm:self-center"
                         >
                           <span>{t.collapseFeatures}</span>
                           <ChevronUp className="size-3.5" />
@@ -3165,25 +3233,25 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                             className={`p-2.5 rounded-xl border flex items-center justify-between gap-2 transition ${
                               feat.included
                                 ? feat.highlight
-                                  ? 'border-[#00FFFF]/40 bg-[#00FFFF]/5 text-[#F5F2E9]'
-                                  : 'border-white/10 bg-white/[0.02] text-white/80'
-                                : 'border-white/5 bg-white/[0.01] text-white/35 line-through'
+                                  ? 'border-[#06B6D4]/40 bg-[#21262D] text-[#F0F6FC]'
+                                  : 'border-[#30363D] bg-[#161B22] text-[#F0F6FC]'
+                                : 'border-[#21262D] bg-[#0D1117] text-[#484F58] line-through'
                             }`}
                           >
                             <div className="flex items-center gap-2">
                               {feat.included ? (
-                                <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                                <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
                               ) : (
-                                <X className="size-4 text-rose-500/60 shrink-0" />
+                                <X className="size-4 text-[#F85149]/70 shrink-0" />
                               )}
-                              <span className={`font-sans ${feat.highlight ? 'font-bold text-[#00FFFF]' : ''}`}>
+                              <span className={`font-sans ${feat.highlight ? 'font-bold text-[#06B6D4]' : ''}`}>
                                 {feat.title}
                               </span>
                             </div>
                             <span className={`text-[9px] font-mono px-2 py-0.5 rounded shrink-0 ${
                               feat.included
-                                ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
-                                : 'bg-white/5 text-white/40'
+                                ? 'bg-[#0D3822] text-[#3FB950] border border-[#116329]'
+                                : 'bg-[#21262D] text-[#6E7681]'
                             }`}>
                               {feat.included ? t.includedLabel : t.notIncludedLabel}
                             </span>
@@ -3191,37 +3259,37 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         ))}
                       </div>
 
-                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/5 text-[10px] font-mono text-white/50">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#21262D] text-[10px] font-mono text-[#8B949E]">
                         <span>{t.slaAccordionLeft}</span>
-                        <span className="text-[#D9A441]">{t.slaAccordionRight}</span>
+                        <span className="text-[#D29922]">{t.slaAccordionRight}</span>
                       </div>
                     </div>
                   );
                 })()}
 
                 {/* Selected Package Summary Box */}
-                <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D9A441]">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D29922]">
                       {t.oneTimeFeeLabel} · {getLocalizedPackageName(activePackage.name, clientOnboardingLanguage)}
                     </span>
-                    <h4 className="text-2xl font-mono font-bold text-[#F5F2E9] mt-0.5">
+                    <h4 className="text-2xl font-mono font-bold text-[#F0F6FC] mt-0.5">
                       {activePackage.prefix}{activePackage.setupFee.toLocaleString()}
                     </h4>
-                    <p className="text-xs text-white/55 font-sans mt-0.5">
+                    <p className="text-xs text-[#8B949E] font-sans mt-0.5">
                       {t.monthlyMaintNote} ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}{t.perMonthShort}).
                     </p>
                   </div>
 
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     {isPaymentVerified ? (
-                      <span className="rounded-lg bg-emerald-500/20 border border-emerald-500/40 px-3 py-1 text-xs font-mono text-emerald-300 font-bold flex items-center gap-1.5 animate-in fade-in">
-                        <CheckCircle2 className="size-4 text-emerald-400" />
+                      <span className="rounded-lg bg-[#0D3822] border border-[#116329] px-3 py-1 text-xs font-mono text-[#3FB950] font-bold flex items-center gap-1.5 animate-in fade-in">
+                        <CheckCircle2 className="size-4 text-[#3FB950]" />
                         <span>{t.paymentConfirmed}</span>
                       </span>
                     ) : (
-                      <span className="rounded-lg bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-mono text-amber-300 font-bold flex items-center gap-1.5">
-                        <Lock className="size-3.5 text-amber-400" />
+                      <span className="rounded-lg bg-[#3B2E0B] border border-[#9E6A03] px-3 py-1 text-xs font-mono text-[#D29922] font-bold flex items-center gap-1.5">
+                        <Lock className="size-3.5 text-[#D29922]" />
                         <span>{t.paymentUnverified}</span>
                       </span>
                     )}
@@ -3229,32 +3297,32 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
 
                 {/* Layer 1: Mandatory Registered Phone-Bound Guarantee Banner */}
-                <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/20 p-3.5 space-y-1.5 font-sans">
+                <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3.5 space-y-1.5 font-sans">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-xs font-mono font-bold text-emerald-300 uppercase flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-emerald-400 shrink-0" />
+                    <span className="text-xs font-mono font-bold text-[#3FB950] uppercase flex items-center gap-1.5">
+                      <ShieldCheck className="size-4 text-[#3FB950] shrink-0" />
                       <span>{t.layer1Title}</span>
                     </span>
-                    <span className="text-[10px] font-mono text-[#00FFFF] font-bold bg-[#00FFFF]/10 px-2 py-0.5 rounded border border-[#00FFFF]/30">
+                    <span className="text-[10px] font-mono text-[#06B6D4] font-bold bg-[#0D1117] px-2 py-0.5 rounded border border-[#06B6D4]/40">
                       {t.zeroCopyBadge}
                     </span>
                   </div>
-                  <p className="text-xs text-white/75 leading-relaxed">
+                  <p className="text-xs text-[#F0F6FC] leading-relaxed">
                     {t.layer1Desc}
                   </p>
-                  <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-white/60 pt-1">
-                    <span>{t.boundNumber}: <strong className="text-[#00FFFF]" dir="ltr">{phone}</strong></span>
-                    <span>{t.boundOwner}: <strong className="text-white">{ownerName}</strong></span>
+                  <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-[#8B949E] pt-1">
+                    <span>{t.boundNumber}: <strong className="text-[#06B6D4]" dir="ltr">{phone}</strong></span>
+                    <span>{t.boundOwner}: <strong className="text-[#F0F6FC]">{ownerName}</strong></span>
                   </div>
                 </div>
 
                 {/* Payment Rails Selector (Fully Localized for PK, MENA, Europe & Global) */}
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <label className="text-[11px] font-mono font-bold uppercase text-white/55 block">
+                    <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block">
                       {t.selectChannelLabel}
                     </label>
-                    <span className="text-[10px] font-mono text-[#00FFFF]">
+                    <span className="text-[10px] font-mono text-[#06B6D4]">
                       {t.openDrawerHint}
                     </span>
                   </div>
@@ -3265,22 +3333,22 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         key={m.name}
                         type="button"
                         onClick={() => handleSelectPaymentMethod(m.name)}
-                        className={`rounded-xl border p-3 text-start transition relative group ${
+                        className={`min-h-[48px] rounded-xl border p-3 text-start transition relative group ${
                           setupPaymentMethod === m.name && isPaymentVerified
-                            ? 'border-emerald-500 bg-emerald-950/30 ring-1 ring-emerald-500'
+                            ? 'border-[#3FB950] bg-[#0D3822] ring-1 ring-[#3FB950]'
                             : setupPaymentMethod === m.name
-                            ? 'border-[#00FFFF] bg-white/[0.08] text-[#00FFFF]'
-                            : 'border-white/10 bg-white/[0.02] text-white/55 hover:border-white/30 hover:bg-white/[0.05]'
+                            ? 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4]'
+                            : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:border-[#484F58] hover:bg-[#161B22]'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <CreditCard className="size-4 text-[#D9A441]" />
+                          <CreditCard className="size-4 text-[#D29922]" />
                           {setupPaymentMethod === m.name && isPaymentVerified && (
-                            <Check className="size-3.5 text-emerald-400" />
+                            <Check className="size-3.5 text-[#3FB950]" />
                           )}
                         </div>
-                        <p className="text-xs font-bold text-[#F5F2E9]">{m.label}</p>
-                        <p className="text-[10px] font-mono text-white/55 mt-0.5 leading-snug">{m.note}</p>
+                        <p className="text-xs font-bold text-[#F0F6FC]">{m.label}</p>
+                        <p className="text-[10px] font-mono text-[#8B949E] mt-0.5 leading-snug">{m.note}</p>
                       </button>
                     ))}
                   </div>
@@ -3288,43 +3356,43 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                 {/* Verified Payment Summary Badge (If verified) */}
                 {isPaymentVerified && verifiedPaymentData && (
-                  <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/30 p-3.5 space-y-2 font-mono text-xs text-emerald-200 animate-in fade-in">
-                    <div className="flex items-center justify-between border-b border-emerald-500/20 pb-2">
-                      <span className="font-bold flex items-center gap-1.5 text-emerald-300">
-                        <CheckCheck className="size-4 text-emerald-400" />
+                  <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3.5 space-y-2 font-mono text-xs text-[#3FB950] animate-in fade-in">
+                    <div className="flex items-center justify-between border-b border-[#116329] pb-2">
+                      <span className="font-bold flex items-center gap-1.5 text-[#3FB950]">
+                        <CheckCheck className="size-4 text-[#3FB950]" />
                         <span>{t.proofGenerated}</span>
                       </span>
-                      <span className="text-[10px] text-white/60">{verifiedPaymentData.timestamp}</span>
+                      <span className="text-[10px] text-[#8B949E]">{verifiedPaymentData.timestamp}</span>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-1">
                       <div>
-                        <span className="text-white/40 block text-[9px]">{t.channelLabel}</span>
-                        <span className="text-white font-bold">{getLocalizedPaymentMethodName(verifiedPaymentData.method as PaymentMethodOption, clientOnboardingLanguage)}</span>
+                        <span className="text-[#8B949E] block text-[9px]">{t.channelLabel}</span>
+                        <span className="text-[#F0F6FC] font-bold">{getLocalizedPaymentMethodName(verifiedPaymentData.method as PaymentMethodOption, clientOnboardingLanguage)}</span>
                       </div>
-                      <div>
-                        <span className="text-white/40 block text-[9px]">{t.tidLabel}</span>
-                        <span className="text-[#00FFFF] font-bold" dir="ltr">{verifiedPaymentData.tid}</span>
+                      <div className="min-w-0">
+                        <span className="text-[#8B949E] block text-[9px]">{t.tidLabel}</span>
+                        <span className="text-[#06B6D4] font-bold break-all [overflow-wrap:break-word]" dir="ltr">{verifiedPaymentData.tid}</span>
                       </div>
-                      <div>
-                        <span className="text-white/40 block text-[9px]">{t.routeLabel}</span>
-                        <span className="text-white">{verifiedPaymentData.recipientRoute}</span>
+                      <div className="min-w-0">
+                        <span className="text-[#8B949E] block text-[9px]">{t.routeLabel}</span>
+                        <span className="text-[#F0F6FC] break-words [overflow-wrap:break-word]">{verifiedPaymentData.recipientRoute}</span>
                       </div>
-                      <div>
-                        <span className="text-white/40 block text-[9px]">{t.digestLabel}</span>
-                        <span className="text-[#D9A441] text-[10px] truncate block" dir="ltr">{verifiedPaymentData.sha256Proof}</span>
+                      <div className="min-w-0">
+                        <span className="text-[#8B949E] block text-[9px]">{t.digestLabel}</span>
+                        <span className="text-[#D29922] text-[10px] break-all overflow-hidden [overflow-wrap:break-word] block" dir="ltr">{verifiedPaymentData.sha256Proof}</span>
                       </div>
                     </div>
 
                     {/* Option A Commission Auto Net-Adjustment Feedback (Pakistan Domestic) */}
                     {verifiedPaymentData.commissionAdjusted && (
-                      <div className="mt-2 rounded-lg bg-black/40 border border-emerald-500/20 p-2 text-[11px] font-sans text-emerald-300/90 leading-relaxed">
+                      <div className="mt-2 rounded-lg bg-[#0D1117] border border-[#116329] p-2 text-[11px] font-sans text-[#3FB950] leading-relaxed">
                         <strong>{t.optionAOffsetApplied}</strong> PKR {verifiedPaymentData.commissionAmount.toLocaleString()} {t.optionAOffsetDesc} {cashLiabilitySalon}. {t.remainingCashDueLabel} <strong>PKR {verifiedPaymentData.remainingCashOwed.toLocaleString()}</strong>.
                       </div>
                     )}
 
                     {/* Query 3: Outside-Pakistan Same-Currency Direct Split Receipt Feedback */}
                     {verifiedPaymentData.isSameCurrencySplit && (
-                      <div className="mt-2 rounded-lg bg-black/45 border border-[#00FFFF]/30 p-2.5 text-[11px] font-sans text-[#00FFFF] leading-relaxed">
+                      <div className="mt-2 rounded-lg bg-[#0D1117] border border-[#06B6D4]/40 p-2.5 text-[11px] font-sans text-[#06B6D4] leading-relaxed">
                         <strong>Overseas Same-Currency Direct Split (Zero Double FX Loss):</strong> 20% (<strong>{verifiedPaymentData.currencyPrefix}{verifiedPaymentData.commissionAmount.toLocaleString()} {verifiedPaymentData.currency}</strong>) routed straight to Agent local payout account · 80% (<strong>{verifiedPaymentData.currencyPrefix}{(verifiedPaymentData.workcraftNetAmount ?? 0).toLocaleString()} {verifiedPaymentData.currency}</strong>) settled directly to WorkCraft.
                       </div>
                     )}
@@ -3332,36 +3400,36 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 )}
 
                 {/* Maintenance Policy & 10% SLA Notice */}
-                <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-3.5 space-y-1.5">
-                  <div className="flex items-center gap-2 text-amber-300 text-xs font-mono font-bold">
-                    <AlertTriangle className="size-4 text-amber-400 shrink-0" />
+                <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5 space-y-1.5">
+                  <div className="flex items-center gap-2 text-[#D29922] text-xs font-mono font-bold">
+                    <AlertTriangle className="size-4 text-[#D29922] shrink-0" />
                     <span>{t.zeroCashTitle}</span>
                   </div>
-                  <p className="text-xs text-white/65 font-sans leading-relaxed">
+                  <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                     {t.zeroCashDesc} ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}{t.perMonthShort})
                   </p>
                 </div>
 
                 {/* Continuous Care SLA Card */}
-                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3.5 space-y-2">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                    <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-[#00FFFF] shrink-0" />
+                    <span className="text-[#06B6D4] font-bold flex items-center gap-1.5">
+                      <ShieldCheck className="size-4 text-[#06B6D4] shrink-0" />
                       <span>{t.slaCardTitle}</span>
                     </span>
-                    <span className="text-emerald-400 font-bold">{t.slaCardBadge}</span>
+                    <span className="text-[#3FB950] font-bold">{t.slaCardBadge}</span>
                   </div>
-                  <p className="text-[11px] text-white/60 font-sans leading-relaxed">
+                  <p className="text-[11px] text-[#8B949E] font-sans leading-relaxed">
                     {t.slaCardDesc}
                   </p>
                 </div>
 
                 {/* Step 3 Actions with STRICT STATE MACHINE LOCK (Query 6) */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#21262D]">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(2)}
-                    className="flex items-center gap-1.5 text-xs font-mono text-white/60 hover:text-white"
+                    className="min-h-[44px] flex items-center gap-1.5 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC]"
                   >
                     <ArrowLeft className="size-4" />
                     <span>{t.step3Back}</span>
@@ -3369,16 +3437,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                   {isPaymentVerified ? (
                     <div className="flex items-center gap-3">
-                      <span className="text-emerald-400 text-xs font-mono font-bold hidden sm:flex items-center gap-1.5 bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-500/30">
-                        <CheckCircle2 className="size-3.5 text-emerald-400" />
-                        <span>{t.statusPaidPrefix} ({verifiedPaymentData?.tid})</span>
+                      <span className="text-[#3FB950] text-xs font-mono font-bold hidden sm:flex items-center gap-1.5 bg-[#0D3822] px-3 py-1.5 rounded-xl border border-[#116329] min-w-0 overflow-hidden">
+                        <CheckCircle2 className="size-3.5 text-[#3FB950] shrink-0" />
+                        <span className="break-all [overflow-wrap:break-word]">{t.statusPaidPrefix} (<span dir="ltr">{verifiedPaymentData?.tid}</span>)</span>
                       </span>
                       <button
                         type="button"
                         onClick={() => setCurrentStep(4)}
-                        className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-[0_0_20px_rgba(217,164,65,0.4)] animate-in fade-in"
+                        className="min-h-[48px] flex items-center gap-2 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 animate-in fade-in"
                       >
-                        <CheckCircle2 className="size-4 text-[#12241C]" />
+                        <CheckCircle2 className="size-4 text-[#0D1117]" />
                         <span>{t.step3Next}</span>
                       </button>
                     </div>
@@ -3387,7 +3455,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       <button
                         type="button"
                         onClick={() => handleSelectPaymentMethod(setupPaymentMethod)}
-                        className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20 px-3.5 py-2 text-xs font-mono font-bold transition flex items-center justify-center gap-1.5"
+                        className="min-h-[48px] rounded-xl border border-[#06B6D4]/50 bg-[#21262D] text-[#06B6D4] hover:border-[#06B6D4] px-3.5 py-2 text-xs font-mono font-bold transition flex items-center justify-center gap-1.5"
                       >
                         <CreditCard className="size-3.5" />
                         <span>{t.verifyBtn}</span>
@@ -3395,9 +3463,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       <button
                         type="button"
                         disabled={true}
-                        className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.04] border border-white/10 text-white/30 px-5 py-2.5 text-xs font-mono font-bold uppercase cursor-not-allowed select-none opacity-40 shadow-none"
+                        className="min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#161B22] border border-[#30363D] text-[#484F58] px-5 py-2.5 text-xs font-mono font-bold uppercase cursor-not-allowed select-none opacity-60 shadow-none"
                       >
-                        <Lock className="size-3.5 text-amber-400" />
+                        <Lock className="size-3.5 text-[#D29922]" />
                         <span>{t.lockedConfirmBtn}</span>
                       </button>
                     </div>
@@ -3412,27 +3480,27 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             <PortalCard title={t.step4Title} kicker={t.step4Kicker}>
               <div className="space-y-4">
                 {/* Settlement Verified Banner */}
-                <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 flex items-center justify-between text-xs font-mono">
-                  <span className="text-emerald-300 font-bold flex items-center gap-1.5">
-                    <CheckCircle2 className="size-4 text-emerald-400" />
-                    <span>{t.setupVerified} ({verifiedPaymentData?.tid || 'TRX-OK'})</span>
+                <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 flex flex-wrap items-center justify-between gap-2 text-xs font-mono overflow-hidden">
+                  <span className="text-[#3FB950] font-bold flex items-center gap-1.5 min-w-0">
+                    <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
+                    <span className="break-all [overflow-wrap:break-word]">{t.setupVerified} (<span dir="ltr">{verifiedPaymentData?.tid || 'TRX-OK'}</span>)</span>
                   </span>
-                  <span className="text-[#00FFFF] font-bold">{salonName}</span>
+                  <span className="text-[#06B6D4] font-bold">{salonName}</span>
                 </div>
 
                 {/* Handshake Mode Switcher: On-Site QR vs Remote Link & PWA */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] p-2.5">
-                  <span className="text-[11px] font-mono font-bold text-white/70">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-xl border border-[#30363D] bg-[#0D1117] p-2.5">
+                  <span className="text-[11px] font-mono font-bold text-[#8B949E]">
                     {t.modeLabel}
                   </span>
-                  <div className="flex items-center gap-1 bg-black/40 p-1 rounded-lg border border-white/10 shrink-0">
+                  <div className="flex items-center gap-1 bg-[#161B22] p-1 rounded-lg border border-[#30363D] shrink-0">
                     <button
                       type="button"
                       onClick={() => setStep4ViewMode('QR_SCAN')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+                      className={`min-h-[36px] px-3 py-1.5 rounded-md text-xs font-mono font-bold transition flex items-center gap-1.5 ${
                         step4ViewMode === 'QR_SCAN'
-                          ? 'bg-[#00FFFF] text-[#12241C]'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#06B6D4] text-[#0D1117]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       <QrCode className="size-3.5" />
@@ -3441,10 +3509,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <button
                       type="button"
                       onClick={() => setStep4ViewMode('DIRECT_LINK')}
-                      className={`px-3 py-1.5 rounded-md text-xs font-mono font-bold transition flex items-center gap-1.5 ${
+                      className={`min-h-[36px] px-3 py-1.5 rounded-md text-xs font-mono font-bold transition flex items-center gap-1.5 ${
                         step4ViewMode === 'DIRECT_LINK'
-                          ? 'bg-[#D9A441] text-[#12241C]'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#D29922] text-[#0D1117]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       <Smartphone className="size-3.5" />
@@ -3455,8 +3523,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                 {/* Mode A: On-Site QR Scanner */}
                 {step4ViewMode === 'QR_SCAN' ? (
-                  <div className="rounded-2xl border border-white/10 bg-black/40 p-5 text-center space-y-4">
-                    <div className="mx-auto grid size-52 place-items-center rounded-2xl bg-white p-5 text-slate-900 shadow-[0_0_24px_rgba(0,255,255,0.2)] border-2 border-[#00FFFF]">
+                  <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-5 text-center space-y-4">
+                    <div className="mx-auto grid size-52 place-items-center rounded-2xl bg-white p-5 text-slate-900 border-2 border-[#06B6D4]">
                       <svg viewBox="0 0 100 100" className="w-full h-full text-slate-950">
                         <rect x="5" y="5" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="4" rx="2" />
                         <rect x="11" y="11" width="12" height="12" fill="currentColor" rx="1" />
@@ -3470,98 +3538,119 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         <circle cx="20" cy="50" r="3" fill="currentColor" />
                         <circle cx="50" cy="50" r="3" fill="currentColor" />
                         <circle cx="80" cy="50" r="3" fill="currentColor" />
-                        <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="3" />
+                        <rect x="42" y="42" width="16" height="16" fill="#D29922" rx="3" />
                       </svg>
                     </div>
 
-                    <div className="space-y-1">
-                      <p className="text-xs font-mono font-bold text-[#F5F2E9]">
-                        Sequential Pairing Protocol: WhatsApp Multi-Device (Go-Fiber WebSocket)
+                    <div className="space-y-1 min-w-0">
+                      <p className="text-xs font-mono font-bold text-[#F0F6FC]">
+                        WhatsApp Linked Devices Connection
                       </p>
-                      <p className="text-xs font-mono text-[#00FFFF]">
-                        {t.pairingKeyLabel} <span className="font-bold underline text-sm tracking-wider text-[#D9A441]">{pairingKey}</span>
+                      <p className="text-xs font-mono text-[#06B6D4] break-all [overflow-wrap:break-word]">
+                        {t.pairingKeyLabel}{' '}
+                        <span dir="ltr" className="font-bold underline text-sm tracking-wider text-[#D29922] break-all [overflow-wrap:break-word]">
+                          {pairingKey}
+                        </span>
                       </p>
-                      <p className="text-[11px] text-white/50 font-sans">
+                      <p className="text-[11px] text-[#8B949E] font-sans">
                         {t.scanInstructions}
                       </p>
                     </div>
 
-                    {/* Cryptographic Single-Use Burn Token Badge */}
-                    <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-3 text-left space-y-1.5 font-mono text-xs">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#00FFFF] font-bold flex items-center gap-1.5 text-[11px]">
-                          <ShieldCheck className="size-3.5" />
+                    {/* Single-Use Salon Link Notice */}
+                    <div
+                      className={`rounded-xl border border-[#06B6D4]/30 bg-[#161B22] p-3 space-y-1.5 font-mono text-xs overflow-hidden ${
+                        clientOnboardingLanguage === 'en' ? 'text-left' : 'text-right'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[#06B6D4] font-bold flex items-center gap-1.5 text-[11px]">
+                          <ShieldCheck className="size-3.5 shrink-0" />
                           <span>{t.tokenBoundBadge}</span>
                         </span>
-                        <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
+                        <span className={`px-2 py-0.5 rounded text-[9px] font-bold shrink-0 ${
                           isQrBurned 
-                            ? 'bg-red-500/20 text-red-300 border border-red-500/40' 
-                            : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                            ? 'bg-[#4C1C1D] text-[#F85149] border border-[#da3633]' 
+                            : 'bg-[#0D3822] text-[#3FB950] border border-[#116329]'
                         }`}>
                           {isQrBurned ? t.tokenBurned : t.tokenActive}
                         </span>
                       </div>
-                      <p className="text-[10px] text-white/60 font-sans leading-relaxed">
+                      <p className="text-[10px] text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
                         {t.tokenExpl}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  /* Mode B: Remote Link & PWA Shortcut */
-                  <div className="rounded-2xl border border-white/10 bg-black/40 p-5 space-y-4">
-                    <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-4 space-y-2">
-                      <span className="text-[10px] font-mono font-bold uppercase text-[#D9A441] tracking-wider block">
+                  /* Mode B: Remote App Link */
+                  <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-5 space-y-4 overflow-hidden">
+                    <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-4 space-y-2 overflow-hidden">
+                      <span className="text-[10px] font-mono font-bold uppercase text-[#D29922] tracking-wider block">
                         {t.remoteLinkTitle}
                       </span>
-                      <p className="text-xs text-white/80 font-sans leading-relaxed">
+                      <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
                         {t.remoteLinkDesc}
                       </p>
-                      <div className="rounded-lg bg-black/70 p-2.5 font-mono text-xs text-[#00FFFF] break-all border border-white/10 select-all">
+                      <div
+                        dir="ltr"
+                        className="rounded-lg bg-[#0D1117] p-2.5 font-mono text-xs text-[#06B6D4] break-all overflow-hidden [overflow-wrap:break-word] border border-[#30363D] select-all"
+                      >
                         https://portal.workcraft.local/onboard/{salonName.toLowerCase().replace(/[^a-z0-9]/g, '-') || 'salon'}?key={pairingKey}
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 space-y-2 font-mono text-xs">
-                      <span className="text-white font-bold block text-[11px]">
-                        📱 Salon Owner PWA 1-Tap Home Screen Steps:
+                    <div className="rounded-xl border border-[#30363D] bg-[#161B22] p-4 space-y-2 font-mono text-xs overflow-hidden">
+                      <span className="text-[#F0F6FC] font-bold block text-[11px]">
+                        📱 How Salon Owner Saves &quot;WorkCraft&quot; to Phone:
                       </span>
-                      <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-white/70 font-sans">
-                        <li>Open the link in Chrome (Android) or Safari (iOS).</li>
-                        <li>Tap the browser menu (⋮ or Share) ➔ <strong>&ldquo;Add to Home Screen&rdquo;</strong>.</li>
-                        <li>Enter terminal pairing key: <strong className="text-[#00FFFF] font-mono">{pairingKey}</strong>.</li>
-                        <li>The terminal operates with zero App Store friction and full offline fallback.</li>
+                      <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-[#8B949E] font-sans">
+                        <li>Open the link in Chrome (Android) or Safari (iPhone).</li>
+                        <li>Tap the browser menu (⋮ or Share) ➔ <strong className="text-[#F0F6FC]">&ldquo;Add to Home Screen&rdquo;</strong>.</li>
+                        <li>
+                          Enter salon link code:{' '}
+                          <strong dir="ltr" className="text-[#06B6D4] font-mono break-all [overflow-wrap:break-word]">
+                            {pairingKey}
+                          </strong>
+                          .
+                        </li>
+                        <li>Opens with 1 tap like an installed app—no app store download needed.</li>
                       </ol>
                     </div>
                   </div>
                 )}
 
                 {/* Outbound Localized Welcome Dispatch Note */}
-                <div className="rounded-xl border border-[#00FFFF]/20 bg-black/40 p-3.5 space-y-2">
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-[#00FFFF] font-bold uppercase flex items-center gap-1.5">
-                      <Send className="size-3 text-[#00FFFF]" />
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2 overflow-hidden">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono">
+                    <span className="text-[#06B6D4] font-bold uppercase flex items-center gap-1.5">
+                      <Send className="size-3 text-[#06B6D4] shrink-0" />
                       <span>{t.outboundTitle} ({clientOnboardingLanguage === 'ur' ? 'اردو' : clientOnboardingLanguage === 'ar' ? 'العربية' : 'English'})</span>
                     </span>
-                    <span className="text-emerald-400 font-bold">{t.outboundStatus}</span>
+                    <span className="text-[#3FB950] font-bold">{t.outboundStatus}</span>
                   </div>
-                  <div className="rounded-lg bg-black/60 p-3 text-xs font-mono text-[#F5F2E9] border border-white/10 whitespace-pre-line leading-relaxed">
+                  <div
+                    dir={clientOnboardingLanguage === 'en' ? 'ltr' : 'rtl'}
+                    className={`rounded-lg bg-[#161B22] p-3 text-xs font-mono text-[#F0F6FC] border border-[#30363D] whitespace-pre-line leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                      clientOnboardingLanguage === 'en' ? 'text-left' : 'text-right'
+                    }`}
+                  >
                     {formatWelcomeMessage(clientOnboardingLanguage, ownerName, salonName, pairingKey)}
                   </div>
                 </div>
 
                 {/* Handshake Simulation */}
                 {isPairingSimulated ? (
-                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-4 space-y-2 animate-in zoom-in-95">
-                    <div className="flex items-center justify-between text-emerald-300 text-xs font-mono font-bold">
+                  <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-4 space-y-2 animate-in zoom-in-95">
+                    <div className="flex items-center justify-between text-[#3FB950] text-xs font-mono font-bold">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="size-4 text-emerald-400" />
+                        <CheckCircle2 className="size-4 text-[#3FB950]" />
                         <span>{t.handshakeSuccess}</span>
                       </div>
-                      <span className="text-[10px] text-amber-300 font-bold bg-black/40 px-2 py-0.5 rounded border border-amber-500/30">
-                        🔥 Ephemeral Token Burned
+                      <span className="text-[10px] text-[#D29922] font-bold bg-[#0D1117] px-2 py-0.5 rounded border border-[#9E6A03]">
+                        ✓ Salon Locked &amp; Verified
                       </span>
                     </div>
-                    <p className="text-xs text-white/70 font-sans leading-relaxed">
+                    <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                       {t.handshakeDesc}
                     </p>
                     <div className="pt-2 flex items-center justify-end">
@@ -3574,7 +3663,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           setIsPaymentVerified(false);
                           if (onClose) onClose();
                         }}
-                        className="rounded-lg bg-[#D9A441] text-[#12241C] px-4 py-2 text-xs font-mono font-bold uppercase hover:bg-[#e0b252]"
+                        className="min-h-[44px] rounded-lg bg-[#D29922] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase hover:bg-[#e0b252]"
                       >
                         {t.completeBtn}
                       </button>
@@ -3585,7 +3674,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <button
                       type="button"
                       onClick={() => setCurrentStep(3)}
-                      className="flex items-center gap-1.5 text-xs font-mono text-white/60 hover:text-white"
+                      className="min-h-[44px] flex items-center gap-1.5 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC]"
                     >
                       <ArrowLeft className="size-4" />
                       <span>{t.step4Back}</span>
@@ -3596,10 +3685,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         setIsPairingSimulated(true);
                         setIsQrBurned(true);
                       }}
-                      className="rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md flex items-center gap-2"
+                      className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md flex items-center gap-2"
                     >
                       <Wifi className="size-4" />
-                      <span>{t.simulateBtn} ({pairingKey}) →</span>
+                      <span className="break-all [overflow-wrap:break-word]">{t.simulateBtn} (<span dir="ltr">{pairingKey}</span>) →</span>
                     </button>
                   </div>
                 )}
@@ -3673,21 +3762,21 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
           <PortalCard title="Active Fleet Dossier — Regional Agent Registry" kicker="FOUNDER CENTRAL DIRECTORY">
             <div className="space-y-5">
               {/* Search Bar + Priority Region Filter Pills */}
-              <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3">
+              <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 rounded-2xl border border-[#30363D] bg-[#0D1117] p-3">
                 <div className="relative flex-1">
-                  <Search className="size-4 text-[#00FFFF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Search className="size-4 text-[#06B6D4] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     value={fleetSearchQuery}
                     onChange={(e) => setFleetSearchQuery(e.target.value)}
                     placeholder="Search agent by name, ID (e.g. AGT-409), WhatsApp, or city..."
-                    className="w-full rounded-xl border border-white/10 bg-[#102019] pl-10 pr-8 py-2.5 text-xs font-mono text-[#F5F2E9] placeholder:text-white/40 focus:outline-none focus:border-[#00FFFF]"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] pl-10 pr-8 py-2.5 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                   />
                   {fleetSearchQuery && (
                     <button
                       type="button"
                       onClick={() => setFleetSearchQuery('')}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6E7681] hover:text-[#F0F6FC]"
                       aria-label="Clear agent search"
                     >
                       <X className="size-3.5" />
@@ -3707,10 +3796,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       key={tab.key}
                       type="button"
                       onClick={() => setFleetRegionFilter(tab.key as any)}
-                      className={`px-3 py-1.5 rounded-xl font-bold transition border ${
+                      className={`min-h-[36px] px-3 py-1.5 rounded-xl font-bold transition border ${
                         fleetRegionFilter === tab.key
-                          ? 'bg-[#D9A441] text-[#12241C] border-[#D9A441]'
-                          : 'bg-white/[0.03] text-white/65 border-white/10 hover:text-white hover:border-white/25'
+                          ? 'bg-[#D29922] text-[#0D1117] border-[#D29922]'
+                          : 'bg-[#161B22] text-[#8B949E] border-[#30363D] hover:text-[#F0F6FC] hover:border-[#484F58]'
                       }`}
                     >
                       {tab.label}
@@ -3720,15 +3809,15 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               </div>
 
               {regionGroups.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-8 text-center space-y-2">
-                  <p className="text-sm font-mono font-bold text-white/80">No field agents match &ldquo;{fleetSearchQuery}&rdquo;</p>
+                <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-8 text-center space-y-2">
+                  <p className="text-sm font-mono font-bold text-[#F0F6FC]">No field agents match &ldquo;{fleetSearchQuery}&rdquo;</p>
                   <button
                     type="button"
                     onClick={() => {
                       setFleetSearchQuery('');
                       setFleetRegionFilter('ALL');
                     }}
-                    className="text-xs font-mono text-[#00FFFF] hover:underline"
+                    className="text-xs font-mono text-[#06B6D4] hover:underline"
                   >
                     Reset Fleet Filters
                   </button>
@@ -3738,14 +3827,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   {regionGroups.map((group) => (
                     <div key={group.key} className="space-y-3">
                       {/* Country / Region Group Header */}
-                      <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                      <div className="flex items-center justify-between border-b border-[#21262D] pb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-lg leading-none">{group.flag}</span>
-                          <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
+                          <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-[#F0F6FC]">
                             {group.title}
                           </h3>
                         </div>
-                        <span className="rounded-full bg-[#00FFFF]/10 border border-[#00FFFF]/30 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#00FFFF]">
+                        <span className="rounded-full bg-[#21262D] border border-[#06B6D4]/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#06B6D4]">
                           {group.agents.length} {group.agents.length === 1 ? 'Agent' : 'Agents'}
                         </span>
                       </div>
@@ -3756,64 +3845,64 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           return (
                             <div
                               key={agent.id}
-                              className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-3.5 hover:border-[#D9A441]/40 transition group"
+                              className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3.5 hover:border-[#D29922]/60 transition group"
                             >
                               <div className="flex items-start justify-between gap-2">
                                 <div className="flex items-center gap-3">
                                   <div className="relative">
-                                    <div className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-[#D9A441] to-[#b3822b] text-[#12241C] font-mono font-black text-base shadow">
+                                    <div className="grid size-12 place-items-center rounded-xl bg-gradient-to-br from-[#D29922] to-[#9E6A03] text-[#0D1117] font-mono font-black text-base shadow">
                                       {agent.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                                     </div>
                                     {agent.selfieVerified && (
-                                      <span className="absolute -bottom-1 -right-1 grid size-4 place-items-center rounded-full bg-emerald-500 text-black">
+                                      <span className="absolute -bottom-1 -right-1 grid size-4 place-items-center rounded-full bg-[#3FB950] text-[#0D1117]">
                                         <Check className="size-2.5 stroke-[3]" />
                                       </span>
                                     )}
                                   </div>
                                   <div>
                                     <div className="flex flex-wrap items-center gap-1.5">
-                                      <h4 className="text-sm font-bold text-white group-hover:text-[#D9A441] transition">
+                                      <h4 className="text-sm font-bold text-[#F0F6FC] group-hover:text-[#D29922] transition">
                                         {agent.name}
                                       </h4>
-                                      <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
+                                      <span className="rounded bg-[#0D3822] border border-[#116329] px-1.5 py-0.5 text-[9px] font-mono font-bold text-[#3FB950]">
                                         #{agent.id}
                                       </span>
                                       <span className="text-xs" title={agentCountry.name}>{agentCountry.flag}</span>
                                     </div>
-                                    <p className="text-xs text-white/60 font-mono mt-0.5">{agent.phone}</p>
-                                    <p className="text-[11px] text-[#00FFFF] font-mono mt-0.5">{agent.city}</p>
+                                    <p className="text-xs text-[#8B949E] font-mono mt-0.5">{agent.phone}</p>
+                                    <p className="text-[11px] text-[#06B6D4] font-mono mt-0.5">{agent.city}</p>
                                   </div>
                                 </div>
 
                                 <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
                                   agent.status.includes('SUSPENDED')
-                                    ? 'border-red-500/40 bg-red-500/10 text-red-300'
-                                    : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                                    ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149]'
+                                    : 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
                                 }`}>
                                   {agent.status}
                                 </span>
                               </div>
 
-                              <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-white/[0.02] p-2.5 rounded-xl border border-white/5">
+                              <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-[#161B22] p-2.5 rounded-xl border border-[#30363D]">
                                 <div>
-                                  <span className="text-[9px] text-white/40 block uppercase">Identity / National ID</span>
-                                  <span className="font-bold text-white truncate block">{agent.cnicOrId}</span>
+                                  <span className="text-[9px] text-[#6E7681] block uppercase">Identity / National ID</span>
+                                  <span className="font-bold text-[#F0F6FC] truncate block">{agent.cnicOrId}</span>
                                 </div>
                                 <div>
-                                  <span className="text-[9px] text-white/40 block uppercase">Payout Channel</span>
-                                  <span className="font-bold text-[#D9A441] truncate block">{agent.payoutMethod}</span>
+                                  <span className="text-[9px] text-[#6E7681] block uppercase">Payout Channel</span>
+                                  <span className="font-bold text-[#D29922] truncate block">{agent.payoutMethod}</span>
                                 </div>
-                                <div className="col-span-2 pt-1 border-t border-white/5 flex items-center justify-between text-[10px]">
-                                  <span className="text-white/50 flex items-center gap-1">
-                                    <Fingerprint className="size-3 text-[#00FFFF]" />
-                                    <span className="truncate max-w-[150px]">{agent.thumbHash}</span>
+                                <div className="col-span-2 pt-1 border-t border-[#21262D] flex flex-wrap items-center justify-between gap-2 text-[10px] min-w-0">
+                                  <span className="text-[#8B949E] flex items-center gap-1 min-w-0 flex-1">
+                                    <Fingerprint className="size-3 text-[#06B6D4] shrink-0" />
+                                    <span dir="ltr" className="break-all overflow-hidden [overflow-wrap:break-word] min-w-0">{agent.thumbHash}</span>
                                   </span>
-                                  <span className="text-emerald-400 font-bold">✓ Day-1 Complete</span>
+                                  <span className="text-[#3FB950] font-bold shrink-0">✓ Day-1 Complete</span>
                                 </div>
                               </div>
 
-                              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10">
-                                <span className="text-[10px] text-white/40 font-mono">
+                              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#21262D]">
+                                <span className="text-[10px] text-[#6E7681] font-mono">
                                   Enrolled: {agent.enrolledAt}
                                 </span>
                                 <div className="flex items-center gap-2">
@@ -3827,10 +3916,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                         setIsAgentSuspendedByFounder(!isSuspended);
                                       }
                                     }}
-                                    className={`rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold transition flex items-center gap-1 border ${
+                                    className={`min-h-[36px] rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold transition flex items-center gap-1 border ${
                                       agent.status.includes('SUSPENDED')
-                                        ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30'
-                                        : 'border-red-500/40 bg-red-950/40 text-red-400 hover:bg-red-500/20 hover:border-red-500'
+                                        ? 'border-[#116329] bg-[#0D3822] text-[#3FB950] hover:border-[#3FB950]'
+                                        : 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] hover:border-[#F85149]'
                                     }`}
                                     title={agent.status.includes('SUSPENDED') ? `Restore ${agent.name} terminal` : `Isolated Kill-Switch: Suspend ${agent.name}`}
                                   >
@@ -3841,9 +3930,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                   <button
                                     type="button"
                                     onClick={() => setSelectedDossierAgent(agent)}
-                                    className="rounded-lg bg-white/5 hover:bg-white/15 px-3 py-1.5 text-xs font-mono font-bold text-white transition flex items-center gap-1.5 border border-white/10"
+                                    className="min-h-[36px] rounded-lg bg-[#21262D] hover:border-[#484F58] px-3 py-1.5 text-xs font-mono font-bold text-[#F0F6FC] transition flex items-center gap-1.5 border border-[#30363D]"
                                   >
-                                    <FileText className="size-3 text-[#00FFFF]" />
+                                    <FileText className="size-3 text-[#06B6D4]" />
                                     <span>View Dossier</span>
                                   </button>
                                 </div>
@@ -3862,9 +3951,118 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       })()}
 
       {/* ========================================================================= */}
-      {/* VIEW B: RE-PAIR TERMINAL & 3-TIER RECOVERY (QUERIES 2 & 3)               */}
+      {/* VIEW B: FIX SALON CONNECTION + 24/7 AUTO-FIX WATCHDOG (LOCALIZED)          */}
       {/* ========================================================================= */}
       {activeHubView === 'RE_PAIR' && (() => {
+        const isUrdu = agentLanguage === 'ur' || agentLanguage === 'ur_roman';
+        const isArabic = agentLanguage === 'ar';
+        const repairDir = isUrdu || isArabic ? 'rtl' : 'ltr';
+
+        const rL = isArabic
+          ? {
+              cardTitle: 'إصلاح اتصال الصالون (الحماية التلقائية نشطة)',
+              cardKicker: 'دعم الاتصال السريع',
+              watchdogTitle: 'مراقب الإصلاح التلقائي: يعمل 24/7 تلقائياً',
+              watchdogBadge: 'حماية ذاتية نشطة',
+              watchdogDesc:
+                'يقوم النظام بمراقبة اتصالات الواتساب وإصلاح الانقطاعات البسيطة أو إعادة تشغيل الهاتف أو تبديل الشبكة تلقائياً دون أي تدخل. استخدم خيارات إعادة الربط أدناه فقط كخيار احتياطي إذا قام مالك الصالون بتسجيل الخروج يدوياً من الأجهزة المرتبطة.',
+              intro:
+                'اختر الطريقة المناسبة لإعادة توصيل الصالون: رمز دخول تلقائي (عند تغيير الهاتف)، مسح QR مباشر مع المالك، أو إرسال رابط سريع عن بُعد.',
+              searchLabel: 'ابحث واختر الصالون:',
+              searchPlaceholder: 'ابحث باسم الصالون أو المالك أو المدينة أو الرقم...',
+              noMatch: 'لا توجد صالونات مطابقة للبحث',
+              ownerPrefix: 'المالك:',
+              statusConnected: '● متصل ويعمل تلقائياً',
+              statusNeedsLink: '⚠ يحتاج إعادة ربط يدوي',
+              m1Title: '1. رمز دخول تلقائي',
+              m1Desc: 'عند تغيير الهاتف · بدون باركود',
+              m2Title: '2. مسح QR مع المالك',
+              m2Desc: 'خيار احتياطي في الصالون فقط',
+              m3Title: '3. رابط استعادة عن بُعد',
+              m3Desc: 'إرسال رابط بلغة الصالون',
+              autoBanner: 'استعادة الحساب تلقائياً بدون باركود',
+              autoExplainPrefix: 'إذا قام',
+              autoExplainMid: 'بتغيير هاتفه أو تسجيل الخروج، يسجل الدخول فوراً برقم الواتساب المسجل',
+              autoExplainEnd: 'ورمز تحقق من خطوة واحدة.',
+              autoDispatched: 'تم إرسال رمز الدخول التلقائي إلى',
+              sendOtpBtn: 'إرسال رمز الدخول التلقائي',
+              qrSuccessTitle: 'تمت إعادة ربط واتساب الصالون بنجاح!',
+              qrSuccessDesc: 'عاد الصالون للعمل التلقائي 24/7 بدون انقطاع.',
+              qrBtn: 'تأكيد إعادة الربط بالباركود ←',
+              remoteTitle: 'إرسال رابط استعادة للصالون (بدون وكيل)',
+              remoteDispatched: 'تم إرسال رابط الاستعادة إلى',
+              sendRemoteBtn: 'إرسال رابط الاستعادة للواتساب ←',
+            }
+          : isUrdu
+          ? {
+              cardTitle: 'سیلون کنکشن درست کریں (آٹو فکس نظام)',
+              cardKicker: 'فوری کنکشن مدد',
+              watchdogTitle: 'آٹو فکس نگرانی نظام: 24/7 خودکار طور پر فعال',
+              watchdogBadge: 'خودکار بحالی آن ہے',
+              watchdogDesc:
+                'نظام سیلون کے واٹس ایپ کنکشن کی 24/7 خودکار نگرانی کرتا ہے اور نیٹ ورک یا سم کے چھوٹے مسائل خود ہی ٹھیک کر دیتا ہے۔ نیچے دیے گئے QR یا ریموٹ لنک صرف اس وقت بیک اپ کے لیے استعمال کریں جب سیلون مالک نے خود واٹس ایپ کے Linked Devices سے لاگ آؤٹ کر دیا ہو۔',
+              intro:
+                'ضرورت کے مطابق طریقہ منتخب کریں: فون بدلنے پر آٹو OTP لاگ ان، موقع پر QR اسکین، یا دور سے ایک کلک والا لنک بھیجیں۔',
+              searchLabel: 'سیلون تلاش اور منتخب کریں:',
+              searchPlaceholder: 'سیلون کا نام، مالک، شہر یا واٹس ایپ نمبر لکھیں...',
+              noMatch: 'کوئی سیلون نہیں ملا',
+              ownerPrefix: 'مالک:',
+              statusConnected: '● کنکشن بحال اور رواں ہے',
+              statusNeedsLink: '⚠ دوبارہ لنک کرنے کی ضرورت ہے',
+              m1Title: '1. آٹو سم OTP لاگ ان',
+              m1Desc: 'فون بدلنے پر · بغیر کیو آر',
+              m2Title: '2. آن سائٹ QR اسکین',
+              m2Desc: 'صرف بیک اپ (سیلون میں موجودگی پر)',
+              m3Title: '3. ریموٹ ریکوری لنک',
+              m3Desc: 'مالک کی زبان میں لنک بھیجیں',
+              autoBanner: 'بغیر QR خودکار اکاؤنٹ بحالی فعال ہے',
+              autoExplainPrefix: 'اگر',
+              autoExplainMid: 'اپنا موبائل بدلیں یا ایپ سے لاگ آؤٹ ہوں تو صرف اپنے رجسٹرڈ نمبر',
+              autoExplainEnd: 'پر OTP سے فوراً لاگ ان کر سکتے ہیں۔ واٹس ایپ بوٹ بند نہیں ہوتا۔',
+              autoDispatched: 'خودکار لاگ ان OTP بھیج دیا گیا برائے',
+              sendOtpBtn: 'خودکار لاگ ان OTP بھیجیں',
+              qrSuccessTitle: 'سیلون واٹس ایپ دوبارہ جڑ گیا!',
+              qrSuccessDesc: 'سیلون اب دوبارہ 24/7 آٹو سنک پر لائیو ہے۔',
+              qrBtn: 'آن سائٹ QR کنکشن مکمل کریں ←',
+              remoteTitle: 'مالک کو ریموٹ ریکوری لنک بھیجیں',
+              remoteDispatched: 'ریکوری لنک واٹس ایپ کر دیا گیا برائے',
+              sendRemoteBtn: 'مالک کو واٹس ایپ ریکوری لنک بھیجیں ←',
+            }
+          : {
+              cardTitle: 'Fix Salon Connection (Auto-Fix System)',
+              cardKicker: 'QUICK RECONNECT HELP',
+              watchdogTitle: 'Auto-Fix Watchdog: Active 24/7 (Automatic)',
+              watchdogBadge: 'Self-Healing Active',
+              watchdogDesc:
+                'WorkCraft watches every salon WhatsApp line 24/7 and automatically repairs network drops, SIM switches, or phone restarts on its own. Only use the backup QR or Remote Link options below if a salon owner manually logged out inside WhatsApp Linked Devices.',
+              intro:
+                'Choose the backup step if manual action is ever needed: 1-tap login OTP when changing phones, on-site QR scan with owner, or remote link.',
+              searchLabel: 'Search & Select Salon:',
+              searchPlaceholder: 'Search salon by name, owner, city, or WhatsApp number...',
+              noMatch: 'No salons match search query',
+              ownerPrefix: 'Owner:',
+              statusConnected: '● Auto-Sync Running ✓',
+              statusNeedsLink: '⚠ Needs Manual Re-Link',
+              m1Title: '1. Auto Login Code (OTP)',
+              m1Desc: 'Changed phone · No QR needed',
+              m2Title: '2. On-Site QR Scan (Backup)',
+              m2Desc: 'Use only if logged out manually',
+              m3Title: '3. Remote App Link',
+              m3Desc: 'Send 1-tap link in salon language',
+              autoBanner: 'Automatic Re-Login Active (No QR Needed)',
+              autoExplainPrefix: 'If',
+              autoExplainMid: 'changes phones or logs out, they simply sign back in with their registered WhatsApp number',
+              autoExplainEnd: '+ 1-tap OTP. Customer auto-booking keeps running with zero breaks.',
+              autoDispatched: 'Login OTP sent to',
+              sendOtpBtn: 'Send Automatic Login OTP',
+              qrSuccessTitle: 'Salon WhatsApp Reconnected!',
+              qrSuccessDesc: 'is back online on 24/7 auto-sync.',
+              qrBtn: 'Confirm Backup QR Reconnect →',
+              remoteTitle: 'Remote Recovery Link (No Visit Needed)',
+              remoteDispatched: 'Recovery link sent to',
+              sendRemoteBtn: 'Send Recovery Link to Owner WhatsApp →',
+            };
+
         const q = rePairSearchQuery.trim().toLowerCase();
         const filteredSalons = rePairSalonsList.filter(
           (s) =>
@@ -3881,10 +4079,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
         const langBadgeLabel =
           activeSalon.savedLang === 'ur'
-            ? '🇵🇰 اردو (Saved Owner Language)'
+            ? '🇵🇰 اردو (Owner Language)'
             : activeSalon.savedLang === 'ar'
-            ? '🇦🇪 العربية (لغة الصالون المعتمدة)'
-            : '🇬🇧 English (Saved Owner Language)';
+            ? '🇦🇪 العربية (لغة الصالون)'
+            : '🇬🇧 English (Owner Language)';
 
         const recoveryKey = `WCL-RPR-${activeSalon.name.slice(0, 3).toUpperCase().replace(/[^A-Z]/g, 'S')}92`;
         const recoveryLink = `https://portal.workcraft.local/recover/${activeSalon.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}?key=${recoveryKey}&lang=${activeSalon.savedLang}`;
@@ -3892,37 +4090,52 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         const localizedDispatchPreview =
           activeSalon.savedLang === 'ar'
             ? rePairRecoveryMode === 'AUTO_OTP'
-              ? `السلام عليكم ${activeSalon.owner}!\n\nلا حاجة لمسح الباركود عند تغيير الجوال أو تسجيل الخروج. تم تفعيل استعادة الجلسة التلقائية لصالون "${activeSalon.name}".\n🔐 رمز التحقق OTP على شريحتكم المسجلة ${activeSalon.phone}: 849201\n✅ بوت واتساب مستمر بالعمل 24/7 على خادم WORKCRAFT Local (وورك كرافت لوكل).`
-              : `السلام عليكم ${activeSalon.owner}!\n\nإليكم رابط استعادة وتوصيل لوحة صالون "${activeSalon.name}" دون الحاجة لوجود الوكيل:\n🔑 مفتاح الربط: ${recoveryKey}\n📲 رابط الاستعادة الفوري: ${recoveryLink}\n\nفريق WORKCRAFT Local (وورك كرافت لوكل).`
+              ? `السلام عليكم ${activeSalon.owner}!\n\nلا حاجة لمسح الباركود عند تغيير الجوال. يمكنك الدخول مباشرة لصالون "${activeSalon.name}" برقمك ${activeSalon.phone}:\n🔐 رمز الدخول OTP: 849201\n✅ خدمة الحجز التلقائي على واتساب مستمرة 24/7.`
+              : `السلام عليكم ${activeSalon.owner}!\n\nإليكم رابط استعادة وتوصيل لوحة صالون "${activeSalon.name}" مباشرة:\n🔑 رمز التفعيل: ${recoveryKey}\n📲 رابط التطبيق: ${recoveryLink}\n\nفريق WORKCRAFT`
             : activeSalon.savedLang === 'ur'
             ? rePairRecoveryMode === 'AUTO_OTP'
-              ? `السلام علیکم ${activeSalon.owner}!\n\nموبائل تبدیل کرنے یا لاگ آؤٹ ہونے کی صورت میں کیو آر (QR) یا لنک کی ضرورت نہیں۔ "${activeSalon.name}" کے رجسٹرڈ نمبر ${activeSalon.phone} پر آٹو لاگ ان فعال ہے:\n🔐 OTP کوڈ: 849201\n✅ آپ کا واٹس ایپ بوٹ 24/7 ورک کرافٹ سرور پر مسلسل فعال ہے۔`
-              : `السلام علیکم ${activeSalon.owner}!\n\nفیلڈ ایجنٹ کی غیر موجودگی میں "${activeSalon.name}" کی فوری بحالی کے لیے اپنا ریکوری لنک استعمال کریں:\n🔑 ریکوری کوڈ: ${recoveryKey}\n📲 فوری لنک: ${recoveryLink}\n\nورک کرافٹ لوکل (WORKCRAFT Local)`
+              ? `السلام علیکم ${activeSalon.owner}!\n\nفون بدلنے پر کیو آر اسکین کی ضرورت نہیں۔ "${activeSalon.name}" کے رجسٹرڈ نمبر ${activeSalon.phone} پر خودکار لاگ ان کوڈ:\n🔐 OTP کوڈ: 849201\n✅ آپ کا واٹس ایپ بکنگ سسٹم 24/7 بغیر کسی رکاوٹ کے چل رہا ہے۔`
+              : `السلام علیکم ${activeSalon.owner}!\n\n"${activeSalon.name}" کو دوبارہ جوڑنے کے لیے یہ آسان ریکوری لنک استعمال کریں:\n🔑 کوڈ: ${recoveryKey}\n📲 لنک: ${recoveryLink}\n\nWORKCRAFT`
             : rePairRecoveryMode === 'AUTO_OTP'
-            ? `Dear Mr. ${activeSalon.owner},\n\nNo QR scan or re-pairing link is required after changing phones or logging out. Your session for "${activeSalon.name}" auto-restores via your registered SIM (${activeSalon.phone}).\n🔐 Login OTP: 849201\n✅ Your 24/7 WhatsApp booking bot remains active on WORKCRAFT Local servers.`
-            : `Dear Mr. ${activeSalon.owner},\n\nUse this one-tap recovery link to reconnect "${activeSalon.name}" remotely without an agent on-site:\n🔑 Recovery Key: ${recoveryKey}\n📲 Portal Link: ${recoveryLink}\n\nWORKCRAFT Local`;
+            ? `Hello ${activeSalon.owner},\n\nNo QR scan is needed when changing phones. Your account for "${activeSalon.name}" signs right back in using your registered SIM (${activeSalon.phone}).\n🔐 Login Code (OTP): 849201\n✅ Your 24/7 WhatsApp booking system continues running smoothly.`
+            : `Hello ${activeSalon.owner},\n\nUse this 1-tap link to reconnect "${activeSalon.name}" from anywhere:\n🔑 Link Code: ${recoveryKey}\n📲 App Link: ${recoveryLink}\n\nWORKCRAFT`;
 
         return (
-          <PortalCard title="Node Repair & Diagnostics (Smart Terminal Recovery)" kicker="IN-HUB REPAIR">
-            <div className="space-y-4">
-              <p className="text-xs text-white/65 font-sans leading-relaxed">
-                Choose the recovery tier based on whether the salon owner changed phones/logged out (automatic SIM OTP re-login with zero QR needed), is physically with an agent (QR scan), or needs a remote link in their saved language.
+          <PortalCard title={rL.cardTitle} kicker={rL.cardKicker}>
+            <div dir={repairDir} className={`space-y-4 min-w-0 ${repairDir === 'rtl' ? 'text-right' : 'text-left'}`}>
+              {/* Auto-Fix 24/7 Self-Healing Banner */}
+              <div className="rounded-2xl border border-[#116329] bg-[#0D3822] p-3.5 space-y-1.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs font-mono font-bold text-[#3FB950] flex items-center gap-1.5">
+                    <ShieldCheck className="size-4 text-[#3FB950] shrink-0" />
+                    <span>{rL.watchdogTitle}</span>
+                  </span>
+                  <span className="rounded-full bg-[#0D1117] border border-[#116329] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#3FB950]">
+                    ● {rL.watchdogBadge}
+                  </span>
+                </div>
+                <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
+                  {rL.watchdogDesc}
+                </p>
+              </div>
+
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+                {rL.intro}
               </p>
 
-              {/* Query 3: Salon Search Box + High-Contrast Dark Dropdown */}
-              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
+              {/* Salon Search Box + Dropdown */}
+              <div className="rounded-xl border border-[#30363D] bg-[#161B22] p-4 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <label className="text-xs font-mono font-bold text-white/75 uppercase">
-                    Search &amp; Select Connected Salon Node:
+                  <label className="text-xs font-mono font-bold text-[#F0F6FC] uppercase">
+                    {rL.searchLabel}
                   </label>
-                  <span className="rounded-lg bg-[#D9A441]/15 border border-[#D9A441]/30 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#D9A441]">
+                  <span className="rounded-lg bg-[#3B2E0B] border border-[#9E6A03] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#D29922]">
                     {langBadgeLabel}
                   </span>
                 </div>
 
-                {/* Live Salon Search Input */}
                 <div className="relative">
-                  <Search className="size-4 text-[#00FFFF] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Search className="size-4 text-[#06B6D4] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     value={rePairSearchQuery}
@@ -3942,14 +4155,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         setIsRemoteLinkDispatched(false);
                       }
                     }}
-                    placeholder="Search salon by name, owner, city, or WhatsApp number..."
-                    className="w-full rounded-xl border border-white/15 bg-[#102019] pl-10 pr-8 py-2.5 text-xs font-mono text-[#F5F2E9] placeholder:text-white/40 focus:outline-none focus:border-[#00FFFF]"
+                    placeholder={rL.searchPlaceholder}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] pl-10 pr-8 py-2.5 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                   />
                   {rePairSearchQuery && (
                     <button
                       type="button"
                       onClick={() => setRePairSearchQuery('')}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#6E7681] hover:text-[#F0F6FC]"
                       aria-label="Clear salon search"
                     >
                       <X className="size-3.5" />
@@ -3957,7 +4170,6 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   )}
                 </div>
 
-                {/* Dark-Contrast Fixed <select> Dropdown */}
                 <select
                   value={activeSalon.name}
                   onChange={(e) => {
@@ -3966,18 +4178,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     setIsAutoOtpDispatched(false);
                     setIsRemoteLinkDispatched(false);
                   }}
-                  className="w-full rounded-xl border border-[#00FFFF]/30 bg-[#102019] px-3.5 py-2.5 text-xs font-mono font-bold text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF]"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono font-bold text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
                 >
                   {filteredSalons.length === 0 ? (
-                    <option value="" className="bg-[#102019] text-white/60">
-                      No salons match search query
+                    <option value="" className="bg-[#0D1117] text-[#8B949E]">
+                      {rL.noMatch}
                     </option>
                   ) : (
                     filteredSalons.map((salon) => (
                       <option
                         key={salon.name}
                         value={salon.name}
-                        className="bg-[#102019] text-[#F5F2E9]"
+                        className="bg-[#0D1117] text-[#F0F6FC]"
                       >
                         {salon.name} · {salon.city} ({salon.savedLang.toUpperCase()})
                       </option>
@@ -3986,20 +4198,20 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </select>
 
                 {/* Active Salon Summary Pill */}
-                <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-black/50 border border-white/10 px-3 py-2 text-[11px] font-mono">
-                  <span className="text-white/75">
-                    Owner: <strong className="text-white">{activeSalon.owner}</strong> · <span className="text-[#00FFFF]">{activeSalon.phone}</span>
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#0D1117] border border-[#30363D] px-3 py-2 text-[11px] font-mono">
+                  <span className="text-[#8B949E]">
+                    {rL.ownerPrefix} <strong className="text-[#F0F6FC]">{activeSalon.owner}</strong> · <span className="text-[#06B6D4]" dir="ltr">{activeSalon.phone}</span>
                   </span>
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                     activeSalon.status === 'CONNECTED'
-                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                      ? 'bg-[#0D3822] text-[#3FB950] border border-[#116329]'
+                      : 'bg-[#3B2E0B] text-[#D29922] border border-[#9E6A03]'
                   }`}>
-                    {activeSalon.status === 'CONNECTED' ? '● SIM Cluster Alive' : '⚠ Needs Re-Link'}
+                    {activeSalon.status === 'CONNECTED' ? rL.statusConnected : rL.statusNeedsLink}
                   </span>
                 </div>
 
-                {/* Query 2: 3-Tier Recovery Mode Selector */}
+                {/* 3 Recovery Option Selector */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
                   <button
                     type="button"
@@ -4007,14 +4219,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       setRePairRecoveryMode('AUTO_OTP');
                       setIsAutoOtpDispatched(false);
                     }}
-                    className={`rounded-xl border p-3 text-left transition ${
+                    className={`min-h-[48px] rounded-xl border p-3 text-start transition ${
                       rePairRecoveryMode === 'AUTO_OTP'
-                        ? 'border-emerald-400 bg-emerald-500/15 text-white'
-                        : 'border-white/10 bg-black/30 text-white/60 hover:border-white/25'
+                        ? 'border-[#3FB950] bg-[#0D3822] text-[#F0F6FC]'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:border-[#484F58]'
                     }`}
                   >
-                    <p className="text-xs font-mono font-bold text-emerald-300">1. Auto SIM OTP Re-Login</p>
-                    <p className="text-[10px] text-white/65 mt-0.5">Changed phone / logged out · Zero QR or link required</p>
+                    <p className="text-xs font-mono font-bold text-[#3FB950]">{rL.m1Title}</p>
+                    <p className="text-[10px] text-[#8B949E] mt-0.5">{rL.m1Desc}</p>
                   </button>
 
                   <button
@@ -4023,14 +4235,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       setRePairRecoveryMode('ONSITE_QR');
                       setIsRePairHandshakeActive(false);
                     }}
-                    className={`rounded-xl border p-3 text-left transition ${
+                    className={`min-h-[48px] rounded-xl border p-3 text-start transition ${
                       rePairRecoveryMode === 'ONSITE_QR'
-                        ? 'border-[#00FFFF] bg-[#00FFFF]/15 text-white'
-                        : 'border-white/10 bg-black/30 text-white/60 hover:border-white/25'
+                        ? 'border-[#06B6D4] bg-[#21262D] text-[#F0F6FC]'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:border-[#484F58]'
                     }`}
                   >
-                    <p className="text-xs font-mono font-bold text-[#00FFFF]">2. Agent On-Site QR Scan</p>
-                    <p className="text-[10px] text-white/65 mt-0.5">Agent physically at salon re-linking WhatsApp device</p>
+                    <p className="text-xs font-mono font-bold text-[#06B6D4]">{rL.m2Title}</p>
+                    <p className="text-[10px] text-[#8B949E] mt-0.5">{rL.m2Desc}</p>
                   </button>
 
                   <button
@@ -4039,61 +4251,63 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       setRePairRecoveryMode('REMOTE_LINK');
                       setIsRemoteLinkDispatched(false);
                     }}
-                    className={`rounded-xl border p-3 text-left transition ${
+                    className={`min-h-[48px] rounded-xl border p-3 text-start transition ${
                       rePairRecoveryMode === 'REMOTE_LINK'
-                        ? 'border-[#D9A441] bg-[#D9A441]/15 text-white'
-                        : 'border-white/10 bg-black/30 text-white/60 hover:border-white/25'
+                        ? 'border-[#D29922] bg-[#3B2E0B] text-[#F0F6FC]'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:border-[#484F58]'
                     }`}
                   >
-                    <p className="text-xs font-mono font-bold text-[#D9A441]">3. Remote Recovery Link</p>
-                    <p className="text-[10px] text-white/65 mt-0.5">Agent not present · Send 1-tap link in salon&apos;s language</p>
+                    <p className="text-xs font-mono font-bold text-[#D29922]">{rL.m3Title}</p>
+                    <p className="text-[10px] text-[#8B949E] mt-0.5">{rL.m3Desc}</p>
                   </button>
                 </div>
 
-                {/* TIER 1: Automatic SIM Re-Login (No QR / No Link Needed) */}
+                {/* TIER 1: Automatic Re-Login */}
                 {rePairRecoveryMode === 'AUTO_OTP' && (
-                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 space-y-3">
+                  <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-4 space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-xs font-mono font-bold text-emerald-300 flex items-center gap-1.5">
-                        <ShieldCheck className="size-4 text-emerald-400" />
-                        <span>Zero-QR Automatic Session Restoration Active</span>
+                      <span className="text-xs font-mono font-bold text-[#3FB950] flex items-center gap-1.5">
+                        <ShieldCheck className="size-4 text-[#3FB950]" />
+                        <span>{rL.autoBanner}</span>
                       </span>
-                      <span className="text-[10px] font-mono text-white/60">{langBadgeLabel}</span>
+                      <span className="text-[10px] font-mono text-[#8B949E]">{langBadgeLabel}</span>
                     </div>
-                    <p className="text-xs text-white/75 font-sans leading-relaxed">
-                      If <strong>{activeSalon.owner}</strong> changes their mobile or logs out of the PWA, they simply sign in with their registered WhatsApp number (<strong>{activeSalon.phone}</strong>) + 1-tap OTP. The cloud WhatsApp bot never disconnects and restores automatically without QR or agent visit.
+                    <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
+                      {rL.autoExplainPrefix} <strong>{activeSalon.owner}</strong> {rL.autoExplainMid} (<strong dir="ltr">{activeSalon.phone}</strong>) {rL.autoExplainEnd}
                     </p>
 
                     <div
                       dir={activeSalon.savedLang === 'en' ? 'ltr' : 'rtl'}
-                      className="rounded-xl bg-black/60 border border-white/10 p-3 text-xs font-mono text-[#F5F2E9] whitespace-pre-line leading-relaxed"
+                      className={`rounded-xl bg-[#0D1117] border border-[#30363D] p-3 text-xs font-mono text-[#F0F6FC] whitespace-pre-line leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                        activeSalon.savedLang === 'en' ? 'text-left' : 'text-right'
+                      }`}
                     >
                       {localizedDispatchPreview}
                     </div>
 
                     {isAutoOtpDispatched ? (
-                      <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/15 p-3 text-xs font-mono text-emerald-300 flex items-center justify-center gap-2">
-                        <CheckCircle2 className="size-4 text-emerald-400" />
-                        <span>Auto-Login OTP dispatched to {activeSalon.phone} in {activeSalon.savedLang.toUpperCase()} — Zero QR needed!</span>
+                      <div className="rounded-xl border border-[#116329] bg-[#0D1117] p-3 text-xs font-mono text-[#3FB950] flex items-center justify-center gap-2">
+                        <CheckCircle2 className="size-4 text-[#3FB950]" />
+                        <span>{rL.autoDispatched} <span dir="ltr">{activeSalon.phone}</span> ✓</span>
                       </div>
                     ) : (
                       <button
                         type="button"
                         onClick={() => setIsAutoOtpDispatched(true)}
-                        className="w-full rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-2"
+                        className="w-full min-h-[48px] rounded-xl bg-[#3FB950] hover:bg-[#4ec961] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-2"
                       >
                         <Send className="size-4" />
-                        <span>Send Automatic SIM OTP Re-Login ({activeSalon.savedLang.toUpperCase()}) →</span>
+                        <span>{rL.sendOtpBtn} ({activeSalon.savedLang.toUpperCase()}) →</span>
                       </button>
                     )}
                   </div>
                 )}
 
-                {/* TIER 2: Agent On-Site QR Scan */}
+                {/* TIER 2: Backup On-Site QR Scan */}
                 {rePairRecoveryMode === 'ONSITE_QR' && (
                   <div className="space-y-3">
                     <div className="flex justify-center p-4">
-                      <div className="grid size-40 place-items-center rounded-xl bg-white p-3 border-2 border-[#00FFFF]">
+                      <div className="grid size-40 place-items-center rounded-xl bg-white p-3 border-2 border-[#06B6D4]">
                         <svg viewBox="0 0 100 100" className="w-full h-full text-slate-950">
                           <rect x="5" y="5" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="3" rx="2" />
                           <rect x="10" y="10" width="12" height="12" fill="currentColor" rx="1" />
@@ -4103,67 +4317,72 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           <rect x="10" y="78" width="12" height="12" fill="currentColor" rx="1" />
                           <circle cx="34" cy="12" r="2.5" fill="currentColor" />
                           <circle cx="50" cy="12" r="2.5" fill="currentColor" />
-                          <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="2" />
+                          <rect x="42" y="42" width="16" height="16" fill="#D29922" rx="2" />
                         </svg>
                       </div>
                     </div>
 
                     {isRePairHandshakeActive ? (
-                      <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 space-y-1 animate-in fade-in">
+                      <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-xs font-mono text-[#3FB950] space-y-1 animate-in fade-in">
                         <p className="font-bold flex items-center justify-center gap-1.5">
-                          <CheckCircle2 className="size-4 text-emerald-400" />
-                          <span>WebSocket Re-Handshake Verified!</span>
+                          <CheckCircle2 className="size-4 text-[#3FB950]" />
+                          <span>{rL.qrSuccessTitle}</span>
                         </p>
-                        <p className="text-[11px] text-white/75 font-sans text-center">
-                          {activeSalon.name} is back online ({langBadgeLabel}). Session token renewed on Central SIM Gateway.
+                        <p className="text-[11px] text-[#F0F6FC] font-sans text-center">
+                          {activeSalon.name} {rL.qrSuccessDesc}
                         </p>
                       </div>
                     ) : (
                       <button
                         type="button"
                         onClick={() => setIsRePairHandshakeActive(true)}
-                        className="w-full rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                        className="w-full min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
                       >
-                        Simulate On-Site QR Device Scan Handshake →
+                        {rL.qrBtn}
                       </button>
                     )}
                   </div>
                 )}
 
-                {/* TIER 3: Remote WhatsApp Recovery Link in Salon's Saved Language */}
+                {/* TIER 3: Remote App Recovery Link */}
                 {rePairRecoveryMode === 'REMOTE_LINK' && (
-                  <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-4 space-y-3">
+                  <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-4 space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-xs font-mono font-bold text-[#D9A441]">
-                        Remote WhatsApp Link Dispatch (No Agent On-Site)
+                      <span className="text-xs font-mono font-bold text-[#D29922]">
+                        {rL.remoteTitle}
                       </span>
-                      <span className="text-[10px] font-mono text-white/70">{langBadgeLabel}</span>
+                      <span className="text-[10px] font-mono text-[#8B949E]">{langBadgeLabel}</span>
                     </div>
 
-                    <div className="rounded-lg bg-black/70 p-2.5 font-mono text-xs text-[#00FFFF] break-all border border-white/10 select-all">
+                    <div
+                      dir="ltr"
+                      className="rounded-lg bg-[#0D1117] p-2.5 font-mono text-xs text-[#06B6D4] break-all overflow-hidden [overflow-wrap:break-word] border border-[#30363D] select-all"
+                    >
                       {recoveryLink}
                     </div>
 
                     <div
                       dir={activeSalon.savedLang === 'en' ? 'ltr' : 'rtl'}
-                      className="rounded-xl bg-black/60 border border-white/10 p-3 text-xs font-mono text-[#F5F2E9] whitespace-pre-line leading-relaxed"
+                      className={`rounded-xl bg-[#0D1117] border border-[#30363D] p-3 text-xs font-mono text-[#F0F6FC] whitespace-pre-line leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                        activeSalon.savedLang === 'en' ? 'text-left' : 'text-right'
+                      }`}
                     >
                       {localizedDispatchPreview}
                     </div>
 
                     {isRemoteLinkDispatched ? (
-                      <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 flex items-center justify-center gap-2">
-                        <CheckCircle2 className="size-4 text-emerald-400" />
-                        <span>Recovery Link pushed to {activeSalon.phone} via WhatsApp in {activeSalon.savedLang.toUpperCase()}!</span>
+                      <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-xs font-mono text-[#3FB950] flex items-center justify-center gap-2">
+                        <CheckCircle2 className="size-4 text-[#3FB950]" />
+                        <span>{rL.remoteDispatched} <span dir="ltr">{activeSalon.phone}</span> ✓</span>
                       </div>
                     ) : (
                       <button
                         type="button"
                         onClick={() => setIsRemoteLinkDispatched(true)}
-                        className="w-full rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-2"
+                        className="w-full min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-2"
                       >
                         <Send className="size-4" />
-                        <span>Push Recovery Link to Owner WhatsApp ({activeSalon.savedLang.toUpperCase()}) →</span>
+                        <span>{rL.sendRemoteBtn}</span>
                       </button>
                     )}
                   </div>
@@ -4175,159 +4394,251 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       })()}
 
       {/* ========================================================================= */}
-      {/* VIEW D: BIOMETRIC-LOCKED AGENT PROFILE & PAYOUT EDITOR (QUERY 1)          */}
+      {/* VIEW D: BIOMETRIC-LOCKED AGENT PROFILE & PAYOUT EDITOR (LOCALIZED EN/UR/AR) */}
       {/* ========================================================================= */}
-      {activeHubView === 'PROFILE' && (
-        <PortalCard
-          title="My Agent Profile & Payout Details (Biometric-Locked)"
-          kicker="FRESH BIOMETRIC THUMBPRINT REQUIRED FOR ANY EDIT"
-        >
-          <div className="space-y-4">
-            <div className="rounded-2xl border border-[#D9A441]/35 bg-[#D9A441]/10 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-              <div className="flex items-start gap-2.5">
-                <Fingerprint className="size-5 text-[#D9A441] shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-bold text-[#F5F2E9]">
-                    Personal Details &amp; Bank Account Security Lock
-                  </p>
-                  <p className="text-[11px] text-white/75 font-sans mt-0.5">
-                    Update your mobile number, city, country, payment method, or bank account below. Every save requires a fresh thumbprint scan to prove you personally made the change.
-                  </p>
+      {activeHubView === 'PROFILE' && (() => {
+        const isUrdu = agentLanguage === 'ur' || agentLanguage === 'ur_roman';
+        const isArabic = agentLanguage === 'ar';
+        const profileDir = isUrdu || isArabic ? 'rtl' : 'ltr';
+
+        const pL = isArabic
+          ? {
+              cardTitle: 'ملفي الشخصي وحسابي البنكي (محمي بالبصمة)',
+              cardKicker: 'يتطلب تأكيد البصمة عند كل تعديل',
+              lockHeading: 'قفل أمان البيانات الشخصية والحساب البنكي',
+              lockDesc:
+                'قم بتحديث رقم الجوال أو المدينة أو الدولة أو وسيلة الدفع أو الحساب البنكي أدناه. يتطلب كل حفظ مسح البصمة للتأكد من أنك قمت بالتعديل بنفسك.',
+              sealedLabel: 'تم التوثيق:',
+              nameLabel: 'الاسم الكامل والرقم التعريفي (مقفول)',
+              phoneLabel: 'رقم الجوال / واتساب',
+              countryLabel: 'الدولة / المنطقة',
+              cityLabel: 'المدينة / المنطقة الميدانية',
+              methodLabel: 'وسيلة استلام العمولات',
+              bankLabel: 'اسم البنك أو المحفظة',
+              accountLabel: 'رقم الحساب / المحفظة',
+              titleLabel: 'اسم صاحب الحساب',
+              ibanLabel: 'رقم الآيبان IBAN (مطلوب للتحويل البنكي)',
+              codeLabel: 'رمز التحقق بالبصمة:',
+              saveBtn: 'تحقق بالبصمة واحفظ البيانات',
+              optPk: 'باكستان (PKR)',
+              optUae: 'الإمارات العربية المتحدة (AED)',
+              optSa: 'المملكة العربية السعودية (SAR)',
+              optEu: 'بريطانيا وأوروبا (GBP / EUR)',
+              optGlobal: 'دولي (USD)',
+              mEasy: 'محفظة إيزي بيسا (EasyPaisa)',
+              mJazz: 'محفظة جاز كاش (JazzCash)',
+              mBank: 'تحويل بنكي (IBFT)',
+              mRaast: 'حوالة فورية (Raast)',
+              mIntl: 'تحويل بنكي دولي (IBAN)',
+            }
+          : isUrdu
+          ? {
+              cardTitle: 'میرا پروفائل اور بینک تفصیلات (بایومیٹرک لاک)',
+              cardKicker: 'کسی بھی تبدیلی کے لیے نئی انگوٹھے کی تصدیق لازمی ہے',
+              lockHeading: 'ذاتی تفصیلات اور بینک اکاؤنٹ سیکیورٹی لاک',
+              lockDesc:
+                'اپنا موبائل نمبر، شہر، ملک، ادائیگی کا طریقہ یا بینک اکاؤنٹ نیچے تبدیل کریں۔ ہر تبدیلی محفوظ کرنے کے لیے انگوٹھے کا نشان ضروری ہے تاکہ صرف آپ خود تبدیلی کر سکیں۔',
+              sealedLabel: 'تصدیق شدہ:',
+              nameLabel: 'مکمل نام اور ایجنٹ آئی ڈی (لاک)',
+              phoneLabel: 'موبائل / واٹس ایپ نمبر',
+              countryLabel: 'ملک / خطہ',
+              cityLabel: 'شہر / علاقہ',
+              methodLabel: 'کمیشن وصول کرنے کا طریقہ',
+              bankLabel: 'بینک یا والٹ کا نام',
+              accountLabel: 'اکاؤنٹ / والٹ نمبر',
+              titleLabel: 'اکاؤنٹ ٹائٹل (نام)',
+              ibanLabel: 'IBAN نمبر (بینک ٹرانسفر کے لیے لازمی)',
+              codeLabel: 'موجودہ بائیومیٹرک کوڈ:',
+              saveBtn: 'انگوٹھے سے تصدیق کریں اور محفوظ کریں',
+              optPk: 'پاکستان (PKR)',
+              optUae: 'متحدہ عرب امارات (AED)',
+              optSa: 'سعودی عرب (SAR)',
+              optEu: 'برطانیہ اور یورپ (GBP / EUR)',
+              optGlobal: 'انٹرنیشنل (USD)',
+              mEasy: 'ایزی پیسہ والٹ (EasyPaisa)',
+              mJazz: 'جاز کیش والٹ (JazzCash)',
+              mBank: 'بینک اکاؤنٹ (IBFT)',
+              mRaast: 'راست فوری ادائیگی (Raast)',
+              mIntl: 'انٹرنیشنل بینک وائر / IBAN',
+            }
+          : {
+              cardTitle: 'My Profile & Bank Account (Biometric Lock)',
+              cardKicker: 'FRESH THUMBPRINT REQUIRED FOR EVERY SAVE',
+              lockHeading: 'Personal Details & Payout Security Lock',
+              lockDesc:
+                'Update your mobile number, city, country, payment method, or bank account below. Every save requires a fresh thumbprint scan to prove you personally made the change.',
+              sealedLabel: 'Verified:',
+              nameLabel: 'Full Name & Agent ID (Locked)',
+              phoneLabel: 'Mobile / WhatsApp Number',
+              countryLabel: 'Country / Region',
+              cityLabel: 'City / Area',
+              methodLabel: 'Payout Method',
+              bankLabel: 'Bank or Wallet Name',
+              accountLabel: 'Account / Wallet Number',
+              titleLabel: 'Account Holder Name',
+              ibanLabel: 'IBAN (Optional for Wallet / Required for Bank Wire)',
+              codeLabel: 'Verification Code:',
+              saveBtn: 'Verify Thumbprint & Save Details',
+              optPk: 'Pakistan (PKR)',
+              optUae: 'United Arab Emirates (AED)',
+              optSa: 'Saudi Arabia (SAR)',
+              optEu: 'UK & Europe (GBP / EUR)',
+              optGlobal: 'Global (USD)',
+              mEasy: 'EasyPaisa Mobile Wallet',
+              mJazz: 'JazzCash Mobile Wallet',
+              mBank: 'Bank Transfer (IBFT)',
+              mRaast: 'Raast Instant Pay',
+              mIntl: 'International Bank Wire / IBAN',
+            };
+
+        return (
+          <PortalCard title={pL.cardTitle} kicker={pL.cardKicker}>
+            <div dir={profileDir} className={`space-y-4 min-w-0 ${profileDir === 'rtl' ? 'text-right' : 'text-left'}`}>
+              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div className="flex items-start gap-2.5">
+                  <Fingerprint className="size-5 text-[#D29922] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-[#F0F6FC]">{pL.lockHeading}</p>
+                    <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">{pL.lockDesc}</p>
+                  </div>
                 </div>
-              </div>
-              <span className="rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-2.5 py-1 text-[10px] font-mono text-emerald-300 shrink-0">
-                Sealed: {profileBiometricSealTime}
-              </span>
-            </div>
-
-            {payoutSaveStatus && (
-              <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs font-mono text-emerald-300 flex items-center justify-between gap-2 animate-in fade-in">
-                <span className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
-                  <span>{payoutSaveStatus}</span>
+                <span className="rounded-lg border border-[#116329] bg-[#0D3822] px-2.5 py-1 text-[10px] font-mono text-[#3FB950] shrink-0">
+                  {pL.sealedLabel} <span dir="ltr">{profileBiometricSealTime}</span>
                 </span>
-                <span className="text-[10px] text-[#00FFFF]">{profileThumbHash.slice(0, 22)}...</span>
               </div>
-            )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-white/60 uppercase block">Agent Full Name &amp; ID (Locked)</span>
-                <input
-                  type="text"
-                  value={`${agentFullName} (#${agentIdInput || 'AGT-409'})`}
-                  disabled
-                  className="w-full rounded-xl border border-white/10 bg-black/50 px-3 py-2.5 text-white/65 cursor-not-allowed"
-                />
-              </label>
+              {payoutSaveStatus && (
+                <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-xs font-mono text-[#3FB950] flex flex-wrap items-center justify-between gap-2 animate-in fade-in overflow-hidden">
+                  <span className="flex items-center gap-2 min-w-0">
+                    <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
+                    <span className="break-words [overflow-wrap:break-word]">{payoutSaveStatus}</span>
+                  </span>
+                  <span className="text-[10px] text-[#06B6D4] break-all [overflow-wrap:break-word]" dir="ltr">{profileThumbHash.slice(0, 22)}...</span>
+                </div>
+              )}
 
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">Mobile / WhatsApp Number</span>
-                <input
-                  type="text"
-                  value={draftAgentPhone}
-                  onChange={(e) => setDraftAgentPhone(e.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
-                />
-              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#8B949E] uppercase block">{pL.nameLabel}</span>
+                  <input
+                    type="text"
+                    value={`${agentFullName} (#${agentIdInput || 'AGT-409'})`}
+                    disabled
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#8B949E] cursor-not-allowed"
+                  />
+                </label>
 
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">Country / Region</span>
-                <select
-                  value={draftAgentRegion}
-                  onChange={(e) => setDraftAgentRegion(e.target.value as 'PK' | 'EUROPE' | 'MENA_UAE' | 'MENA_SA' | 'GLOBAL')}
-                  className="w-full rounded-xl border border-white/15 bg-[#102019] px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#06B6D4] uppercase block font-bold">{pL.phoneLabel}</span>
+                  <input
+                    type="text"
+                    dir="ltr"
+                    value={draftAgentPhone}
+                    onChange={(e) => setDraftAgentPhone(e.target.value)}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
+                  />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#06B6D4] uppercase block font-bold">{pL.countryLabel}</span>
+                  <select
+                    value={draftAgentRegion}
+                    onChange={(e) => setDraftAgentRegion(e.target.value as 'PK' | 'EUROPE' | 'MENA_UAE' | 'MENA_SA' | 'GLOBAL')}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] focus:border-[#06B6D4] focus:outline-none"
+                  >
+                    <option value="PK" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optPk}</option>
+                    <option value="MENA_UAE" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optUae}</option>
+                    <option value="MENA_SA" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optSa}</option>
+                    <option value="EUROPE" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optEu}</option>
+                    <option value="GLOBAL" className="bg-[#0D1117] text-[#F0F6FC]">{pL.optGlobal}</option>
+                  </select>
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#06B6D4] uppercase block font-bold">{pL.cityLabel}</span>
+                  <input
+                    type="text"
+                    value={draftAgentTerritory}
+                    onChange={(e) => setDraftAgentTerritory(e.target.value)}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
+                  />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.methodLabel}</span>
+                  <select
+                    value={draftAgentPayoutMethod}
+                    onChange={(e) => setDraftAgentPayoutMethod(e.target.value as 'EasyPaisa' | 'JazzCash' | 'Bank Transfer (IBFT)' | 'Raast Instant Pay' | 'International Bank Wire')}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] focus:border-[#D29922] focus:outline-none"
+                  >
+                    <option value="EasyPaisa" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mEasy}</option>
+                    <option value="JazzCash" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mJazz}</option>
+                    <option value="Bank Transfer (IBFT)" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mBank}</option>
+                    <option value="Raast Instant Pay" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mRaast}</option>
+                    <option value="International Bank Wire" className="bg-[#0D1117] text-[#F0F6FC]">{pL.mIntl}</option>
+                  </select>
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.bankLabel}</span>
+                  <input
+                    type="text"
+                    value={draftAgentBankName}
+                    onChange={(e) => setDraftAgentBankName(e.target.value)}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
+                  />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.accountLabel}</span>
+                  <input
+                    type="text"
+                    dir="ltr"
+                    value={draftAgentPayoutAccount}
+                    onChange={(e) => setDraftAgentPayoutAccount(e.target.value)}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
+                  />
+                </label>
+
+                <label className="space-y-1.5">
+                  <span className="text-[10px] text-[#D29922] uppercase block font-bold">{pL.titleLabel}</span>
+                  <input
+                    type="text"
+                    value={draftAgentPayoutTitle}
+                    onChange={(e) => setDraftAgentPayoutTitle(e.target.value)}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#D29922] focus:outline-none"
+                  />
+                </label>
+
+                <label className="sm:col-span-2 space-y-1.5">
+                  <span className="text-[10px] text-[#8B949E] uppercase block">{pL.ibanLabel}</span>
+                  <input
+                    type="text"
+                    dir="ltr"
+                    value={draftAgentIban}
+                    onChange={(e) => setDraftAgentIban(e.target.value)}
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2.5 text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4] focus:outline-none"
+                  />
+                </label>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-[#21262D]">
+                <span className="text-[11px] font-mono text-[#8B949E] min-w-0 break-all overflow-hidden [overflow-wrap:break-word]">
+                  {pL.codeLabel} <strong className="text-[#06B6D4] break-all [overflow-wrap:break-word]" dir="ltr">{profileThumbHash}</strong>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsBiometricModalOpenForEdit(true)}
+                  className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center justify-center gap-2 shadow-lg"
                 >
-                  <option value="PK" className="bg-[#102019]">Pakistan (PKR)</option>
-                  <option value="MENA_UAE" className="bg-[#102019]">United Arab Emirates (AED)</option>
-                  <option value="MENA_SA" className="bg-[#102019]">Saudi Arabia (SAR)</option>
-                  <option value="EUROPE" className="bg-[#102019]">UK &amp; Europe (GBP / EUR)</option>
-                  <option value="GLOBAL" className="bg-[#102019]">Global (USD)</option>
-                </select>
-              </label>
-
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">City / Assigned Territory</span>
-                <input
-                  type="text"
-                  value={draftAgentTerritory}
-                  onChange={(e) => setDraftAgentTerritory(e.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
-                />
-              </label>
-
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Payout Method</span>
-                <select
-                  value={draftAgentPayoutMethod}
-                  onChange={(e) => setDraftAgentPayoutMethod(e.target.value as 'EasyPaisa' | 'JazzCash' | 'Bank Transfer (IBFT)' | 'Raast Instant Pay' | 'International Bank Wire')}
-                  className="w-full rounded-xl border border-white/15 bg-[#102019] px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
-                >
-                  <option value="EasyPaisa" className="bg-[#102019]">EasyPaisa Mobile Wallet</option>
-                  <option value="JazzCash" className="bg-[#102019]">JazzCash Mobile Wallet</option>
-                  <option value="Bank Transfer (IBFT)" className="bg-[#102019]">Bank Transfer (IBFT)</option>
-                  <option value="Raast Instant Pay" className="bg-[#102019]">Raast Instant Pay</option>
-                  <option value="International Bank Wire" className="bg-[#102019]">International Bank Wire / IBAN</option>
-                </select>
-              </label>
-
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Bank / Wallet Provider Name</span>
-                <input
-                  type="text"
-                  value={draftAgentBankName}
-                  onChange={(e) => setDraftAgentBankName(e.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
-                />
-              </label>
-
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Account / Wallet Number</span>
-                <input
-                  type="text"
-                  value={draftAgentPayoutAccount}
-                  onChange={(e) => setDraftAgentPayoutAccount(e.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
-                />
-              </label>
-
-              <label className="space-y-1.5">
-                <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Account Title</span>
-                <input
-                  type="text"
-                  value={draftAgentPayoutTitle}
-                  onChange={(e) => setDraftAgentPayoutTitle(e.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#D9A441] focus:outline-none"
-                />
-              </label>
-
-              <label className="sm:col-span-2 space-y-1.5">
-                <span className="text-[10px] text-white/60 uppercase block">IBAN (Optional for Wallet / Required for Bank Wire)</span>
-                <input
-                  type="text"
-                  value={draftAgentIban}
-                  onChange={(e) => setDraftAgentIban(e.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-black/40 px-3 py-2.5 text-white focus:border-[#00FFFF] focus:outline-none"
-                />
-              </label>
+                  <Fingerprint className="size-4" />
+                  <span>{pL.saveBtn}</span>
+                </button>
+              </div>
             </div>
-
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-white/10">
-              <span className="text-[11px] font-mono text-white/55">
-                Current Hardware Hash: <strong className="text-[#00FFFF]">{profileThumbHash}</strong>
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsBiometricModalOpenForEdit(true)}
-                className="rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center justify-center gap-2 shadow-lg"
-              >
-                <Fingerprint className="size-4" />
-                <span>Verify Biometric &amp; Save Profile Details</span>
-              </button>
-            </div>
-          </div>
-        </PortalCard>
-      )}
+          </PortalCard>
+        );
+      })()}
 
       {/* ========================================================================= */}
       {/* VIEW C: ROLE-ISOLATED & LOCALIZED COMMISSION LEDGER (QUERY 4)            */}
@@ -4503,30 +4814,30 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             }
             kicker={userRole === 'FOUNDER' ? 'FOUNDER EXECUTIVE LEDGER' : agentL.cardKicker}
           >
-            <div dir={ledgerDir} className="space-y-4">
+            <div dir={ledgerDir} className={`space-y-4 min-w-0 ${ledgerDir === 'rtl' ? 'text-right' : 'text-left'}`}>
               {userRole === 'FOUNDER' ? (
                 /* FOUNDER VIEW STRICTLY: Per-Agent Current Month & Previous History Revenue Breakup */
                 <div className="space-y-4 animate-in fade-in">
                   {/* Agent Filter Selector */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-black/60 p-3.5 rounded-2xl border border-white/10">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#0D1117] p-3.5 rounded-2xl border border-[#30363D]">
                     <div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#D9A441] font-bold block">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#D29922] font-bold block">
                         PER-AGENT REVENUE &amp; RETENTION BREAKUP (CURRENT MONTH + HISTORY)
                       </span>
-                      <p className="text-xs text-white/70 font-sans mt-0.5">
+                      <p className="text-xs text-[#8B949E] font-sans mt-0.5">
                         Inspect how much gross setup revenue each agent generated in the current month and prior months, along with 20% commission disbursed and 80% net WORKCRAFT margin.
                       </p>
                     </div>
                     <select
                       value={founderSelectedLedgerAgent}
                       onChange={(e) => setFounderSelectedLedgerAgent(e.target.value)}
-                      className="rounded-xl border border-[#00FFFF]/30 bg-[#102019] px-3 py-2 text-xs font-mono font-bold text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF] shrink-0"
+                      className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs font-mono font-bold text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4] shrink-0"
                     >
-                      <option value="ALL" className="bg-[#102019] text-[#F5F2E9]">
+                      <option value="ALL" className="bg-[#0D1117] text-[#F0F6FC]">
                         All Regional Agents ({perAgentRevenueBreakup.length})
                       </option>
                       {perAgentRevenueBreakup.map((a) => (
-                        <option key={a.agentId} value={a.agentId} className="bg-[#102019] text-[#F5F2E9]">
+                        <option key={a.agentId} value={a.agentId} className="bg-[#0D1117] text-[#F0F6FC]">
                           {a.regionFlag} {a.agentName} (#{a.agentId})
                         </option>
                       ))}
@@ -4535,58 +4846,58 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                   {/* Top 4 Executive Revenue Cards */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono">
-                    <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/10 p-3.5">
-                      <span className="text-[10px] text-[#00FFFF] uppercase block font-bold">Current Month Inflow</span>
-                      <span className="text-lg font-bold text-white mt-0.5 block">
+                    <div className="rounded-xl border border-[#06B6D4]/40 bg-[#0D1117] p-3.5">
+                      <span className="text-[10px] text-[#06B6D4] uppercase block font-bold">Current Month Inflow</span>
+                      <span className="text-lg font-bold text-[#F0F6FC] mt-0.5 block">
                         PKR {totalCurrentGross.toLocaleString()}
                       </span>
-                      <span className="text-[10px] text-white/60">Active November 2026</span>
+                      <span className="text-[10px] text-[#8B949E]">Active November 2026</span>
                     </div>
 
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
-                      <span className="text-[10px] text-white/50 uppercase block">Previous History Inflow</span>
-                      <span className="text-lg font-bold text-white mt-0.5 block">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">Previous History Inflow</span>
+                      <span className="text-lg font-bold text-[#F0F6FC] mt-0.5 block">
                         PKR {totalPrevGross.toLocaleString()}
                       </span>
-                      <span className="text-[10px] text-white/50">Prior Settled Months</span>
+                      <span className="text-[10px] text-[#6E7681]">Prior Settled Months</span>
                     </div>
 
-                    <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-3.5">
-                      <span className="text-[10px] text-[#D9A441] uppercase block font-bold">Agent Payouts (20%)</span>
-                      <span className="text-lg font-bold text-[#D9A441] mt-0.5 block">
+                    <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5">
+                      <span className="text-[10px] text-[#D29922] uppercase block font-bold">Agent Payouts (20%)</span>
+                      <span className="text-lg font-bold text-[#D29922] mt-0.5 block">
                         PKR {totalCommDisbursed.toLocaleString()}
                       </span>
-                      <span className="text-[10px] text-white/55">Combined Commission</span>
+                      <span className="text-[10px] text-[#8B949E]">Combined Commission</span>
                     </div>
 
-                    <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-3.5">
-                      <span className="text-[10px] text-emerald-300 uppercase block font-bold">Net WORKCRAFT Retained (80%)</span>
-                      <span className="text-lg font-bold text-emerald-400 mt-0.5 block">
+                    <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3.5">
+                      <span className="text-[10px] text-[#3FB950] uppercase block font-bold">Net WORKCRAFT Retained (80%)</span>
+                      <span className="text-lg font-bold text-[#3FB950] mt-0.5 block">
                         PKR {totalWorkcraftNet.toLocaleString()}
                       </span>
-                      <span className="text-[10px] text-emerald-300/80">Cleared Net Profit</span>
+                      <span className="text-[10px] text-[#3FB950]">Cleared Net Profit</span>
                     </div>
                   </div>
 
                   {/* Per-Agent Current Month vs Previous History Summary Table */}
-                  <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
-                    <div className="p-3 bg-white/[0.04] border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
-                      <span className="font-bold text-white uppercase text-[11px]">Per-Agent Revenue Breakup (Current vs. History)</span>
-                      <span className="text-[10px] text-[#00FFFF] font-bold">Click any agent row to inspect month history</span>
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] overflow-hidden font-mono">
+                    <div className="p-3 bg-[#161B22] border-b border-[#30363D] flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <span className="font-bold text-[#F0F6FC] uppercase text-[11px]">Per-Agent Revenue Breakup (Current vs. History)</span>
+                      <span className="text-[10px] text-[#06B6D4] font-bold">Click any agent row to inspect month history</span>
                     </div>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-xs">
-                        <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
+                        <thead className="bg-[#161B22] text-[#8B949E] border-b border-[#30363D]">
                           <tr>
                             <th className="p-3">Agent &amp; Territory</th>
-                            <th className="p-3 text-right text-[#00FFFF]">Current Month</th>
+                            <th className="p-3 text-right text-[#06B6D4]">Current Month</th>
                             <th className="p-3 text-right">Previous History</th>
-                            <th className="p-3 text-right text-[#D9A441]">Agent Comm (20%)</th>
-                            <th className="p-3 text-right text-emerald-400">Net WORKCRAFT (80%)</th>
+                            <th className="p-3 text-right text-[#D29922]">Agent Comm (20%)</th>
+                            <th className="p-3 text-right text-[#3FB950]">Net WORKCRAFT (80%)</th>
                             <th className="p-3 text-right">Held Cash</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-[#21262D]">
                           {filteredBreakupAgents.map((a) => {
                             const agentTotalGross = a.currentMonthGross + a.previousMonthsGross;
                             const agentComm = Math.round(agentTotalGross * 0.2);
@@ -4599,27 +4910,27 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                     founderSelectedLedgerAgent === a.agentId ? 'ALL' : a.agentId
                                   )
                                 }
-                                className="hover:bg-white/[0.04] transition cursor-pointer"
+                                className="hover:bg-[#21262D] transition cursor-pointer"
                               >
                                 <td className="p-3">
-                                  <p className="font-bold text-[#F5F2E9]">{a.regionFlag} {a.agentName} <span className="text-white/40 text-[10px]">#{a.agentId}</span></p>
-                                  <p className="text-[10px] text-white/50">{a.territory}</p>
+                                  <p className="font-bold text-[#F0F6FC]">{a.regionFlag} {a.agentName} <span className="text-[#6E7681] text-[10px]">#{a.agentId}</span></p>
+                                  <p className="text-[10px] text-[#8B949E]">{a.territory}</p>
                                 </td>
-                                <td className="p-3 text-right font-bold text-[#00FFFF]">
+                                <td className="p-3 text-right font-bold text-[#06B6D4]">
                                   PKR {a.currentMonthGross.toLocaleString()}
-                                  <span className="block text-[9px] text-white/50">{a.currentMonthSalons} Salons</span>
+                                  <span className="block text-[9px] text-[#8B949E]">{a.currentMonthSalons} Salons</span>
                                 </td>
-                                <td className="p-3 text-right text-white/80">
+                                <td className="p-3 text-right text-[#F0F6FC]">
                                   PKR {a.previousMonthsGross.toLocaleString()}
-                                  <span className="block text-[9px] text-white/45">{a.previousMonthsSalons} Salons</span>
+                                  <span className="block text-[9px] text-[#6E7681]">{a.previousMonthsSalons} Salons</span>
                                 </td>
-                                <td className="p-3 text-right font-bold text-[#D9A441]">PKR {agentComm.toLocaleString()}</td>
-                                <td className="p-3 text-right font-bold text-emerald-400">PKR {agentNet.toLocaleString()}</td>
+                                <td className="p-3 text-right font-bold text-[#D29922]">PKR {agentComm.toLocaleString()}</td>
+                                <td className="p-3 text-right font-bold text-[#3FB950]">PKR {agentNet.toLocaleString()}</td>
                                 <td className="p-3 text-right">
                                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                                     a.cashHeld > 0
-                                      ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
-                                      : 'bg-emerald-500/10 text-emerald-300'
+                                      ? 'bg-[#3B2E0B] text-[#D29922] border border-[#9E6A03]'
+                                      : 'bg-[#0D3822] text-[#3FB950] border border-[#116329]'
                                   }`}>
                                     {a.cashHeld > 0 ? `PKR ${a.cashHeld.toLocaleString()}` : 'Zero-Cash'}
                                   </span>
@@ -4633,41 +4944,41 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </div>
 
                   {/* Month-by-Month Detailed Audit History for Filtered Agent(s) */}
-                  <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
-                    <div className="p-3 bg-white/[0.04] border-b border-white/10 flex items-center justify-between text-xs">
-                      <span className="font-bold text-white uppercase text-[11px]">
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] overflow-hidden font-mono">
+                    <div className="p-3 bg-[#161B22] border-b border-[#30363D] flex items-center justify-between text-xs">
+                      <span className="font-bold text-[#F0F6FC] uppercase text-[11px]">
                         Month-by-Month Audit History ({founderSelectedLedgerAgent === 'ALL' ? 'All Agents' : filteredBreakupAgents[0]?.agentName})
                       </span>
-                      <span className="text-[10px] text-emerald-400 font-bold">80% NET MARGIN TRACKING</span>
+                      <span className="text-[10px] text-[#3FB950] font-bold">80% NET MARGIN TRACKING</span>
                     </div>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-xs">
-                        <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
+                        <thead className="bg-[#161B22] text-[#8B949E] border-b border-[#30363D]">
                           <tr>
                             <th className="p-3">Agent</th>
                             <th className="p-3">Month</th>
                             <th className="p-3 text-center">Salons</th>
                             <th className="p-3 text-right">Gross Inflow</th>
-                            <th className="p-3 text-right text-[#D9A441]">Agent Comm (20%)</th>
-                            <th className="p-3 text-right text-emerald-400">Net Retained (+Maint)</th>
+                            <th className="p-3 text-right text-[#D29922]">Agent Comm (20%)</th>
+                            <th className="p-3 text-right text-[#3FB950]">Net Retained (+Maint)</th>
                             <th className="p-3 text-center">Status</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-[#21262D]">
                           {filteredBreakupAgents.flatMap((a) =>
                             a.monthlyRows.map((row) => {
                               const comm = Math.round(row.gross * 0.2);
                               const netRetained = row.gross - comm + row.maint;
                               return (
-                                <tr key={`${a.agentId}-${row.month}`} className="hover:bg-white/[0.02] transition">
-                                  <td className="p-3 font-bold text-white/80">{a.regionFlag} {a.agentName}</td>
-                                  <td className="p-3 font-bold text-[#F5F2E9]">{row.month}</td>
-                                  <td className="p-3 text-center text-[#00FFFF]">{row.salons}</td>
-                                  <td className="p-3 text-right text-white/75">PKR {row.gross.toLocaleString()}</td>
-                                  <td className="p-3 text-right font-bold text-[#D9A441]">PKR {comm.toLocaleString()}</td>
-                                  <td className="p-3 text-right font-bold text-emerald-400">PKR {netRetained.toLocaleString()}</td>
+                                <tr key={`${a.agentId}-${row.month}`} className="hover:bg-[#21262D] transition">
+                                  <td className="p-3 font-bold text-[#F0F6FC]">{a.regionFlag} {a.agentName}</td>
+                                  <td className="p-3 font-bold text-[#F0F6FC]">{row.month}</td>
+                                  <td className="p-3 text-center text-[#06B6D4]">{row.salons}</td>
+                                  <td className="p-3 text-right text-[#8B949E]">PKR {row.gross.toLocaleString()}</td>
+                                  <td className="p-3 text-right font-bold text-[#D29922]">PKR {comm.toLocaleString()}</td>
+                                  <td className="p-3 text-right font-bold text-[#3FB950]">PKR {netRetained.toLocaleString()}</td>
                                   <td className="p-3 text-center">
-                                    <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] text-emerald-300">
+                                    <span className="rounded-full bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[10px] text-[#3FB950]">
                                       {row.status}
                                     </span>
                                   </td>
@@ -4683,101 +4994,137 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               ) : (
                 /* AGENT VIEW STRICTLY: Only Own Personal Commission in Agent's Selected Language */
                 <div className="space-y-4 animate-in fade-in">
-                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-black/50 border border-[#00FFFF]/30 px-3.5 py-2.5 text-xs font-mono">
+                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#0D1117] border border-[#06B6D4]/30 px-3.5 py-2.5 text-xs font-mono">
                     <div>
-                      <span className="font-bold text-[#00FFFF]">{agentFullName} (#{agentIdInput})</span>
-                      <span className="text-[10px] text-white/55 block">Joined: 12 Oct 2024 · Day-1 to Today Cumulative Earnings</span>
+                      <span className="font-bold text-[#06B6D4]">{agentFullName} (#{agentIdInput})</span>
+                      <span className="text-[10px] text-[#8B949E] block">
+                        {isArabic
+                          ? 'تاريخ الانضمام: 12 أكتوبر 2024 · إجمالي أرباحك من اليوم الأول حتى اليوم'
+                          : isUrdu
+                          ? 'شمولیت: 12 اکتوبر 2024 · پہلے دن سے آج تک کی کل کمائی اور ماہانہ ریکارڈ'
+                          : 'Joined: 12 Oct 2024 · Day-1 to Today Total Earnings & Monthly Breakup'}
+                      </span>
                     </div>
-                    <span className="text-emerald-300 font-bold">{agentL.badge}</span>
+                    <span className="text-[#3FB950] font-bold">{agentL.badge}</span>
                   </div>
 
                   {/* Option A Net-Adjustment Card (Localized) */}
-                  <div className="rounded-2xl border border-amber-500/30 bg-amber-950/30 p-4 space-y-3 font-mono">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
-                      <span className="text-xs text-amber-300 font-bold">{agentL.optionATitle}</span>
-                      <div className="rounded-xl bg-black/60 border border-amber-500/40 px-3 py-1 text-[11px]">
-                        <span className="text-amber-300/70 mr-1.5">{agentL.windowLabel}:</span>
-                        <span className="font-bold text-amber-300" dir="ltr">{countdownHours}h {countdownMinutes}m</span>
+                  <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-4 space-y-3 font-mono">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#9E6A03]/50 pb-3">
+                      <span className="text-xs text-[#D29922] font-bold">{agentL.optionATitle}</span>
+                      <div className="rounded-xl bg-[#0D1117] border border-[#9E6A03] px-3 py-1 text-[11px]">
+                        <span className="text-[#8B949E] mr-1.5">{agentL.windowLabel}:</span>
+                        <span className="font-bold text-[#D29922]" dir="ltr">{countdownHours}h {countdownMinutes}m</span>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                      <div className="rounded-xl bg-black/40 border border-white/10 p-3">
-                        <span className="text-white/50 block text-[10px]">{agentL.prevCash}</span>
-                        <span className="text-base font-bold text-white mt-0.5 block" dir="ltr">PKR 15,000</span>
-                        <span className="text-[10px] text-white/50">{cashLiabilitySalon}</span>
+                      <div className="rounded-xl bg-[#0D1117] border border-[#30363D] p-3">
+                        <span className="text-[#8B949E] block text-[10px]">{agentL.prevCash}</span>
+                        <span className="text-base font-bold text-[#F0F6FC] mt-0.5 block" dir="ltr">PKR 15,000</span>
+                        <span className="text-[10px] text-[#8B949E]">{cashLiabilitySalon}</span>
                       </div>
-                      <div className="rounded-xl bg-black/40 border border-emerald-500/20 p-3">
-                        <span className="text-white/50 block text-[10px]">{agentL.offset}</span>
-                        <span className="text-base font-bold text-emerald-400 mt-0.5 block" dir="ltr">- PKR 3,000</span>
-                        <span className="text-[10px] text-emerald-300">20%</span>
+                      <div className="rounded-xl bg-[#0D1117] border border-[#116329] p-3">
+                        <span className="text-[#8B949E] block text-[10px]">{agentL.offset}</span>
+                        <span className="text-base font-bold text-[#3FB950] mt-0.5 block" dir="ltr">- PKR 3,000</span>
+                        <span className="text-[10px] text-[#3FB950]">20%</span>
                       </div>
-                      <div className="rounded-xl bg-black/40 border border-amber-500/30 p-3">
-                        <span className="text-white/50 block text-[10px]">{agentL.netDue}</span>
-                        <span className="text-base font-bold text-amber-300 mt-0.5 block" dir="ltr">
+                      <div className="rounded-xl bg-[#0D1117] border border-[#9E6A03] p-3">
+                        <span className="text-[#8B949E] block text-[10px]">{agentL.netDue}</span>
+                        <span className="text-base font-bold text-[#D29922] mt-0.5 block" dir="ltr">
                           PKR {cashLiabilityHeld.toLocaleString()}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Agent Summary KPI Cards */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
-                      <span className="text-[10px] text-white/45 uppercase block">{agentL.dealsClosed}</span>
-                      <span className="text-lg font-bold text-[#00FFFF] mt-0.5 block">
+                  {/* Agent Summary KPI Cards (Day-1 Total + Current Month + Payout Rail) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">{agentL.dealsClosed}</span>
+                      <span className="text-lg font-bold text-[#06B6D4] mt-0.5 block">
                         19 {agentL.salonsUnit}
                       </span>
-                      <span className="text-[10px] text-white/50">{agentTerritory}</span>
+                      <span className="text-[10px] text-[#8B949E]">{agentTerritory}</span>
                     </div>
 
-                    <div className="rounded-xl border border-[#D9A441]/40 bg-[#D9A441]/10 p-3.5">
-                      <span className="text-[10px] text-[#D9A441] uppercase block font-bold">{agentL.commEarned}</span>
-                      <span className="text-lg font-bold text-[#D9A441] mt-0.5 block" dir="ltr">
-                        PKR 52,000
+                    <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3.5">
+                      <span className="text-[10px] text-[#3FB950] uppercase block font-bold">
+                        {isArabic ? 'عمولة هذا الشهر' : isUrdu ? 'اس مہینے کا کمیشن' : 'This Month Commission'}
                       </span>
-                      <span className="text-[10px] text-emerald-400">{agentL.disbursedTo} {agentPayoutMethod}</span>
+                      <span className="text-lg font-bold text-[#3FB950] mt-0.5 block" dir="ltr">
+                        PKR 24,000
+                      </span>
+                      <span className="text-[10px] text-[#F0F6FC]">
+                        {isArabic ? '8 صالونات هذا الشهر' : isUrdu ? 'اس ماہ 8 سیلون' : '8 Salons This Month'}
+                      </span>
                     </div>
 
-                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
-                      <span className="text-[10px] text-white/45 uppercase block">{agentL.payoutDest}</span>
-                      <span className="text-sm font-bold text-white mt-1 block truncate" dir="ltr">
+                    <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5">
+                      <span className="text-[10px] text-[#D29922] uppercase block font-bold">
+                        {isArabic ? 'إجمالي عمولتك (من اليوم الأول)' : isUrdu ? 'کل کمیشن (پہلے دن سے آج تک)' : 'Day-1 to Today Total'}
+                      </span>
+                      <span className="text-lg font-bold text-[#D29922] mt-0.5 block" dir="ltr">
+                        PKR 57,000
+                      </span>
+                      <span className="text-[10px] text-[#3FB950]">{agentL.disbursedTo} {agentPayoutMethod}</span>
+                    </div>
+
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 min-w-0 overflow-hidden">
+                      <span className="text-[10px] text-[#8B949E] uppercase block">{agentL.payoutDest}</span>
+                      <span className="text-sm font-bold text-[#F0F6FC] mt-1 block break-all overflow-hidden [overflow-wrap:break-word]" dir="ltr">
                         {agentPayoutAccount} ({agentPayoutMethod})
                       </span>
-                      <span className="text-[10px] text-emerald-300">{agentL.directRail}</span>
+                      <span className="text-[10px] text-[#3FB950]">{agentL.directRail}</span>
                     </div>
                   </div>
 
                   {/* Agent Personal Commission Table (Strictly Personal & Localized) */}
-                  <div className="rounded-xl border border-white/10 bg-black/40 overflow-hidden font-mono">
-                    <div className="p-3 bg-white/[0.04] border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
-                      <span className="font-bold text-white uppercase text-[11px]">{agentL.tableTitle}</span>
-                      <span className="text-[10px] text-[#00FFFF] font-bold">{agentL.directRail}</span>
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] overflow-hidden font-mono">
+                    <div className="p-3 bg-[#161B22] border-b border-[#30363D] flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <span className="font-bold text-[#F0F6FC] uppercase text-[11px]">{agentL.tableTitle}</span>
+                      <span className="text-[10px] text-[#06B6D4] font-bold">{agentL.directRail}</span>
                     </div>
                     <div className="overflow-x-auto">
                       <table className="w-full text-start text-xs">
-                        <thead className="bg-white/[0.02] text-white/50 border-b border-white/10">
+                        <thead className="bg-[#161B22] text-[#8B949E] border-b border-[#30363D]">
                           <tr>
                             <th className="p-3">{agentL.colMonth}</th>
                             <th className="p-3 text-center">{agentL.colSalons}</th>
                             <th className="p-3">{agentL.colPackage}</th>
-                            <th className="p-3 text-[#D9A441]">{agentL.colComm}</th>
+                            <th className="p-3 text-[#D29922]">{agentL.colComm}</th>
                             <th className="p-3 text-center">{agentL.colRail}</th>
                             <th className="p-3 text-center">{agentL.colStatus}</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5">
+                        <tbody className="divide-y divide-[#21262D]">
                           {agentRevenueLedger.map((row) => {
                             const comm = Math.round(row.setupRevenue * 0.2);
+                            const localizedMonth = isArabic
+                              ? row.month
+                                  .replace('October', 'أكتوبر')
+                                  .replace('September', 'سبتمبر')
+                                  .replace('August', 'أغسطس')
+                              : isUrdu
+                              ? row.month
+                                  .replace('October', 'اکتوبر')
+                                  .replace('September', 'ستمبر')
+                                  .replace('August', 'اگست')
+                              : row.month;
+                            const localizedTier = isArabic
+                              ? 'نمو أوتوماتيكي (PKR 20,000)'
+                              : isUrdu
+                              ? 'گروتھ آٹو پیکیج (PKR 20,000)'
+                              : 'Growth Auto (PKR 20,000)';
                             return (
-                              <tr key={row.month} className="hover:bg-white/[0.02] transition">
-                                <td className="p-3 font-bold text-[#F5F2E9]">{row.month}</td>
-                                <td className="p-3 text-center text-[#00FFFF]">{row.activeSalons} {agentL.salonsUnit}</td>
-                                <td className="p-3 text-white/70">Growth Auto (PKR 20,000)</td>
-                                <td className="p-3 font-bold text-[#D9A441]" dir="ltr">PKR {comm.toLocaleString()}</td>
-                                <td className="p-3 text-center text-white/60">{agentPayoutMethod}</td>
+                              <tr key={row.month} className="hover:bg-[#21262D] transition">
+                                <td className="p-3 font-bold text-[#F0F6FC]">{localizedMonth}</td>
+                                <td className="p-3 text-center text-[#06B6D4]">{row.activeSalons} {agentL.salonsUnit}</td>
+                                <td className="p-3 text-[#8B949E]">{localizedTier}</td>
+                                <td className="p-3 font-bold text-[#D29922]" dir="ltr">PKR {comm.toLocaleString()}</td>
+                                <td className="p-3 text-center text-[#8B949E]">{agentPayoutMethod}</td>
                                 <td className="p-3 text-center">
-                                  <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] text-emerald-300">
+                                  <span className="rounded-full bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[10px] text-[#3FB950]">
                                     {agentL.statusPaid}
                                   </span>
                                 </td>
@@ -4800,22 +5147,24 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       {/* ========================================================================= */}
       {isPaymentDrawerOpen && (
         <div
-          className="fixed inset-0 z-[80] grid place-items-center bg-black/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
+          className="fixed inset-0 z-[80] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
           onClick={() => setIsPaymentDrawerOpen(false)}
         >
           <div
             dir={clientOnboardingLanguage === 'en' ? 'ltr' : 'rtl'}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[520px] rounded-3xl border border-[#00FFFF]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto"
+            className={`w-full max-w-[520px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 pb-12 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto overflow-x-hidden ${
+              clientOnboardingLanguage === 'en' ? 'text-left' : 'text-right'
+            }`}
           >
             {/* Drawer Header */}
-            <div className="flex items-start justify-between border-b border-white/10 pb-3">
+            <div className="flex items-start justify-between border-b border-[#21262D] pb-3">
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D9A441]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D29922]">
                   {t.drawerKicker}
                 </span>
-                <h3 className="mt-1 text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2">
-                  <CreditCard className="size-5 text-[#00FFFF] shrink-0" />
+                <h3 className="mt-1 text-lg sm:text-xl font-black text-[#F0F6FC] tracking-tight flex items-center gap-2">
+                  <CreditCard className="size-5 text-[#06B6D4] shrink-0" />
                   <span>{t.drawerTitlePrefix}: {getLocalizedPaymentMethodName(setupPaymentMethod, clientOnboardingLanguage)}</span>
                 </h3>
               </div>
@@ -4825,7 +5174,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   e.stopPropagation();
                   setIsPaymentDrawerOpen(false);
                 }}
-                className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+                className="size-9 grid place-items-center rounded-xl bg-[#21262D] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition active:scale-95 shrink-0"
                 title={t.cancelLabel}
                 aria-label={t.cancelLabel}
               >
@@ -4834,14 +5183,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             </div>
 
             {/* Official Pre-Configured WORKCRAFT Receiving Destination */}
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/50 p-3.5 space-y-1.5 font-mono text-xs">
-              <span className="text-[10px] uppercase font-bold text-white/50 block">
+            <div className="mt-4 rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-1.5 font-mono text-xs">
+              <span className="text-[10px] uppercase font-bold text-[#8B949E] block">
                 {t.receivingDestTitle}
               </span>
               {setupPaymentMethod === 'EasyPaisa' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm" dir="ltr">Merchant Till: 0300-WORKCRAFT</p>
-                  <p className="text-emerald-400 text-[11px]">
+                  <p className="text-[#F0F6FC] font-bold text-sm" dir="ltr">Merchant Till: 0300-WORKCRAFT</p>
+                  <p className="text-[#3FB950] text-[11px]">
                     {clientOnboardingLanguage === 'ur'
                       ? 'اکاؤنٹ ٹائٹل: WORKCRAFT Local آفیشل · ٹیلی نار مائیکروفنانس'
                       : clientOnboardingLanguage === 'ar'
@@ -4852,8 +5201,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
               {setupPaymentMethod === 'JazzCash' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm" dir="ltr">Corporate Till: 789210</p>
-                  <p className="text-emerald-400 text-[11px]">
+                  <p className="text-[#F0F6FC] font-bold text-sm" dir="ltr">Corporate Till: 789210</p>
+                  <p className="text-[#3FB950] text-[11px]">
                     {clientOnboardingLanguage === 'ur'
                       ? 'اکاؤنٹ ٹائٹل: WORKCRAFT Local · موبی لنک مائیکروفنانس بینک'
                       : clientOnboardingLanguage === 'ar'
@@ -4864,9 +5213,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
               {setupPaymentMethod === 'Bank Transfer (IBFT)' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm" dir="ltr">Meezan Bank Ltd Pakistan · A/C: 01020304050607</p>
-                  <p className="text-[#00FFFF] text-[11px]" dir="ltr">IBAN: PK64MEZN0001020304050607 · SWIFT: MEZNPKKA</p>
-                  <p className="text-[10px] text-white/55">
+                  <p className="text-[#F0F6FC] font-bold text-sm" dir="ltr">Meezan Bank Ltd Pakistan · A/C: 01020304050607</p>
+                  <p className="text-[#06B6D4] text-[11px] break-all [overflow-wrap:break-word]" dir="ltr">IBAN: PK64MEZN0001020304050607 · SWIFT: MEZNPKKA</p>
+                  <p className="text-[10px] text-[#8B949E]">
                     {detectedCountry.isDomestic
                       ? clientOnboardingLanguage === 'ur'
                         ? '1LINK اور راسٹ (Raast) فوری کلیئرنس'
@@ -4889,7 +5238,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
               {setupPaymentMethod === 'Stripe / Card' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">
+                  <p className="text-[#F0F6FC] font-bold text-sm">
                     {detectedCountry.region === 'MENA'
                       ? clientOnboardingLanguage === 'ar'
                         ? 'معالجة البطاقات العالمية والخليجية Stripe 3D-Secure (فيزا / ماستر / Apple Pay / مدى)'
@@ -4902,14 +5251,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       ? 'عالمی و یورپی Stripe 3D-Secure کارڈ پروسیسنگ · Apple Pay'
                       : 'Stripe 3D-Secure UK/EU & Global Card Processing · Apple Pay'}
                   </p>
-                  <p className="text-emerald-400 text-[11px]">
+                  <p className="text-[#3FB950] text-[11px]">
                     {clientOnboardingLanguage === 'ar'
                       ? 'تقسيم مباشر بنفس العملة (20% لحساب الوكيل المحلي · 80% لحساب WORKCRAFT بدون خسائر صرف)'
                       : clientOnboardingLanguage === 'ur'
                       ? 'اسی کرنسی میں براہ راست تقسیم (20% ایجنٹ کے مقامی اکاؤنٹ میں · 80% WORKCRAFT کو — بغیر FX نقصان)'
                       : `Same-Currency Direct Split (${activePackage.currency}): 20% to Agent Local Payout · 80% to WORKCRAFT`}
                   </p>
-                  <p className="text-[10px] text-white/55">
+                  <p className="text-[10px] text-[#8B949E]">
                     {clientOnboardingLanguage === 'ar'
                       ? 'تفعيل فوري للصالون الآن · بدون تحويل عملات مزدوج للوكلاء الدوليين'
                       : clientOnboardingLanguage === 'ur'
@@ -4920,21 +5269,21 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
               {setupPaymentMethod === 'Cash Collection' && (
                 <div className="space-y-0.5">
-                  <p className="text-white font-bold text-sm">
+                  <p className="text-[#F0F6FC] font-bold text-sm">
                     {clientOnboardingLanguage === 'ur'
                       ? `آن سائٹ نقد تحویل: ${agentFullName}`
                       : clientOnboardingLanguage === 'ar'
                       ? `التحصيل النقدي الميداني بعهدة: ${agentFullName}`
                       : `On-Site Physical Cash Custody: ${agentFullName}`}
                   </p>
-                  <p className="text-amber-300 text-[11px]">
+                  <p className="text-[#D29922] text-[11px]">
                     {clientOnboardingLanguage === 'ur'
                       ? 'صرف پاکستان میں ابتدائی آن بورڈنگ سیٹ اپ کے لیے مجاز (انگوٹھے کی بائیومیٹرک تصدیق)'
                       : clientOnboardingLanguage === 'ar'
                       ? 'مسموح حصراً لتأسيس الصالون داخل باكستان (موثق ببصمة الإبهام)'
                       : 'Permissible exclusively for initial Pakistan onboarding setup (Hardware Thumbprint Signed)'}
                   </p>
-                  <p className="text-[10px] text-white/50">
+                  <p className="text-[10px] text-[#8B949E]">
                     {clientOnboardingLanguage === 'ur'
                       ? 'وصول شدہ نقد رقم خودکار طور پر ایجنٹ لیجر میں درج ہو جاتی ہے · پاکستان سے باہر نقد ممنوع'
                       : clientOnboardingLanguage === 'ar'
@@ -4946,65 +5295,65 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             </div>
 
             {/* Auto-Detected Dual Alert Recipient Routing Mode */}
-            <div className="mt-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
-              <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
-                <Radio className="size-3.5 text-[#00FFFF] animate-pulse" />
+            <div className="mt-3 rounded-xl border border-[#06B6D4]/30 bg-[#0D1117] p-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
+              <span className="text-[#06B6D4] font-bold flex items-center gap-1.5">
+                <Radio className="size-3.5 text-[#06B6D4] animate-pulse" />
                 <span>{t.routingAssisted}</span>
               </span>
-              <span className="text-white/60 text-[10px]">{t.ownerAgentPush}</span>
+              <span className="text-[#8B949E] text-[10px]">{t.ownerAgentPush}</span>
             </div>
 
             {/* Payer Input Form with Layer 1 Registered Phone Binding */}
             <form onSubmit={handleVerifyDrawerPayment} className="mt-3.5 space-y-3.5">
               {/* Layer 1 Phone-Bound Notice */}
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 space-y-1">
+              <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 space-y-1">
                 <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] font-mono">
-                  <span className="text-emerald-300 font-bold flex items-center gap-1.5">
-                    <ShieldCheck className="size-3.5 text-emerald-400" />
+                  <span className="text-[#3FB950] font-bold flex items-center gap-1.5">
+                    <ShieldCheck className="size-3.5 text-[#3FB950]" />
                     <span>{t.layer1PolicyTitle}</span>
                   </span>
-                  <span className="text-white/60 text-[10px]">{t.layer1PolicyBadge}</span>
+                  <span className="text-[#8B949E] text-[10px]">{t.layer1PolicyBadge}</span>
                 </div>
-                <p className="text-xs text-white/80 font-sans">
-                  {t.registeredSimLabel} <strong className="text-[#00FFFF] font-mono" dir="ltr">{phone}</strong> ({ownerName})
+                <p className="text-xs text-[#F0F6FC] font-sans">
+                  {t.registeredSimLabel} <strong className="text-[#06B6D4] font-mono" dir="ltr">{phone}</strong> ({ownerName})
                 </p>
-                <p className="text-[10px] text-white/60 font-sans">
+                <p className="text-[10px] text-[#8B949E] font-sans">
                   {t.layer1PolicyDesc} <span dir="ltr">{phone}</span> ({activePackage.prefix}{activePackage.monthlyMaint.toLocaleString()}{t.perMonthShort}).
                 </p>
               </div>
 
               {/* Automated Central SIM Gateway Webhook Simulation */}
               {detectedCountry.isDomestic && setupPaymentMethod !== 'Cash Collection' && (
-                <div className="p-3 rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 space-y-2">
+                <div className="p-3 rounded-xl border border-[#06B6D4]/30 bg-[#0D1117] space-y-2">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                    <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
-                      <Radio className="size-3.5 text-[#00FFFF] animate-pulse" />
+                    <span className="text-[#06B6D4] font-bold flex items-center gap-1.5">
+                      <Radio className="size-3.5 text-[#06B6D4] animate-pulse" />
                       <span>{t.simGatewayTitle}</span>
                     </span>
-                    <span className="text-[10px] text-emerald-300 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                    <span className="text-[10px] text-[#3FB950] font-bold bg-[#0D3822] px-2 py-0.5 rounded border border-[#116329]">
                       {t.liveListenerBadge}
                     </span>
                   </div>
 
                   {simWebhookState === 'listening' ? (
-                    <p className="text-[11px] text-white/70 font-sans flex items-center gap-2">
-                      <RotateCcw className="size-3 animate-spin text-[#00FFFF]" />
-                      <span>{t.listeningSimText} <strong dir="ltr">{phone}</strong>...</span>
+                    <p className="text-[11px] text-[#8B949E] font-sans flex items-center gap-2">
+                      <RotateCcw className="size-3 animate-spin text-[#06B6D4]" />
+                      <span>{t.listeningSimText} <strong className="text-[#F0F6FC]" dir="ltr">{phone}</strong>...</span>
                     </p>
                   ) : (
-                    <div className="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-[11px] text-emerald-200 space-y-0.5">
-                      <p className="font-bold flex items-center gap-1 text-emerald-300">
-                        <CheckCircle2 className="size-3.5 text-emerald-400" />
+                    <div className="p-2.5 rounded-lg bg-[#0D3822] border border-[#116329] text-[11px] text-[#3FB950] space-y-0.5">
+                      <p className="font-bold flex items-center gap-1 text-[#3FB950]">
+                        <CheckCircle2 className="size-3.5 text-[#3FB950]" />
                         <span>{t.webhookCapturedTitle}</span>
                       </p>
-                      <p className="font-mono text-[10px] text-white/80" dir="ltr">
+                      <p className="font-mono text-[10px] text-[#F0F6FC] break-all [overflow-wrap:break-word]" dir="ltr">
                         {activePackage.prefix}{activePackage.setupFee.toLocaleString()} · {phone} · {getLocalizedPaymentMethodName(setupPaymentMethod, clientOnboardingLanguage)} · TID: {drawerTid}
                       </p>
                     </div>
                   )}
 
                   <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                    <span className="text-[10px] text-white/50 font-sans">
+                    <span className="text-[10px] text-[#6E7681] font-sans">
                       {t.otherSimHint}
                     </span>
                     <button
@@ -5022,7 +5371,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           setSimWebhookState('detected');
                         }, 500);
                       }}
-                      className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[#00FFFF] text-[10px] font-mono font-bold transition active:scale-95"
+                      className="min-h-[36px] px-3 py-1 rounded-lg bg-[#21262D] border border-[#30363D] hover:border-[#06B6D4] text-[#06B6D4] text-[10px] font-mono font-bold transition active:scale-95"
                     >
                       {t.reScanBtn}
                     </button>
@@ -5032,38 +5381,38 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
               {/* Query 3: Outside-Pakistan Same-Currency Direct 20% / 80% Split Checkout */}
               {!detectedCountry.isDomestic && (
-                <div className="p-3.5 rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/[0.07] space-y-2 font-mono text-xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-[#00FFFF] font-bold">
+                <div className="p-3.5 rounded-xl border border-[#06B6D4]/40 bg-[#0D1117] space-y-2 font-mono text-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[#06B6D4] font-bold">
                     <span className="flex items-center gap-1.5">
-                      <ShieldCheck className="size-4 text-emerald-400 shrink-0" />
+                      <ShieldCheck className="size-4 text-[#3FB950] shrink-0" />
                       <span>Same-Currency Direct Split ({activePackage.currency})</span>
                     </span>
-                    <span className="text-[10px] text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+                    <span className="text-[10px] text-[#3FB950] bg-[#0D3822] px-2 py-0.5 rounded border border-[#116329]">
                       Zero Double FX Loss
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="rounded-lg bg-black/45 border border-[#D9A441]/30 p-2">
-                      <span className="text-white/55 block text-[9px] uppercase">20% Direct to Agent</span>
-                      <span className="font-bold text-[#D9A441]" dir="ltr">
+                    <div className="rounded-lg bg-[#161B22] border border-[#9E6A03] p-2">
+                      <span className="text-[#8B949E] block text-[9px] uppercase">20% Direct to Agent</span>
+                      <span className="font-bold text-[#D29922]" dir="ltr">
                         {activePackage.prefix}{activePackage.agentCommission.toLocaleString()} {activePackage.currency}
                       </span>
                     </div>
-                    <div className="rounded-lg bg-black/45 border border-emerald-500/30 p-2">
-                      <span className="text-white/55 block text-[9px] uppercase">80% Net to WorkCraft</span>
-                      <span className="font-bold text-emerald-300" dir="ltr">
+                    <div className="rounded-lg bg-[#161B22] border border-[#116329] p-2">
+                      <span className="text-[#8B949E] block text-[9px] uppercase">80% Net to WorkCraft</span>
+                      <span className="font-bold text-[#3FB950]" dir="ltr">
                         {activePackage.prefix}{(activePackage.setupFee - activePackage.agentCommission).toLocaleString()} {activePackage.currency}
                       </span>
                     </div>
                   </div>
-                  <p className="text-[11px] text-white/75 font-sans leading-relaxed">
-                    Outside Pakistan, client card/bank payment splits automatically in <strong>{activePackage.currency}</strong>: 20% goes directly to the agent&apos;s local payout account and 80% settles to WorkCraft without PKR round-trip conversion fees.
+                  <p className="text-[11px] text-[#8B949E] font-sans leading-relaxed">
+                    Outside Pakistan, client card/bank payment splits automatically in <strong className="text-[#F0F6FC]">{activePackage.currency}</strong>: 20% goes directly to the agent&apos;s local payout account and 80% settles to WorkCraft without PKR round-trip conversion fees.
                   </p>
                 </div>
               )}
 
               <div>
-                <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
+                <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1">
                   {t.payerDetailsLabel}
                 </label>
                 <input
@@ -5072,19 +5421,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   value={drawerSenderDetails || `${ownerName} (${phone})`}
                   onChange={(e) => setDrawerSenderDetails(e.target.value)}
                   placeholder={`${ownerName} (${phone})`}
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono text-emerald-300 focus:outline-none focus:border-[#00FFFF]"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-xs font-mono text-[#3FB950] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                 />
-                <span className="text-[10px] text-white/45 block mt-0.5">
+                <span className="text-[10px] text-[#6E7681] block mt-0.5">
                   {t.payerDetailsHint}
                 </span>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="text-[11px] font-mono font-bold uppercase text-white/70">
+                  <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E]">
                     {t.tidInputLabel}
                   </label>
-                  <span className="text-[10px] font-mono text-[#00FFFF]">
+                  <span className="text-[10px] font-mono text-[#06B6D4]">
                     {t.smsAutoCapture}
                   </span>
                 </div>
@@ -5095,19 +5444,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   placeholder="EP-98412850231 / SWIFT / pi_..."
                   value={drawerTid}
                   onChange={(e) => setDrawerTid(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
+                <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1">
                   {t.lockedAmountLabel}
                 </label>
                 <input
                   type="text"
                   readOnly
                   value={`${activePackage.prefix} ${activePackage.setupFee.toLocaleString()} (${getLocalizedPackageName(activePackage.name, clientOnboardingLanguage)})`}
-                  className="w-full rounded-xl border border-white/10 bg-black/40 px-3.5 py-2 text-xs font-mono font-bold text-[#D9A441] select-none cursor-not-allowed"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-xs font-mono font-bold text-[#D29922] select-none cursor-not-allowed"
                 />
               </div>
 
@@ -5116,29 +5465,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 <div className="space-y-3">
                   <div className={`rounded-xl border p-3 font-mono text-xs space-y-1.5 ${
                     cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING
-                      ? 'border-red-500/50 bg-red-950/40 text-red-200'
-                      : 'border-amber-500/30 bg-amber-950/30 text-amber-200'
+                      ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149]'
+                      : 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'
                   }`}>
                     <div className="flex items-center justify-between font-bold">
                       <span className="flex items-center gap-1.5">
-                        <AlertTriangle className="size-4 text-amber-400" />
+                        <AlertTriangle className="size-4 text-[#D29922]" />
                         <span>{t.cashGuardTitle}</span>
                       </span>
                       <span dir="ltr">
                         PKR {(cashLiabilityHeld + activePackage.setupFee).toLocaleString()} / {MAX_CASH_CEILING.toLocaleString()}
                       </span>
                     </div>
-                    <div className="h-2 w-full rounded-full bg-black/60 overflow-hidden">
+                    <div className="h-2 w-full rounded-full bg-[#0D1117] overflow-hidden">
                       <div
                         className={`h-full transition-all ${
                           cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING
-                            ? 'bg-red-500'
-                            : 'bg-amber-400'
+                            ? 'bg-[#F85149]'
+                            : 'bg-[#D29922]'
                         }`}
                         style={{ width: `${Math.min(100, ((cashLiabilityHeld + activePackage.setupFee) / MAX_CASH_CEILING) * 100)}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-white/70 font-sans">
+                    <p className="text-[10px] text-[#F0F6FC] font-sans">
                       {cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING
                         ? t.cashLimitExceeded
                         : `${t.cashHeldPrefix} PKR ${cashLiabilityHeld.toLocaleString()}`}
@@ -5148,15 +5497,15 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   {/* Strict Biometric Hardware Thumbprint Verification */}
                   <div className={`p-4 rounded-2xl border text-center space-y-2.5 transition ${
                     isThumbprintVerified
-                      ? 'border-emerald-500/50 bg-emerald-950/30'
-                      : 'border-[#00FFFF]/40 bg-[#00FFFF]/5'
+                      ? 'border-[#116329] bg-[#0D3822]'
+                      : 'border-[#06B6D4]/40 bg-[#0D1117]'
                   }`}>
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                      <span className="text-white/80 font-bold uppercase flex items-center gap-1.5">
-                        <Fingerprint className="size-4 text-[#00FFFF]" />
+                      <span className="text-[#F0F6FC] font-bold uppercase flex items-center gap-1.5">
+                        <Fingerprint className="size-4 text-[#06B6D4]" />
                         <span>{t.biometricTitle}</span>
                       </span>
-                      <span className="text-[9px] font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                      <span className="text-[9px] font-bold text-[#D29922] bg-[#3B2E0B] px-2 py-0.5 rounded border border-[#9E6A03]">
                         {t.zeroPinBadge}
                       </span>
                     </div>
@@ -5175,29 +5524,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         }}
                         className={`relative grid size-16 place-items-center rounded-2xl border-2 transition active:scale-95 ${
                           isThumbprintVerified
-                            ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+                            ? 'border-[#3FB950] bg-[#0D3822] text-[#3FB950]'
                             : isScanningThumb
-                            ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] animate-pulse shadow-[0_0_20px_rgba(0,255,255,0.4)]'
-                            : 'border-white/20 bg-white/5 text-white/60 hover:border-[#00FFFF] hover:text-[#00FFFF]'
+                            ? 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4] animate-pulse'
+                            : 'border-[#30363D] bg-[#21262D] text-[#8B949E] hover:border-[#06B6D4] hover:text-[#06B6D4]'
                         }`}
                         title={t.pressThumbText}
                       >
                         <Fingerprint className={`size-8 ${isScanningThumb ? 'animate-bounce' : ''}`} />
                         {isThumbprintVerified && (
-                          <span className="absolute -top-1 -right-1 grid size-5 place-items-center rounded-full bg-emerald-500 text-black">
+                          <span className="absolute -top-1 -right-1 grid size-5 place-items-center rounded-full bg-[#3FB950] text-[#0D1117]">
                             <Check className="size-3 stroke-[3]" />
                           </span>
                         )}
                       </button>
                     </div>
 
-                    <p className="text-[11px] font-mono text-center">
+                    <p className="text-[11px] font-mono text-center break-all [overflow-wrap:break-word]">
                       {isScanningThumb ? (
-                        <span className="text-[#00FFFF]">{t.scanningThumbText}</span>
+                        <span className="text-[#06B6D4]">{t.scanningThumbText}</span>
                       ) : isThumbprintVerified ? (
-                        <span className="text-emerald-400 font-bold">{t.thumbVerifiedText} ({thumbprintHash})</span>
+                        <span className="text-[#3FB950] font-bold">{t.thumbVerifiedText} (<span dir="ltr">{thumbprintHash}</span>)</span>
                       ) : (
-                        <span className="text-white/65">{t.pressThumbText}</span>
+                        <span className="text-[#8B949E]">{t.pressThumbText}</span>
                       )}
                     </p>
                   </div>
@@ -5205,18 +5554,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
 
               {/* 4-Layer Anti-Fraud Notice */}
-              <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-3 text-[10px] font-mono text-emerald-300/90 space-y-1">
-                <span className="font-bold flex items-center gap-1 text-emerald-400">
+              <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-[10px] font-mono text-[#3FB950] space-y-1">
+                <span className="font-bold flex items-center gap-1 text-[#3FB950]">
                   <ShieldCheck className="size-3.5" />
                   <span>{t.antiFraudTitle}</span>
                 </span>
-                <p className="font-sans text-white/65 leading-relaxed">
+                <p className="font-sans text-[#F0F6FC] leading-relaxed">
                   {t.antiFraudDesc}
                 </p>
               </div>
 
               {drawerError && (
-                <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-2.5 text-xs font-mono text-red-300">
+                <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] p-2.5 text-xs font-mono text-[#F85149]">
                   {drawerError}
                 </div>
               )}
@@ -5226,23 +5575,23 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsPaymentDrawerOpen(false)}
-                  className="sm:flex-1 rounded-xl border border-white/10 py-3 text-xs font-mono text-white/60 hover:text-white"
+                  className="sm:flex-1 min-h-[48px] rounded-xl border border-[#30363D] bg-[#21262D] py-3 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition"
                 >
                   {t.cancelLabel}
                 </button>
                 <button
                   type="submit"
                   disabled={drawerIsSubmitting || (setupPaymentMethod === 'Cash Collection' && cashLiabilityHeld + activePackage.setupFee > MAX_CASH_CEILING)}
-                  className="sm:flex-[2] rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] py-3 px-4 text-xs font-mono font-black uppercase transition active:scale-95 shadow-[0_0_20px_rgba(0,255,255,0.35)] flex items-center justify-center gap-2"
+                  className="sm:flex-[2] min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3 px-4 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {drawerIsSubmitting ? (
                     <>
-                      <RotateCcw className="size-4 animate-spin text-[#12241C]" />
+                      <RotateCcw className="size-4 animate-spin text-[#0D1117]" />
                       <span>{t.verifyingBtn}</span>
                     </>
                   ) : (
                     <>
-                      <CheckCircle2 className="size-4 text-[#12241C]" />
+                      <CheckCircle2 className="size-4 text-[#0D1117]" />
                       <span>{t.verifyBindBtn}</span>
                     </>
                   )}
@@ -5312,105 +5661,105 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       {/* ========================================================================= */}
       {selectedDossierAgent && (
         <div
-          className="fixed inset-0 z-[90] grid place-items-center bg-black/85 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
+          className="fixed inset-0 z-[90] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
           onClick={() => setSelectedDossierAgent(null)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[560px] rounded-3xl border border-[#D9A441]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto space-y-4"
+            className="w-full max-w-[560px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto space-y-4"
           >
-            <div className="flex items-start justify-between border-b border-white/10 pb-3">
+            <div className="flex items-start justify-between border-b border-[#21262D] pb-3">
               <div className="flex items-center gap-3">
-                <div className="grid size-11 place-items-center rounded-2xl bg-[#D9A441]/20 border border-[#D9A441]/40 text-[#D9A441]">
+                <div className="grid size-11 place-items-center rounded-2xl bg-[#3B2E0B] border border-[#9E6A03] text-[#D29922]">
                   <FileText className="size-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D9A441]">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D29922]">
                     CENTRAL AGENT DOSSIER (QUERY 15)
                   </span>
-                  <h3 className="text-xl font-black text-white tracking-tight">
+                  <h3 className="text-xl font-black text-[#F0F6FC] tracking-tight">
                     {selectedDossierAgent.name} (#{selectedDossierAgent.id})
                   </h3>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedDossierAgent(null)}
-                className="rounded-lg p-1.5 text-white/55 hover:text-white transition"
+                className="min-h-[44px] min-w-[44px] rounded-lg grid place-items-center text-[#8B949E] hover:text-[#F0F6FC] transition"
               >
                 <X className="size-5" />
               </button>
             </div>
 
             {/* Dossier Header Info */}
-            <div className="flex items-center gap-4 rounded-2xl bg-black/50 border border-white/10 p-3.5">
+            <div className="flex items-center gap-4 rounded-2xl bg-[#0D1117] border border-[#30363D] p-3.5">
               <div className="relative shrink-0">
-                <div className="size-16 rounded-2xl bg-gradient-to-tr from-[#12241C] to-slate-800 border-2 border-emerald-400 grid place-items-center font-mono font-bold text-lg text-white">
+                <div className="size-16 rounded-2xl bg-[#21262D] border-2 border-[#3FB950] grid place-items-center font-mono font-bold text-lg text-[#F0F6FC]">
                   {selectedDossierAgent.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
                 </div>
-                <span className="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-emerald-500 text-black">
+                <span className="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-[#3FB950] text-[#0D1117]">
                   <Check className="size-3 stroke-[3]" />
                 </span>
               </div>
               <div className="min-w-0 flex-1 font-mono">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-white">{selectedDossierAgent.name}</span>
-                  <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <span className="text-xs font-bold text-[#F0F6FC]">{selectedDossierAgent.name}</span>
+                  <span className="text-[10px] text-[#3FB950] font-bold bg-[#0D3822] px-2 py-0.5 rounded border border-[#116329]">
                     {selectedDossierAgent.status}
                   </span>
                 </div>
-                <p className="text-xs text-white/60 mt-0.5">{selectedDossierAgent.phone}</p>
-                <p className="text-[11px] text-[#00FFFF] mt-0.5">{selectedDossierAgent.city}</p>
+                <p className="text-xs text-[#8B949E] mt-0.5">{selectedDossierAgent.phone}</p>
+                <p className="text-[11px] text-[#06B6D4] mt-0.5">{selectedDossierAgent.city}</p>
               </div>
             </div>
 
             {/* Dossier Detail Fields */}
             <div className="space-y-2.5 font-mono text-xs">
-              <div className="grid grid-cols-2 gap-2 bg-black/40 p-3 rounded-xl border border-white/10">
+              <div className="grid grid-cols-2 gap-2 bg-[#0D1117] p-3 rounded-xl border border-[#30363D]">
                 <div>
-                  <span className="text-[10px] text-white/40 block uppercase">NATIONAL ID / CNIC</span>
-                  <span className="font-bold text-white text-sm">{selectedDossierAgent.cnicOrId}</span>
+                  <span className="text-[10px] text-[#8B949E] block uppercase">NATIONAL ID / CNIC</span>
+                  <span className="font-bold text-[#F0F6FC] text-sm">{selectedDossierAgent.cnicOrId}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-white/40 block uppercase">SECURITY PIN</span>
-                  <span className="font-bold text-[#D9A441] text-sm">{selectedDossierAgent.pin}</span>
+                  <span className="text-[10px] text-[#8B949E] block uppercase">SECURITY PIN</span>
+                  <span className="font-bold text-[#D29922] text-sm">{selectedDossierAgent.pin}</span>
                 </div>
-                <div className="col-span-2 pt-2 border-t border-white/5">
-                  <span className="text-[10px] text-white/40 block uppercase">OPTICAL THUMBPRINT HARDWARE ENCRYPTION</span>
-                  <span className="font-bold text-[#00FFFF] text-xs flex items-center gap-1.5 mt-0.5">
-                    <Fingerprint className="size-3.5" />
-                    <span>{selectedDossierAgent.thumbHash}</span>
+                <div className="col-span-2 pt-2 border-t border-[#21262D] min-w-0 overflow-hidden">
+                  <span className="text-[10px] text-[#8B949E] block uppercase">OPTICAL THUMBPRINT HARDWARE ENCRYPTION</span>
+                  <span dir="ltr" className="font-bold text-[#06B6D4] text-xs flex items-center gap-1.5 mt-0.5 break-all [overflow-wrap:break-word]">
+                    <Fingerprint className="size-3.5 shrink-0" />
+                    <span className="break-all [overflow-wrap:break-word]">{selectedDossierAgent.thumbHash}</span>
                   </span>
                 </div>
               </div>
 
-              <div className="rounded-xl bg-black/40 p-3 border border-white/10 space-y-1">
-                <span className="text-[10px] text-white/40 block uppercase">COMMISSION PAYOUT ROUTE</span>
-                <p className="text-sm font-bold text-[#D9A441]">
-                  {selectedDossierAgent.payoutMethod} · {selectedDossierAgent.payoutAccount}
+              <div className="rounded-xl bg-[#0D1117] p-3 border border-[#30363D] space-y-1 min-w-0 overflow-hidden">
+                <span className="text-[10px] text-[#8B949E] block uppercase">COMMISSION PAYOUT ROUTE</span>
+                <p className="text-sm font-bold text-[#D29922] break-all [overflow-wrap:break-word]">
+                  {selectedDossierAgent.payoutMethod} · <span dir="ltr">{selectedDossierAgent.payoutAccount}</span>
                 </p>
-                <p className="text-[11px] text-white/60 font-sans">
-                  Account Title: <strong>{selectedDossierAgent.payoutTitle}</strong> {selectedDossierAgent.iban && `· IBAN: ${selectedDossierAgent.iban}`}
+                <p className="text-[11px] text-[#8B949E] font-sans break-all [overflow-wrap:break-word]">
+                  Account Title: <strong className="text-[#F0F6FC]">{selectedDossierAgent.payoutTitle}</strong> {selectedDossierAgent.iban && <span dir="ltr">· IBAN: {selectedDossierAgent.iban}</span>}
                 </p>
               </div>
 
               {selectedDossierAgent.guarantorName && (
-                <div className="rounded-xl bg-black/40 p-3 border border-white/10 space-y-1">
-                  <span className="text-[10px] text-white/40 block uppercase">GUARANTOR REFERENCE (PAKISTAN CASH ONLY)</span>
-                  <p className="text-xs text-white">
+                <div className="rounded-xl bg-[#0D1117] p-3 border border-[#30363D] space-y-1">
+                  <span className="text-[10px] text-[#8B949E] block uppercase">GUARANTOR REFERENCE (PAKISTAN CASH ONLY)</span>
+                  <p className="text-xs text-[#F0F6FC]">
                     <strong>{selectedDossierAgent.guarantorName}</strong> ({selectedDossierAgent.guarantorPhone})
                   </p>
                 </div>
               )}
 
-              <div className="rounded-xl bg-emerald-950/20 p-3 border border-emerald-500/30 space-y-1">
-                <span className="text-[10px] text-emerald-400 font-bold uppercase flex items-center gap-1">
+              <div className="rounded-xl bg-[#0D3822]/40 p-3 border border-[#116329] space-y-1">
+                <span className="text-[10px] text-[#3FB950] font-bold uppercase flex items-center gap-1">
                   <ShieldCheck className="size-3.5" />
                   <span>LEGAL REMITTANCE SIGNATURE RECORD</span>
                 </span>
-                <p className="text-[11px] text-white/80 font-sans leading-relaxed">
+                <p className="text-[11px] text-[#F0F6FC] font-sans leading-relaxed">
                   {selectedDossierAgent.legalTermsText}
                 </p>
-                <span className="text-[10px] text-emerald-300 block pt-1 border-t border-emerald-500/20">
+                <span className="text-[10px] text-[#3FB950] block pt-1 border-t border-[#116329]">
                   ✓ Digital Timestamp: {selectedDossierAgent.enrolledAt}
                 </span>
               </div>
@@ -5428,10 +5777,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     setIsAgentSuspendedByFounder(!isSuspended);
                   }
                 }}
-                className={`flex-1 rounded-xl py-2.5 text-xs font-mono font-bold uppercase transition flex items-center justify-center gap-1.5 border ${
+                className={`flex-1 min-h-[48px] rounded-xl py-2.5 text-xs font-mono font-bold uppercase transition flex items-center justify-center gap-1.5 border ${
                   selectedDossierAgent.status.includes('SUSPENDED')
-                    ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30'
-                    : 'border-red-500/40 bg-red-950/40 text-red-400 hover:bg-red-500/25'
+                    ? 'border-[#116329] bg-[#0D3822] text-[#3FB950] hover:bg-[#0D3822]/80'
+                    : 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] hover:bg-[#4C1C1D]/80'
                 }`}
               >
                 <Power className="size-3.5" />
@@ -5441,7 +5790,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedDossierAgent(null)}
-                className="flex-1 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-2.5 text-xs font-mono font-bold uppercase transition"
+                className="flex-1 min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] py-2.5 text-xs font-mono font-bold uppercase transition"
               >
                 Close Dossier
               </button>
@@ -5451,138 +5800,170 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 3. BIOMETRIC RE-SCAN MODAL FOR PROFILE EDITS (QUERY 16) */}
+      {/* 3. BIOMETRIC RE-SCAN MODAL FOR PROFILE EDITS (LOCALIZED EN/UR/AR) */}
       {/* ========================================================================= */}
-      {isBiometricModalOpenForEdit && (
-        <div
-          className="fixed inset-0 z-[95] grid place-items-center bg-black/85 p-3 sm:p-5 backdrop-blur-md"
-          onClick={() => setIsBiometricModalOpenForEdit(false)}
-        >
+      {isBiometricModalOpenForEdit && (() => {
+        const isUrdu = agentLanguage === 'ur' || agentLanguage === 'ur_roman';
+        const isArabic = agentLanguage === 'ar';
+        const modalDir = isUrdu || isArabic ? 'rtl' : 'ltr';
+        const mL = isArabic
+          ? {
+              kicker: 'تأكيد البصمة الأمنية',
+              title: 'تأكيد تعديل الملف والحساب البنكي',
+              desc: 'لمنع أي تغيير غير مصرح به في حسابات العمولات، يرجى الضغط على مستشعر بصمة الإبهام أدناه.',
+              scanning: 'جاري قراءة مستشعر البصمة...',
+              tapPrompt: 'المس مستشعر البصمة للتأكيد',
+              cancel: 'إلغاء التعديل',
+              savedMsg: 'تم التأكيد بالبصمة وحفظ البيانات بنجاح:',
+            }
+          : isUrdu
+          ? {
+              kicker: 'انگوٹھے کی تصدیق لازمی ہے',
+              title: 'پروفائل اور بینک تبدیلی کی تصدیق کریں',
+              desc: 'آپ کے کمیشن اکاؤنٹ کو محفوظ رکھنے کے لیے نیچے دیے گئے انگوٹھے کے سینسر کو ٹچ کریں۔',
+              scanning: 'انگوٹھا اسکین ہو رہا ہے...',
+              tapPrompt: 'شناخت کی تصدیق کے لیے یہاں ٹچ کریں',
+              cancel: 'منسوخ کریں',
+              savedMsg: 'انگوٹھے کی تصدیق کے بعد محفوظ ہو گیا:',
+            }
+          : {
+              kicker: 'BIOMETRIC SECURITY CHECK',
+              title: 'Confirm Profile & Bank Update',
+              desc: 'To keep your payout account safe, touch the thumbprint sensor below to confirm you personally made these changes.',
+              scanning: 'Reading thumbprint...',
+              tapPrompt: 'Tap sensor to confirm identity',
+              cancel: 'Cancel Update',
+              savedMsg: 'Thumbprint Confirmed & Saved:',
+            };
+
+        return (
           <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[440px] rounded-3xl border border-[#00FFFF]/40 bg-[#102019] p-6 text-center shadow-2xl animate-in zoom-in-95 duration-150 space-y-4 relative"
+            className="fixed inset-0 z-[95] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md"
+            onClick={() => setIsBiometricModalOpenForEdit(false)}
           >
-            {/* Top-Right [X] Close Button (Query 6) */}
-            <button
-              type="button"
-              onClick={() => setIsBiometricModalOpenForEdit(false)}
-              className="absolute right-4 top-4 rounded-lg p-1.5 text-white/55 hover:text-white hover:bg-white/10 transition"
-              aria-label="Close biometric gate"
+            <div
+              dir={modalDir}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-[440px] rounded-3xl border border-[#30363D] bg-[#161B22] p-6 pb-8 text-center shadow-2xl animate-in zoom-in-95 duration-150 space-y-4 relative overflow-hidden"
             >
-              <X className="size-5" />
-            </button>
-
-            <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-[#00FFFF]/10 border border-[#00FFFF]/40 text-[#00FFFF]">
-              <Fingerprint className="size-8" />
-            </div>
-
-            <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#00FFFF] font-bold">
-                BIOMETRIC SECURITY GATE (QUERY 16)
-              </span>
-              <h3 className="text-lg font-black text-white">
-                Authorize Profile &amp; Payout Update
-              </h3>
-              <p className="text-xs text-white/70 font-sans max-w-sm mx-auto leading-relaxed">
-                To prevent unauthorized changes to commission accounts, please touch and hold the hardware optical thumbprint sensor below.
-              </p>
-            </div>
-
-            {/* Interactive Optical Thumb Sensor */}
-            <div className="py-2">
               <button
                 type="button"
-                onClick={() => {
-                  setIsBiometricScanningForEdit(true);
-                  setTimeout(() => {
-                    const updatedHash = `SHA256: ${Math.random().toString(16).slice(2, 6)}-${Math.random().toString(16).slice(2, 6)}-thumb-verified`;
-                    const nowStamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' Verified';
-                    setAgentWhatsApp(draftAgentPhone);
-                    setAgentTerritory(draftAgentTerritory);
-                    setAgentOperatingRegion(draftAgentRegion);
-                    setAgentPayoutMethod(draftAgentPayoutMethod);
-                    setAgentBankName(draftAgentBankName);
-                    setAgentPayoutAccount(draftAgentPayoutAccount);
-                    setAgentPayoutTitle(draftAgentPayoutTitle);
-                    setAgentIban(draftAgentIban);
-                    setProfileThumbHash(updatedHash);
-                    setProfileBiometricSealTime(nowStamp);
-                    setEnrolledAgentsList((prev) =>
-                      prev.map((ag) =>
-                        ag.name === agentFullName
-                          ? {
-                              ...ag,
-                              phone: draftAgentPhone,
-                              city: draftAgentTerritory,
-                              payoutMethod: draftAgentPayoutMethod,
-                              payoutAccount: draftAgentPayoutAccount,
-                              payoutTitle: draftAgentPayoutTitle,
-                              bankName: draftAgentBankName,
-                              iban: draftAgentIban,
-                              thumbHash: updatedHash,
-                            }
-                          : ag
-                      )
-                    );
-                    setIsBiometricScanningForEdit(false);
-                    setIsBiometricModalOpenForEdit(false);
-                    setPayoutSaveStatus(`Biometrically Confirmed & Saved (${nowStamp}): Mobile, city/country, and bank details updated.`);
-                  }, 950);
-                }}
-                className={`mx-auto size-28 rounded-full border-2 ${
-                  isBiometricScanningForEdit
-                    ? 'border-[#00FFFF] bg-[#00FFFF]/20 shadow-[0_0_30px_rgba(0,255,255,0.5)] animate-pulse'
-                    : 'border-white/20 bg-black/60 hover:border-[#00FFFF]/70 hover:bg-[#00FFFF]/10'
-                } transition grid place-items-center relative group`}
+                onClick={() => setIsBiometricModalOpenForEdit(false)}
+                className="min-h-[44px] min-w-[44px] grid place-items-center absolute right-4 top-4 rounded-lg p-1.5 text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] transition"
+                aria-label="Close biometric gate"
               >
-                <Fingerprint
-                  className={`size-14 ${
-                    isBiometricScanningForEdit ? 'text-[#00FFFF] scale-110' : 'text-white/60 group-hover:text-[#00FFFF]'
-                  } transition`}
-                />
-                {isBiometricScanningForEdit && (
-                  <div className="absolute inset-0 rounded-full border-t-2 border-[#00FFFF] animate-spin" />
-                )}
+                <X className="size-5" />
               </button>
-              <span className="text-[10px] font-mono text-white/50 block mt-2">
-                {isBiometricScanningForEdit ? 'Authenticating thumbprint sensor...' : 'Tap sensor to verify identity'}
-              </span>
-            </div>
 
-            <button
-              type="button"
-              onClick={() => setIsBiometricModalOpenForEdit(false)}
-              className="text-xs font-mono text-white/50 hover:text-white underline"
-            >
-              Cancel Update
-            </button>
+              <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4]">
+                <Fingerprint className="size-8" />
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#06B6D4] font-bold">
+                  {mL.kicker}
+                </span>
+                <h3 className="text-lg font-black text-[#F0F6FC]">{mL.title}</h3>
+                <p className="text-xs text-[#8B949E] font-sans max-w-sm mx-auto leading-relaxed">
+                  {mL.desc}
+                </p>
+              </div>
+
+              <div className="py-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsBiometricScanningForEdit(true);
+                    setTimeout(() => {
+                      const updatedHash = `BIO-${Math.random().toString(16).slice(2, 6).toUpperCase()}-${Math.random().toString(16).slice(2, 6).toUpperCase()}`;
+                      const nowStamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ✓';
+                      setAgentWhatsApp(draftAgentPhone);
+                      setAgentTerritory(draftAgentTerritory);
+                      setAgentOperatingRegion(draftAgentRegion);
+                      setAgentPayoutMethod(draftAgentPayoutMethod);
+                      setAgentBankName(draftAgentBankName);
+                      setAgentPayoutAccount(draftAgentPayoutAccount);
+                      setAgentPayoutTitle(draftAgentPayoutTitle);
+                      setAgentIban(draftAgentIban);
+                      setProfileThumbHash(updatedHash);
+                      setProfileBiometricSealTime(nowStamp);
+                      setEnrolledAgentsList((prev) =>
+                        prev.map((ag) =>
+                          ag.name === agentFullName
+                            ? {
+                                ...ag,
+                                phone: draftAgentPhone,
+                                city: draftAgentTerritory,
+                                payoutMethod: draftAgentPayoutMethod,
+                                payoutAccount: draftAgentPayoutAccount,
+                                payoutTitle: draftAgentPayoutTitle,
+                                bankName: draftAgentBankName,
+                                iban: draftAgentIban,
+                                thumbHash: updatedHash,
+                              }
+                            : ag
+                        )
+                      );
+                      setIsBiometricScanningForEdit(false);
+                      setIsBiometricModalOpenForEdit(false);
+                      setPayoutSaveStatus(`${mL.savedMsg} (${nowStamp})`);
+                    }, 950);
+                  }}
+                  className={`mx-auto size-28 rounded-full border-2 ${
+                    isBiometricScanningForEdit
+                      ? 'border-[#06B6D4] bg-[#06B6D4]/20 animate-pulse'
+                      : 'border-[#30363D] bg-[#0D1117] hover:border-[#06B6D4] hover:bg-[#06B6D4]/10'
+                  } transition grid place-items-center relative group`}
+                >
+                  <Fingerprint
+                    className={`size-14 ${
+                      isBiometricScanningForEdit ? 'text-[#06B6D4] scale-110' : 'text-[#8B949E] group-hover:text-[#06B6D4]'
+                    } transition`}
+                  />
+                  {isBiometricScanningForEdit && (
+                    <div className="absolute inset-0 rounded-full border-t-2 border-[#06B6D4] animate-spin" />
+                  )}
+                </button>
+                <span className="text-[10px] font-mono text-[#8B949E] block mt-2">
+                  {isBiometricScanningForEdit ? mL.scanning : mL.tapPrompt}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsBiometricModalOpenForEdit(false)}
+                className="min-h-[44px] px-4 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] underline"
+              >
+                {mL.cancel}
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ========================================================================= */}
       {/* 4. DAY-1 REMOTE AGENT ENROLLMENT WIZARD (QUERIES 5 - 14, 17, 18) */}
       {/* ========================================================================= */}
       {isRemoteEnrollmentWizardOpen && (
         <div
-          className="fixed inset-0 z-[100] grid place-items-center bg-black/90 p-3 sm:p-5 backdrop-blur-lg overflow-y-auto"
+          className="fixed inset-0 z-[100] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
           onClick={() => setIsRemoteEnrollmentWizardOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[620px] rounded-3xl border border-[#D9A441]/50 bg-[#0d1a14] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[94vh] overflow-y-auto space-y-4"
+            className="w-full max-w-[620px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 pb-12 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[94vh] overflow-y-auto overflow-x-hidden space-y-4"
           >
             {/* Top Bar with Sticky Tri-Language Selector (Query 6) */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#21262D] pb-3">
               <div className="flex items-center gap-2.5">
-                <div className="grid size-10 place-items-center rounded-xl bg-[#D9A441]/20 border border-[#D9A441]/40 text-[#D9A441]">
+                <div className="grid size-10 place-items-center rounded-xl bg-[#3B2E0B] border border-[#9E6A03] text-[#D29922]">
                   <Smartphone className="size-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D9A441]">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D29922]">
                     DAY-1 REMOTE AGENT ONBOARDING
                   </span>
-                  <h3 className="text-base font-black text-white">
+                  <h3 className="text-base font-black text-[#F0F6FC]">
                     {enrollmentLang === 'ur_roman'
                       ? 'Naye Field Agent ka Indiraj'
                       : enrollmentLang === 'ar'
@@ -5594,19 +5975,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
               <div className="flex items-center gap-2 shrink-0">
                 {/* Regional Allowed Language Switcher (Query 1: PK/IN -> Urdu+English, MENA -> Arabic+English, Europe -> English) */}
-                <div className="flex items-center rounded-xl bg-black/60 border border-white/10 p-1 text-xs font-mono">
-                  <span className="px-1.5 text-white/40 flex items-center gap-1">
-                    <Globe className="size-3.5 text-[#00FFFF]" />
+                <div className="flex items-center rounded-xl bg-[#0D1117] border border-[#30363D] p-1 text-xs font-mono">
+                  <span className="px-1.5 text-[#8B949E] flex items-center gap-1">
+                    <Globe className="size-3.5 text-[#06B6D4]" />
                   </span>
                   {getEnrollmentLanguagesForPhone(enrollAgentPhone).map((lang) => (
                     <button
                       key={lang.code}
                       type="button"
                       onClick={() => setEnrollmentLang(lang.code)}
-                      className={`px-2.5 py-1 rounded-lg transition flex items-center gap-1 ${
+                      className={`min-h-[36px] px-2.5 py-1 rounded-lg transition flex items-center gap-1 ${
                         enrollmentLang === lang.code
-                          ? 'bg-[#D9A441] text-[#12241C] font-black shadow-sm'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#06B6D4] text-[#0D1117] font-black'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                       title={lang.description}
                     >
@@ -5620,7 +6001,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsRemoteEnrollmentWizardOpen(false)}
-                  className="rounded-lg p-2 text-white/55 hover:text-white hover:bg-white/10 transition"
+                  className="min-h-[44px] min-w-[44px] rounded-lg grid place-items-center text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] transition"
                   aria-label="Close Enrollment Wizard"
                   title="Close Wizard"
                 >
@@ -5642,10 +6023,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   key={s.step}
                   className={`p-1.5 rounded-lg border ${
                     enrollmentStep === s.step
-                      ? 'border-[#D9A441] bg-[#D9A441]/20 text-[#D9A441] font-bold'
+                      ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922] font-bold'
                       : enrollmentStep > s.step
-                      ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300'
-                      : 'border-white/5 bg-white/[0.02] text-white/40'
+                      ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                      : 'border-[#30363D] bg-[#0D1117] text-[#6E7681]'
                   }`}
                 >
                   <span className="block font-bold">Step {s.step}</span>
@@ -5656,17 +6037,22 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
             {/* STEP 1: IDENTITY & COUNTRY DETECTION (QUERY 7 & 8) */}
             {enrollmentStep === 1 && (
-              <div className="space-y-3.5 animate-in fade-in">
+              <div
+                dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+                className={`space-y-3.5 animate-in fade-in min-w-0 ${
+                  enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+                }`}
+              >
 
-                <div className="rounded-xl border border-white/10 bg-black/40 p-3 space-y-1">
-                  <span className="text-[10px] font-mono text-[#00FFFF] font-bold uppercase">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
+                  <span className="text-[10px] font-mono text-[#06B6D4] font-bold uppercase">
                     {enrollmentLang === 'ur_roman'
                       ? 'بنیادی معلومات'
                       : enrollmentLang === 'ar'
                       ? 'المعلومات الشخصية والبلد'
                       : 'Personal Details & Auto-Detected Country'}
                   </span>
-                  <p className="text-xs text-white/70 font-sans">
+                  <p className="text-xs text-[#8B949E] font-sans">
                     {enrollmentLang === 'ur_roman'
                       ? 'اپنا پورا نام، واٹس ایپ نمبر، اور قومی شناختی کارڈ درج کریں۔'
                       : enrollmentLang === 'ar'
@@ -5676,26 +6062,26 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-mono text-white/60 block mb-1 uppercase font-bold">
+                  <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-bold">
                     {enrollmentLang === 'ur_roman' ? 'پورا نام (Full Legal Name)' : enrollmentLang === 'ar' ? 'الاسم الكامل' : 'Full Name *'}
                   </label>
                   <input
                     type="text"
                     value={enrollAgentName}
                     onChange={(e) => setEnrollAgentName(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-[#D9A441]"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                   />
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-[11px] font-mono text-white/60 uppercase font-bold">
+                    <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
                       {enrollmentLang === 'ur_roman' ? 'واٹس ایپ نمبر (WhatsApp)' : enrollmentLang === 'ar' ? 'رقم الواتساب' : 'WhatsApp Number *'}
                     </label>
                     {(() => {
                       const detected = detectCountryFromPhone(enrollAgentPhone);
                       return (
-                        <span className="text-[10px] font-mono font-bold text-[#00FFFF] flex items-center gap-1">
+                        <span className="text-[10px] font-mono font-bold text-[#06B6D4] flex items-center gap-1">
                           <span>{detected.flag}</span>
                           <span>{detected.name}</span>
                         </span>
@@ -5720,7 +6106,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         setEnrollmentLang(langs[0].code);
                       }
                     }}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+                    className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                   />
                 </div>
 
@@ -5741,7 +6127,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                     return (
                       <>
-                        <label className="text-[11px] font-mono text-[#D9A441] block mb-1 uppercase font-bold">
+                        <label className="text-[11px] font-mono text-[#D29922] block mb-1 uppercase font-bold">
                           {labelText}
                         </label>
                         <input
@@ -5749,7 +6135,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           value={enrollAgentId}
                           onChange={(e) => setEnrollAgentId(e.target.value)}
                           placeholder={isPk ? '35202-8491023-1' : isUae ? '784-1988-1234567-1' : isSa ? '2491028491' : 'QQ 12 34 56 A'}
-                          className="w-full rounded-xl border border-[#D9A441]/40 bg-white/[0.04] px-3.5 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-[#D9A441]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#9E6A03] bg-[#0D1117] px-3.5 py-2.5 text-sm font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </>
                     );
@@ -5759,13 +6145,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 {/* Territory / City Field with Country-to-City Validation (Query 2) */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-[11px] font-mono text-white/60 uppercase font-bold">
+                    <label className="text-[11px] font-mono text-[#8B949E] uppercase font-bold">
                       {enrollmentLang === 'ur_roman' ? 'علاقہ / شہر (Assigned Territory)' : enrollmentLang === 'ar' ? 'المدينة / المنطقة' : 'Assigned Territory / City *'}
                     </label>
                     {(() => {
                       const detected = detectCountryFromPhone(enrollAgentPhone);
                       return (
-                        <span className="text-[10px] font-mono text-emerald-400">
+                        <span className="text-[10px] font-mono text-[#3FB950]">
                           {detected.flag} {detected.name} Dial Auto-Locked ({detected.dialCode})
                         </span>
                       );
@@ -5789,18 +6175,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         ? 'Lahore, Karachi, Islamabad...'
                         : 'London, Manchester...'
                     }
-                    className={`w-full rounded-xl border px-3.5 py-2.5 text-sm font-sans focus:outline-none transition ${
+                    className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-sm font-sans focus:outline-none transition ${
                       cityValidationError
-                        ? 'border-red-500 bg-red-950/20 text-red-200 focus:border-red-400'
-                        : 'border-white/10 bg-white/[0.04] text-white focus:border-[#D9A441]'
+                        ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] focus:border-[#F85149]'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#F0F6FC] placeholder:text-[#484F58] focus:border-[#06B6D4]'
                     }`}
                   />
 
                   {/* Inline Geographic Conflict Error Banner (Query 2) */}
                   {cityValidationError && (
-                    <div className="mt-2 rounded-xl border border-red-500/50 bg-red-950/60 p-3 space-y-1.5 animate-in fade-in">
-                      <div className="flex items-center gap-1.5 text-red-300 font-mono text-xs font-bold">
-                        <AlertOctagon className="size-4 shrink-0 text-red-400" />
+                    <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1.5 animate-in fade-in">
+                      <div className="flex items-center gap-1.5 text-[#F85149] font-mono text-xs font-bold">
+                        <AlertOctagon className="size-4 shrink-0 text-[#F85149]" />
                         <span>
                           {enrollmentLang === 'ar'
                             ? 'خطأ: تعارض بين رمز الدولة والمدينة المختارة'
@@ -5809,7 +6195,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                             : 'Geographic Dial Code & City Conflict'}
                         </span>
                       </div>
-                      <p className="text-xs text-red-200/90 font-sans leading-relaxed">
+                      <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                         {enrollmentLang === 'ar'
                           ? cityValidationError.ar
                           : enrollmentLang === 'ur_roman'
@@ -5826,7 +6212,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     if (validCities.length === 0) return null;
                     return (
                       <div className="mt-2 space-y-1">
-                        <span className="text-[10px] font-mono text-white/50 block">
+                        <span className="text-[10px] font-mono text-[#8B949E] block">
                           {enrollmentLang === 'ar'
                             ? `المدن المعتمدة لـ ${detected.name}:`
                             : enrollmentLang === 'ur_roman'
@@ -5842,10 +6228,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                 setEnrollAgentCity(c);
                                 setCityValidationError(null);
                               }}
-                              className={`rounded-lg px-2.5 py-1 text-[11px] font-mono transition border ${
+                              className={`min-h-[36px] rounded-lg px-2.5 py-1 text-[11px] font-mono transition border ${
                                 enrollAgentCity.toLowerCase().includes(c.toLowerCase())
-                                  ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] font-bold'
-                                  : 'border-white/10 bg-black/40 text-white/70 hover:text-white hover:border-white/20'
+                                  ? 'border-[#06B6D4] bg-[#06B6D4]/20 text-[#06B6D4] font-bold'
+                                  : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]'
                               }`}
                             >
                               {c}
@@ -5869,7 +6255,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       setCityValidationError(null);
                       setEnrollmentStep(2);
                     }}
-                    className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
                   >
                     <span>{enrollmentLang === 'ur_roman' ? 'اگلا قدم: بایومیٹرک' : enrollmentLang === 'ar' ? 'التالي: البصمة' : 'Next: Biometric Capture →'}</span>
                   </button>
@@ -5879,38 +6265,43 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
             {/* STEP 2: LIVE SELFIE & HARDWARE BIOMETRIC (QUERY 9) */}
             {enrollmentStep === 2 && (
-              <div className="space-y-4 animate-in fade-in">
-                <div className="rounded-xl border border-white/10 bg-black/40 p-3 space-y-1">
-                  <span className="text-[10px] font-mono text-[#00FFFF] font-bold uppercase">
+              <div
+                dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+                className={`space-y-4 animate-in fade-in min-w-0 ${
+                  enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+                }`}
+              >
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
+                  <span className="text-[10px] font-mono text-[#06B6D4] font-bold uppercase">
                     {enrollmentLang === 'ur_roman'
                       ? 'تصویر اور بایومیٹرک تصدیق'
                       : enrollmentLang === 'ar'
                       ? 'التقاط الصورة الشخصية وبصمة الإبهام'
                       : 'Live Photo & Hardware Thumbprint'}
                   </span>
-                  <p className="text-xs text-white/70 font-sans">
+                  <p className="text-xs text-[#8B949E] font-sans">
                     {enrollmentLang === 'ur_roman'
                       ? 'کیمرے کے سامنے چہرہ رکھیں اور نیچے انگوٹھے کے سینسر کو چھوئیں۔'
                       : enrollmentLang === 'ar'
                       ? 'وجه الكاميرا نحو وجهك، ثم المس مستشعر بصمة الإبهام للتحقق.'
-                      : 'Capture your live selfie for client identification, and scan your thumbprint to generate an encrypted SHA-256 biometric key.'}
+                      : 'Take a clear photo for client verification, then touch the thumbprint sensor below to confirm your identity.'}
                   </p>
                 </div>
 
                 {/* Live Selfie Viewfinder */}
-                <div className="rounded-2xl bg-black/60 border border-white/10 p-4 text-center space-y-2">
-                  <div className="mx-auto size-32 rounded-2xl border-2 border-[#00FFFF] bg-slate-900 grid place-items-center relative overflow-hidden">
+                <div className="rounded-2xl bg-[#0D1117] border border-[#30363D] p-4 text-center space-y-2">
+                  <div className="mx-auto size-32 rounded-2xl border-2 border-[#06B6D4] bg-[#161B22] grid place-items-center relative overflow-hidden">
                     {enrollSelfieDone ? (
                       <div className="text-center">
-                        <Check className="size-10 text-emerald-400 mx-auto stroke-[3]" />
-                        <span className="text-[9px] font-mono text-emerald-300 block mt-1 font-bold">
+                        <Check className="size-10 text-[#3FB950] mx-auto stroke-[3]" />
+                        <span className="text-[9px] font-mono text-[#3FB950] block mt-1 font-bold">
                           {enrollmentLang === 'ur_roman' ? 'تصویر محفوظ' : enrollmentLang === 'ar' ? 'تم التقاط الصورة' : 'PHOTO VERIFIED'}
                         </span>
                       </div>
                     ) : (
                       <div className="text-center">
-                        <Camera className="size-8 text-[#00FFFF] mx-auto opacity-70 animate-pulse" />
-                        <span className="text-[8px] font-mono text-white/60 block mt-1">CAMERA READY</span>
+                        <Camera className="size-8 text-[#06B6D4] mx-auto opacity-80 animate-pulse" />
+                        <span className="text-[8px] font-mono text-[#8B949E] block mt-1">CAMERA READY</span>
                       </div>
                     )}
                   </div>
@@ -5920,9 +6311,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     onClick={() => {
                       setEnrollSelfieDone(true);
                     }}
-                    className="rounded-xl bg-white/10 hover:bg-white/20 px-4 py-2 text-xs font-mono text-white transition flex items-center gap-1.5 mx-auto"
+                    className="min-h-[44px] rounded-xl bg-[#21262D] hover:bg-[#30363D] border border-[#30363D] px-4 py-2 text-xs font-mono text-[#F0F6FC] transition flex items-center gap-1.5 mx-auto"
                   >
-                    <Camera className="size-3.5 text-[#00FFFF]" />
+                    <Camera className="size-3.5 text-[#06B6D4]" />
                     <span>
                       {enrollSelfieDone
                         ? (enrollmentLang === 'ur_roman' ? 'دوبارہ تصویر لیں' : enrollmentLang === 'ar' ? 'إعادة التقاط الصورة' : 'Re-Take Selfie')
@@ -5932,7 +6323,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
 
                 {/* Hardware Optical Thumbprint Scanner */}
-                <div className="rounded-2xl bg-black/60 border border-white/10 p-4 text-center space-y-2">
+                <div className="rounded-2xl bg-[#0D1117] border border-[#30363D] p-4 text-center space-y-2">
                   <button
                     type="button"
                     onClick={() => {
@@ -5945,32 +6336,38 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     }}
                     className={`mx-auto size-24 rounded-full border-2 ${
                       isEnrollThumbScanning
-                        ? 'border-[#00FFFF] bg-[#00FFFF]/20 shadow-[0_0_25px_rgba(0,255,255,0.4)] animate-pulse'
+                        ? 'border-[#06B6D4] bg-[#06B6D4]/20 animate-pulse'
                         : enrollThumbDone
-                        ? 'border-emerald-500 bg-emerald-950/40 text-emerald-400'
-                        : 'border-white/20 bg-black/40 hover:border-[#D9A441]'
+                        ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                        : 'border-[#30363D] bg-[#161B22] hover:border-[#06B6D4]'
                     } transition grid place-items-center relative`}
                   >
-                    <Fingerprint className={`size-12 ${enrollThumbDone ? 'text-emerald-400' : 'text-[#00FFFF]'}`} />
+                    <Fingerprint className={`size-12 ${enrollThumbDone ? 'text-[#3FB950]' : 'text-[#06B6D4]'}`} />
                     {isEnrollThumbScanning && (
-                      <div className="absolute inset-0 rounded-full border-t-2 border-[#00FFFF] animate-spin" />
+                      <div className="absolute inset-0 rounded-full border-t-2 border-[#06B6D4] animate-spin" />
                     )}
                   </button>
 
-                  <span className="text-xs font-mono text-white/70 block">
+                  <span className="text-xs font-mono text-[#8B949E] block break-all overflow-hidden [overflow-wrap:break-word]">
                     {isEnrollThumbScanning
                       ? (enrollmentLang === 'ur_roman' ? 'انگوٹھا سکین ہو رہا ہے...' : enrollmentLang === 'ar' ? 'جاري قراءة البصمة...' : 'Reading hardware sensor...')
                       : enrollThumbDone
-                      ? (enrollmentLang === 'ur_roman' ? `✓ بایومیٹرک محفوظ: ${enrollThumbHash}` : enrollmentLang === 'ar' ? `✓ تم تسجيل البصمة: ${enrollThumbHash}` : `✓ Thumbprint Stored: ${enrollThumbHash}`)
+                      ? (enrollmentLang === 'ur_roman' ? (
+                          <>✓ بایومیٹرک محفوظ: <span dir="ltr">{enrollThumbHash}</span></>
+                        ) : enrollmentLang === 'ar' ? (
+                          <>✓ تم تسجيل البصمة: <span dir="ltr">{enrollThumbHash}</span></>
+                        ) : (
+                          <>✓ Thumbprint Stored: <span dir="ltr">{enrollThumbHash}</span></>
+                        ))
                       : (enrollmentLang === 'ur_roman' ? 'انگوٹھے کا نشان لگانے کے لیے دبائیں' : enrollmentLang === 'ar' ? 'اضغط للمسح البيومتري' : 'Touch sensor to scan thumbprint')}
                   </span>
                 </div>
 
-                <div className="pt-2 flex justify-between">
+                <div className="pt-2 flex justify-between gap-2">
                   <button
                     type="button"
                     onClick={() => setEnrollmentStep(1)}
-                    className="rounded-xl border border-white/10 px-4 py-2 text-xs font-mono text-white/60 hover:text-white"
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
                   >
                     {enrollmentLang === 'ur_roman' ? '← پیچھے' : enrollmentLang === 'ar' ? '← السابق' : '← Back'}
                   </button>
@@ -5982,7 +6379,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       if (!enrollThumbHash) setEnrollThumbHash('SHA256: 3c9f-88a1-agent-thumb-enrolled');
                       setEnrollmentStep(3);
                     }}
-                    className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
                   >
                     <span>{enrollmentLang === 'ur_roman' ? 'اگلا: ادائیگی کا طریقہ ←' : enrollmentLang === 'ar' ? 'التالي: طريقة الدفع ←' : 'Next: Payout Destination →'}</span>
                   </button>
@@ -6038,16 +6435,21 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               })();
 
               return (
-                <div className="space-y-3.5 animate-in fade-in">
-                  <div className="rounded-xl border border-white/10 bg-black/40 p-3 space-y-1">
-                    <span className="text-[10px] font-mono text-[#D9A441] font-bold uppercase">
+                <div
+                  dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+                  className={`space-y-3.5 animate-in fade-in min-w-0 ${
+                    enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+                  }`}
+                >
+                  <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
+                    <span className="text-[10px] font-mono text-[#D29922] font-bold uppercase">
                       {enrollmentLang === 'ur_roman'
                         ? 'کمیشن کی ادائیگی کا طریقہ'
                         : enrollmentLang === 'ar'
                         ? 'حساب استلام العمولات'
                         : 'Commission Payout Account'}
                     </span>
-                    <p className="text-xs text-white/70 font-sans">
+                    <p className="text-xs text-[#8B949E] font-sans">
                       {enrollmentLang === 'ur_roman'
                         ? 'اپنا اکاؤنٹ منتخب کریں جہاں ہر سیلون کی کمیشن فوری منتقل کی جائے گی۔'
                         : enrollmentLang === 'ar'
@@ -6058,44 +6460,44 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                   {/* Payment Method Selector with Dark Background, High-Contrast Text, and + Add Custom Bank Option (Query 3) */}
                   <div>
-                    <label className="text-[11px] font-mono text-white/60 block mb-1 uppercase font-bold">
+                    <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-bold">
                       {enrollmentLang === 'ur_roman' ? 'ادائیگی کا ذریعہ *' : enrollmentLang === 'ar' ? 'وسيلة الدفع *' : 'Payment Method *'}
                     </label>
                     <select
                       value={enrollPayoutMethod}
                       onChange={(e) => setEnrollPayoutMethod(e.target.value)}
-                      className="w-full rounded-xl border border-white/15 bg-[#102019] px-3.5 py-2.5 text-xs font-mono text-white focus:outline-none focus:border-[#D9A441]"
+                      className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs font-mono text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
                     >
                       {isPk ? (
                         <>
-                          <option value="EasyPaisa" className="bg-[#102019] text-white py-1">EasyPaisa Mobile Wallet (Instant)</option>
-                          <option value="JazzCash" className="bg-[#102019] text-white py-1">JazzCash Mobile Wallet (Instant)</option>
-                          <option value="Bank Transfer" className="bg-[#102019] text-white py-1">Pakistani Bank Account (Direct IBFT)</option>
-                          <option value="Raast Instant Pay" className="bg-[#102019] text-white py-1">Raast Instant Pay (State Bank Rail)</option>
-                          <option value="Custom Bank" className="bg-[#102019] text-[#D9A441] py-1 font-bold">+ Other / Add Custom Bank</option>
+                          <option value="EasyPaisa" className="bg-[#161B22] text-[#F0F6FC] py-1">EasyPaisa Mobile Wallet (Instant)</option>
+                          <option value="JazzCash" className="bg-[#161B22] text-[#F0F6FC] py-1">JazzCash Mobile Wallet (Instant)</option>
+                          <option value="Bank Transfer" className="bg-[#161B22] text-[#F0F6FC] py-1">Pakistani Bank Account (Direct IBFT)</option>
+                          <option value="Raast Instant Pay" className="bg-[#161B22] text-[#F0F6FC] py-1">Raast Instant Pay (State Bank Rail)</option>
+                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom Bank</option>
                         </>
                       ) : enrollAgentPhone.startsWith('+971') ? (
                         <>
-                          <option value="Wio Bank Direct" className="bg-[#102019] text-white py-1">Wio Bank Business Direct</option>
-                          <option value="Emirates NBD" className="bg-[#102019] text-white py-1">Emirates NBD AED Direct</option>
-                          <option value="FAB Bank" className="bg-[#102019] text-white py-1">First Abu Dhabi Bank (FAB)</option>
-                          <option value="International Bank Wire" className="bg-[#102019] text-white py-1">UAE Central Bank Direct Clearing</option>
-                          <option value="Custom Bank" className="bg-[#102019] text-[#D9A441] py-1 font-bold">+ Other / Add Custom UAE Bank</option>
+                          <option value="Wio Bank Direct" className="bg-[#161B22] text-[#F0F6FC] py-1">Wio Bank Business Direct</option>
+                          <option value="Emirates NBD" className="bg-[#161B22] text-[#F0F6FC] py-1">Emirates NBD AED Direct</option>
+                          <option value="FAB Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">First Abu Dhabi Bank (FAB)</option>
+                          <option value="International Bank Wire" className="bg-[#161B22] text-[#F0F6FC] py-1">UAE Central Bank Direct Clearing</option>
+                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom UAE Bank</option>
                         </>
                       ) : enrollAgentPhone.startsWith('+966') ? (
                         <>
-                          <option value="Al Rajhi Bank" className="bg-[#102019] text-white py-1">Al Rajhi Bank (Saudi SARIE)</option>
-                          <option value="STC Pay" className="bg-[#102019] text-white py-1">STC Pay Saudi Mobile Wallet</option>
-                          <option value="Saudi National Bank" className="bg-[#102019] text-white py-1">SNB (Saudi National Bank)</option>
-                          <option value="Custom Bank" className="bg-[#102019] text-[#D9A441] py-1 font-bold">+ Other / Add Custom Saudi Bank</option>
+                          <option value="Al Rajhi Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">Al Rajhi Bank (Saudi SARIE)</option>
+                          <option value="STC Pay" className="bg-[#161B22] text-[#F0F6FC] py-1">STC Pay Saudi Mobile Wallet</option>
+                          <option value="Saudi National Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">SNB (Saudi National Bank)</option>
+                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom Saudi Bank</option>
                         </>
                       ) : (
                         <>
-                          <option value="UK Faster Payments" className="bg-[#102019] text-white py-1">UK Faster Payments / BACS (Instant)</option>
-                          <option value="Euro SEPA IBAN" className="bg-[#102019] text-white py-1">Euro SEPA Instant IBAN</option>
-                          <option value="Revolut Business" className="bg-[#102019] text-white py-1">Revolut Business Account</option>
-                          <option value="Barclays Bank" className="bg-[#102019] text-white py-1">Barclays Bank UK</option>
-                          <option value="Custom Bank" className="bg-[#102019] text-[#D9A441] py-1 font-bold">+ Other / Add Custom Bank / Credit Union</option>
+                          <option value="UK Faster Payments" className="bg-[#161B22] text-[#F0F6FC] py-1">UK Faster Payments / BACS (Instant)</option>
+                          <option value="Euro SEPA IBAN" className="bg-[#161B22] text-[#F0F6FC] py-1">Euro SEPA Instant IBAN</option>
+                          <option value="Revolut Business" className="bg-[#161B22] text-[#F0F6FC] py-1">Revolut Business Account</option>
+                          <option value="Barclays Bank" className="bg-[#161B22] text-[#F0F6FC] py-1">Barclays Bank UK</option>
+                          <option value="Custom Bank" className="bg-[#161B22] text-[#D29922] py-1 font-bold">+ Other / Add Custom Bank / Credit Union</option>
                         </>
                       )}
                     </select>
@@ -6103,19 +6505,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                   {/* Bank Account Mode: 4 Distinct Fields (Title, Bank Name & Branch, Registered Mobile, Account/IBAN) */}
                   {isBankSelected ? (
-                    <div className="space-y-3 rounded-2xl border border-white/10 bg-black/40 p-3.5">
+                    <div className="space-y-3 rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono text-[#00FFFF] font-bold uppercase">
+                        <span className="text-[11px] font-mono text-[#06B6D4] font-bold uppercase">
                           {enrollmentLang === 'ur_roman' ? 'بینک اکاؤنٹ کی تفصیلات (۴ خانے لازمی)' : enrollmentLang === 'ar' ? 'تفاصيل الحساب البنكي (٤ حقول مطلوبة)' : 'Bank Account Details (4 Required Fields)'}
                         </span>
-                        <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-mono text-[#3FB950] bg-[#0D3822] border border-[#116329] px-2 py-0.5 rounded">
                           {enrollPayoutMethod === 'Custom Bank' ? 'CUSTOM BANK / IBFT' : 'IBFT / DIRECT'}
                         </span>
                       </div>
 
                       {/* 1. Account Title (Localized Placeholders by Region) */}
                       <div>
-                        <label className="text-[11px] font-mono text-white/70 block mb-1 uppercase font-semibold">
+                        <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-semibold">
                           {enrollmentLang === 'ur_roman' ? '۱. اکاؤنٹ کا ٹائٹل (اکاؤنٹ ہولڈر کا پورا نام) *' : enrollmentLang === 'ar' ? '١. اسم صاحب الحساب (المستفيد) *' : '1. Beneficiary Account Title *'}
                         </label>
                         <input
@@ -6131,17 +6533,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               ? enrollmentLang === 'ar' ? 'مثال: فيصل بن عبد العزيز القحطاني' : 'e.g. Faisal Abdulaziz Al-Qahtani'
                               : 'e.g. James Edward Smith'
                           }
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9A441]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
 
                       {/* 2. Bank Name & Branch (with Quick Presets & + Custom Bank Input, Query 3) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <label className="text-[11px] font-mono text-white/70 uppercase font-semibold">
+                          <label className="text-[11px] font-mono text-[#8B949E] uppercase font-semibold">
                             {enrollmentLang === 'ur_roman' ? '۲. بینک کا نام اور برانچ *' : enrollmentLang === 'ar' ? '٢. اسم البنك والفرع *' : '2. Bank Name & Branch *'}
                           </label>
-                          <span className="text-[10px] font-mono text-[#D9A441]">
+                          <span className="text-[10px] font-mono text-[#D29922]">
                             {enrollmentLang === 'ur_roman' ? '+ اپنی مرضی کا بینک شامل کریں' : enrollmentLang === 'ar' ? '+ إضافة بنك مخصص' : '+ Any Bank / Credit Union'}
                           </span>
                         </div>
@@ -6158,7 +6560,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               ? 'e.g. Al Rajhi / SNB / Riyad Bank / Alinma'
                               : 'e.g. Barclays / HSBC / Revolut / Monzo / NatWest'
                           }
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9A441]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
 
                         {/* Quick Bank Presets for Instant Tap */}
@@ -6175,10 +6577,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               key={preset}
                               type="button"
                               onClick={() => setEnrollBankName(preset)}
-                              className={`rounded-lg px-2 py-0.5 text-[10px] font-mono transition border ${
+                              className={`min-h-[36px] rounded-lg px-2.5 py-1 text-[10px] font-mono transition border ${
                                 enrollBankName === preset
-                                  ? 'border-[#D9A441] bg-[#D9A441]/20 text-[#D9A441] font-bold'
-                                  : 'border-white/10 bg-black/40 text-white/60 hover:text-white'
+                                  ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922] font-bold'
+                                  : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC]'
                               }`}
                             >
                               {preset}
@@ -6190,10 +6592,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       {/* 3. Registered Mobile Number (Localized Placeholders by Region) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <label className="text-[11px] font-mono text-white/70 uppercase font-semibold">
+                          <label className="text-[11px] font-mono text-[#8B949E] uppercase font-semibold">
                             {enrollmentLang === 'ur_roman' ? '۳. بینک میں رجسٹرڈ موبائل نمبر *' : enrollmentLang === 'ar' ? '٣. رقم الجوال المسجل بالبنك *' : '3. Registered Mobile Number *'}
                           </label>
-                          <span className="text-[10px] font-mono text-[#00FFFF]">
+                          <span className="text-[10px] font-mono text-[#06B6D4]">
                             {isPk ? 'Pakistan Metro (+92)' : isUae ? 'UAE (+971)' : isKsa ? 'Saudi Arabia (+966)' : 'UK / Europe (+44)'}
                           </span>
                         </div>
@@ -6210,17 +6612,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               ? '055 123 4567 or +966 55 123 4567 (9 digits)'
                               : '07123 456789 or +44 7123 456789 (10 digits)'
                           }
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
 
                       {/* 4. Account or IBAN Number with Country-Exact Formatting & Non-Phone Validation (Query 1 & 2) */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <label className="text-[11px] font-mono text-white/70 uppercase font-semibold">
+                          <label className="text-[11px] font-mono text-[#8B949E] uppercase font-semibold">
                             {enrollmentLang === 'ur_roman' ? '۴. اکاؤنٹ نمبر یا مکمل IBAN نمبر *' : enrollmentLang === 'ar' ? '٤. رقم الحساب أو الآيبان الكامل *' : '4. Account Number or IBAN *'}
                           </label>
-                          <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                          <span className="text-[10px] font-mono text-[#3FB950] font-bold">
                             {isPk
                               ? 'PKxx (24 chars) or 14-16 digit Account'
                               : isUae
@@ -6252,17 +6654,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               ? 'SA03 8000 0000 6080 1016 7519 (24 chars)'
                               : 'GB29 NWBK 6016 1331 9268 19 (22 chars)'
                           }
-                          className={`w-full rounded-xl border px-3.5 py-2.5 text-xs font-mono transition focus:outline-none ${
+                          className={`w-full min-h-[48px] rounded-xl border px-3.5 py-2.5 text-xs font-mono transition focus:outline-none ${
                             isPhoneFormatInBank
-                              ? 'border-red-500 bg-red-950/20 text-red-300 focus:border-red-400'
+                              ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149] focus:border-[#F85149]'
                               : isIbanValidLength
-                              ? 'border-emerald-500 bg-emerald-950/20 text-emerald-300 focus:border-emerald-400'
-                              : 'border-white/10 bg-[#102019] text-[#00FFFF] focus:border-[#00FFFF]'
+                              ? 'border-[#116329] bg-[#0D3822] text-[#3FB950] focus:border-[#3FB950]'
+                              : 'border-[#30363D] bg-[#0D1117] text-[#06B6D4] focus:border-[#06B6D4]'
                           }`}
                         />
 
                         {/* Character count / Format guide pill */}
-                        <div className="flex items-center justify-between text-[10px] font-mono mt-1 text-white/50">
+                        <div className="flex items-center justify-between text-[10px] font-mono mt-1 text-[#8B949E]">
                           <span>
                             {isPk
                               ? 'Supported: Pakistani Bank Accounts (14-16 digits) or State Bank 24-char IBAN'
@@ -6272,16 +6674,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                               ? 'Saudi SARIE format: SA + 2 check digits + 20 account digits (24 chars total)'
                               : 'UK / European format: GB + 20 alphanumeric chars (22 total) or Sort Code + Account'}
                           </span>
-                          <span className={isIbanValidLength ? 'text-emerald-400 font-bold' : 'text-white/40'}>
+                          <span className={isIbanValidLength ? 'text-[#3FB950] font-bold' : 'text-[#6E7681]'}>
                             {enrollPayoutAccount.replace(/\s/g, '').length} chars
                           </span>
                         </div>
 
                         {/* Inline Warning if Agent Entered Phone Number Instead of Account/IBAN (Query 1) */}
                         {isPhoneFormatInBank && (
-                          <div className="mt-2 rounded-xl border border-red-500/50 bg-red-950/70 p-3 space-y-1 animate-in fade-in">
-                            <div className="flex items-center gap-1.5 text-red-300 font-mono text-xs font-bold">
-                              <AlertOctagon className="size-4 shrink-0 text-red-400" />
+                          <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1 animate-in fade-in">
+                            <div className="flex items-center gap-1.5 text-[#F85149] font-mono text-xs font-bold">
+                              <AlertOctagon className="size-4 shrink-0 text-[#F85149]" />
                               <span>
                                 {enrollmentLang === 'ar'
                                   ? 'خطأ: تم إدخال رقم هاتف بدلاً من رقم الحساب البنكي'
@@ -6290,7 +6692,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                                   : 'Invalid Bank Format: Phone Number Detected'}
                               </span>
                             </div>
-                            <p className="text-xs text-red-200/90 font-sans leading-relaxed">
+                            <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                               {enrollmentLang === 'ar'
                                 ? 'للحسابات البنكية والتحويلات المباشرة يجب إدخال رقم الحساب البنكي أو رقم الآيبان المعتمد (IBAN) وليس رقم الهاتف. رقم الهاتف صالح فقط للمحافظ الإلكترونية.'
                                 : enrollmentLang === 'ur_roman'
@@ -6303,9 +6705,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     </div>
                   ) : (
                     /* Mobile Wallet Mode (EasyPaisa / JazzCash / STC Pay) */
-                    <div className="space-y-3 rounded-2xl border border-white/10 bg-black/40 p-3.5">
+                    <div className="space-y-3 rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
                       <div>
-                        <label className="text-[11px] font-mono text-white/70 block mb-1 uppercase font-semibold">
+                        <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-semibold">
                           {enrollmentLang === 'ur_roman' ? 'والیٹ اکاؤنٹ ٹائٹل (اکاؤنٹ ہولڈر کا نام) *' : enrollmentLang === 'ar' ? 'اسم صاحب المحفظة *' : 'Wallet Account Title *'}
                         </label>
                         <input
@@ -6313,12 +6715,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           value={enrollPayoutTitle}
                           onChange={(e) => setEnrollPayoutTitle(e.target.value)}
                           placeholder="Registered Full Name"
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#D9A441]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[11px] font-mono text-white/70 block mb-1 uppercase font-semibold">
+                        <label className="text-[11px] font-mono text-[#8B949E] block mb-1 uppercase font-semibold">
                           {enrollmentLang === 'ur_roman' ? 'موبائل والیٹ نمبر *' : enrollmentLang === 'ar' ? 'رقم المحفظة الإلكترونية *' : 'Registered Mobile Wallet Number *'}
                         </label>
                         <input
@@ -6326,7 +6728,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           value={enrollPayoutAccount}
                           onChange={(e) => setEnrollPayoutAccount(e.target.value)}
                           placeholder={isPk ? '0300 1234567' : 'Mobile number'}
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3.5 py-2.5 text-xs font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2.5 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                     </div>
@@ -6334,8 +6736,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
                   {/* BIC/SWIFT Code: ONLY shown for International Wire outside Pakistan and MENA */}
                   {showBicSwift && (
-                    <div className="rounded-xl border border-white/10 bg-black/40 p-3 space-y-1">
-                      <label className="text-[10px] font-mono text-white/50 block mb-1 uppercase">
+                    <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-1">
+                      <label className="text-[10px] font-mono text-[#8B949E] block mb-1 uppercase">
                         BIC / SWIFT CODE (INTERNATIONAL WIRE ONLY)
                       </label>
                       <input
@@ -6343,19 +6745,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         value={enrollBicSwift}
                         onChange={(e) => setEnrollBicSwift(e.target.value)}
                         placeholder="e.g. MEZNPKKA / BARCGB22"
-                        className="w-full rounded-xl border border-white/10 bg-[#102019] px-3 py-2 text-xs font-mono text-white/80 focus:outline-none focus:border-[#D9A441]"
+                        className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                       />
                     </div>
                   )}
 
                   {/* ROW 1: GUARANTOR DETAILS (Pakistan Only, Strictly NO "optional" or "mandatory" tag) */}
                   {isPk && (
-                    <div className="rounded-2xl border border-amber-500/30 bg-black/50 p-3.5 space-y-2.5">
+                    <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B]/35 p-3.5 space-y-2.5">
                       <div className="space-y-0.5">
-                        <span className="text-xs font-mono font-bold text-[#D9A441] block">
+                        <span className="text-xs font-mono font-bold text-[#D29922] block">
                           {enrollmentLang === 'ur_roman' ? 'ضامن کی تفصیلات' : enrollmentLang === 'ar' ? 'بيانات الضامن' : 'Guarantor Details'}
                         </span>
-                        <p className="text-[11px] text-white/60 font-sans">
+                        <p className="text-[11px] text-[#8B949E] font-sans">
                           {enrollmentLang === 'ur_roman'
                             ? 'کاروباری یا ذاتی ضامن کا نام اور واٹس ایپ رابطہ'
                             : enrollmentLang === 'ar'
@@ -6365,7 +6767,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <div>
-                          <label className="text-[10px] font-mono text-white/60 block mb-1 uppercase">
+                          <label className="text-[10px] font-mono text-[#8B949E] block mb-1 uppercase">
                             {enrollmentLang === 'ur_roman' ? 'ضامن کا پورا نام' : enrollmentLang === 'ar' ? 'اسم الضامن' : 'Guarantor Full Name'}
                           </label>
                           <input
@@ -6373,11 +6775,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                             value={enrollGuarantorName}
                             onChange={(e) => setEnrollGuarantorName(e.target.value)}
                             placeholder={enrollmentLang === 'ur_roman' ? 'ضامن کا نام درج کریں' : 'Guarantor Name'}
-                            className="w-full rounded-xl border border-white/10 bg-[#102019] px-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#D9A441]"
+                            className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                           />
                         </div>
                         <div>
-                          <label className="text-[10px] font-mono text-white/60 block mb-1 uppercase">
+                          <label className="text-[10px] font-mono text-[#8B949E] block mb-1 uppercase">
                             {enrollmentLang === 'ur_roman' ? 'ضامن کا واٹس ایپ / فون نمبر' : enrollmentLang === 'ar' ? 'رقم هاتف / واتساب الضامن' : 'Phone / WhatsApp'}
                           </label>
                           <input
@@ -6385,7 +6787,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                             value={enrollGuarantorPhone}
                             onChange={(e) => setEnrollGuarantorPhone(e.target.value)}
                             placeholder="0300 1234567"
-                            className="w-full rounded-xl border border-white/10 bg-[#102019] px-3 py-2 text-xs font-mono text-[#00FFFF] placeholder-white/30 focus:outline-none focus:border-[#00FFFF]"
+                            className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                           />
                         </div>
                       </div>
@@ -6393,20 +6795,20 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   )}
 
                   {/* ROW 2: NEXT OF KIN DETAILS (Marked Optional) */}
-                  <div className="rounded-2xl border border-white/10 bg-black/40 p-3.5 space-y-2.5">
+                  <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-bold text-white/80">
+                      <span className="text-xs font-mono font-bold text-[#F0F6FC]">
                         {enrollmentLang === 'ur_roman'
                           ? 'وارث / قریبی رشتہ دار کی تفصیلات (اختیاری)'
                           : enrollmentLang === 'ar'
                           ? 'بيانات أقرب الأقربين (اختياري)'
                           : 'Next of Kin / Family Reference (Optional)'}
                       </span>
-                      <span className="text-[10px] font-mono text-white/40 uppercase">
+                      <span className="text-[10px] font-mono text-[#6E7681] uppercase">
                         {enrollmentLang === 'ur_roman' ? 'اختیاری' : enrollmentLang === 'ar' ? 'اختياري' : 'Optional'}
                       </span>
                     </div>
-                    <p className="text-[11px] text-white/50 font-sans">
+                    <p className="text-[11px] text-[#8B949E] font-sans">
                       {enrollmentLang === 'ur_roman'
                         ? 'ہنگامی رابطے کے لیے فیملی یا قریبی رشتہ دار کا حوالہ'
                         : enrollmentLang === 'ar'
@@ -6415,7 +6817,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       <div>
-                        <label className="text-[10px] font-mono text-white/50 block mb-1 uppercase">
+                        <label className="text-[10px] font-mono text-[#8B949E] block mb-1 uppercase">
                           {enrollmentLang === 'ur_roman' ? 'قریبی رشتہ دار کا نام' : enrollmentLang === 'ar' ? 'اسم قريب الدرجة الأولى' : 'Next of Kin Name'}
                         </label>
                         <input
@@ -6423,11 +6825,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           value={enrollNextOfKin}
                           onChange={(e) => setEnrollNextOfKin(e.target.value)}
                           placeholder={enrollmentLang === 'ur_roman' ? 'نام درج کریں' : 'Full Name'}
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3 py-2 text-xs text-white/80 placeholder-white/30 focus:outline-none focus:border-[#D9A441]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-mono text-white/50 block mb-1 uppercase">
+                        <label className="text-[10px] font-mono text-[#8B949E] block mb-1 uppercase">
                           {enrollmentLang === 'ur_roman' ? 'رابطہ نمبر' : enrollmentLang === 'ar' ? 'رقم الاتصال' : 'Contact Phone Number'}
                         </label>
                         <input
@@ -6435,18 +6837,18 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           value={enrollNextOfKinPhone}
                           onChange={(e) => setEnrollNextOfKinPhone(e.target.value)}
                           placeholder={isPk ? '0300 9876543' : '+ Phone number'}
-                          className="w-full rounded-xl border border-white/10 bg-[#102019] px-3 py-2 text-xs font-mono text-white/80 placeholder-white/30 focus:outline-none focus:border-[#D9A441]"
+                          className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3 py-2 text-xs font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Step 3 Navigation Buttons with Full Localization and Validation Gating */}
-                  <div className="pt-2 flex justify-between">
+                  <div className="pt-2 flex justify-between gap-2">
                     <button
                       type="button"
                       onClick={() => setEnrollmentStep(2)}
-                      className="rounded-xl border border-white/10 px-4 py-2 text-xs font-mono text-white/60 hover:text-white"
+                      className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
                     >
                       {enrollmentLang === 'ur_roman' ? '← پیچھے' : enrollmentLang === 'ar' ? '← السابق' : '← Back'}
                     </button>
@@ -6457,10 +6859,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         setEnrollmentStep(4);
                       }}
                       disabled={isPhoneFormatInBank}
-                      className={`rounded-xl px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5 ${
+                      className={`min-h-[48px] rounded-xl px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5 ${
                         isPhoneFormatInBank
-                          ? 'bg-white/10 text-white/40 cursor-not-allowed border border-white/10'
-                          : 'bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C]'
+                          ? 'bg-[#21262D] text-[#6E7681] cursor-not-allowed border border-[#30363D]'
+                          : 'bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117]'
                       }`}
                     >
                       <span>{enrollmentLang === 'ur_roman' ? 'اگلا: قانونی اقرار نامہ ←' : enrollmentLang === 'ar' ? 'التالي: الشروط القانونية ←' : 'Next: Legal Terms →'}</span>
@@ -6472,12 +6874,17 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
             {/* STEP 4: LEGAL REMITTANCE DECLARATION WITH NATIVE NASTALIQ URDU & BIOMETRIC STAMP (QUERIES 9 & 10) */}
             {enrollmentStep === 4 && (
-              <div className="space-y-3.5 animate-in fade-in">
+              <div
+                dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+                className={`space-y-3.5 animate-in fade-in min-w-0 ${
+                  enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+                }`}
+              >
                 {/* Legal Remittance Agreement with 100% Native Nastaliq Urdu Script */}
-                <div className="rounded-2xl border border-amber-500/40 bg-amber-950/25 p-4 space-y-3">
-                  <div className="flex items-center justify-between border-b border-amber-500/20 pb-2">
-                    <span className="text-[11px] font-mono text-[#D9A441] font-bold uppercase flex items-center gap-1.5">
-                      <ShieldCheck className="size-4" />
+                <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B]/35 p-4 space-y-3 overflow-hidden">
+                  <div className="flex items-center justify-between border-b border-[#9E6A03]/40 pb-2">
+                    <span className="text-[11px] font-mono text-[#D29922] font-bold uppercase flex items-center gap-1.5">
+                      <ShieldCheck className="size-4 shrink-0" />
                       <span>
                         {enrollmentLang === 'ur_roman'
                           ? 'قانونی اقرار نامہ اور کیش ہینڈلنگ شرائط'
@@ -6486,8 +6893,8 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           : 'Legal Declaration & Remittance Agreement'}
                       </span>
                     </span>
-                    <span className="text-[10px] font-mono text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded font-bold">
-                      {enrollAgentPhone.startsWith('+92') ? '48H CASH SLA' : '100% CASHLESS'}
+                    <span className="text-[10px] font-mono text-[#D29922] bg-[#3B2E0B] border border-[#9E6A03] px-2 py-0.5 rounded font-bold shrink-0">
+                      {enrollAgentPhone.startsWith('+92') ? '48H CASH RULE' : '100% CASHLESS'}
                     </span>
                   </div>
 
@@ -6496,25 +6903,25 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       type="checkbox"
                       checked={enrollAgreedTerms}
                       onChange={(e) => setEnrollAgreedTerms(e.target.checked)}
-                      className="mt-1 size-4 rounded border-amber-500/50 bg-[#102019] text-[#D9A441] focus:ring-0 shrink-0"
+                      className="mt-1 size-4 rounded border-[#30363D] bg-[#0D1117] text-[#D29922] focus:ring-0 shrink-0"
                     />
-                    <div className="space-y-1">
+                    <div className="space-y-1 min-w-0">
                       {enrollAgentPhone.startsWith('+92') ? (
                         enrollmentLang === 'ur_roman' ? (
-                          <p className="text-sm text-amber-100 font-sans leading-relaxed text-right dir-rtl">
+                          <p dir="rtl" className="text-sm text-[#F0F6FC] font-sans leading-relaxed text-right break-words [overflow-wrap:break-word]">
                             &ldquo;میں اقرار کرتا ہوں کہ تمام وصول شدہ نقدی رقم ۴۸ گھنٹے کے اندر اندر ورک کرافٹ کے آفیشل اکاؤنٹس (ایزی پیسہ، جاز کیش یا بینک اکاؤنٹ) میں جمع کرواؤں گا۔ اگر ۴۸ گھنٹے کے اندر رقم جمع نہ کروائی گئی تو میرا ایجنٹ آئی ڈی فوری طور پر معطل کر دیا جائے گا اور ورک کرافٹ پاکستان کے قوانین کے تحت قانونی چارہ جوئی کا مکمل حق محفوظ رکھتا ہے۔&rdquo;
                           </p>
                         ) : (
-                          <p className="text-xs text-amber-200/95 font-sans leading-relaxed">
+                          <p dir="ltr" className="text-xs text-[#F0F6FC] font-sans leading-relaxed text-left break-words [overflow-wrap:break-word]">
                             &ldquo;I agree to remit all physical cash collected within 48 hours into WORKCRAFT Official Accounts (EasyPaisa, JazzCash, or Official Bank Accounts). I acknowledge that if dues are not remitted within 48 hours, my Agent ID will be immediately suspended and WORKCRAFT Local reserves the full legal right to initiate formal recovery and legal actions under the laws of Pakistan.&rdquo;
                           </p>
                         )
                       ) : enrollmentLang === 'ar' ? (
-                        <p className="text-xs text-amber-200/95 font-sans leading-relaxed text-right dir-rtl">
+                        <p dir="rtl" className="text-xs text-[#F0F6FC] font-sans leading-relaxed text-right break-words [overflow-wrap:break-word]">
                           &ldquo;أقر وأوافق على أن WORKCRAFT تطبق سياسة رقمية غير نقدية بنسبة 100% خارج باكستان. يمنع منعاً باتاً استلام أو تداول أي مبالغ نقدية ورقية. يتم سداد جميع رسوم الإعداد والاشتراكات رقمياً ومباشرة لحسابات WORKCRAFT. وأوافق على أن أي مخالفة أو شكوى من صالون شريك ستؤدي إلى إنهاء العقد فوراً وإلغاء صلاحياتي دون إشعار مسبق.&rdquo;
                         </p>
                       ) : (
-                        <p className="text-xs text-amber-200/95 font-sans leading-relaxed">
+                        <p dir="ltr" className="text-xs text-[#F0F6FC] font-sans leading-relaxed text-left break-words [overflow-wrap:break-word]">
                           &ldquo;I acknowledge and agree that outside Pakistan, WORKCRAFT operates under a strict 100% cashless digital policy. I am strictly prohibited from handling manual physical hard cash. All salon setup and recurring fees must be remitted digitally by salon owners directly to WORKCRAFT. I agree that any violation, misconduct, or salon partner complaint will result in immediate termination of my Agent Agreement, de-enrollment from the platform, and forfeiture of pending claims without prior notice.&rdquo;
                         </p>
                       )}
@@ -6522,14 +6929,14 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </label>
 
                   {/* Optical Biometric Legal Stamp Scanner */}
-                  <div className="p-3 rounded-xl bg-black/60 border border-amber-500/30 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5 text-xs font-mono">
-                      <Fingerprint className="size-5 text-[#00FFFF]" />
-                      <div>
-                        <span className="text-white font-bold block">
+                  <div className="p-3 rounded-xl bg-[#0D1117] border border-[#30363D] flex flex-wrap items-center justify-between gap-3 overflow-hidden">
+                    <div className="flex items-center gap-2.5 text-xs font-mono min-w-0 flex-1">
+                      <Fingerprint className="size-5 text-[#06B6D4] shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[#F0F6FC] font-bold block">
                           {enrollmentLang === 'ur_roman' ? 'قانونی بایومیٹرک مہر' : enrollmentLang === 'ar' ? 'البصمة القانونية' : 'Legal Biometric Stamp'}
                         </span>
-                        <span className="text-[10px] text-emerald-400">
+                        <span dir="ltr" className="text-[10px] text-[#3FB950] block break-all overflow-hidden [overflow-wrap:break-word]">
                           {enrollLegalStampHash || (enrollmentLang === 'ur_roman' ? 'مہر لگانے کے لیے بٹن دبائیں' : 'Pending biometric signature')}
                         </span>
                       </div>
@@ -6544,7 +6951,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           setEnrollLegalStampHash('SHA256: 7f81-810a-agent-legal-stamped');
                         }, 900);
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold transition shrink-0"
+                      className="min-h-[44px] px-3 py-1.5 rounded-lg bg-[#3B2E0B] hover:bg-[#3B2E0B]/80 text-[#D29922] border border-[#9E6A03] text-xs font-mono font-bold transition shrink-0"
                     >
                       {isLegalStampScanning ? 'Scanning...' : enrollLegalBiometricStamped ? '✓ Re-Stamp' : 'Stamp Thumbprint'}
                     </button>
@@ -6552,11 +6959,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 </div>
 
                 {/* Step 4 Navigation Buttons with Full Localization */}
-                <div className="pt-2 flex justify-between">
+                <div className="pt-2 flex justify-between gap-2">
                   <button
                     type="button"
                     onClick={() => setEnrollmentStep(3)}
-                    className="rounded-xl border border-white/10 px-4 py-2 text-xs font-mono text-white/60 hover:text-white"
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
                   >
                     {enrollmentLang === 'ur_roman' ? '← پیچھے' : enrollmentLang === 'ar' ? '← السابق' : '← Back'}
                   </button>
@@ -6595,7 +7002,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       ]);
                       setEnrollmentStep(5);
                     }}
-                    className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
                   >
                     <span>{enrollmentLang === 'ur_roman' ? 'تصدیق اور ایکٹیویشن ←' : enrollmentLang === 'ar' ? 'تأكيد التسجيل والتفعيل ←' : 'Complete Enrollment & Activate →'}</span>
                   </button>
@@ -6606,22 +7013,22 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
             {/* STEP 5: ENROLLMENT CONFIRMED & HOME SCREEN PWA INSTALL (QUERIES 11 & 12) */}
             {enrollmentStep === 5 && (
               <div className="space-y-4 text-center animate-in zoom-in-95">
-                <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
+                <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-[#0D3822] border border-[#116329] text-[#3FB950]">
                   <CheckCircle2 className="size-10" />
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-300 font-bold">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#3FB950] font-bold">
                     DAY-1 ENROLLMENT 100% COMPLETE &amp; VERIFIED
                   </span>
-                  <h3 className="text-xl font-black text-white">
+                  <h3 className="text-xl font-black text-[#F0F6FC]">
                     {enrollmentLang === 'ur_roman'
                       ? 'مبارک ہو! آپ کا فیلڈ ایجنٹ اکاؤنٹ ایکٹیو ہے'
                       : enrollmentLang === 'ar'
                       ? 'تهانينا! حساب الوكيل الميداني مفعل بنجاح'
                       : 'Congratulations! Field Agent Terminal Activated'}
                   </h3>
-                  <p className="text-xs text-white/70 font-sans max-w-md mx-auto">
+                  <p className="text-xs text-[#8B949E] font-sans max-w-md mx-auto">
                     {enrollmentLang === 'ur_roman'
                       ? `${enrollAgentName}، آپ کے بایومیٹرک اسناد، شناختی کارڈ، اور ادائیگی کا طریقہ سینٹرل سسٹم میں محفوظ کر لیا گیا ہے۔`
                       : enrollmentLang === 'ar'
@@ -6630,23 +7037,28 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </p>
                 </div>
 
-                {/* 1-Tap Add to Home Screen Prompt (Query 11) */}
-                <div className="rounded-2xl border border-[#00FFFF]/40 bg-gradient-to-r from-[#00FFFF]/10 via-[#102019] to-emerald-500/10 p-4 text-left font-mono space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#00FFFF] flex items-center gap-2">
+                {/* 1-Tap Save to Home Screen Prompt */}
+                <div
+                  dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+                  className={`rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 font-mono space-y-2.5 overflow-hidden ${
+                    enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-bold text-[#06B6D4] flex items-center gap-2">
                       <Smartphone className="size-4" />
-                      <span>{enrollmentLang === 'ur_roman' ? 'موبائل ہوم اسکرین پر شامل کریں' : enrollmentLang === 'ar' ? 'إضافة إلى الشاشة الرئيسية' : 'Add Field Agent Hub to Home Screen'}</span>
+                      <span>{enrollmentLang === 'ur_roman' ? 'موبائل ہوم اسکرین پر محفوظ کریں' : enrollmentLang === 'ar' ? 'حفظ على الشاشة الرئيسية' : 'Save WorkCraft to Home Screen'}</span>
                     </span>
-                    <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/20 px-2 py-0.5 rounded">
-                      PWA ICON READY
+                    <span className="text-[10px] text-[#3FB950] font-bold bg-[#0D3822] border border-[#116329] px-2 py-0.5 rounded">
+                      APP SHORTCUT READY
                     </span>
                   </div>
-                  <p className="text-xs text-white/70 font-sans leading-relaxed">
+                  <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
                     {enrollmentLang === 'ur_roman'
-                      ? 'اپنے موبائل کی ہوم اسکرین پر ورک کرافٹ کا آفیشل آئیکن شامل کریں تاکہ روزانہ فیلڈ ورک اور سیلون آن بورڈنگ کے لیے ۱ ٹیپ سے کھول سکیں۔'
+                      ? 'اپنے موبائل کی ہوم اسکرین پر WorkCraft کا آئیکن شامل کریں تاکہ روزانہ فیلڈ کام اور سیلون شامل کرنے کے لیے ایک ٹچ سے کھول سکیں۔'
                       : enrollmentLang === 'ar'
-                      ? 'أضف أيقونة تطبيق الوكيل إلى شاشة هاتفك الرئيسية لفتح بوابتك بلمسة واحدة دون الحاجة إلى متصفح.'
-                      : 'Install the Field Agent Hub icon directly on your mobile home screen for instant 1-tap offline-ready field salon onboarding.'}
+                      ? 'أضف أيقونة WorkCraft إلى شاشة هاتفك الرئيسية لفتح بوابتك بلمسة واحدة دون الحاجة إلى متصفح.'
+                      : 'Save the WorkCraft icon directly on your mobile home screen so you can open your field hub in 1 tap every day.'}
                   </p>
 
                   <div className="flex items-center gap-2 pt-1">
@@ -6656,19 +7068,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         setIsPwaInstalledConfirmed(true);
                         setShowPwaInstallModal(true);
                       }}
-                      className="rounded-xl bg-[#00FFFF] hover:bg-[#33ffff] text-[#12241C] px-4 py-2 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5 shadow"
+                      className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
                     >
                       <Download className="size-3.5" />
                       <span>
                         {isPwaInstalledConfirmed
-                          ? (enrollmentLang === 'ur_roman' ? '✓ ہوم اسکرین آئیکن فعال ہو چکا' : enrollmentLang === 'ar' ? '✓ تم التثبيت على الشاشة الرئيسية' : '✓ Added to Home Screen')
-                          : (enrollmentLang === 'ur_roman' ? 'ہوم اسکرین پر انسٹال کریں' : enrollmentLang === 'ar' ? 'تثبيت على الشاشة الرئيسية' : 'Install Icon to Phone Home Screen')}
+                          ? (enrollmentLang === 'ur_roman' ? '✓ ہوم اسکرین آئیکن شامل ہو گیا' : enrollmentLang === 'ar' ? '✓ تم الحفظ على الشاشة الرئيسية' : '✓ Added to Home Screen')
+                          : (enrollmentLang === 'ur_roman' ? 'ہوم اسکرین پر محفوظ کریں' : enrollmentLang === 'ar' ? 'حفظ على الشاشة الرئيسية' : 'Save "WorkCraft" to Home Screen')}
                       </span>
                     </button>
                   </div>
                 </div>
 
-                {/* Auto-Launch Button into Agent Hub Step 1 Onboarding (Query 12) */}
+                {/* Auto-Launch Button into Agent Hub Step 1 Onboarding */}
                 <div className="pt-2 flex flex-col sm:flex-row gap-2.5 justify-center">
                   <button
                     type="button"
@@ -6677,15 +7089,15 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       setActiveHubView('ONBOARDING');
                       setCurrentStep(1);
                     }}
-                    className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-6 py-3 text-xs font-mono font-black uppercase transition active:scale-95 shadow-lg flex items-center justify-center gap-2"
+                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-6 py-3 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center justify-center gap-2"
                   >
                     <Scissors className="size-4" />
-                    <span>{enrollmentLang === 'ur_roman' ? 'فیلڈ ہب کھولیں (پہلا سیلون آن بورڈ کریں) ←' : enrollmentLang === 'ar' ? 'فتح البوابة الميدانية وبدء تهيئة الصالونات ←' : 'Launch Field Agent Hub (Step 1 Salon Onboarding) →'}</span>
+                    <span>{enrollmentLang === 'ur_roman' ? 'پورٹل کھولیں (پہلا سیلون شامل کریں) ←' : enrollmentLang === 'ar' ? 'فتح البوابة وبدء تسجيل الصالونات ←' : 'Open Hub & Add First Salon →'}</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsRemoteEnrollmentWizardOpen(false)}
-                    className="rounded-xl border border-white/10 px-4 py-3 text-xs font-mono text-white/60 hover:text-white"
+                    className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-3 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
                   >
                     {enrollmentLang === 'ur_roman' ? 'بند کریں اور واپس جائیں' : enrollmentLang === 'ar' ? 'إغلاق والعودة' : 'Close & Return'}
                   </button>
@@ -6697,60 +7109,60 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 5. STANDALONE PWA INSTALLATION MODAL (QUERY 18) */}
+      {/* 5. HOME SCREEN APP SHORTCUT MODAL (UNIFIED WORKCRAFT LABEL) */}
       {/* ========================================================================= */}
       {showPwaInstallModal && (
         <div
-          className="fixed inset-0 z-[105] grid place-items-center bg-black/85 p-3 sm:p-5 backdrop-blur-md"
+          className="fixed inset-0 z-[105] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md"
           onClick={() => setShowPwaInstallModal(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[480px] rounded-3xl border border-emerald-500/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 space-y-4"
+            className="w-full max-w-[480px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 space-y-4"
           >
-            <div className="flex items-start justify-between border-b border-white/10 pb-3">
+            <div className="flex items-start justify-between border-b border-[#21262D] pb-3">
               <div className="flex items-center gap-3">
                 <img
                   src="/icon.svg"
-                  alt="WorkCraft Agent Mobile Shortcut Icon"
-                  className="size-[60px] rounded-2xl border border-[#D9A441]/50 shadow-lg shrink-0"
+                  alt="WorkCraft Mobile Shortcut Icon"
+                  className="size-[60px] rounded-2xl border border-[#9E6A03] shrink-0"
                 />
                 <div>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-300">
-                    PWA HOME SCREEN SHORTCUT
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#3FB950]">
+                    PHONE HOME SCREEN SHORTCUT
                   </span>
-                  <h3 className="text-lg font-black text-white">
-                    Add &quot;WorkCraft Agent&quot; to Home Screen
+                  <h3 className="text-lg font-black text-[#F0F6FC]">
+                    Save &quot;WorkCraft&quot; to Phone Home Screen
                   </h3>
-                  <span className="text-[10px] font-mono text-[#D9A441]">
-                    60px Mobile Shortcut Preview · High-Contrast Gold W + WORKCRAFT
+                  <span className="text-[10px] font-mono text-[#06B6D4]">
+                    Gold W + Cyan-Blue WORKCRAFT · Unified Label: WorkCraft
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setShowPwaInstallModal(false)}
-                className="rounded-lg p-1.5 text-white/55 hover:text-white transition"
+                className="min-h-[44px] min-w-[44px] rounded-lg grid place-items-center text-[#8B949E] hover:text-[#F0F6FC] transition"
               >
                 <X className="size-5" />
               </button>
             </div>
 
-            <p className="text-xs text-white/70 font-sans leading-relaxed">
-              Browser security sandboxes on iOS and Android do not permit silent home screen installations without user tap. Follow these 1-tap instructions:
+            <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+              Your phone asks for one quick confirmation tap before placing the WorkCraft icon on your home screen:
             </p>
 
             <div className="space-y-2.5 font-mono text-xs">
-              <div className="rounded-xl bg-black/50 p-3 border border-white/10 space-y-1">
-                <span className="text-[#00FFFF] font-bold block">📱 Android (Chrome / Samsung Internet):</span>
-                <p className="text-white/70 font-sans text-[11px]">
-                  Tap the button below or tap Chrome menu (⋮) ➔ select <strong>&quot;Install app&quot;</strong> or <strong>&quot;Add to Home Screen&quot;</strong>.
+              <div className="rounded-xl bg-[#0D1117] p-3 border border-[#30363D] space-y-1">
+                <span className="text-[#06B6D4] font-bold block">📱 Android (Chrome / Samsung Internet):</span>
+                <p className="text-[#8B949E] font-sans text-[11px]">
+                  Tap the button below or tap Chrome menu (⋮) ➔ select <strong className="text-[#F0F6FC]">&quot;Install app&quot;</strong> or <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong>.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-black/50 p-3 border border-white/10 space-y-1">
-                <span className="text-[#D9A441] font-bold block">🍎 iPhone / iPad (Safari):</span>
-                <p className="text-white/70 font-sans text-[11px]">
-                  Tap the Safari <strong>Share icon (<Share2 className="size-3 inline" />)</strong> at the bottom bar ➔ scroll and tap <strong>&quot;Add to Home Screen&quot;</strong>.
+              <div className="rounded-xl bg-[#0D1117] p-3 border border-[#30363D] space-y-1">
+                <span className="text-[#D29922] font-bold block">🍎 iPhone / iPad (Safari):</span>
+                <p className="text-[#8B949E] font-sans text-[11px]">
+                  Tap the Safari <strong className="text-[#F0F6FC]">Share icon (<Share2 className="size-3 inline" />)</strong> at the bottom bar ➔ scroll and tap <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong>.
                 </p>
               </div>
             </div>
@@ -6761,10 +7173,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 setIsPwaInstalledConfirmed(true);
                 setShowPwaInstallModal(false);
               }}
-              className="w-full rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black py-3 text-xs font-mono font-black uppercase transition shadow-lg flex items-center justify-center gap-2"
+              className="w-full min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3 text-xs font-mono font-black uppercase transition flex items-center justify-center gap-2"
             >
               <Download className="size-4" />
-              <span>Simulate PWA Installation Prompt</span>
+              <span>Save &quot;WorkCraft&quot; Shortcut Now</span>
             </button>
           </div>
         </div>

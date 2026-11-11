@@ -8,8 +8,8 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #12241C;
-    color: #F5F2E9;
+    background-color: #0D1117;
+    color: #F0F6FC;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -22,14 +22,14 @@
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #0D1117;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #30363D;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #484F58;
 }
 
 /* Safe area padding for mobile notches */

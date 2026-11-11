@@ -189,7 +189,7 @@ const REGION_CONFIGS: Record<
         features: [
           'Everything in VIP Executive',
           'Multi-Branch & Multi-Barber Voice Routing',
-          'Dedicated Custom SLA & Priority Video QA',
+          'Priority Support & Fast Video Approval',
         ],
       },
     ],
@@ -258,7 +258,7 @@ const REGION_CONFIGS: Record<
         features: [
           'Everything in VIP Executive',
           'Multi-Branch & Multi-Barber Voice Routing',
-          'Dedicated Custom SLA & Priority Video QA',
+          'Priority Support & Fast Video Approval',
         ],
       },
     ],
@@ -326,7 +326,7 @@ const REGION_CONFIGS: Record<
         features: [
           'Everything in VIP Executive',
           'Multi-Branch & Multi-Barber Voice Routing',
-          'Dedicated Custom SLA & Priority Video QA',
+          'Priority Support & Fast Video Approval',
         ],
       },
     ],
@@ -391,7 +391,7 @@ const REGION_CONFIGS: Record<
         features: [
           'Everything in VIP Executive',
           'Multi-Branch & Multi-Barber Voice Routing',
-          'Dedicated Custom SLA & Priority Video QA',
+          'Priority Support & Fast Video Approval',
         ],
       },
     ],
@@ -456,7 +456,7 @@ const REGION_CONFIGS: Record<
         features: [
           'Everything in VIP Executive',
           'Multi-Branch & Multi-Barber Voice Routing',
-          'Dedicated Custom SLA & Priority Video QA',
+          'Priority Support & Fast Video Approval',
         ],
       },
     ],
@@ -825,7 +825,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
     } catch {
       setIsWakeLockActive(true);
       setWakeLockNote(
-        'Counter Voice Standby Active ($0/mo): On installed Android PWA, screen stays awake at counter for hands-free speech.'
+        'Counter Voice Standby Active ($0/mo): When saved on your phone, screen stays awake at counter for hands-free speech.'
       );
       setTimeout(() => setWakeLockNote(null), 6000);
     }
@@ -1370,24 +1370,24 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
       if (lang === 'ur') {
         return `پہلی پیشگی یاددہانی (مہینے کے آخری 2 دن): آپ کی ماہانہ 10% مینٹیننس فیس (${amt}) آنے والی 5 تاریخ کو واجب الادا ہے۔`;
       }
-      return `Advance Reminder (Last 2 Days of Month): Your 10% SLA (${amt}) is due on the 5th via ${currentSalon.phone}.`;
+      return `Advance Reminder (Last 2 Days of Month): Your 10% monthly fee (${amt}) is due on the 5th via ${currentSalon.phone}.`;
     }
     if (stage === 'STAGE_2_DAY_3') {
       if (lang === 'ar') {
-        return `تذكير 3 الشهر: يرجى سداد ${amt} قبل 5 الشهر من رقمك المسجل ${currentSalon.phone} لتجنب المستوى الثاني.`;
+        return `تذكير 3 الشهر: يرجى سداد ${amt} قبل 5 الشهر من رقمك المسجل ${currentSalon.phone} للاستمرار بأولوية الخدمة.`;
       }
       if (lang === 'ur') {
         return `دوسری یاددہانی (3 تاریخ): 5 تاریخ سے پہلے ${amt} اپنے رجسٹرڈ نمبر ${currentSalon.phone} سے ادا کریں۔`;
       }
-      return `3rd of Month Reminder (48h Left): Settle ${amt} by the 5th from ${currentSalon.phone} to avoid Tier-2 downgrade.`;
+      return `3rd of Month Reminder (48h Left): Pay ${amt} by the 5th from ${currentSalon.phone} to keep priority service active.`;
     }
     if (lang === 'ar') {
-      return `تنبيه اليوم الأخير (5 الشهر): إذا لم يتم سداد ${amt} اليوم من ${currentSalon.phone}، سيدخل حسابك Tier-2 وسيتم قفل صندوق الإحصائيات وإيقاف الأولوية.`;
+      return `تنبيه اليوم الأخير (5 الشهر): إذا لم يتم سداد ${amt} اليوم من ${currentSalon.phone}، سيتم إيقاف الإحصائيات المباشرة مؤقتاً حتى السداد.`;
     }
     if (lang === 'ur') {
-      return `آج 5 تاریخ (آخری دن) وارننگ: اگر آج ${amt} ادا نہ ہوئے تو کل آپ Tier-2 میں چلے جائیں گے، میٹرکس باکس بند ہو جائے گا اور سسٹم ترجیحی جواب نہیں دے گا۔`;
+      return `آج 5 تاریخ (آخری دن) وارننگ: اگر آج ${amt} ادا نہ ہوئے تو کل لائیو رپورٹس عارضی طور پر رک جائیں گی اور سروس عمومی موڈ میں چلی جائے گی۔`;
     }
-    return `Final Warning (5th Due Day): If ${amt} is not paid today from ${currentSalon.phone}, you enter Tier-2 tomorrow, lose the Live Metrics Box, and lose Tier-1 Priority responses.`;
+    return `Final Warning (5th Due Day): If ${amt} is not paid today from ${currentSalon.phone}, live stats pause tomorrow until settled.`;
   };
 
   // Query 4 (Approved): 100% Complete Full Rate Wishes (Birthday & Festivals — Zero Discount Until Field Visit)
@@ -1416,10 +1416,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
   // ============================================================================
   if (isFounderInspector) {
     return (
-      <div className="space-y-6 max-w-5xl mx-auto">
-        <div className="rounded-2xl border border-[#D9A441]/40 bg-[#D9A441]/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs shadow-md">
-          <div className="flex items-center gap-2.5 text-[#D9A441] font-bold">
-            <Eye className="size-4 shrink-0 text-[#D9A441]" />
+      <div className="space-y-6 max-w-5xl mx-auto pb-28 lg:pb-10 min-w-0">
+        <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
+          <div className="flex items-center gap-2.5 text-[#D29922] font-bold">
+            <Eye className="size-4 shrink-0 text-[#D29922]" />
             <span>
               👑 FOUNDER READ-ONLY INSPECTOR · Live Queue &amp; Salon Owner Controls Hidden from Founder
             </span>
@@ -1428,10 +1428,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             <select
               value={selectedSalonId}
               onChange={(e) => setSelectedSalonId(e.target.value)}
-              className="rounded-xl border border-white/20 bg-[#102019] px-3 py-1.5 text-xs text-[#00FFFF] font-bold focus:outline-none focus:border-[#00FFFF]"
+              className="min-h-[44px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-1.5 text-xs text-[#06B6D4] font-bold focus:outline-none focus:border-[#06B6D4]"
             >
               {salonsState.map((s) => (
-                <option key={s.id} value={s.id} className="bg-[#102019] text-[#F5F2E9]">
+                <option key={s.id} value={s.id} className="bg-[#161B22] text-[#F0F6FC]">
                   {s.name} ({s.location}) — {s.plan}
                 </option>
               ))}
@@ -1439,7 +1439,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             {onClose && (
               <button
                 onClick={onClose}
-                className="rounded-xl bg-white/10 hover:bg-white/20 px-3 py-1.5 text-white text-xs font-bold transition flex items-center gap-1.5 border border-white/20"
+                className="min-h-[44px] rounded-xl bg-[#21262D] hover:border-[#06B6D4] px-3 py-1.5 text-[#F0F6FC] text-xs font-bold transition flex items-center gap-1.5 border border-[#30363D]"
               >
                 <span>Back to Overview</span>
                 ✕
@@ -1449,60 +1449,62 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
         </div>
 
         <PortalCard
-          title={`${currentSalon.name} — Node Health & Billing Audit`}
+          title={`${currentSalon.name} — Connection Health & Billing Summary`}
           kicker={`REGION: ${regionConfig.regionLabel.toUpperCase()} · READ-ONLY`}
         >
           <div className="space-y-5">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono">
-              <div className="rounded-2xl border border-white/10 bg-black/40 p-3.5">
-                <span className="text-[10px] text-white/50 uppercase block">SALON OWNER</span>
-                <p className="text-sm font-bold text-white mt-1">{currentSalon.owner}</p>
-                <p className="text-[11px] text-[#00FFFF] mt-0.5">{currentSalon.phone}</p>
+              <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
+                <span className="text-[10px] text-[#8B949E] uppercase block">SALON OWNER</span>
+                <p className="text-sm font-bold text-[#F0F6FC] mt-1">{currentSalon.owner}</p>
+                <p className="text-[11px] text-[#06B6D4] mt-0.5">{currentSalon.phone}</p>
               </div>
-              <div className="rounded-2xl border border-[#D9A441]/30 bg-[#D9A441]/5 p-3.5">
-                <span className="text-[10px] text-[#D9A441] uppercase block">ACTIVE PACKAGE</span>
-                <p className="text-sm font-bold text-[#F5F2E9] mt-1">{currentSalon.plan}</p>
-                <p className="text-[11px] text-white/60 mt-0.5">
+              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5">
+                <span className="text-[10px] text-[#D29922] uppercase block">ACTIVE PACKAGE</span>
+                <p className="text-sm font-bold text-[#F0F6FC] mt-1">{currentSalon.plan}</p>
+                <p className="text-[11px] text-[#8B949E] mt-0.5">
                   Setup: {regionConfig.symbol}{currentPackage.setupFee.toLocaleString()}
                 </p>
               </div>
-              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-3.5">
-                <span className="text-[10px] text-emerald-300 uppercase block">10% SLA (DUE 5TH)</span>
-                <p className="text-sm font-bold text-emerald-300 mt-1">
+              <div className="rounded-2xl border border-[#116329] bg-[#0D3822] p-3.5">
+                <span className="text-[10px] text-[#3FB950] uppercase block">10% MONTHLY FEE (DUE 5TH)</span>
+                <p className="text-sm font-bold text-[#3FB950] mt-1">
                   {regionConfig.symbol}{currentSalon.maint.toLocaleString()} / mo
                 </p>
-                <p className="text-[11px] text-white/60 mt-0.5">
-                  Status: {maintCycleStage === 'OVERDUE_TIER_2' ? 'Tier-2 Grace' : maintCycleStage === 'PAID_ACTIVE' ? 'Paid ✓' : 'Reminder Active'}
+                <p className="text-[11px] text-[#8B949E] mt-0.5">
+                  Status: {maintCycleStage === 'OVERDUE_TIER_2' ? 'Overdue After 5th' : maintCycleStage === 'PAID_ACTIVE' ? 'Paid ✓' : 'Reminder Active'}
                 </p>
               </div>
-              <div className="rounded-2xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-3.5">
-                <span className="text-[10px] text-[#00FFFF] uppercase block">ONBOARDING LANGUAGE</span>
-                <p className="text-sm font-bold text-white mt-1">
+              <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
+                <span className="text-[10px] text-[#06B6D4] uppercase block">ONBOARDING LANGUAGE</span>
+                <p className="text-sm font-bold text-[#F0F6FC] mt-1">
                   {currentSalon.onboardingLanguage === 'ur'
                     ? 'Urdu (اردو)'
                     : currentSalon.onboardingLanguage === 'ar'
                     ? 'Arabic (العربية)'
                     : 'English'}
                 </p>
-                <p className="text-[11px] text-white/60 mt-0.5">
+                <p className="text-[11px] text-[#8B949E] mt-0.5">
                   All Founder msgs sent in this lang
                 </p>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-3">
+            <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <span className="text-xs font-mono font-bold text-[#D9A441] uppercase">
+                <span className="text-xs font-mono font-bold text-[#D29922] uppercase">
                   Founder Notice Preview (Auto-Translated to Owner's Onboarding Language):
                 </span>
               </div>
               <div
                 dir={currentSalon.onboardingLanguage === 'ur' || currentSalon.onboardingLanguage === 'ar' ? 'rtl' : 'ltr'}
-                className="rounded-xl border border-white/10 bg-[#12241C] p-3 text-xs text-white/85 font-sans leading-relaxed"
+                className={`rounded-xl border border-[#30363D] bg-[#161B22] p-3 text-xs text-[#F0F6FC] font-sans leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                  currentSalon.onboardingLanguage === 'ur' || currentSalon.onboardingLanguage === 'ar' ? 'text-right' : 'text-left'
+                }`}
               >
                 {getFounderNoticeForOwner(currentSalon.onboardingLanguage)}
               </div>
-              <p className="text-[11px] font-mono text-white/50">
+              <p className="text-[11px] font-mono text-[#6E7681] break-words [overflow-wrap:break-word]">
                 Today's Live Queue, Salon Strategy Matrix Boxes, Multi-Service Carts, and Voice Concierge belong exclusively inside the Salon Owner Dashboard (`?role=salon_owner`).
               </p>
             </div>
@@ -1516,44 +1518,42 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
   // SALON OWNER FULL PWA DASHBOARD
   // ============================================================================
   return (
-    <div className="space-y-5 max-w-5xl mx-auto">
+    <div className="space-y-5 max-w-5xl mx-auto pb-28 lg:pb-10 min-w-0">
       {/* ========================================================================= */}
       {/* 1. TOP HEADER: SALON BRAND + TOP-RIGHT UPGRADE + FOUNDER LOCALIZED NOTICE */}
       {/* ========================================================================= */}
-      <div className="rounded-3xl border border-white/10 bg-[#102019] p-5 sm:p-7 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#00FFFF]/5 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-7 relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="size-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_#10B981]" />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[.22em] text-[#00FFFF]">
-                SALON OWNER PWA DASHBOARD · {regionConfig.regionLabel.toUpperCase()}
+              <span className="size-2.5 rounded-full bg-[#3FB950] animate-pulse" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[.22em] text-[#06B6D4]">
+                SALON OWNER PORTAL · {regionConfig.regionLabel.toUpperCase()}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#F0F6FC] tracking-tight mt-1">
               {currentSalon.name}
             </h1>
-            <p className="text-xs text-white/60 font-sans mt-0.5">
-              Owner: <strong className="text-white/85">{currentSalon.owner}</strong> · SIM:{' '}
-              <span className="font-mono text-[#D9A441]">{currentSalon.phone}</span> · {currentSalon.location}
+            <p className="text-xs text-[#8B949E] font-sans mt-0.5">
+              Owner: <strong className="text-[#F0F6FC]">{currentSalon.owner}</strong> · SIM:{' '}
+              <span className="font-mono text-[#D29922]">{currentSalon.phone}</span> · {currentSalon.location}
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-[10px] font-mono">
-              <span className="rounded-lg border border-white/15 bg-white/[0.04] px-2.5 py-1 text-white/80">
-                Plan: <strong className="text-[#D9A441]">{currentSalon.plan}</strong>
+              <span className="rounded-lg border border-[#30363D] bg-[#0D1117] px-2.5 py-1 text-[#F0F6FC]">
+                Plan: <strong className="text-[#D29922]">{currentSalon.plan}</strong>
               </span>
-              <span className="rounded-lg border border-emerald-500/30 bg-emerald-950/30 px-2.5 py-1 text-emerald-300">
-                10% SLA Due: <strong>5th of Every Month</strong>
+              <span className="rounded-lg border border-[#116329] bg-[#0D3822] px-2.5 py-1 text-[#3FB950]">
+                10% Monthly Fee Due: <strong>5th of Every Month</strong>
               </span>
               <select
                 value={selectedSalonId}
                 onChange={(e) => setSelectedSalonId(e.target.value)}
-                className="rounded-lg border border-white/15 bg-[#12241C] px-2 py-1 text-[10px] font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+                className="min-h-[40px] rounded-lg border border-[#30363D] bg-[#0D1117] px-2 py-1 text-xs font-mono text-[#06B6D4] focus:outline-none focus:border-[#06B6D4]"
                 title="Switch test salon region"
               >
                 {salonsState.map((s) => (
-                  <option key={s.id} value={s.id} className="bg-[#102019] text-[#F5F2E9]">
-                    Node: {s.name} ({getRegionFromPhone(s.phone).currency})
+                  <option key={s.id} value={s.id} className="bg-[#161B22] text-[#F0F6FC]">
+                    Salon: {s.name} ({getRegionFromPhone(s.phone).currency})
                   </option>
                 ))}
               </select>
@@ -1569,13 +1569,13 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                   setSelectedUpgradeTargetId(higherPackages[0].id);
                   setIsUpgradeModalOpen(true);
                 }}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] text-xs font-mono font-black uppercase tracking-wider transition active:scale-95 shadow-[0_0_20px_rgba(217,164,65,0.35)] flex items-center gap-2"
+                className="min-h-[48px] px-4 py-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] text-xs font-mono font-bold uppercase tracking-wider transition active:scale-95 flex items-center gap-2"
               >
-                <ArrowUpCircle className="size-4 text-[#12241C]" />
+                <ArrowUpCircle className="size-4 text-[#0D1117]" />
                 <span>Upgrade Plan ({higherPackages.length} Tiers)</span>
               </button>
             ) : (
-              <div className="px-3.5 py-2 rounded-xl border border-[#D9A441]/50 bg-[#D9A441]/15 text-[#D9A441] text-xs font-mono font-bold flex items-center gap-1.5">
+              <div className="min-h-[48px] px-3.5 py-2 rounded-xl border border-[#9E6A03] bg-[#3B2E0B] text-[#D29922] text-xs font-mono font-bold flex items-center gap-1.5">
                 <Sparkles className="size-4" />
                 <span>Top Enterprise Tier Active</span>
               </div>
@@ -1584,29 +1584,29 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('BILLING_SLA')}
-              className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-mono font-bold transition hover:opacity-90 ${
+              className={`min-h-[48px] flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-mono font-bold transition hover:opacity-90 ${
                 isMaintenanceOverdue
-                  ? 'border-red-500/50 bg-red-950/40 text-red-300'
+                  ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149]'
                   : maintCycleStage !== 'PAID_ACTIVE'
-                  ? 'border-amber-500/50 bg-amber-950/40 text-amber-300'
-                  : 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300'
+                  ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'
+                  : 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
               }`}
-              title="Open Plan & 5th-of-Month SLA Details"
+              title="Open Plan & Monthly Fee Details"
             >
               <ShieldCheck className="size-4" />
               <span>
                 {isMaintenanceOverdue
-                  ? 'Tier-2 Grace (Post-5th)'
+                  ? 'Overdue Grace (Post-5th)'
                   : maintCycleStage === 'STAGE_3_DAY_5_FINAL'
                   ? '5th Final Due Day'
-                  : 'Tier-1 Priority Active'}
+                  : 'Priority Service Active'}
               </span>
             </button>
 
             {onClose && (
               <button
                 onClick={onClose}
-                className="rounded-xl border border-white/10 bg-white/[0.04] p-2 text-white/60 hover:text-white transition"
+                className="min-h-[44px] min-w-[44px] rounded-xl border border-[#30363D] bg-[#21262D] p-2 text-[#8B949E] hover:text-[#F0F6FC] grid place-items-center transition"
                 title="Close Portal"
               >
                 <X className="size-4" />
@@ -1618,15 +1618,17 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
         {/* QUERY 1 (NEW): OFFICIAL FOUNDER NOTICE IN OWNER'S ONBOARDING / VOICE-NOTE LANGUAGE */}
         <div
           dir={ownerLang === 'ar' || ownerLang === 'ur' ? 'rtl' : 'ltr'}
-          className="mt-4 rounded-2xl border border-[#D9A441]/35 bg-[#D9A441]/[0.07] p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs"
+          className={`mt-4 rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs overflow-hidden break-words [overflow-wrap:break-word] ${
+            ownerLang === 'ar' || ownerLang === 'ur' ? 'text-right' : 'text-left'
+          }`}
         >
-          <div className="flex items-start gap-2.5">
-            <Globe className="size-4 text-[#D9A441] shrink-0 mt-0.5" />
-            <div>
-              <span className="text-[10px] font-mono font-bold uppercase text-[#D9A441] block">
+          <div className="flex items-start gap-2.5 min-w-0">
+            <Globe className="size-4 text-[#D29922] shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <span className="text-[10px] font-mono font-bold uppercase text-[#D29922] block">
                 Founder Message · Onboarding / Voice-Note Language ({ownerLang.toUpperCase()})
               </span>
-              <p className="text-white/90 font-sans mt-0.5 leading-relaxed">
+              <p className="text-[#F0F6FC] font-sans mt-0.5 leading-relaxed break-words [overflow-wrap:break-word]">
                 {getFounderNoticeForOwner(ownerLang)}
               </p>
             </div>
@@ -1634,30 +1636,30 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
         </div>
 
         {/* QUERY 2 & 4: $0/MO HANDS-FREE CROSS-LANGUAGE VOICE CONCIERGE BAR */}
-        <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
-          <div className="rounded-2xl border border-[#00FFFF]/30 bg-[#00FFFF]/[0.05] p-3.5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div className="mt-4 pt-4 border-t border-[#21262D] space-y-3">
+          <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
             <div className="flex items-start sm:items-center gap-3">
               <button
                 type="button"
                 onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-                className={`size-10 rounded-xl border grid place-items-center shrink-0 transition ${
+                className={`size-12 rounded-xl border grid place-items-center shrink-0 transition ${
                   isVoiceEnabled
-                    ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] shadow-[0_0_12px_rgba(0,255,255,0.25)]'
-                    : 'border-white/15 bg-black/40 text-white/40'
+                    ? 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4]'
+                    : 'border-[#30363D] bg-[#161B22] text-[#6E7681]'
                 }`}
               >
                 {isVoiceEnabled ? <Volume2 className="size-5" /> : <VolumeX className="size-5" />}
               </button>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-white uppercase">
+                  <span className="text-xs font-mono font-bold text-[#F0F6FC] uppercase">
                     Owner Voice Language &amp; Translator: {isVoiceEnabled ? 'ON' : 'MUTED'}
                   </span>
-                  <span className="rounded-md bg-emerald-500/20 border border-emerald-500/40 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-300">
+                  <span className="rounded-md bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[9px] font-mono font-bold text-[#3FB950]">
                     $0/MO FREE · TRANSLATES CLIENT REPLIES
                   </span>
                 </div>
-                <p className="text-[11px] text-white/65 font-sans mt-0.5">
+                <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
                   Client chats in their language (e.g., Arabic in MENA); dashboard speaks aloud to you in your chosen language ({ownerLang.toUpperCase()}).
                 </p>
               </div>
@@ -1667,11 +1669,11 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               <select
                 value={ownerLang}
                 onChange={(e) => setOwnerLang(e.target.value as VoiceLang)}
-                className="rounded-xl border border-white/15 bg-[#102019] px-2.5 py-1.5 text-xs text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF]"
+                className="min-h-[44px] rounded-xl border border-[#30363D] bg-[#161B22] px-2.5 py-1.5 text-xs text-[#F0F6FC] focus:outline-none focus:border-[#06B6D4]"
               >
-                <option value="ur" className="bg-[#102019] text-[#F5F2E9]">Owner Voice: Urdu (اردو)</option>
-                <option value="en" className="bg-[#102019] text-[#F5F2E9]">Owner Voice: English</option>
-                <option value="ar" className="bg-[#102019] text-[#F5F2E9]">Owner Voice: Arabic (العربية)</option>
+                <option value="ur" className="bg-[#161B22] text-[#F0F6FC]">Owner Voice: Urdu (اردو)</option>
+                <option value="en" className="bg-[#161B22] text-[#F0F6FC]">Owner Voice: English</option>
+                <option value="ar" className="bg-[#161B22] text-[#F0F6FC]">Owner Voice: Arabic (العربية)</option>
               </select>
 
               <button
@@ -1679,10 +1681,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 onClick={() =>
                   setVoiceFilter((prev) => (prev === 'ALL' ? 'URGENT_ONLY' : 'ALL'))
                 }
-                className={`rounded-xl border px-2.5 py-1.5 transition ${
+                className={`min-h-[44px] rounded-xl border px-3 py-1.5 transition ${
                   voiceFilter === 'URGENT_ONLY'
-                    ? 'border-amber-500/50 bg-amber-950/40 text-amber-300 font-bold'
-                    : 'border-white/15 bg-black/40 text-white/80 hover:border-[#00FFFF]'
+                    ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922] font-bold'
+                    : 'border-[#30363D] bg-[#161B22] text-[#F0F6FC] hover:border-[#06B6D4]'
                 }`}
               >
                 {voiceFilter === 'URGENT_ONLY' ? 'Filter: Urgent & Arrivals' : 'Filter: All Alerts'}
@@ -1691,10 +1693,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               <button
                 type="button"
                 onClick={toggleScreenWakeLock}
-                className={`rounded-xl border px-2.5 py-1.5 transition flex items-center gap-1.5 ${
+                className={`min-h-[44px] rounded-xl border px-3 py-1.5 transition flex items-center gap-1.5 ${
                   isWakeLockActive
-                    ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300 font-bold'
-                    : 'border-white/15 bg-black/40 text-white/75 hover:border-emerald-400'
+                    ? 'border-[#116329] bg-[#0D3822] text-[#3FB950] font-bold'
+                    : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#3FB950]'
                 }`}
               >
                 <Smartphone className="size-3.5" />
@@ -1704,16 +1706,16 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           </div>
 
           {currentlySpeakingText && (
-            <div className="rounded-xl border border-[#00FFFF]/50 bg-[#00FFFF]/15 px-3.5 py-2.5 flex items-center justify-between gap-3 animate-in fade-in">
-              <div className="flex items-center gap-2.5 text-xs font-mono text-[#00FFFF]">
+            <div className="rounded-xl border border-[#06B6D4] bg-[#21262D] px-3.5 py-2.5 flex items-center justify-between gap-3 animate-in fade-in">
+              <div className="flex items-center gap-2.5 text-xs font-mono text-[#06B6D4]">
                 <Radio className="size-4 animate-ping shrink-0" />
                 <span className="font-bold">SPEAKING ({ownerLang.toUpperCase()}):</span>
-                <span className="text-white font-sans">"{currentlySpeakingText}"</span>
+                <span className="text-[#F0F6FC] font-sans">"{currentlySpeakingText}"</span>
               </div>
               <button
                 type="button"
                 onClick={stopSpeaking}
-                className="rounded-lg bg-black/50 border border-white/20 px-2.5 py-1 text-[10px] font-mono text-white hover:bg-black/70 shrink-0"
+                className="min-h-[36px] rounded-lg bg-[#0D1117] border border-[#30363D] px-2.5 py-1 text-[10px] font-mono text-[#F0F6FC] hover:border-[#06B6D4] shrink-0"
               >
                 Stop Voice
               </button>
@@ -1721,7 +1723,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           )}
 
           {wakeLockNote && (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 px-3.5 py-2 text-[11px] font-mono text-emerald-200">
+            <div className="rounded-xl border border-[#116329] bg-[#0D3822] px-3.5 py-2 text-[11px] font-mono text-[#3FB950]">
               {wakeLockNote}
             </div>
           )}
@@ -1739,23 +1741,23 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               : 1850;
           const roiMultiple = Math.max(12, Math.round(monthlyEarnedAmount / Math.max(1, currentSalon.maint)));
           return (
-            <div className="mt-4 rounded-2xl border border-emerald-500/35 bg-gradient-to-r from-emerald-950/45 via-[#102019] to-[#D9A441]/10 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="mt-4 rounded-2xl border border-[#116329] bg-[#0D1117] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <span className="size-10 rounded-xl border border-emerald-500/40 bg-emerald-500/15 grid place-items-center text-emerald-300 shrink-0">
+                <span className="size-10 rounded-xl border border-[#116329] bg-[#0D3822] grid place-items-center text-[#3FB950] shrink-0">
                   <TrendingUp className="size-5" />
                 </span>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#3FB950]">
                       MONEY WORKCRAFT EARNED YOU THIS MONTH
                     </span>
-                    <span className="rounded-md bg-emerald-500/20 border border-emerald-500/40 px-2 py-0.5 text-[10px] font-mono font-black text-emerald-300">
+                    <span className="rounded-md bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[10px] font-mono font-black text-[#3FB950]">
                       {roiMultiple}x RETURN
                     </span>
                   </div>
-                  <p className="text-sm sm:text-base font-black text-white mt-0.5 font-mono">
+                  <p className="text-sm sm:text-base font-black text-[#F0F6FC] mt-0.5 font-mono">
                     {regionConfig.symbol}{monthlyEarnedAmount.toLocaleString()}{' '}
-                    <span className="text-xs font-sans font-normal text-white/70">
+                    <span className="text-xs font-sans font-normal text-[#8B949E]">
                       from 38 automated bookings · vs {regionConfig.symbol}{currentSalon.maint.toLocaleString()}/mo plan fee
                     </span>
                   </p>
@@ -1768,7 +1770,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     setSelectedUpgradeTargetId(higherPackages[0].id);
                     setIsUpgradeModalOpen(true);
                   }}
-                  className="rounded-xl border border-[#D9A441]/60 bg-[#D9A441]/15 hover:bg-[#D9A441]/25 px-3.5 py-2 text-xs font-mono font-bold text-[#D9A441] transition shrink-0"
+                  className="min-h-[44px] rounded-xl border border-[#9E6A03] bg-[#3B2E0B] hover:border-[#D29922] px-3.5 py-2 text-xs font-mono font-bold text-[#D29922] transition shrink-0"
                 >
                   Unlock More With {higherPackages[0].name} →
                 </button>
@@ -1778,9 +1780,9 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
         })()}
 
         {maintToast && (
-          <div className="mt-4 rounded-xl border border-emerald-500/40 bg-emerald-950/60 p-3 text-xs font-mono text-emerald-200 animate-in fade-in flex items-center justify-between gap-3 shadow-lg">
+          <div className="mt-4 rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-xs font-mono text-[#3FB950] animate-in fade-in flex items-center justify-between gap-3">
             <span>{maintToast}</span>
-            <button onClick={() => setMaintToast(null)} className="text-white/60 hover:text-white font-bold">
+            <button onClick={() => setMaintToast(null)} className="text-[#8B949E] hover:text-[#F0F6FC] font-bold">
               ✕
             </button>
           </div>
@@ -1790,20 +1792,22 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
       {/* 5TH-OF-MONTH REMINDER BANNER */}
       {maintCycleStage !== 'PAID_ACTIVE' && maintCycleStage !== 'OVERDUE_TIER_2' && (
         <div
-          className={`rounded-2xl border p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-lg animate-in fade-in ${
+          className={`rounded-2xl border p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 animate-in fade-in ${
             maintCycleStage === 'STAGE_3_DAY_5_FINAL'
-              ? 'border-red-500/60 bg-red-950/35 text-red-100'
-              : 'border-amber-500/50 bg-amber-950/30 text-amber-100'
+              ? 'border-[#da3633] bg-[#4C1C1D] text-[#F0F6FC]'
+              : 'border-[#9E6A03] bg-[#3B2E0B] text-[#F0F6FC]'
           }`}
         >
           <div className="flex items-start gap-3">
             <AlertTriangle
               className={`size-5 shrink-0 mt-0.5 ${
-                maintCycleStage === 'STAGE_3_DAY_5_FINAL' ? 'text-red-400 animate-pulse' : 'text-amber-400'
+                maintCycleStage === 'STAGE_3_DAY_5_FINAL' ? 'text-[#F85149] animate-pulse' : 'text-[#D29922]'
               }`}
             />
             <div className="space-y-1">
-              <span className="text-xs font-mono font-black uppercase tracking-wider block">
+              <span className={`text-xs font-mono font-black uppercase tracking-wider block ${
+                maintCycleStage === 'STAGE_3_DAY_5_FINAL' ? 'text-[#F85149]' : 'text-[#D29922]'
+              }`}>
                 {maintCycleStage === 'STAGE_1_PREV_MONTH'
                   ? '📅 Reminder 1/3 · Last 2 Days of Previous Month'
                   : maintCycleStage === 'STAGE_2_DAY_3'
@@ -1812,7 +1816,9 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               </span>
               <p
                 dir={ownerLang === 'ar' || ownerLang === 'ur' ? 'rtl' : 'ltr'}
-                className="text-xs leading-relaxed font-sans text-white/90"
+                className={`text-xs leading-relaxed font-sans text-[#F0F6FC] overflow-hidden break-words [overflow-wrap:break-word] ${
+                  ownerLang === 'ar' || ownerLang === 'ur' ? 'text-right' : 'text-left'
+                }`}
               >
                 {getMaintenanceReminderMessage(maintCycleStage, ownerLang)}
               </p>
@@ -1823,7 +1829,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             type="button"
             disabled={isPayingMaint}
             onClick={handleAutoClearMaintenance}
-            className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-4 py-2 text-xs font-mono font-bold uppercase shrink-0 transition active:scale-95"
+            className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase shrink-0 transition active:scale-95"
           >
             {isPayingMaint
               ? 'Matching Payment...'
@@ -1843,113 +1849,113 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
         >
           {/* Core 4 Live Operational Cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <div className="rounded-2xl border border-[#10B981]/40 bg-[#102019] p-4 space-y-1 shadow-lg">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#10B981]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#3FB950]">
                   TODAY'S APPOINTMENTS
                 </span>
-                <Calendar className="size-4 text-[#10B981]" />
+                <Calendar className="size-4 text-[#3FB950]" />
               </div>
-              <p className="text-2xl font-black text-white font-mono">{bookings.length}</p>
-              <p className="text-[11px] text-white/55 font-sans">
+              <p className="text-2xl font-black text-[#F0F6FC] font-mono">{bookings.length}</p>
+              <p className="text-[11px] text-[#8B949E] font-sans">
                 Voice-announced to barbers · 0 calls
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#F59E0B]/40 bg-[#102019] p-4 space-y-1 shadow-lg">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#F5F2E9]">
-                  10% SLA (DUE 5TH)
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#F0F6FC]">
+                  10% MONTHLY FEE (DUE 5TH)
                 </span>
-                <ShieldCheck className="size-4 text-[#F59E0B]" />
+                <ShieldCheck className="size-4 text-[#D29922]" />
               </div>
-              <p className="text-2xl font-black text-[#D9A441] font-mono">
+              <p className="text-2xl font-black text-[#D29922] font-mono">
                 {regionConfig.symbol}{currentSalon.maint.toLocaleString()}
               </p>
-              <p className="text-[11px] text-white/55 font-sans">
-                {isMaintPaid ? 'Paid & Tier-1 Priority ✓' : 'Pay from registered SIM'}
+              <p className="text-[11px] text-[#8B949E] font-sans">
+                {isMaintPaid ? 'Paid & Priority Active ✓' : 'Pay from registered SIM'}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#00FFFF]/40 bg-[#102019] p-4 space-y-1 shadow-lg">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#00FFFF]">
-                  AUTONOMOUS REPLIES
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#06B6D4]">
+                  AUTOMATIC REPLIES
                 </span>
-                <MessageSquare className="size-4 text-[#00FFFF]" />
+                <MessageSquare className="size-4 text-[#06B6D4]" />
               </div>
-              <p className="text-2xl font-black text-[#00FFFF] font-mono">89</p>
-              <p className="text-[11px] text-white/55 font-sans">
-                Tier-1 Instant replies (UR / AR / EN)
+              <p className="text-2xl font-black text-[#06B6D4] font-mono">89</p>
+              <p className="text-[11px] text-[#8B949E] font-sans">
+                Instant auto-replies (UR / AR / EN)
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#D9A441]/40 bg-[#102019] p-4 space-y-1 shadow-lg">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D9A441]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D29922]">
                   GOOGLE REVIEWS
                 </span>
-                <Star className="size-4 text-[#D9A441] fill-[#D9A441]" />
+                <Star className="size-4 text-[#D29922] fill-[#D29922]" />
               </div>
-              <p className="text-2xl font-black text-[#D9A441] font-mono">4.9 ★</p>
-              <p className="text-[11px] text-white/55 font-sans">
+              <p className="text-2xl font-black text-[#D29922] font-mono">4.9 ★</p>
+              <p className="text-[11px] text-[#8B949E] font-sans">
                 +31 Positive reviews boosted
               </p>
             </div>
           </div>
 
-          {/* QUERY 2 (NEW): ZERO-STORAGE STRATEGY ANALYTICS MATRIX BOXES (SALON OWNER ONLY) */}
+          {/* ZERO-STORAGE STRATEGY ANALYTICS BOXES (SALON OWNER ONLY) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <div className="rounded-2xl border border-white/10 bg-[#102019] p-3.5 space-y-1.5">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase text-[#00FFFF]">
+                <span className="text-[10px] font-mono font-bold uppercase text-[#06B6D4]">
                   TOP BOOKED SERVICES
                 </span>
-                <Scissors className="size-3.5 text-[#00FFFF]" />
+                <Scissors className="size-3.5 text-[#06B6D4]" />
               </div>
-              <p className="text-xs font-bold text-white">1. Skin Fade Haircut (48%)</p>
-              <p className="text-[11px] text-white/60 font-sans">
+              <p className="text-xs font-bold text-[#F0F6FC]">1. Skin Fade Haircut (48%)</p>
+              <p className="text-[11px] text-[#8B949E] font-sans">
                 2. Beard Sculpt (31%) · 3. Detox Facial (21%)
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#102019] p-3.5 space-y-1.5">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase text-[#D9A441]">
-                  VIDEO DEAL ROI MATRIX
+                <span className="text-[10px] font-mono font-bold uppercase text-[#D29922]">
+                  VIDEO DEAL RESULTS
                 </span>
-                <Video className="size-3.5 text-[#D9A441]" />
+                <Video className="size-3.5 text-[#D29922]" />
               </div>
-              <p className="text-xs font-bold text-[#D9A441] font-mono">
+              <p className="text-xs font-bold text-[#D29922] font-mono">
                 450 Sent ➔ 380 Viewed ➔ 50 Booked
               </p>
-              <p className="text-[11px] text-white/60 font-sans">
+              <p className="text-[11px] text-[#8B949E] font-sans">
                 {regionConfig.symbol}{(currentSalon.phone.startsWith('+92') ? 75000 : 2250).toLocaleString()} deal revenue · 13.2% conversion
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#102019] p-3.5 space-y-1.5">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase text-emerald-300">
+                <span className="text-[10px] font-mono font-bold uppercase text-[#3FB950]">
                   PEAK RUSH HOURS
                 </span>
-                <TrendingUp className="size-3.5 text-emerald-400" />
+                <TrendingUp className="size-3.5 text-[#3FB950]" />
               </div>
-              <p className="text-xs font-bold text-white">4:00 PM – 8:00 PM (64%)</p>
-              <p className="text-[11px] text-white/60 font-sans">
+              <p className="text-xs font-bold text-[#F0F6FC]">4:00 PM – 8:00 PM (64%)</p>
+              <p className="text-[11px] text-[#8B949E] font-sans">
                 Keep 3+ barbers active during evening rush
               </p>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-[#102019] p-3.5 space-y-1.5">
+            <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase text-purple-300">
+                <span className="text-[10px] font-mono font-bold uppercase text-[#58A6FF]">
                   REPEAT CLIENT RETURN
                 </span>
-                <Award className="size-3.5 text-purple-400" />
+                <Award className="size-3.5 text-[#58A6FF]" />
               </div>
-              <p className="text-xs font-bold text-white">68% Repeat Visitors</p>
-              <p className="text-[11px] text-white/60 font-sans">
+              <p className="text-xs font-bold text-[#F0F6FC]">68% Repeat Visitors</p>
+              <p className="text-[11px] text-[#8B949E] font-sans">
                 Avg return cycle: 21 days · Zero media storage
               </p>
             </div>
@@ -1958,28 +1964,28 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
 
         {/* Tier-2 Post-5th Unpaid Metrics Lock Overlay */}
         {isMaintenanceOverdue && (
-          <div className="absolute inset-0 z-20 rounded-3xl border border-red-500/60 bg-black/85 backdrop-blur-md p-5 flex flex-col items-center justify-center text-center space-y-3 shadow-2xl animate-in fade-in">
-            <div className="size-11 rounded-2xl bg-red-500/15 border border-red-500/40 grid place-items-center text-red-400">
+          <div className="absolute inset-0 z-20 rounded-3xl border border-[#da3633] bg-[#0D1117]/80 backdrop-blur-md p-5 flex flex-col items-center justify-center text-center space-y-3 animate-in fade-in">
+            <div className="size-11 rounded-2xl bg-[#4C1C1D] border border-[#da3633] grid place-items-center text-[#F85149]">
               <Lock className="size-6" />
             </div>
             <div className="max-w-xl space-y-1">
-              <h3 className="text-base font-black text-white">
-                Tier-2 Grace Active (Past 5th Due Date) · Metrics &amp; Analytics Locked
+              <h3 className="text-base font-black text-[#F0F6FC]">
+                Account Overdue (Past 5th Due Date) · Live Stats Paused
               </h3>
-              <p className="text-xs text-white/80 font-sans leading-relaxed">
-                Send <strong>{regionConfig.symbol}{currentSalon.maint.toLocaleString()}</strong> from your registered SIM (
-                <span className="text-[#00FFFF] font-mono font-bold">{currentSalon.phone}</span>) to unlock Live Metrics, Strategy Analytics &amp; Tier-1 Priority.
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+                Send <strong className="text-[#F0F6FC]">{regionConfig.symbol}{currentSalon.maint.toLocaleString()}</strong> from your registered SIM (
+                <span className="text-[#06B6D4] font-mono font-bold">{currentSalon.phone}</span>) to unlock Live Stats, Business Insights &amp; Priority Service.
               </p>
             </div>
             <button
               type="button"
               disabled={isPayingMaint}
               onClick={handleAutoClearMaintenance}
-              className="rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 hover:from-[#e0b252] hover:to-amber-300 text-[#12241C] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-lg flex items-center gap-2"
+              className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center gap-2"
             >
-              <CheckCircle2 className="size-4 text-[#12241C]" />
+              <CheckCircle2 className="size-4 text-[#0D1117]" />
               <span>
-                Pay {regionConfig.symbol}{currentSalon.maint.toLocaleString()} via {currentSalon.phone} &amp; Restore Tier-1 →
+                Pay {regionConfig.symbol}{currentSalon.maint.toLocaleString()} via {currentSalon.phone} &amp; Restore Priority →
               </span>
             </button>
           </div>
@@ -1989,13 +1995,13 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
       {/* ========================================================================= */}
       {/* 3. CONSOLIDATED 5-TAB MOBILE NAVIGATION (ZERO FEATURES REMOVED)           */}
       {/* ========================================================================= */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1.5 rounded-2xl bg-black/40 border border-white/10">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1.5 rounded-2xl bg-[#0D1117] border border-[#30363D]">
         {[
           { id: 'QUEUE' as const, label: 'Live Queue & Voice', icon: Calendar, badge: `${bookings.length} today` },
           { id: 'RATES_BOT' as const, label: 'Rates, Bot & Proof', icon: Scissors, badge: `${services.length} · ${immutableProofs.length} locked` },
           { id: 'MARKETING' as const, label: 'Video & Events', icon: Video, badge: isVipPackage ? 'Live' : 'Deals' },
           { id: 'GROWTH_KIT' as const, label: 'Growth Kit & PDF', icon: Printer, badge: 'PDF + 4.9★' },
-          { id: 'BILLING_SLA' as const, label: 'Plan & 5th SLA', icon: ShieldCheck, badge: isMaintPaid ? 'Paid ✓' : 'Due 5th' },
+          { id: 'BILLING_SLA' as const, label: 'Plan & Monthly Fee', icon: ShieldCheck, badge: isMaintPaid ? 'Paid ✓' : 'Due 5th' },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -2003,17 +2009,19 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center justify-between gap-1.5 px-3 py-2.5 rounded-xl text-xs font-mono font-bold transition ${
+              className={`min-h-[48px] flex items-center justify-between gap-1.5 px-3 py-2.5 rounded-xl text-xs font-mono font-bold transition ${
                 isActive
-                  ? 'bg-white/[0.08] text-[#00FFFF] border border-[#00FFFF]/40 shadow-[0_0_15px_rgba(0,255,255,0.15)]'
-                  : 'text-white/65 hover:text-white hover:bg-white/[0.03] border border-transparent'
+                  ? 'bg-[#06B6D4] text-[#0D1117] border border-[#06B6D4]'
+                  : 'text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] border border-transparent'
               }`}
             >
               <span className="flex items-center gap-1.5 truncate">
                 <Icon className="size-3.5 shrink-0" />
                 <span className="truncate">{tab.label}</span>
               </span>
-              <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] text-white/75 shrink-0">
+              <span className={`rounded-full px-1.5 py-0.5 text-[9px] shrink-0 ${
+                isActive ? 'bg-[#0D1117]/20 text-[#0D1117]' : 'bg-[#21262D] text-[#8B949E]'
+              }`}>
                 {tab.badge}
               </span>
             </button>
@@ -2027,7 +2035,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
       {activeTab === 'QUEUE' && (
         <PortalCard title="Today's Live Client Queue & Voice Dispatcher" kicker="SALON OWNER ONLY · HANDS-FREE">
           <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-sans text-white/65">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-sans text-[#8B949E]">
               <p>
                 Visible strictly to salon owners. Every new booking speaks aloud in your preferred language ({ownerLang.toUpperCase()}) with barber, client, time, and services.
               </p>
@@ -2044,7 +2052,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       3200
                     )
                   }
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-3 py-1.5 text-xs font-mono font-bold uppercase transition active:scale-95"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-3 py-1.5 text-xs font-mono font-bold uppercase transition active:scale-95"
                 >
                   <Volume2 className="size-3.5" />
                   <span>Test Voice Booking (Ali · 3:00 PM)</span>
@@ -2061,7 +2069,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       2000
                     )
                   }
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-3 py-1.5 text-xs font-mono font-bold uppercase transition active:scale-95"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-3 py-1.5 text-xs font-mono font-bold uppercase transition active:scale-95"
                 >
                   <Plus className="size-3.5" />
                   <span>Add Walk-In</span>
@@ -2073,39 +2081,39 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               {bookings.map((booking) => (
                 <div
                   key={booking.id}
-                  className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-white/20 transition"
+                  className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-[#484F58] transition"
                 >
                   <div className="flex items-start gap-3.5">
-                    <div className="grid size-10 place-items-center rounded-xl bg-white/[0.04] border border-white/10 font-mono text-xs font-bold text-[#D9A441] shrink-0">
+                    <div className="grid size-10 place-items-center rounded-xl bg-[#161B22] border border-[#30363D] font-mono text-xs font-bold text-[#D29922] shrink-0">
                       {booking.timeSlot.split(' ')[0]}
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-sm font-bold text-white">{booking.clientName}</span>
-                        <span className="rounded-md bg-white/[0.06] border border-white/10 px-2 py-0.5 text-[10px] font-mono text-[#D9A441]">
+                        <span className="text-sm font-bold text-[#F0F6FC]">{booking.clientName}</span>
+                        <span className="rounded-md bg-[#21262D] border border-[#30363D] px-2 py-0.5 text-[10px] font-mono text-[#D29922]">
                           Barber: {booking.barberName}
                         </span>
                         <span
-                          className={`rounded-full px-2 py-0.5 text-[9px] font-mono font-bold ${
+                          className={`rounded-full px-2 py-0.5 text-[9px] font-mono font-bold border ${
                             booking.status === 'CONFIRMED'
-                              ? 'bg-cyan-950/60 text-[#00FFFF] border border-cyan-500/30'
+                              ? 'bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/30'
                               : booking.status === 'IN_CHAIR'
-                              ? 'bg-amber-950/60 text-amber-300 border border-amber-500/30 animate-pulse'
-                              : 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/30'
+                              ? 'bg-[#3B2E0B] text-[#D29922] border-[#9E6A03] animate-pulse'
+                              : 'bg-[#0D3822] text-[#3FB950] border-[#116329]'
                           }`}
                         >
                           {booking.status}
                         </span>
                       </div>
-                      <p className="text-xs text-white/70 font-sans mt-0.5">{booking.service}</p>
-                      <p className="text-[11px] font-mono text-white/45 mt-0.5">
+                      <p className="text-xs text-[#8B949E] font-sans mt-0.5">{booking.service}</p>
+                      <p className="text-[11px] font-mono text-[#6E7681] mt-0.5">
                         Client: {booking.phone} · Slot: {booking.timeSlot}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 self-end sm:self-center">
-                    <span className="text-sm font-mono font-bold text-[#D9A441] mr-1">
+                    <span className="text-sm font-mono font-bold text-[#D29922] mr-1">
                       {regionConfig.symbol}{booking.price.toLocaleString()}
                     </span>
                     <button
@@ -2116,7 +2124,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                           ownerLang
                         )
                       }
-                      className="p-1.5 rounded-lg border border-[#00FFFF]/30 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20 transition"
+                      className="min-h-[40px] min-w-[40px] grid place-items-center p-1.5 rounded-lg border border-[#06B6D4]/30 bg-[#06B6D4]/10 text-[#06B6D4] hover:bg-[#06B6D4]/20 transition"
                       title="Announce aloud"
                     >
                       <Volume2 className="size-4" />
@@ -2124,7 +2132,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     {booking.status === 'CONFIRMED' && (
                       <button
                         onClick={() => handleUpdateStatus(booking.id, 'IN_CHAIR')}
-                        className="rounded-lg border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 px-2.5 py-1.5 text-[10px] font-mono font-bold text-amber-300 transition"
+                        className="min-h-[40px] rounded-lg border border-[#9E6A03] bg-[#3B2E0B] hover:bg-[#3B2E0B]/80 px-2.5 py-1.5 text-[10px] font-mono font-bold text-[#D29922] transition"
                       >
                         Seat in Chair →
                       </button>
@@ -2132,7 +2140,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     {booking.status === 'IN_CHAIR' && (
                       <button
                         onClick={() => handleUpdateStatus(booking.id, 'COMPLETED')}
-                        className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1.5 text-[10px] font-mono font-bold text-emerald-300 transition"
+                        className="min-h-[40px] rounded-lg border border-[#116329] bg-[#0D3822] hover:bg-[#0D3822]/80 px-2.5 py-1.5 text-[10px] font-mono font-bold text-[#3FB950] transition"
                       >
                         Mark Done ✓
                       </button>
@@ -2143,18 +2151,18 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             </div>
 
             {/* QUERY 5: 2-Hour Pre-Appointment "Are You Coming?" Auto-Check & Waitlist Shield */}
-            <div className="rounded-2xl border border-emerald-500/35 bg-emerald-950/25 p-4 space-y-3">
+            <div className="rounded-2xl border border-[#116329] bg-[#0D3822]/40 p-4 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <span className="text-[11px] font-mono font-bold uppercase text-emerald-300 flex items-center gap-1.5">
+                  <span className="text-[11px] font-mono font-bold uppercase text-[#3FB950] flex items-center gap-1.5">
                     <Clock className="size-3.5" />
                     <span>2-Hour Auto Check-In &amp; Empty-Chair Waitlist Shield</span>
                   </span>
-                  <p className="text-xs text-white/75 font-sans mt-0.5">
+                  <p className="text-xs text-[#F0F6FC] font-sans mt-0.5">
                     Sends an automatic WhatsApp check 2 hours before every booking. If someone cancels, the open chair is offered to the next waiting client at <strong>100% full standard rate</strong>.
                   </p>
                 </div>
-                <span className="rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-1 text-[10px] font-mono font-bold text-emerald-300 shrink-0">
+                <span className="rounded-lg border border-[#116329] bg-[#0D3822] px-2.5 py-1 text-[10px] font-mono font-bold text-[#3FB950] shrink-0">
                   AUTO-RUNNING ✓
                 </span>
               </div>
@@ -2168,19 +2176,19 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                   return (
                     <div
                       key={item.id}
-                      className="rounded-xl border border-white/10 bg-black/45 p-3 flex flex-col justify-between gap-2"
+                      className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 flex flex-col justify-between gap-2"
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="font-bold text-white">
-                          {item.name} · <span className="font-mono text-[#00FFFF]">{item.slot}</span>
+                        <span className="font-bold text-[#F0F6FC]">
+                          {item.name} · <span className="font-mono text-[#06B6D4]">{item.slot}</span>
                         </span>
                         <span
                           className={`rounded-full px-2 py-0.5 text-[9px] font-mono font-bold border ${
                             status === 'CONFIRMED'
-                              ? 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300'
+                              ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
                               : status === 'WAITLIST_FILLED'
-                              ? 'border-[#D9A441]/50 bg-[#D9A441]/15 text-[#D9A441]'
-                              : 'border-amber-500/40 bg-amber-500/15 text-amber-300'
+                              ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'
+                              : 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'
                           }`}
                         >
                           {status === 'CONFIRMED'
@@ -2198,7 +2206,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                             setMaintToast(`✓ ${item.name} confirmed ${item.slot} via 2h WhatsApp check-in.`);
                             setTimeout(() => setMaintToast(null), 4500);
                           }}
-                          className="rounded-lg border border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25 px-2.5 py-1 text-[10px] font-mono font-bold text-emerald-300 transition"
+                          className="min-h-[40px] rounded-lg border border-[#116329] bg-[#0D3822] hover:bg-[#0D3822]/80 px-2.5 py-1 text-[10px] font-mono font-bold text-[#3FB950] transition"
                         >
                           Client Replied &ldquo;Coming&rdquo;
                         </button>
@@ -2209,7 +2217,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                             setMaintToast(`Chair auto-offered at 100% full standard rate to Waitlist Client for ${item.slot}.`);
                             setTimeout(() => setMaintToast(null), 5000);
                           }}
-                          className="rounded-lg border border-[#D9A441]/40 bg-[#D9A441]/10 hover:bg-[#D9A441]/20 px-2.5 py-1 text-[10px] font-mono font-bold text-[#D9A441] transition"
+                          className="min-h-[40px] rounded-lg border border-[#9E6A03] bg-[#3B2E0B] hover:bg-[#3B2E0B]/80 px-2.5 py-1 text-[10px] font-mono font-bold text-[#D29922] transition"
                         >
                           Cancelled ➔ Auto-Fill Waitlist
                         </button>
@@ -2221,8 +2229,8 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
             </div>
 
             {/* Voice Feed Log */}
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-2.5">
-              <span className="text-[11px] font-mono font-bold uppercase text-[#00FFFF] flex items-center gap-1.5">
+            <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-2.5">
+              <span className="text-[11px] font-mono font-bold uppercase text-[#06B6D4] flex items-center gap-1.5">
                 <BellRing className="size-3.5" />
                 <span>Cross-Language Voice Log ($0/mo On-Device)</span>
               </span>
@@ -2230,27 +2238,27 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 {voiceLogs.map((log) => (
                   <div
                     key={log.id}
-                    className="rounded-xl border border-white/10 bg-white/[0.02] p-2.5 flex items-center justify-between gap-3 text-xs"
+                    className="rounded-xl border border-[#30363D] bg-[#161B22] p-2.5 flex items-center justify-between gap-3 text-xs"
                   >
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2 min-w-0">
                         <span
-                          className={`rounded px-1.5 py-0.5 text-[9px] font-mono font-bold ${
+                          className={`rounded px-1.5 py-0.5 text-[9px] font-mono font-bold shrink-0 border ${
                             log.isUrgent
-                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                              : 'bg-[#00FFFF]/15 text-[#00FFFF] border border-[#00FFFF]/30'
+                              ? 'bg-[#3B2E0B] text-[#D29922] border-[#9E6A03]'
+                              : 'bg-[#06B6D4]/15 text-[#06B6D4] border-[#06B6D4]/30'
                           }`}
                         >
                           {log.type === 'BOOKING' ? 'BOOKING' : log.isUrgent ? 'URGENT' : 'CONFIRMED'}
                         </span>
-                        <span className="font-bold text-white truncate">{log.summary}</span>
-                        <span className="text-[10px] font-mono text-white/40">{log.time}</span>
+                        <span className="font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word] min-w-0">{log.summary}</span>
+                        <span className="text-[10px] font-mono text-[#6E7681] shrink-0">{log.time}</span>
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={() => speakHandsFree(log.spokenText, ownerLang)}
-                      className="rounded-lg border border-white/15 bg-white/[0.04] hover:border-[#00FFFF] px-2.5 py-1 text-[10px] font-mono text-[#00FFFF] shrink-0"
+                      className="min-h-[36px] rounded-lg border border-[#30363D] bg-[#21262D] hover:border-[#06B6D4] px-2.5 py-1 text-[10px] font-mono text-[#06B6D4] shrink-0"
                     >
                       🔊 Replay
                     </button>
@@ -2270,14 +2278,14 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           {/* Separate Service Rates & Menu Editor (Salon Owner Only Edit) */}
           <PortalCard title="Separate Service Rates & WhatsApp Menu" kicker="SALON OWNER ONLY EDIT · END USERS READ-ONLY">
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans text-white/60">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans text-[#8B949E]">
                 <p>
-                  Every service is listed separately with its individual price. <strong className="text-[#00FFFF]">Only the Salon Owner</strong> can edit or toggle rates—end users can only select services in their booking cart.
+                  Every service is listed separately with its individual price. <strong className="text-[#06B6D4]">Only the Salon Owner</strong> can edit or toggle rates—end users can only select services in their booking cart.
                 </p>
                 <button
                   type="button"
                   onClick={() => setIsAddingCustom(!isAddingCustom)}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-3.5 py-1.5 text-xs font-mono font-bold uppercase transition shrink-0"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-3.5 py-1.5 text-xs font-mono font-bold uppercase transition shrink-0"
                 >
                   <Plus className="size-3.5" />
                   <span>{isAddingCustom ? 'Close' : 'Add Custom Service'}</span>
@@ -2300,7 +2308,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     setCustomServicePrice('1500');
                     setIsAddingCustom(false);
                   }}
-                  className="p-3.5 rounded-2xl border border-[#D9A441]/40 bg-black/50 space-y-3"
+                  className="p-3.5 rounded-2xl border border-[#9E6A03] bg-[#0D1117] space-y-3"
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <input
@@ -2309,7 +2317,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       placeholder="Service Name"
                       value={customServiceName}
                       onChange={(e) => setCustomServiceName(e.target.value)}
-                      className="sm:col-span-2 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs text-white"
+                      className="sm:col-span-2 min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2 text-xs text-[#F0F6FC] placeholder:text-[#484F58]"
                     />
                     <input
                       type="number"
@@ -2317,13 +2325,13 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       placeholder={`Price (${regionConfig.currency})`}
                       value={customServicePrice}
                       onChange={(e) => setCustomServicePrice(e.target.value)}
-                      className="rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs font-mono font-bold text-[#D9A441]"
+                      className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2 text-xs font-mono font-bold text-[#D29922] placeholder:text-[#484F58]"
                     />
                   </div>
                   <div className="flex justify-end gap-2">
                     <button
                       type="submit"
-                      className="px-4 py-1.5 rounded-xl bg-[#D9A441] text-[#12241C] text-xs font-mono font-bold uppercase"
+                      className="min-h-[44px] px-4 py-1.5 rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] text-xs font-mono font-bold uppercase"
                     >
                       Save &amp; Sync ✓
                     </button>
@@ -2336,7 +2344,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                   <div
                     key={item.id}
                     className={`rounded-2xl border p-3 flex items-center justify-between gap-3 transition ${
-                      item.active ? 'border-white/15 bg-white/[0.03]' : 'border-white/5 bg-black/40 opacity-50'
+                      item.active ? 'border-[#30363D] bg-[#161B22]' : 'border-[#21262D] bg-[#0D1117] opacity-50'
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
@@ -2346,15 +2354,15 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                         onChange={() => handleToggleService(item.id)}
                         className="size-4 rounded shrink-0"
                       />
-                      <span className="text-xs font-bold text-white truncate">{item.name}</span>
+                      <span className="text-xs font-bold text-[#F0F6FC] truncate">{item.name}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-xs font-mono text-white/60">{regionConfig.currency}</span>
+                      <span className="text-xs font-mono text-[#8B949E]">{regionConfig.currency}</span>
                       <input
                         type="number"
                         value={item.price}
                         onChange={(e) => handleUpdatePrice(item.id, parseInt(e.target.value, 10) || 0)}
-                        className="w-24 rounded-lg border border-white/10 bg-black/50 px-2.5 py-1 text-xs font-mono font-bold text-[#D9A441]"
+                        className="w-24 min-h-[40px] rounded-lg border border-[#30363D] bg-[#0D1117] px-2.5 py-1 text-xs font-mono font-bold text-[#D29922]"
                       />
                     </div>
                   </div>
@@ -2366,8 +2374,8 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           {/* A. Cross-Language Voice Bridge Simulator (Query 4) */}
           <PortalCard title="Cross-Language Voice Bridge (Client Reply ➔ Owner Voice)" kicker="QUERY 4 · ZERO LANGUAGE BARRIER">
             <div className="space-y-3">
-              <p className="text-xs text-white/65 font-sans">
-                Clients reply in their chosen language (e.g. Arabic in MENA), the bot responds in their language, and your dashboard translates and speaks the alert aloud in <strong>your own voice language ({ownerLang.toUpperCase()})</strong>.
+              <p className="text-xs text-[#8B949E] font-sans">
+                Clients reply in their chosen language (e.g. Arabic in MENA), the bot responds in their language, and your dashboard translates and speaks the alert aloud in <strong className="text-[#F0F6FC]">your own voice language ({ownerLang.toUpperCase()})</strong>.
               </p>
               <div className="flex flex-wrap gap-2 text-xs font-mono">
                 <button
@@ -2381,7 +2389,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       'نعم، سأحضر الساعة 4 عصراً لحلاقة الشعر واللحية'
                     )
                   }
-                  className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/50 px-3 py-1.5 text-emerald-300 font-bold transition"
+                  className="min-h-[44px] rounded-xl border border-[#116329] bg-[#0D3822] hover:bg-[#0D3822]/80 px-3 py-1.5 text-[#3FB950] font-bold transition"
                 >
                   🔊 MENA Demo: Arabic Client Confirms ➔ Speak in {ownerLang.toUpperCase()}
                 </button>
@@ -2396,7 +2404,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       'Sorry bhai, aaj nahi aa sakta, kal par shift kar dein.'
                     )
                   }
-                  className="rounded-xl border border-red-500/40 bg-red-950/40 hover:bg-red-900/50 px-3 py-1.5 text-red-300 font-bold transition"
+                  className="min-h-[44px] rounded-xl border border-[#da3633] bg-[#4C1C1D] hover:bg-[#4C1C1D]/80 px-3 py-1.5 text-[#F85149] font-bold transition"
                 >
                   🔊 Urgent: Client Reschedules (Urdu ➔ {ownerLang.toUpperCase()})
                 </button>
@@ -2411,7 +2419,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       'Running 15 minutes late due to traffic!'
                     )
                   }
-                  className="rounded-xl border border-amber-500/40 bg-amber-950/40 hover:bg-amber-900/50 px-3 py-1.5 text-amber-300 font-bold transition"
+                  className="min-h-[44px] rounded-xl border border-[#9E6A03] bg-[#3B2E0B] hover:bg-[#3B2E0B]/80 px-3 py-1.5 text-[#D29922] font-bold transition"
                 >
                   🔊 Arrival: Client 15m Late (English ➔ {ownerLang.toUpperCase()})
                 </button>
@@ -2423,9 +2431,9 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           <PortalCard title="End-User WhatsApp Concierge, VIP Deal Rules & Multi-Service Cart" kicker={`QUERY 5 & 6 · REGION: ${regionConfig.regionLabel.toUpperCase()}`}>
             <div className="space-y-4">
               {/* Step 1: Greeting + Region-Locked Language Switcher */}
-              <div className="rounded-2xl border border-white/10 bg-black/40 p-3.5 space-y-2.5">
+              <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2.5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <span className="text-[11px] font-mono font-bold text-[#00FFFF] uppercase">
+                  <span className="text-[11px] font-mono font-bold text-[#06B6D4] uppercase">
                     1. Client Greeting ("Hi / Assalamu Alaikum / Marhaba") &amp; Regional Language:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -2437,10 +2445,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                           setEndUserLang(l.id);
                           setIsLanguageConfirmedByClient(true);
                         }}
-                        className={`rounded-xl border px-3 py-1 text-xs font-mono font-bold transition ${
+                        className={`min-h-[40px] rounded-xl border px-3 py-1 text-xs font-mono font-bold transition ${
                           endUserLang === l.id
-                            ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF]'
-                            : 'border-white/15 bg-white/[0.03] text-white/70 hover:text-white'
+                            ? 'border-[#06B6D4] bg-[#06B6D4]/20 text-[#06B6D4]'
+                            : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC]'
                         }`}
                       >
                         {l.label}
@@ -2451,8 +2459,8 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
 
                 {/* Step 2: Quick Action Menu ("How can I help you?") */}
                 {isLanguageConfirmedByClient && (
-                  <div className="pt-2 border-t border-white/10 flex flex-wrap items-center gap-2 text-[11px] font-mono">
-                    <span className="text-white/55">
+                  <div className="pt-2 border-t border-[#21262D] flex flex-wrap items-center gap-2 text-[11px] font-mono">
+                    <span className="text-[#8B949E]">
                       {endUserLang === 'ar'
                         ? 'كيف أساعدك؟'
                         : endUserLang === 'ur'
@@ -2462,28 +2470,28 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => handleSendQuickMenuAction('BOOK')}
-                      className="rounded-lg border border-white/15 bg-white/[0.04] hover:border-[#00FFFF] px-2.5 py-1 text-white/85"
+                      className="min-h-[36px] rounded-lg border border-[#30363D] bg-[#161B22] hover:border-[#06B6D4] px-2.5 py-1 text-[#F0F6FC]"
                     >
                       📅 Book Date &amp; Time
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSendQuickMenuAction('RATES')}
-                      className="rounded-lg border border-white/15 bg-white/[0.04] hover:border-[#00FFFF] px-2.5 py-1 text-white/85"
+                      className="min-h-[36px] rounded-lg border border-[#30363D] bg-[#161B22] hover:border-[#06B6D4] px-2.5 py-1 text-[#F0F6FC]"
                     >
                       ✂️ Services &amp; Rates
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSendQuickMenuAction('DEALS')}
-                      className="rounded-lg border border-white/15 bg-white/[0.04] hover:border-[#D9A441] px-2.5 py-1 text-[#D9A441]"
+                      className="min-h-[36px] rounded-lg border border-[#9E6A03] bg-[#3B2E0B]/40 hover:border-[#D29922] px-2.5 py-1 text-[#D29922]"
                     >
                       🔥 Active VIP Deals
                     </button>
                     <button
                       type="button"
                       onClick={() => handleSendQuickMenuAction('LOCATION')}
-                      className="rounded-lg border border-white/15 bg-white/[0.04] hover:border-emerald-400 px-2.5 py-1 text-emerald-300 flex items-center gap-1"
+                      className="min-h-[36px] rounded-lg border border-[#116329] bg-[#0D3822] hover:border-[#3FB950] px-2.5 py-1 text-[#3FB950] flex items-center gap-1"
                     >
                       <MapPin className="size-3" />
                       <span>Location Pin</span>
@@ -2491,7 +2499,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => handleSendQuickMenuAction('HOURS')}
-                      className="rounded-lg border border-white/15 bg-white/[0.04] hover:border-[#00FFFF] px-2.5 py-1 text-white/85"
+                      className="min-h-[36px] rounded-lg border border-[#30363D] bg-[#161B22] hover:border-[#06B6D4] px-2.5 py-1 text-[#F0F6FC]"
                     >
                       🕒 Salon Timing
                     </button>
@@ -2500,21 +2508,21 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               </div>
 
               {/* Step 3: VIP Deal Day-of-Week & 7-10 Day Validation Engine */}
-              <div className="rounded-2xl border border-[#D9A441]/40 bg-[#D9A441]/[0.07] p-4 space-y-3">
+              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B]/25 p-4 space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
-                    <span className="text-xs font-mono font-bold text-[#D9A441] uppercase block">
+                    <span className="text-xs font-mono font-bold text-[#D29922] uppercase block">
                       2. VIP Deal Pricing Engine (Fri–Sun vs Mon–Thu &amp; 7–10 Day Validation)
                     </span>
-                    <p className="text-[11px] text-white/70 font-sans mt-0.5">
-                      Deals auto-apply on <strong>Friday, Saturday &amp; Sunday</strong>. Monday–Thursday uses normal rates unless a <strong>7-to-10 day continuous VIP deal</strong> is active.
+                    <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
+                      Deals auto-apply on <strong className="text-[#F0F6FC]">Friday, Saturday &amp; Sunday</strong>. Monday–Thursday uses normal rates unless a <strong className="text-[#F0F6FC]">7-to-10 day continuous VIP deal</strong> is active.
                     </p>
                   </div>
                   <span
                     className={`rounded-lg border px-2.5 py-1 text-[10px] font-mono font-bold shrink-0 ${
                       isVipDealActiveNow
-                        ? 'border-emerald-500/40 bg-emerald-950/50 text-emerald-300'
-                        : 'border-white/20 bg-black/50 text-white/75'
+                        ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#8B949E]'
                     }`}
                   >
                     {pricingRuleBadge}
@@ -2522,14 +2530,14 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-mono">
-                  <div className="flex items-center gap-1.5 rounded-xl bg-black/40 border border-white/10 p-1.5">
+                  <div className="flex items-center gap-1.5 rounded-xl bg-[#0D1117] border border-[#30363D] p-1.5">
                     <button
                       type="button"
                       onClick={() => setDayScheduleMode('FRI_SUN_WEEKEND')}
-                      className={`flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
+                      className={`min-h-[40px] flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
                         dayScheduleMode === 'FRI_SUN_WEEKEND'
-                          ? 'bg-[#D9A441] text-[#12241C]'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#D29922] text-[#0D1117]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       Fri – Sun (Weekend Deal)
@@ -2537,24 +2545,24 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => setDayScheduleMode('MON_THU_NORMAL')}
-                      className={`flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
+                      className={`min-h-[40px] flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
                         dayScheduleMode === 'MON_THU_NORMAL'
-                          ? 'bg-[#00FFFF] text-[#12241C]'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#06B6D4] text-[#0D1117]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       Mon – Thu (Normal Days)
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-1.5 rounded-xl bg-black/40 border border-white/10 p-1.5">
+                  <div className="flex items-center gap-1.5 rounded-xl bg-[#0D1117] border border-[#30363D] p-1.5">
                     <button
                       type="button"
                       onClick={() => setVipCampaignMode('WEEKEND_ONLY')}
-                      className={`flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
+                      className={`min-h-[40px] flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
                         vipCampaignMode === 'WEEKEND_ONLY'
-                          ? 'bg-white/15 text-white border border-white/25'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#21262D] text-[#F0F6FC] border border-[#484F58]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       Standard Fri–Sun Deal
@@ -2562,10 +2570,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => setVipCampaignMode('CONTINUOUS_7_10_DAYS')}
-                      className={`flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
+                      className={`min-h-[40px] flex-1 rounded-lg px-2.5 py-1.5 font-bold transition ${
                         vipCampaignMode === 'CONTINUOUS_7_10_DAYS'
-                          ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-500/40'
-                          : 'text-white/60 hover:text-white'
+                          ? 'bg-[#0D3822] text-[#3FB950] border border-[#116329]'
+                          : 'text-[#8B949E] hover:text-[#F0F6FC]'
                       }`}
                     >
                       7–10 Day VIP Valid Deal
@@ -2576,7 +2584,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 {/* Multi-Service Picker + Combined Total Confirmation */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
                   <div className="space-y-2">
-                    <span className="text-[10px] font-mono font-bold text-white/70 uppercase block">
+                    <span className="text-[10px] font-mono font-bold text-[#8B949E] uppercase block">
                       Select Multiple Services (Client View):
                     </span>
                     <div className="space-y-1.5">
@@ -2588,10 +2596,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                           return (
                             <label
                               key={svc.id}
-                              className={`flex items-center justify-between rounded-xl border px-3 py-2 text-xs cursor-pointer transition ${
+                              className={`min-h-[44px] flex items-center justify-between rounded-xl border px-3 py-2 text-xs cursor-pointer transition ${
                                 checked
-                                  ? 'border-[#00FFFF] bg-[#00FFFF]/10 text-white'
-                                  : 'border-white/10 bg-black/40 text-white/70'
+                                  ? 'border-[#06B6D4] bg-[#06B6D4]/10 text-[#F0F6FC]'
+                                  : 'border-[#30363D] bg-[#0D1117] text-[#8B949E]'
                               }`}
                             >
                               <span className="flex items-center gap-2">
@@ -2605,13 +2613,13 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                                         : [...prev, svc.id]
                                     )
                                   }
-                                  className="size-3.5 rounded text-[#00FFFF]"
+                                  className="size-4 rounded text-[#06B6D4]"
                                 />
                                 <span>{svc.name}</span>
                               </span>
-                              <span className="font-mono font-bold text-[#D9A441]">
+                              <span className="font-mono font-bold text-[#D29922]">
                                 {isVipDealActiveNow && (
-                                  <span className="line-through text-white/40 mr-1.5 text-[10px]">
+                                  <span className="line-through text-[#6E7681] mr-1.5 text-[10px]">
                                     {regionConfig.symbol}{svc.price.toLocaleString()}
                                   </span>
                                 )}
@@ -2624,9 +2632,9 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                   </div>
 
                   {/* Summary + Confirm Lock */}
-                  <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 flex flex-col justify-between space-y-3">
+                  <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5 flex flex-col justify-between space-y-3">
                     <div className="space-y-2">
-                      <span className="text-[10px] font-mono font-bold text-[#00FFFF] uppercase block">
+                      <span className="text-[10px] font-mono font-bold text-[#06B6D4] uppercase block">
                         Client Confirmation &amp; Rate Total:
                       </span>
                       <div className="grid grid-cols-2 gap-2 text-xs">
@@ -2635,14 +2643,14 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                           value={cartClientName}
                           onChange={(e) => setCartClientName(e.target.value)}
                           placeholder="Client Name"
-                          className="rounded-lg border border-white/15 bg-white/[0.04] px-2.5 py-1.5 text-white text-xs"
+                          className="min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-2.5 py-1.5 text-[#F0F6FC] placeholder:text-[#484F58] text-xs"
                         />
                         <input
                           type="text"
                           value={selectedCartSlot}
                           onChange={(e) => setSelectedCartSlot(e.target.value)}
                           placeholder="Slot e.g. 04:30 PM"
-                          className="rounded-lg border border-white/15 bg-white/[0.04] px-2.5 py-1.5 text-white text-xs font-mono"
+                          className="min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-2.5 py-1.5 text-[#F0F6FC] placeholder:text-[#484F58] text-xs font-mono"
                         />
                       </div>
                       <input
@@ -2650,21 +2658,21 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                         value={cartClientPhone}
                         onChange={(e) => setCartClientPhone(e.target.value)}
                         placeholder="Client WhatsApp Number"
-                        className="w-full rounded-lg border border-white/15 bg-white/[0.04] px-2.5 py-1.5 text-white text-xs font-mono"
+                        className="w-full min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-2.5 py-1.5 text-[#F0F6FC] placeholder:text-[#484F58] text-xs font-mono"
                       />
 
-                      <div className="rounded-xl bg-[#102019] border border-white/10 p-2.5 text-xs font-mono space-y-1">
-                        <div className="flex justify-between text-white/60">
+                      <div className="rounded-xl bg-[#161B22] border border-[#30363D] p-2.5 text-xs font-mono space-y-1">
+                        <div className="flex justify-between text-[#8B949E]">
                           <span>Selected Services ({selectedCartServices.length}):</span>
                           <span>{regionConfig.symbol}{cartRawSubtotal.toLocaleString()}</span>
                         </div>
                         {cartDiscountAmount > 0 && (
-                          <div className="flex justify-between text-emerald-400">
+                          <div className="flex justify-between text-[#3FB950]">
                             <span>VIP Deal Discount (25%):</span>
                             <span>-{regionConfig.symbol}{cartDiscountAmount.toLocaleString()}</span>
                           </div>
                         )}
-                        <div className="flex justify-between text-sm font-black text-[#D9A441] pt-1 border-t border-white/10">
+                        <div className="flex justify-between text-sm font-black text-[#D29922] pt-1 border-t border-[#21262D]">
                           <span>Confirmed Total:</span>
                           <span>{regionConfig.symbol}{cartFinalTotal.toLocaleString()}</span>
                         </div>
@@ -2675,7 +2683,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       type="button"
                       disabled={selectedCartServices.length === 0}
                       onClick={handleConfirmEndUserCartBooking}
-                      className="w-full rounded-xl bg-gradient-to-r from-[#00FFFF] to-emerald-400 hover:opacity-95 text-[#12241C] py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 disabled:opacity-40"
+                      className="w-full min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 disabled:opacity-40"
                     >
                       Confirm Booking + Lock Permanent Proof + Voice Alert ✓
                     </button>
@@ -2684,27 +2692,35 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               </div>
 
               {/* Chat Thread Preview */}
-              <div className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-2.5 max-h-[260px] overflow-y-auto">
-                {simChatMessages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex ${msg.sender === 'CLIENT' ? 'justify-start' : 'justify-end'}`}
-                  >
+              <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-2.5 max-h-[260px] overflow-y-auto overflow-x-hidden">
+                {simChatMessages.map((msg, idx) => {
+                  const msgIsRtl = /[\u0600-\u06FF]/.test(msg.text);
+                  return (
                     <div
-                      className={`max-w-[82%] rounded-2xl p-3 text-xs leading-relaxed ${
-                        msg.sender === 'CLIENT'
-                          ? 'bg-white/[0.06] border border-white/10 text-white'
-                          : 'bg-emerald-950/40 border border-emerald-500/30 text-emerald-200'
-                      }`}
+                      key={idx}
+                      className={`flex ${msg.sender === 'CLIENT' ? 'justify-start' : 'justify-end'}`}
                     >
-                      <div className="flex items-center justify-between gap-3 text-[9px] font-mono opacity-60 mb-1">
-                        <span>{msg.sender === 'CLIENT' ? 'Customer' : 'WORKCRAFT Concierge Bot'}</span>
-                        <span>{msg.time}</span>
+                      <div
+                        className={`max-w-[85%] min-w-0 rounded-2xl p-3 text-xs leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                          msg.sender === 'CLIENT'
+                            ? 'bg-[#21262D] border border-[#30363D] text-[#F0F6FC]'
+                            : 'bg-[#0D3822] border border-[#116329] text-[#3FB950]'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-3 text-[9px] font-mono opacity-75 mb-1">
+                          <span>{msg.sender === 'CLIENT' ? 'Customer' : 'WORKCRAFT Concierge Bot'}</span>
+                          <span>{msg.time}</span>
+                        </div>
+                        <p
+                          dir={msgIsRtl ? 'rtl' : 'ltr'}
+                          className={`break-words [overflow-wrap:break-word] ${msgIsRtl ? 'text-right' : 'text-left'}`}
+                        >
+                          {msg.text}
+                        </p>
                       </div>
-                      <p>{msg.text}</p>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <form
@@ -2719,11 +2735,11 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                   value={customQuery}
                   onChange={(e) => setCustomQuery(e.target.value)}
                   placeholder="Type custom client message to test voice translation & permanent log..."
-                  className="flex-1 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none focus:border-[#00FFFF]"
+                  className="flex-1 min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-2.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                 />
                 <button
                   type="submit"
-                  className="rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-4 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                  className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
                 >
                   <span>Send</span>
                   <Send className="size-3.5" />
@@ -2735,33 +2751,41 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           {/* C. Immutable Un-Deletable Client Proof Ledger (Query 6) */}
           <PortalCard title="Immutable Client Confirmation Ledger (Cannot Be Deleted by End User)" kicker="PERMANENT SALON AUDIT TRAIL">
             <div className="space-y-2.5">
-              <p className="text-xs text-white/65 font-sans">
+              <p className="text-xs text-[#8B949E] font-sans">
                 Even if a customer deletes WhatsApp messages from their phone, WORKCRAFT permanently locks their confirmed services, applied deal/normal rate, and approval message hash here.
               </p>
               {immutableProofs.map((proof) => (
                 <div
                   key={proof.id}
-                  className="rounded-2xl border border-emerald-500/30 bg-emerald-950/15 p-3.5 space-y-1.5 text-xs"
+                  className="rounded-2xl border border-[#116329] bg-[#0D3822]/40 p-3.5 space-y-1.5 text-xs"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 font-mono">
-                    <span className="font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="font-bold text-[#3FB950] flex items-center gap-1.5">
                       <FileCheck className="size-4" />
                       <span>
                         {proof.id} · {proof.clientName} ({proof.clientPhone})
                       </span>
                     </span>
-                    <span className="rounded bg-black/50 border border-white/15 px-2 py-0.5 text-[10px] text-[#00FFFF]">
+                    <span
+                      dir="ltr"
+                      className="rounded bg-[#0D1117] border border-[#30363D] px-2 py-0.5 text-[10px] text-[#06B6D4] max-w-full overflow-hidden break-all [overflow-wrap:break-word]"
+                    >
                       🔒 LOCKED · {proof.hash}
                     </span>
                   </div>
-                  <p className="text-white/90 font-sans">
-                    Confirmed Message ({proof.clientLang.toUpperCase()}): <em>"{proof.confirmedMessage}"</em>
+                  <p
+                    dir={proof.clientLang === 'ar' || proof.clientLang === 'ur' ? 'rtl' : 'ltr'}
+                    className={`text-[#F0F6FC] font-sans overflow-hidden break-words [overflow-wrap:break-word] ${
+                      proof.clientLang === 'ar' || proof.clientLang === 'ur' ? 'text-right' : 'text-left'
+                    }`}
+                  >
+                    Confirmed Message ({proof.clientLang.toUpperCase()}): <em>&ldquo;{proof.confirmedMessage}&rdquo;</em>
                   </p>
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-white/65 pt-1 border-t border-white/10">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#8B949E] pt-1 border-t border-[#21262D]">
                     <span>
                       Services: {proof.services.join(', ')} · {proof.pricingModeLabel}
                     </span>
-                    <span className="text-[#D9A441] font-bold">
+                    <span className="text-[#D29922] font-bold">
                       Total: {regionConfig.symbol}{proof.totalAmount.toLocaleString()} · {proof.timestamp}
                     </span>
                   </div>
@@ -2792,10 +2816,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           <PortalCard title="Automated Birthday & Festival VIP Wishes (100% Complete Full Rate)" kicker="PRIVATE 1-TO-1 CLIENT RELATIONSHIP · ZERO DISCOUNTS">
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <p className="text-xs text-white/65 font-sans">
-                  Detects saved client birthdays and festival dates, then sends warm personalized greetings from <strong>{currentSalon.owner} ({currentSalon.name})</strong> in each client's preferred booking language—inviting priority booking at <strong className="text-emerald-300">100% complete full standard rates</strong>.
+                <p className="text-xs text-[#8B949E] font-sans">
+                  Detects saved client birthdays and festival dates, then sends warm personalized greetings from <strong className="text-[#F0F6FC]">{currentSalon.owner} ({currentSalon.name})</strong> in each client's preferred booking language—inviting priority booking at <strong className="text-[#3FB950]">100% complete full standard rates</strong>.
                 </p>
-                <span className="rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-3 py-1.5 text-[11px] font-mono font-bold text-emerald-300 shrink-0">
+                <span className="rounded-xl border border-[#116329] bg-[#0D3822] px-3 py-1.5 text-[11px] font-mono font-bold text-[#3FB950] shrink-0">
                   100% Full Standard Rate Only
                 </span>
               </div>
@@ -2804,21 +2828,21 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 {celebrations.map((cel) => (
                   <div
                     key={cel.id}
-                    className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-2.5"
+                    className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-2.5"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2.5">
-                        <span className="rounded-lg bg-[#D9A441]/20 border border-[#D9A441]/40 px-2.5 py-1 text-[10px] font-mono font-bold text-[#D9A441]">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="rounded-lg bg-[#3B2E0B] border border-[#9E6A03] px-2.5 py-1 text-[10px] font-mono font-bold text-[#D29922]">
                           {cel.eventType === 'BIRTHDAY' ? '🎂 BIRTHDAY' : '🌙 FESTIVAL VIP'}
                         </span>
-                        <span className="text-sm font-bold text-white">{cel.clientName}</span>
-                        <span className="text-[11px] font-mono text-white/50">
+                        <span className="text-sm font-bold text-[#F0F6FC]">{cel.clientName}</span>
+                        <span className="text-[11px] font-mono text-[#8B949E]">
                           {cel.phone} · Lang: {cel.preferredLang.toUpperCase()} · {cel.eventDate}
                         </span>
                       </div>
 
                       {cel.sent ? (
-                        <span className="rounded-lg border border-emerald-500/40 bg-emerald-950/40 px-3 py-1 text-[11px] font-mono font-bold text-emerald-300">
+                        <span className="rounded-lg border border-[#116329] bg-[#0D3822] px-3 py-1 text-[11px] font-mono font-bold text-[#3FB950]">
                           ✓ Dispatched via WhatsApp (Full Rate)
                         </span>
                       ) : (
@@ -2833,7 +2857,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                             );
                             setTimeout(() => setMaintToast(null), 5000);
                           }}
-                          className="rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-3.5 py-1.5 text-xs font-mono font-bold uppercase transition active:scale-95"
+                          className="min-h-[44px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-3.5 py-1.5 text-xs font-mono font-bold uppercase transition active:scale-95"
                         >
                           Send Wish Now →
                         </button>
@@ -2842,7 +2866,9 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
 
                     <p
                       dir={cel.preferredLang === 'ar' || cel.preferredLang === 'ur' ? 'rtl' : 'ltr'}
-                      className="rounded-xl border border-white/10 bg-[#12241C] p-3 text-xs text-white/90 font-sans leading-relaxed"
+                      className={`rounded-xl border border-[#30363D] bg-[#161B22] p-3 text-xs text-[#F0F6FC] font-sans leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                        cel.preferredLang === 'ar' || cel.preferredLang === 'ur' ? 'text-right' : 'text-left'
+                      }`}
                     >
                       &ldquo;{getCelebrationPreview(cel)}&rdquo;
                     </p>
@@ -2862,8 +2888,8 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
           {/* Private 1-to-1 Rebook Whisper & Weekday Full-Rate Open-Chair Alert (Query 4 & 5) */}
           <PortalCard title="Private 1-to-1 Client Rebook & Weekday Open-Chair Alert" kicker="100% FULL STANDARD RATE · PROTECTS YOUR PRIVATE WHATSAPP MOAT">
             <div className="space-y-4">
-              <div className="rounded-2xl border border-[#00FFFF]/30 bg-[#00FFFF]/[0.05] p-3.5 text-xs text-white/80 font-sans leading-relaxed">
-                WorkCraft privately messages regular clients 1-to-1 on WhatsApp after their natural return window (<strong>21 days</strong> for haircuts / <strong>30 days</strong> for beauty services) at <strong className="text-emerald-300">100% complete full standard rates</strong>—bringing them directly back to your booking cart without public social posting.
+              <div className="rounded-2xl border border-[#06B6D4]/40 bg-[#06B6D4]/10 p-3.5 text-xs text-[#F0F6FC] font-sans leading-relaxed">
+                WorkCraft privately messages regular clients 1-to-1 on WhatsApp after their natural return window (<strong>21 days</strong> for haircuts / <strong>30 days</strong> for beauty services) at <strong className="text-[#3FB950]">100% complete full standard rates</strong>—bringing them directly back to your booking cart without public social posting.
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -2885,17 +2911,22 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 ].map((cli) => {
                   const isSent = rebookWhisperSentIds.includes(cli.id);
                   return (
-                    <div key={cli.id} className="rounded-2xl border border-white/10 bg-black/40 p-3.5 space-y-2 text-xs">
+                    <div key={cli.id} className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2 text-xs">
                       <div className="flex items-center justify-between gap-2">
                         <div>
-                          <p className="font-bold text-white">{cli.name}</p>
-                          <p className="text-[10px] font-mono text-[#D9A441]">{cli.cycle}</p>
+                          <p className="font-bold text-[#F0F6FC]">{cli.name}</p>
+                          <p className="text-[10px] font-mono text-[#D29922]">{cli.cycle}</p>
                         </div>
-                        <span className="rounded bg-white/10 px-2 py-0.5 text-[10px] font-mono text-[#00FFFF]">
+                        <span className="rounded bg-[#21262D] border border-[#30363D] px-2 py-0.5 text-[10px] font-mono text-[#06B6D4]">
                           {cli.lang}
                         </span>
                       </div>
-                      <p dir="rtl" className="rounded-xl border border-white/10 bg-[#12241C] p-2.5 text-[11px] text-white/85 font-sans">
+                      <p
+                        dir={cli.lang === 'AR' || cli.lang === 'UR' ? 'rtl' : 'ltr'}
+                        className={`rounded-xl border border-[#30363D] bg-[#161B22] p-2.5 text-[11px] text-[#F0F6FC] font-sans overflow-hidden break-words [overflow-wrap:break-word] ${
+                          cli.lang === 'AR' || cli.lang === 'UR' ? 'text-right' : 'text-left'
+                        }`}
+                      >
                         &ldquo;{cli.preview}&rdquo;
                       </p>
                       <button
@@ -2906,10 +2937,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                           setMaintToast(`✓ Private 1-to-1 Rebook reminder sent to ${cli.name} at 100% full standard rate.`);
                           setTimeout(() => setMaintToast(null), 5000);
                         }}
-                        className={`w-full rounded-xl py-2 text-[11px] font-mono font-bold uppercase transition ${
+                        className={`w-full min-h-[48px] rounded-xl py-2 text-[11px] font-mono font-bold uppercase transition ${
                           isSent
-                            ? 'bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 cursor-default'
-                            : 'bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C]'
+                            ? 'bg-[#0D3822] border border-[#116329] text-[#3FB950] cursor-default'
+                            : 'bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117]'
                         }`}
                       >
                         {isSent ? 'Sent 1-to-1 Rebook Whisper ✓' : 'Send Private Rebook Whisper (Full Rate)'}
@@ -2920,12 +2951,12 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               </div>
 
               {/* Slow Weekday Open-Chair Priority Fill (Mon–Thu Full Rate Only) */}
-              <div className="rounded-2xl border border-[#D9A441]/35 bg-[#D9A441]/[0.07] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B]/40 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <span className="text-[10px] font-mono font-bold uppercase text-[#D9A441] block">
+                  <span className="text-[10px] font-mono font-bold uppercase text-[#D29922] block">
                     MON–THU NORMAL WEEKDAY OPEN-CHAIR PRIORITY ALERT (100% FULL RATE)
                   </span>
-                  <p className="text-xs text-white/80 font-sans mt-0.5">
+                  <p className="text-xs text-[#F0F6FC] font-sans mt-0.5">
                     Notify nearby regulars when afternoon chairs are free today at your <strong>100% complete full standard menu price</strong> (zero discounts applied).
                   </p>
                 </div>
@@ -2937,10 +2968,10 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     setMaintToast('✓ Open-Chair Priority Alert sent privately to 18 nearby clients at 100% full standard rate.');
                     setTimeout(() => setMaintToast(null), 5000);
                   }}
-                  className={`rounded-xl px-4 py-2 text-xs font-mono font-bold uppercase shrink-0 transition ${
+                  className={`min-h-[48px] rounded-xl px-4 py-2 text-xs font-mono font-bold uppercase shrink-0 transition ${
                     openChairAlertSent
-                      ? 'border border-emerald-500/40 bg-emerald-950/40 text-emerald-300'
-                      : 'bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C]'
+                      ? 'border border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                      : 'bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117]'
                   }`}
                 >
                   {openChairAlertSent ? '18 Regulars Notified ✓' : 'Alert Regulars (Full Rate)'}
@@ -2974,19 +3005,19 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
 
           <PortalCard title="Google Maps 5-Star Review Booster" kicker="AUTONOMOUS REPUTATION">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-4 rounded-2xl border border-white/10 bg-white/[0.02] space-y-2">
-                <span className="text-[10px] font-mono text-white/50 uppercase block">Review Trigger Status</span>
-                <span className="text-xs font-mono font-bold text-emerald-300">
+              <div className="p-4 rounded-2xl border border-[#30363D] bg-[#0D1117] space-y-2">
+                <span className="text-[10px] font-mono text-[#8B949E] uppercase block">Review Trigger Status</span>
+                <span className="text-xs font-mono font-bold text-[#3FB950]">
                   {currentSalon.planId === 'STARTER' ? 'Upgrade to Growth or VIP to Unlock' : 'Booster Active (15 Min Delay)'}
                 </span>
-                <p className="text-[11px] text-white/50 font-sans">
+                <p className="text-[11px] text-[#8B949E] font-sans">
                   Target: Google Maps · {currentSalon.name}, {currentSalon.location}
                 </p>
               </div>
-              <div className="p-4 rounded-2xl border border-white/10 bg-white/[0.02] space-y-2">
-                <span className="text-[10px] font-mono text-white/50 uppercase block">Total Reviews Generated</span>
-                <p className="text-xl font-bold font-mono text-[#D9A441]">31 Verified Reviews</p>
-                <p className="text-[11px] text-white/50 font-sans">Average rating: 4.9 / 5.0</p>
+              <div className="p-4 rounded-2xl border border-[#30363D] bg-[#0D1117] space-y-2">
+                <span className="text-[10px] font-mono text-[#8B949E] uppercase block">Total Reviews Generated</span>
+                <p className="text-xl font-bold font-mono text-[#D29922]">31 Verified Reviews</p>
+                <p className="text-[11px] text-[#8B949E] font-sans">Average rating: 4.9 / 5.0</p>
               </div>
             </div>
           </PortalCard>
@@ -2997,15 +3028,15 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
       {/* 8. TAB 5: PLAN & 5TH-OF-MONTH 10% MAINTENANCE SLA (CONSOLIDATED)          */}
       {/* ========================================================================= */}
       {activeTab === 'BILLING_SLA' && (
-        <PortalCard title="Plan Upgrades & 5th-of-Month 10% Maintenance SLA" kicker="AUTOMATED REMINDERS · TIER-2 PROTECTION">
+        <PortalCard title="Plan Upgrades & 5th-of-Month 10% Service Fee" kicker="AUTOMATED REMINDERS · 24/7 AUTO-PROTECTION">
           <div className="space-y-5">
             {higherPackages.length > 0 && (
-              <div className="rounded-2xl border border-[#D9A441]/40 bg-[#D9A441]/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B]/40 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <span className="text-[10px] font-mono font-bold text-[#D9A441] uppercase block">
+                  <span className="text-[10px] font-mono font-bold text-[#D29922] uppercase block">
                     ACTIVE PLAN: {currentSalon.plan.toUpperCase()}
                   </span>
-                  <p className="text-xs text-white/85 font-sans mt-0.5">
+                  <p className="text-xs text-[#F0F6FC] font-sans mt-0.5">
                     Upgrade any time by paying only the difference from your setup fee—100% credit preserved.
                   </p>
                 </div>
@@ -3015,43 +3046,43 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     setSelectedUpgradeTargetId(higherPackages[0].id);
                     setIsUpgradeModalOpen(true);
                   }}
-                  className="rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-4 py-2 text-xs font-mono font-black uppercase transition shrink-0"
+                  className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-4 py-2 text-xs font-mono font-black uppercase transition shrink-0"
                 >
                   Upgrade Plan (Pay Difference) →
                 </button>
               </div>
             )}
 
-            <div className="rounded-2xl border border-[#00FFFF]/30 bg-black/40 p-4 space-y-3">
+            <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <span className="text-xs font-mono font-bold text-[#00FFFF] uppercase flex items-center gap-1.5">
+                <span className="text-xs font-mono font-bold text-[#06B6D4] uppercase flex items-center gap-1.5">
                   <Clock className="size-4" />
                   <span>5th-of-Month Reminder Stage Simulator</span>
                 </span>
-                <span className="text-[10px] font-mono text-white/55">
+                <span className="text-[10px] font-mono text-[#8B949E]">
                   Owner Onboarding Language: {ownerLang.toUpperCase()}
                 </span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px] font-mono">
                 {[
-                  { id: 'PAID_ACTIVE' as const, label: 'Paid (Tier-1 Active)' },
+                  { id: 'PAID_ACTIVE' as const, label: 'Paid (Priority Active)' },
                   { id: 'STAGE_1_PREV_MONTH' as const, label: '1. Prev Month (-2d)' },
                   { id: 'STAGE_2_DAY_3' as const, label: '2. 3rd Reminder' },
                   { id: 'STAGE_3_DAY_5_FINAL' as const, label: '3. 5th Final Warning' },
-                  { id: 'OVERDUE_TIER_2' as const, label: '4. Post-5th Tier-2' },
+                  { id: 'OVERDUE_TIER_2' as const, label: '4. Post-5th Overdue' },
                 ].map((stage) => (
                   <button
                     key={stage.id}
                     type="button"
                     onClick={() => setMaintCycleStage(stage.id)}
-                    className={`rounded-xl border px-2.5 py-2 font-bold transition text-center ${
+                    className={`min-h-[44px] rounded-xl border px-2.5 py-2 font-bold transition text-center ${
                       maintCycleStage === stage.id
                         ? stage.id === 'OVERDUE_TIER_2'
-                          ? 'border-red-500 bg-red-950/50 text-red-300'
+                          ? 'border-[#da3633] bg-[#4C1C1D] text-[#F85149]'
                           : stage.id === 'STAGE_3_DAY_5_FINAL'
-                          ? 'border-amber-500 bg-amber-950/50 text-amber-300'
-                          : 'border-[#00FFFF] bg-[#00FFFF]/15 text-[#00FFFF]'
-                        : 'border-white/10 bg-white/[0.03] text-white/60 hover:text-white'
+                          ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'
+                          : 'border-[#06B6D4] bg-[#06B6D4]/15 text-[#06B6D4]'
+                        : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]'
                     }`}
                   >
                     {stage.label}
@@ -3069,13 +3100,15 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                 <div
                   key={item.stage}
                   className={`rounded-2xl border p-3.5 space-y-2 ${
-                    maintCycleStage === item.stage ? 'border-[#D9A441] bg-[#D9A441]/10' : 'border-white/10 bg-white/[0.02]'
+                    maintCycleStage === item.stage ? 'border-[#9E6A03] bg-[#3B2E0B]/40' : 'border-[#30363D] bg-[#161B22]'
                   }`}
                 >
-                  <p className="text-xs font-mono font-bold text-[#D9A441]">{item.title}</p>
+                  <p className="text-xs font-mono font-bold text-[#D29922]">{item.title}</p>
                   <p
                     dir={ownerLang === 'ar' || ownerLang === 'ur' ? 'rtl' : 'ltr'}
-                    className="text-[11px] text-white/85 font-sans rounded-xl bg-black/40 border border-white/10 p-2.5 leading-relaxed"
+                    className={`text-[11px] text-[#F0F6FC] font-sans rounded-xl bg-[#0D1117] border border-[#30363D] p-2.5 leading-relaxed overflow-hidden break-words [overflow-wrap:break-word] ${
+                      ownerLang === 'ar' || ownerLang === 'ur' ? 'text-right' : 'text-left'
+                    }`}
                   >
                     {getMaintenanceReminderMessage(item.stage, ownerLang)}
                   </p>
@@ -3083,17 +3116,19 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               ))}
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-3">
+            <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3 overflow-hidden">
               {isMaintPaid ? (
-                <div className="p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/40 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-emerald-300 font-bold flex items-center gap-1.5">
-                      <CheckCircle2 className="size-4 text-emerald-400" />
-                      <span>5th-of-Month Maintenance Cleared · Tier-1 Priority Active</span>
+                <div className="p-4 rounded-xl border border-[#116329] bg-[#0D3822] space-y-1.5 overflow-hidden">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                    <span className="text-[#3FB950] font-bold flex items-center gap-1.5">
+                      <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
+                      <span>5th-of-Month Maintenance Paid · Priority Active</span>
                     </span>
-                    <span className="text-[#00FFFF] font-bold">TID: {maintTid}</span>
+                    <span dir="ltr" className="text-[#06B6D4] font-bold break-all [overflow-wrap:break-word]">
+                      TID: {maintTid}
+                    </span>
                   </div>
-                  <p className="text-xs text-white/75 font-sans">
+                  <p className="text-xs text-[#F0F6FC] font-sans">
                     Verified from {currentSalon.phone} on {maintPaidDate}.
                   </p>
                 </div>
@@ -3105,11 +3140,11 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       type="button"
                       disabled={isPayingMaint}
                       onClick={handleAutoClearMaintenance}
-                      className="p-3 rounded-xl border border-emerald-500/30 bg-white/[0.03] hover:bg-emerald-950/30 text-left transition active:scale-95"
+                      className="min-h-[48px] p-3 rounded-xl border border-[#116329] bg-[#161B22] hover:bg-[#0D3822] text-left transition active:scale-95"
                     >
-                      <p className="font-bold text-emerald-300">{ch.label}</p>
-                      <p className="text-[10px] text-white/55 mt-0.5">{ch.detail}</p>
-                      <span className="text-[10px] text-[#D9A441] font-bold block mt-1.5">
+                      <p className="font-bold text-[#3FB950]">{ch.label}</p>
+                      <p className="text-[10px] text-[#8B949E] mt-0.5">{ch.detail}</p>
+                      <span className="text-[10px] text-[#D29922] font-bold block mt-1.5">
                         Pay {regionConfig.symbol}{currentSalon.maint.toLocaleString()} →
                       </span>
                     </button>
@@ -3126,30 +3161,30 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
       {/* ========================================================================= */}
       {isUpgradeModalOpen && (
         <div
-          className="fixed inset-0 z-[95] flex items-center justify-center bg-black/85 p-4 backdrop-blur-md"
+          className="fixed inset-0 z-[95] flex items-center justify-center bg-[#0D1117]/80 p-4 backdrop-blur-md"
           onClick={() => setIsUpgradeModalOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-3xl rounded-3xl border border-[#D9A441]/50 bg-[#102019] p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto space-y-5"
+            className="w-full max-w-3xl rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto space-y-5"
           >
-            <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex items-start justify-between gap-3 border-b border-[#21262D] pb-4">
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#D9A441]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#D29922]">
                   PAY DIFFERENCE ONLY · {regionConfig.regionLabel.toUpperCase()}
                 </span>
-                <h2 className="text-xl font-black text-white mt-0.5">
+                <h2 className="text-xl font-black text-[#F0F6FC] mt-0.5">
                   Upgrade {currentSalon.name} Package
                 </h2>
-                <p className="text-xs text-white/65 font-sans mt-1">
-                  Your current <strong className="text-[#00FFFF]">{currentPackage.name}</strong> setup fee (
-                  <strong>{regionConfig.symbol}{currentPackage.setupFee.toLocaleString()}</strong>) is credited 100%. Pay only the remaining difference.
+                <p className="text-xs text-[#8B949E] font-sans mt-1">
+                  Your current <strong className="text-[#06B6D4]">{currentPackage.name}</strong> setup fee (
+                  <strong className="text-[#F0F6FC]">{regionConfig.symbol}{currentPackage.setupFee.toLocaleString()}</strong>) is credited 100%. Pay only the remaining difference.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsUpgradeModalOpen(false)}
-                className="size-8 rounded-xl border border-white/10 bg-white/[0.04] grid place-items-center text-white/70 hover:text-white"
+                className="min-h-[44px] min-w-[44px] rounded-xl border border-[#30363D] bg-[#0D1117] grid place-items-center text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
               >
                 <X className="size-4" />
               </button>
@@ -3166,32 +3201,32 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                     onClick={() => setSelectedUpgradeTargetId(pkg.id)}
                     className={`rounded-2xl border p-4 text-left transition flex flex-col justify-between space-y-3 ${
                       isSelected
-                        ? 'border-[#D9A441] bg-[#D9A441]/15 ring-1 ring-[#D9A441]'
-                        : 'border-white/10 bg-black/40 hover:border-white/25'
+                        ? 'border-[#D29922] bg-[#3B2E0B]/40'
+                        : 'border-[#30363D] bg-[#0D1117] hover:border-[#484F58]'
                     }`}
                   >
                     <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-black text-white">{pkg.name}</span>
-                        <span className="rounded-md bg-[#00FFFF]/15 border border-[#00FFFF]/30 px-2 py-0.5 text-[9px] font-mono font-bold text-[#00FFFF]">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-sm font-black text-[#F0F6FC]">{pkg.name}</span>
+                        <span className="rounded-md bg-[#06B6D4]/15 border border-[#06B6D4]/30 px-2 py-0.5 text-[9px] font-mono font-bold text-[#06B6D4]">
                           {pkg.badge}
                         </span>
                       </div>
-                      <div className="rounded-xl bg-black/50 border border-white/10 p-2.5 font-mono">
-                        <span className="text-[10px] text-white/50 block">
+                      <div className="rounded-xl bg-[#161B22] border border-[#30363D] p-2.5 font-mono">
+                        <span className="text-[10px] text-[#6E7681] block">
                           Full: <span className="line-through">{regionConfig.symbol}{pkg.setupFee.toLocaleString()}</span>
                         </span>
-                        <p className="text-lg font-black text-[#D9A441] mt-0.5">
+                        <p className="text-lg font-black text-[#D29922] mt-0.5">
                           Pay {regionConfig.symbol}{differenceAmount.toLocaleString()}
                         </p>
-                        <span className="text-[10px] text-white/60 block">
-                          New 10% SLA: {regionConfig.symbol}{pkg.monthlyMaint.toLocaleString()}/mo
+                        <span className="text-[10px] text-[#8B949E] block">
+                          New 10% Monthly Fee: {regionConfig.symbol}{pkg.monthlyMaint.toLocaleString()}/mo
                         </span>
                       </div>
                       <ul className="space-y-1.5 pt-1">
                         {pkg.features.map((feat) => (
-                          <li key={feat} className="text-[11px] text-white/80 font-sans flex items-start gap-1.5">
-                            <Check className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                          <li key={feat} className="text-[11px] text-[#8B949E] font-sans flex items-start gap-1.5">
+                            <Check className="size-3.5 text-[#3FB950] shrink-0 mt-0.5" />
                             <span>{feat}</span>
                           </li>
                         ))}
@@ -3207,13 +3242,13 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
               if (!chosenPkg) return null;
               const diff = Math.max(0, chosenPkg.setupFee - currentPackage.setupFee);
               return (
-                <div className="rounded-2xl border border-white/10 bg-black/50 p-4 space-y-3">
+                <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-xs font-mono font-bold text-white uppercase flex items-center gap-1.5">
-                      <CreditCard className="size-4 text-[#D9A441]" />
+                    <span className="text-xs font-mono font-bold text-[#F0F6FC] uppercase flex items-center gap-1.5">
+                      <CreditCard className="size-4 text-[#D29922]" />
                       <span>Payment Channel ({regionConfig.currency})</span>
                     </span>
-                    <span className="text-xs font-mono text-emerald-300 font-bold">
+                    <span className="text-xs font-mono text-[#3FB950] font-bold">
                       Pay Difference: {regionConfig.symbol}{diff.toLocaleString()}
                     </span>
                   </div>
@@ -3223,14 +3258,14 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                         key={ch.id}
                         type="button"
                         onClick={() => setSelectedUpgradeChannel(ch.id)}
-                        className={`rounded-xl border p-2.5 text-left text-xs font-mono transition ${
+                        className={`min-h-[48px] rounded-xl border p-2.5 text-left text-xs font-mono transition ${
                           selectedUpgradeChannel === ch.id
-                            ? 'border-[#00FFFF] bg-[#00FFFF]/15 text-white'
-                            : 'border-white/10 bg-white/[0.02] text-white/65'
+                            ? 'border-[#06B6D4] bg-[#06B6D4]/15 text-[#F0F6FC]'
+                            : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:border-[#484F58]'
                         }`}
                       >
-                        <p className="font-bold text-[#00FFFF]">{ch.label}</p>
-                        <p className="text-[10px] text-white/55 mt-0.5">{ch.detail}</p>
+                        <p className="font-bold text-[#06B6D4]">{ch.label}</p>
+                        <p className="text-[10px] text-[#8B949E] mt-0.5">{ch.detail}</p>
                       </button>
                     ))}
                   </div>
@@ -3239,7 +3274,7 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                       type="button"
                       disabled={isProcessingUpgrade}
                       onClick={handleConfirmPackageUpgrade}
-                      className="rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 text-[#12241C] px-5 py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center gap-2"
+                      className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-black uppercase transition active:scale-95 flex items-center gap-2"
                     >
                       {isProcessingUpgrade ? (
                         <>

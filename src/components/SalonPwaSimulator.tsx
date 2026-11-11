@@ -24,6 +24,8 @@ import {
   Globe,
   Languages,
   X,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { PortalCard } from './PortalCard';
 import { SalonOwnerDashboard } from './SalonOwnerDashboard';
@@ -127,6 +129,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
   // 7-Day Free Trial & First-Time Initial Purchase Package State
   const [trialMode, setTrialMode] = useState<'EXPIRED_DAY8' | 'ACTIVE_TRIAL'>('EXPIRED_DAY8');
   const [selectedPackageTier, setSelectedPackageTier] = useState<'STARTER' | 'GROWTH' | 'VIP' | 'CUSTOM'>('GROWTH');
+  const [expandedPackageId, setExpandedPackageId] = useState<'STARTER' | 'GROWTH' | 'VIP' | 'CUSTOM' | null>('GROWTH');
   const [isTestingSandboxUnlocked, setIsTestingSandboxUnlocked] = useState(true);
 
   const PACKAGES = [
@@ -137,9 +140,9 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       monthlyMaint: 1500, // 10%
       setupPriceUsd: 75,
       monthlyMaintUsd: 7.5, // 10%
-      maintFormula: '10% of Setup (PKR 1,500/mo or $7.50/mo)',
+      maintFormula: '10% Monthly Fee (PKR 1,500/mo or $7.50/mo)',
       bookingsLimit: '500 bookings/mo',
-      description: 'Single WhatsApp SIM Gateway · WhatsApp Auto-Reply Concierge · Up to 500 bookings/mo',
+      description: '24/7 WhatsApp Auto-Reply Booking · Rate List & Appointment Confirmations · Up to 500 bookings/mo',
       badge: 'ENTRY LEVEL',
     },
     {
@@ -149,9 +152,9 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       monthlyMaint: 2000, // 10%
       setupPriceUsd: 110,
       monthlyMaintUsd: 11.0, // 10%
-      maintFormula: '10% of Setup (PKR 2,000/mo or $11.00/mo)',
+      maintFormula: '10% Monthly Fee (PKR 2,000/mo or $11.00/mo)',
       bookingsLimit: '1,500 bookings/mo',
-      description: 'Dual SIM Hot-Swap · WhatsApp Auto-Reply + Google 5-Star Review Booster · Up to 1,500 bookings/mo',
+      description: 'Auto Backup Phone Line · WhatsApp Auto-Reply + Google 5-Star Review Requests · Up to 1,500 bookings/mo',
       badge: 'RECOMMENDED',
     },
     {
@@ -161,9 +164,9 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       monthlyMaint: 2500, // 10%
       setupPriceUsd: 160,
       monthlyMaintUsd: 16.0, // 10%
-      maintFormula: '10% of Setup (PKR 2,500/mo or $16.00/mo)',
+      maintFormula: '10% Monthly Fee (PKR 2,500/mo or $16.00/mo)',
       bookingsLimit: '3,000 bookings/mo',
-      description: 'Single purchase unlocks Video Upload Feature · WhatsApp Auto-Reply + Google Reviews · Video Deals (1 @ 1,500 or 4 @ 4,000/mo)',
+      description: 'Unlocks Deal Video Broadcasts · WhatsApp Auto-Reply + Google Reviews · Up to 3,000 bookings/mo',
       badge: 'ALL INCLUSIVE',
     },
     {
@@ -173,12 +176,49 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       monthlyMaint: 3500, // 10%
       setupPriceUsd: 250,
       monthlyMaintUsd: 25.0, // 10%
-      maintFormula: '10% Formula on Custom Quote ($25.00/mo)',
+      maintFormula: '10% Monthly Fee ($25.00/mo)',
       bookingsLimit: '> 3,000 bookings / Multi-Branch',
-      description: 'Multi-Branch Chains · Dedicated SIM Rack · Video Upload Unlocked (1 to 4/mo or weekly pacing)',
+      description: 'Multi-Branch Salons · Multi-Line Support · Deal Video Broadcasts Unlocked (1 to 4 videos/mo)',
       badge: 'MULTI-BRANCH',
     },
   ];
+
+  const getSalonPackageFeatures = (pkgId: string, lang: SalonLanguage): { title: string; included: boolean }[] => {
+    const ur = lang === 'URDU';
+    const ar = lang === 'ARABIC';
+    if (pkgId === 'STARTER') {
+      return [
+        { title: ur ? '24/7 واٹس ایپ خودکار بکنگ اور ریٹ لسٹ' : ar ? 'حجز واتساب آلي 24/7 وقائمة الأسعار' : '24/7 WhatsApp Auto-Reply & Rate List', included: true },
+        { title: ur ? 'ماہانہ 500 تک بکنگز اور ریمائنڈرز' : ar ? 'حتى 500 حجز شهرياً وتنبيهات المواعيد' : 'Up to 500 Monthly Bookings & Reminders', included: true },
+        { title: ur ? 'پرنٹ ایبل ونڈو پوسٹر PDF' : ar ? 'ملصق نافذة جاهز للطباعة PDF' : 'Printable Salon Window Poster PDF', included: true },
+        { title: ur ? 'گوگل 5 اسٹار ریویو سسٹم' : ar ? 'تقييمات جوجل 5 نجوم' : 'Google 5-Star Review Booster', included: false },
+        { title: ur ? 'ویڈیو ڈیل براڈکاسٹ فیچر' : ar ? 'إرسال عروض الفيديو للعملاء' : 'Video Deal Broadcasts', included: false },
+      ];
+    }
+    if (pkgId === 'GROWTH') {
+      return [
+        { title: ur ? '24/7 واٹس ایپ خودکار بکنگ (1,500/ماہ)' : ar ? 'حجز واتساب آلي (حتى 1,500/شهر)' : '24/7 WhatsApp Auto-Reply (Up to 1,500/mo)', included: true },
+        { title: ur ? 'گوگل 5 اسٹار ریویو بوسٹر شامل ہے' : ar ? 'تعزيز تقييمات جوجل 5 نجوم تلقائياً' : 'Google 5-Star Review Booster Included', included: true },
+        { title: ur ? 'خودکار بیک اپ واٹس ایپ لائن تحفظ' : ar ? 'حماية تلقائية بخط احتياطي للواتساب' : 'Automatic Backup WhatsApp Line Guard', included: true },
+        { title: ur ? 'آواز سے الرٹس اور مینو تبدیلی' : ar ? 'تنبيهات صوتية وتعديل فوري للأسعار' : 'Counter Voice Alerts & Live Price Edits', included: true },
+        { title: ur ? 'ویڈیو ڈیل براڈکاسٹ فیچر' : ar ? 'إرسال عروض الفيديو للعملاء' : 'Video Deal Broadcasts', included: false },
+      ];
+    }
+    if (pkgId === 'VIP') {
+      return [
+        { title: ur ? 'ماہانہ 3,000 تک بکنگز اور تمام فیچرز' : ar ? 'حتى 3,000 حجز شهرياً بكامل المميزات' : 'Up to 3,000 Monthly Bookings (All-Inclusive)', included: true },
+        { title: ur ? 'ویڈیو ڈیل فیچر ان لاک (اپلوڈ اور ارسال)' : ar ? 'تفعيل إرسال فيديوهات العروض للعملاء' : 'Deal Video Broadcast Feature Unlocked', included: true },
+        { title: ur ? 'گوگل 5 اسٹار ریویو + ونڈو پوسٹر PDF' : ar ? 'تقييمات جوجل + ملصق النافذة PDF' : 'Google 5-Star Reviews + Window Poster PDF', included: true },
+        { title: ur ? '60 منٹ میں خودکار فنی بحالی سپورٹ' : ar ? 'دعم وإصلاح تلقائي خلال أقل من 60 دقيقة' : '24/7 Auto-Fix & Priority <60 Min Care', included: true },
+      ];
+    }
+    return [
+      { title: ur ? 'لامحدود / 3,000+ ملٹی برانچ بکنگز' : ar ? 'حجوزات غير محدودة / متعددة الفروع' : 'Unlimited / 3,000+ Multi-Branch Bookings', included: true },
+      { title: ur ? 'ویڈیو ڈیل براڈکاسٹ (ماہانہ 1 سے 4 ویڈیوز)' : ar ? 'عروض الفيديو (1 إلى 4 فيديوهات شهرياً)' : 'Video Deal Broadcasts (1 to 4 Videos/mo)', included: true },
+      { title: ur ? 'ملٹی برانچ الگ الگ ریٹ اور عملے کی بکنگ' : ar ? 'قوائم أسعار منفصلة لكل فرع' : 'Dedicated Multi-Branch Menus & Routing', included: true },
+      { title: ur ? '24/7 ترجیحی سینئر سپورٹ' : ar ? 'دعم فني متقدم على مدار الساعة' : '24/7 Dedicated Senior Support', included: true },
+    ];
+  };
 
   const currentPackagePrice = PACKAGES.find((p) => p.id === selectedPackageTier)?.setupPrice || 20000;
   const currentPackage = PACKAGES.find((p) => p.id === selectedPackageTier) || PACKAGES[1];
@@ -280,30 +320,30 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       flag: '🇬🇧',
       headerTitle: `${salonName} · Direct Owner Portal`,
       tagline: 'Autonomous WhatsApp booking concierge & salon management',
-      step1: '1. Install PWA',
+      step1: '1. Save App to Phone',
       step2: '2. Service Menu',
-      step3: '3. Package & 10% Maint',
-      step4: '4. Pair WhatsApp',
-      installTitle: 'Add WORKCRAFT to Mobile Home Screen',
-      installDesc: 'No App Store or Play Store downloads needed. High-speed progressive web app with offline client holding capabilities.',
-      installBtn: isPwaInstalled ? 'Installation Complete ✓' : '1-Tap Install to Home Screen',
-      menuTitle: 'Business Category & Local Service Menu',
-      menuDesc: 'Select your salon category and verify your service rates. The AI concierge automatically uses these exact prices.',
+      step3: '3. Package & 10% Monthly Fee',
+      step4: '4. Connect WhatsApp',
+      installTitle: 'Save WorkCraft to Your Phone Home Screen',
+      installDesc: 'No App Store or Play Store needed. Fast 1-tap salon app that works smoothly even when internet is slow.',
+      installBtn: isPwaInstalled ? 'App Saved to Phone ✓' : '1-Tap Save to Home Screen',
+      menuTitle: 'Business Category & Service Rates',
+      menuDesc: 'Select your salon category and confirm your service rates. Your WhatsApp booking assistant uses these exact prices automatically.',
       mensTab: "Men's Barber / Grooming",
       ladiesTab: "Ladies' Parlor / Lounge",
       addService: '+ Add Custom Service to Menu',
-      saveMenuBtn: 'Save Menu & Proceed to Payment →',
-      payTitle: 'Initial Package Purchase & 10% Maintenance Engine',
-      payDesc: 'Select the package tier suited for your salon volume. Monthly recurring maintenance is strictly 10% of package setup fee.',
-      maintHighlight: 'Why the 10% Monthly Maintenance SLA Matters',
-      maintExplain: 'The 10% monthly maintenance fee guarantees 24/7 continuous WhatsApp auto-reply, free menu updates, and recovery in under 60 minutes. Field agents never collect cash.',
-      payBtn: 'Confirm Payment & Launch QR Handshake →',
-      pairTitle: 'Multi-Device WhatsApp Terminal Pairing',
-      pairDesc: 'Open WhatsApp on your salon phone ➔ Linked Devices ➔ Link a Device and scan the QR code below in under 5 seconds.',
-      scanSimulate: 'Simulate Salon WhatsApp QR Scan →',
-      pairSuccess: 'Pairing Handshake 100% Successful!',
-      pairSuccessDesc: 'Your salon is now live on the WORKCRAFT SIM Gateway cluster. Customer auto-replies and booking holding queues are active.',
-      finishBtn: 'Complete Onboarding & Enter Portal',
+      saveMenuBtn: 'Save Menu & Choose Package →',
+      payTitle: 'Choose Package & 10% Monthly Service Fee',
+      payDesc: 'Tap any package below to inspect all included features right underneath it. Monthly upkeep is strictly 10% of the package fee.',
+      maintHighlight: 'Why the 10% Monthly Service Fee Matters',
+      maintExplain: 'The 10% monthly fee keeps your 24/7 WhatsApp booking active, includes free rate-card edits, and guarantees auto-repair in under 60 minutes. Field agents never take monthly cash.',
+      payBtn: 'Confirm Payment & Connect WhatsApp →',
+      pairTitle: 'Connect Your Salon WhatsApp',
+      pairDesc: 'Open WhatsApp on your salon phone ➔ Linked Devices ➔ Link a Device and scan the code below in 5 seconds.',
+      scanSimulate: 'Confirm Salon WhatsApp Connection →',
+      pairSuccess: 'Connection 100% Successful!',
+      pairSuccessDesc: 'Your salon WhatsApp is now live! Customer auto-replies and appointment bookings are running.',
+      finishBtn: 'Complete Setup & Open Dashboard',
     },
   }[selectedLanguage];
 
@@ -444,15 +484,17 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
     },
   }[regionalTier];
 
+  const isPwaRtl = selectedLanguage === 'URDU' || selectedLanguage === 'ARABIC';
+
   if (isDashboardLaunched) {
     return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs font-mono">
-          <span className="text-[#00FFFF] font-bold">💈 SALON OWNER MOBILE APP · ACTIVE TERMINAL</span>
+      <div className="space-y-4 pb-28 lg:pb-10 min-w-0">
+        <div className="flex items-center justify-between pb-3 border-b border-[#21262D] text-xs font-mono">
+          <span className="text-[#06B6D4] font-bold">💈 SALON OWNER MOBILE APP · ACTIVE TERMINAL</span>
           <button
             type="button"
             onClick={() => setIsDashboardLaunched(false)}
-            className="text-white/50 hover:text-white underline text-[11px]"
+            className="min-h-[40px] px-2 text-[#8B949E] hover:text-[#F0F6FC] underline text-[11px]"
           >
             ← Back to Onboarding Steps
           </button>
@@ -463,7 +505,12 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
   }
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto relative">
+    <div
+      dir={isPwaRtl ? 'rtl' : 'ltr'}
+      className={`space-y-6 max-w-3xl mx-auto relative pb-28 lg:pb-10 min-w-0 ${
+        isPwaRtl ? 'text-right' : 'text-left'
+      }`}
+    >
       {/* ========================================================================= */}
       {/* 1. SOCIAL MEDIA & PUBLIC ONBOARDING GREETING & 3-TIER REGIONAL GATE       */}
       {/*    Pakistan: Urdu / Roman Urdu / English                                  */}
@@ -471,18 +518,18 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       {/*    Europe / Global: English                                               */}
       {/* ========================================================================= */}
       {isLanguageGateOpen && (
-        <div className="fixed inset-0 z-[90] grid place-items-center bg-black/85 p-3 sm:p-5 backdrop-blur-md overflow-y-auto">
+        <div className="fixed inset-0 z-[90] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[520px] rounded-3xl border border-[#D9A441]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 relative"
+            className="w-full max-w-[520px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 relative"
           >
             {/* Modal Top Close Button */}
-            <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
-              <span className="text-[10px] font-mono text-white/50 uppercase font-bold">Language Selection / زبان کا انتخاب</span>
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#21262D]">
+              <span className="text-[10px] font-mono text-[#8B949E] uppercase font-bold">Language Selection / زبان کا انتخاب</span>
               <button
                 type="button"
                 onClick={() => setIsLanguageGateOpen(false)}
-                className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95"
+                className="min-h-[44px] min-w-[44px] grid place-items-center rounded-xl bg-[#21262D] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition active:scale-95"
                 title="Close Language Selection"
                 aria-label="Close Language Selection"
               >
@@ -491,14 +538,14 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
             </div>
 
             {/* Quick Regional Market Switcher Bar */}
-            <div className="flex items-center justify-between gap-1 p-1 rounded-xl bg-black/40 border border-white/10 mb-4">
+            <div className="flex items-center justify-between gap-1.5 p-1 rounded-xl bg-[#0D1117] border border-[#30363D] mb-4">
               <button
                 type="button"
                 onClick={() => handleSwitchRegion('+92')}
-                className={`flex-1 py-1.5 px-2 rounded-lg text-[10px] font-mono font-bold transition flex items-center justify-center gap-1 ${
+                className={`flex-1 min-h-[44px] py-1.5 px-2 rounded-lg text-[10px] font-mono font-bold transition flex items-center justify-center gap-1 ${
                   regionalTier === 'PAKISTAN'
-                    ? 'bg-[#00FFFF]/20 border border-[#00FFFF]/50 text-[#00FFFF] shadow-[0_0_10px_rgba(0,255,255,0.15)]'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                    ? 'bg-[#06B6D4] text-[#0D1117]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D]'
                 }`}
               >
                 <span>🇵🇰 Pakistan (+92)</span>
@@ -506,10 +553,10 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
               <button
                 type="button"
                 onClick={() => handleSwitchRegion('+971')}
-                className={`flex-1 py-1.5 px-2 rounded-lg text-[10px] font-mono font-bold transition flex items-center justify-center gap-1 ${
+                className={`flex-1 min-h-[44px] py-1.5 px-2 rounded-lg text-[10px] font-mono font-bold transition flex items-center justify-center gap-1 ${
                   regionalTier === 'MENA'
-                    ? 'bg-[#D9A441]/20 border border-[#D9A441]/50 text-[#D9A441] shadow-[0_0_10px_rgba(217,164,65,0.15)]'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                    ? 'bg-[#3B2E0B] border border-[#9E6A03] text-[#D29922]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D]'
                 }`}
               >
                 <span>🇦🇪 UAE / MENA (+971)</span>
@@ -517,77 +564,91 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
               <button
                 type="button"
                 onClick={() => handleSwitchRegion('+44')}
-                className={`flex-1 py-1.5 px-2 rounded-lg text-[10px] font-mono font-bold transition flex items-center justify-center gap-1 ${
+                className={`flex-1 min-h-[44px] py-1.5 px-2 rounded-lg text-[10px] font-mono font-bold transition flex items-center justify-center gap-1 ${
                   regionalTier === 'EUROPE_GLOBAL'
-                    ? 'bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                    ? 'bg-[#0D3822] border border-[#116329] text-[#3FB950]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D]'
                 }`}
               >
                 <span>🇬🇧 Europe / Global (+44)</span>
               </button>
             </div>
 
-            <div className="text-center space-y-1.5 pb-4 border-b border-white/10">
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.05] border border-white/10 px-2.5 py-0.5 mb-1">
-                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#D9A441]">
+            <div className="text-center space-y-1.5 pb-4 border-b border-[#21262D]">
+              <div className="inline-flex items-center gap-1.5 rounded-md bg-[#0D1117] border border-[#30363D] px-2.5 py-0.5 mb-1">
+                <span className="size-1.5 rounded-full bg-[#3FB950] animate-pulse" />
+                <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#D29922]">
                   {regionGateMeta.badge}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#F0F6FC] tracking-tight">
                 {regionGateMeta.greeting}
               </h2>
-              <p className="text-xs text-[#00FFFF] font-sans font-medium">
+              <p
+                dir={regionalTier === 'EUROPE_GLOBAL' ? 'ltr' : 'rtl'}
+                className="text-xs text-[#06B6D4] font-sans font-medium break-words [overflow-wrap:break-word]"
+              >
                 {regionGateMeta.urduSub}
               </p>
-              <p className="text-[11px] text-white/55 font-sans pt-0.5">
+              <p
+                dir={regionalTier === 'EUROPE_GLOBAL' ? 'ltr' : 'rtl'}
+                className="text-[11px] text-[#8B949E] font-sans pt-0.5 break-words [overflow-wrap:break-word]"
+              >
                 {regionGateMeta.subDesc}
               </p>
             </div>
 
             {/* Filtered 3-Tier Language Cards */}
             <div className="mt-4 space-y-2.5">
-              {regionalLanguages.map((lang) => (
-                <button
-                  key={lang.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedLanguage(lang.id);
-                    setIsLanguageGateOpen(false);
-                  }}
-                  className={`w-full p-3.5 rounded-2xl border text-left transition flex items-center justify-between group ${
-                    selectedLanguage === lang.id
-                      ? 'border-[#00FFFF] bg-white/[0.08] shadow-[0_0_15px_rgba(0,255,255,0.15)]'
-                      : 'border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.05]'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{lang.flag}</span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-white group-hover:text-[#00FFFF] transition">
-                          {lang.label}
-                        </span>
-                        <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] font-mono text-white/60">
-                          {lang.badge}
-                        </span>
+              {regionalLanguages.map((lang) => {
+                const langIsRtl = lang.id === 'URDU' || lang.id === 'ARABIC';
+                return (
+                  <button
+                    key={lang.id}
+                    type="button"
+                    dir={langIsRtl ? 'rtl' : 'ltr'}
+                    onClick={() => {
+                      setSelectedLanguage(lang.id);
+                      setIsLanguageGateOpen(false);
+                    }}
+                    className={`w-full min-h-[56px] p-3.5 rounded-2xl border transition flex items-center justify-between gap-3 group ${
+                      langIsRtl ? 'text-right' : 'text-left'
+                    } ${
+                      selectedLanguage === lang.id
+                        ? 'border-[#06B6D4] bg-[#21262D]'
+                        : 'border-[#30363D] bg-[#0D1117] hover:border-[#484F58] hover:bg-[#21262D]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <span className="text-2xl shrink-0">{lang.flag}</span>
+                      <div className={`min-w-0 flex-1 ${langIsRtl ? 'text-right' : 'text-left'}`}>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-sm font-bold text-[#F0F6FC] group-hover:text-[#06B6D4] transition">
+                            {lang.label}
+                          </span>
+                          <span className="rounded bg-[#161B22] border border-[#30363D] px-1.5 py-0.5 text-[9px] font-mono text-[#8B949E]">
+                            {lang.badge}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-[#8B949E] font-sans mt-0.5 break-words [overflow-wrap:break-word]">
+                          {lang.desc}
+                        </p>
                       </div>
-                      <p className="text-[11px] text-white/55 font-sans mt-0.5">{lang.desc}</p>
                     </div>
-                  </div>
-                  <ChevronRight className="size-4 text-white/40 group-hover:text-[#00FFFF] transition shrink-0" />
-                </button>
-              ))}
+                    <ChevronRight className="size-4 text-[#8B949E] group-hover:text-[#06B6D4] transition shrink-0" />
+                  </button>
+                );
+              })}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-3">
-              <span className="text-[10px] font-mono text-white/45">
-                Region: <strong className="text-white/70">{selectedRegion}</strong> · Language: <strong className="text-[#00FFFF]">{selectedLanguage}</strong>
+            <div className="mt-4 pt-3 border-t border-[#21262D] flex items-center justify-between gap-3">
+              <span className="text-[10px] font-mono text-[#6E7681]">
+                Region: <strong className="text-[#8B949E]">{selectedRegion}</strong> · Language: <strong className="text-[#06B6D4]">{selectedLanguage}</strong>
               </span>
               <button
                 type="button"
                 onClick={() => setIsLanguageGateOpen(false)}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-4 py-2 text-xs font-mono font-bold uppercase transition"
+                className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase transition"
               >
                 <span>Continue →</span>
               </button>
@@ -597,17 +658,17 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       )}
 
       {/* 2. SIMULATION BANNER HEADER WITH ALWAYS-ACCESSIBLE LANGUAGE SWITCHER */}
-      <div className="rounded-2xl border border-white/10 bg-[#102019] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D9A441]">
+      <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg min-w-0 overflow-hidden">
+        <div className="min-w-0 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-2 min-w-0">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#D29922]">
               {T.headerTitle}
             </span>
-            <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-[9px] font-mono font-bold text-white/70 border border-white/10">
-              Token: {token}
+            <span className="rounded-md bg-[#0D1117] px-2 py-0.5 text-[9px] font-mono font-bold text-[#8B949E] border border-[#30363D] max-w-full overflow-hidden break-all [overflow-wrap:break-word]">
+              Token: <span dir="ltr">{token}</span>
             </span>
           </div>
-          <p className="text-xs text-white/60 font-sans mt-0.5">{T.tagline}</p>
+          <p className="text-xs text-[#8B949E] font-sans mt-0.5 break-words [overflow-wrap:break-word]">{T.tagline}</p>
         </div>
 
         {/* Language Switcher Pill + Step Progress */}
@@ -616,7 +677,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
           <button
             type="button"
             onClick={() => setIsLanguageGateOpen(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-[#00FFFF]/30 bg-[#00FFFF]/10 px-2.5 py-1 text-xs font-mono font-bold text-[#00FFFF] hover:bg-[#00FFFF]/20 transition"
+            className="min-h-[44px] flex items-center gap-1.5 rounded-lg border border-[#30363D] bg-[#21262D] px-3 py-1.5 text-xs font-mono font-bold text-[#06B6D4] hover:border-[#06B6D4] transition"
             title="Change Onboarding Language"
           >
             <Globe className="size-3.5" />
@@ -633,12 +694,12 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
             ].map((s) => (
               <div
                 key={s.num}
-                className={`flex items-center gap-1 px-2 py-1 rounded-md border ${
+                className={`flex items-center gap-1 px-2 py-1.5 rounded-md border ${
                   step === s.num
-                    ? 'border-[#00FFFF] bg-white/[0.08] text-[#00FFFF] font-bold'
+                    ? 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4] font-bold'
                     : step > s.num
-                    ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                    : 'border-white/5 text-white/40'
+                    ? 'border-[#116329] bg-[#0D3822] text-[#3FB950]'
+                    : 'border-[#30363D] text-[#6E7681]'
                 }`}
               >
                 <span>{s.num}.</span>
@@ -653,26 +714,26 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       {step === 1 && (
         <PortalCard title={T.step1} kicker="1-TAP MOBILE EXPERIENCE">
           <div className="space-y-5 text-center py-4">
-            <div className="mx-auto grid size-20 place-items-center rounded-3xl bg-white/[0.04] border border-white/10 shadow-[0_0_25px_rgba(0,255,255,0.15)]">
-              <Smartphone className="size-10 text-[#00FFFF]" />
+            <div className="mx-auto grid size-20 place-items-center rounded-3xl bg-[#0D1117] border border-[#30363D]">
+              <Smartphone className="size-10 text-[#06B6D4]" />
             </div>
 
             <div className="max-w-md mx-auto space-y-1.5">
-              <h4 className="text-lg font-bold text-[#F5F2E9]">{T.installTitle}</h4>
-              <p className="text-xs text-white/55 font-sans leading-relaxed">{T.installDesc}</p>
+              <h4 className="text-lg font-bold text-[#F0F6FC]">{T.installTitle}</h4>
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">{T.installDesc}</p>
             </div>
 
             <div className="pt-2">
               <button
                 onClick={handleInstallPwa}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-6 py-3.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                className="min-h-[48px] inline-flex items-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-6 py-3.5 text-xs font-mono font-bold uppercase transition active:scale-95"
               >
                 <Download className="size-4" />
                 <span>{T.installBtn}</span>
               </button>
             </div>
 
-            <p className="text-[10px] font-mono text-white/45">
+            <p className="text-[10px] font-mono text-[#6E7681]">
               Android Chrome · iOS Safari · Samsung Internet
             </p>
           </div>
@@ -683,26 +744,26 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       {step === 2 && (
         <PortalCard title={T.step2} kicker="SERVICE MENU">
           <div className="space-y-5">
-            <p className="text-xs text-white/55 font-sans leading-relaxed">{T.menuDesc}</p>
+            <p className="text-xs text-[#8B949E] font-sans leading-relaxed">{T.menuDesc}</p>
 
             {/* Category Switcher Tabs */}
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setSelectedCategory('MENS')}
-                className={`flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-mono font-bold transition border ${
+                className={`min-h-[48px] flex items-center justify-center gap-2 rounded-xl py-3 px-2 text-xs font-mono font-bold transition border ${
                   selectedCategory === 'MENS'
-                    ? 'border-[#00FFFF] bg-white/[0.08] text-[#00FFFF]'
-                    : 'border-white/10 bg-white/[0.02] text-white/55 hover:text-white'
+                    ? 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4]'
+                    : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <span>{T.mensTab}</span>
               </button>
               <button
                 onClick={() => setSelectedCategory('LADIES')}
-                className={`flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-mono font-bold transition border ${
+                className={`min-h-[48px] flex items-center justify-center gap-2 rounded-xl py-3 px-2 text-xs font-mono font-bold transition border ${
                   selectedCategory === 'LADIES'
-                    ? 'border-[#D9A441] bg-white/[0.08] text-[#D9A441]'
-                    : 'border-white/10 bg-white/[0.02] text-white/55 hover:text-white'
+                    ? 'border-[#D29922] bg-[#3B2E0B] text-[#D29922]'
+                    : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <span>{T.ladiesTab}</span>
@@ -716,22 +777,22 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                   key={service.id}
                   className={`flex items-center justify-between gap-3 rounded-xl border p-3 transition ${
                     service.enabled
-                      ? 'border-white/15 bg-white/[0.04]'
-                      : 'border-white/5 bg-black/30 opacity-60'
+                      ? 'border-[#30363D] bg-[#0D1117]'
+                      : 'border-[#21262D] bg-[#0D1117] opacity-60'
                   }`}
                 >
-                  <label className="flex items-center gap-3 cursor-pointer select-none flex-1">
+                  <label className="flex items-center gap-3 cursor-pointer select-none flex-1 min-h-[40px]">
                     <input
                       type="checkbox"
                       checked={service.enabled}
                       onChange={() => handleToggleService(service.id, selectedCategory === 'MENS')}
-                      className="size-4 rounded border-white/20 bg-black/40 text-[#00FFFF] focus:ring-0"
+                      className="size-4 rounded border-[#30363D] bg-[#161B22] text-[#06B6D4] focus:ring-0"
                     />
-                    <span className="text-xs font-bold text-[#F5F2E9]">{service.name}</span>
+                    <span className="text-xs font-bold text-[#F0F6FC]">{service.name}</span>
                   </label>
 
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-[10px] font-mono text-white/55">PKR</span>
+                    <span className="text-[10px] font-mono text-[#8B949E]">PKR</span>
                     <input
                       type="number"
                       value={service.price}
@@ -742,7 +803,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                           selectedCategory === 'MENS'
                         )
                       }
-                      className="w-24 rounded-lg border border-white/10 bg-black/50 px-2.5 py-1.5 text-xs font-mono font-bold text-[#D9A441] focus:outline-none focus:border-[#00FFFF]"
+                      className="w-24 min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-2.5 py-1.5 text-sm font-mono font-bold text-[#D29922] focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
                 </div>
@@ -754,51 +815,51 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
               <button
                 type="button"
                 onClick={() => setIsAddingService(true)}
-                className="w-full flex items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[0.02] py-2.5 text-xs font-mono font-bold text-[#D9A441] hover:border-[#D9A441] hover:bg-white/[0.04] transition"
+                className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl border border-dashed border-[#30363D] bg-[#0D1117] py-2.5 text-xs font-mono font-bold text-[#D29922] hover:border-[#D29922] hover:bg-[#21262D] transition"
               >
                 <Plus className="size-4" />
                 <span>{T.addService}</span>
               </button>
             ) : (
-              <form onSubmit={handleAddCustomService} className="rounded-xl border border-[#D9A441]/40 bg-black/40 p-3.5 space-y-3">
+              <form onSubmit={handleAddCustomService} className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-[#D9A441] uppercase">
+                  <span className="text-xs font-mono font-bold text-[#D29922] uppercase">
                     New Service ({selectedCategory === 'MENS' ? T.mensTab : T.ladiesTab})
                   </span>
                   <button
                     type="button"
                     onClick={() => setIsAddingService(false)}
-                    className="text-xs font-mono text-white/50 hover:text-white"
+                    className="min-h-[36px] px-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC]"
                   >
                     Cancel
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div className="sm:col-span-2">
-                    <label className="text-[10px] font-mono text-white/55 block mb-1">Service Name</label>
+                    <label className="text-[10px] font-mono text-[#8B949E] block mb-1">Service Name</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Keratin Beard Glow or Express Bleach"
                       value={customName}
                       onChange={(e) => setCustomName(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-[#F5F2E9] focus:outline-none focus:border-[#00FFFF]"
+                      className="w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-mono text-white/55 block mb-1">Price (PKR)</label>
+                    <label className="text-[10px] font-mono text-[#8B949E] block mb-1">Price (PKR)</label>
                     <input
                       type="number"
                       required
                       value={customPrice}
                       onChange={(e) => setCustomPrice(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-mono font-bold text-[#D9A441] focus:outline-none focus:border-[#00FFFF]"
+                      className="w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-sm font-mono font-bold text-[#D29922] focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
                 </div>
                 <button
                   type="submit"
-                  className="rounded-lg bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] px-4 py-2 text-xs font-mono font-bold uppercase transition"
+                  className="min-h-[48px] rounded-lg bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase transition"
                 >
                   Append Service
                 </button>
@@ -807,7 +868,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
 
             <button
               onClick={() => setStep(3)}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+              className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3 px-4 text-xs font-mono font-bold uppercase transition active:scale-95"
             >
               <span>{T.saveMenuBtn}</span>
             </button>
@@ -819,77 +880,162 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
       {step === 3 && (
         <PortalCard title={T.payTitle} kicker="10% MAINTENANCE FORMULA">
           <div className="space-y-5">
-            <p className="text-xs text-white/55 font-sans leading-relaxed">{T.payDesc}</p>
+            <p className="text-xs text-[#8B949E] font-sans leading-relaxed">{T.payDesc}</p>
 
-            {/* 4 Packages Selector */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            {/* 4 Packages Selector — On mobile, package details slide open directly underneath the tapped package */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-2.5">
               {PACKAGES.map((pkg) => {
                 const isSelected = selectedPackageTier === pkg.id;
+                const isExpanded = expandedPackageId === pkg.id;
+                const pkgFeatures = getSalonPackageFeatures(pkg.id, selectedLanguage);
                 return (
-                  <button
-                    key={pkg.id}
-                    type="button"
-                    onClick={() => setSelectedPackageTier(pkg.id as any)}
-                    className={`rounded-xl border p-3.5 text-left transition flex flex-col justify-between ${
-                      isSelected
-                        ? 'border-[#00FFFF] bg-white/[0.08] ring-1 ring-[#00FFFF]'
-                        : 'border-white/10 bg-white/[0.02] hover:border-white/20'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs font-bold text-[#F5F2E9]">{pkg.name}</p>
-                        {isSelected && <Check className="size-3.5 text-[#00FFFF]" />}
+                  <div key={pkg.id} className="space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedPackageTier(pkg.id as any);
+                        setExpandedPackageId(isExpanded ? null : (pkg.id as any));
+                      }}
+                      className={`w-full min-h-[48px] rounded-xl border p-3.5 text-left transition flex flex-col justify-between ${
+                        isSelected
+                          ? 'border-[#06B6D4] bg-[#21262D] ring-1 ring-[#06B6D4]'
+                          : 'border-[#30363D] bg-[#0D1117] hover:border-[#484F58]'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-xs font-bold text-[#F0F6FC]">{pkg.name}</p>
+                          <div className="flex items-center gap-1.5">
+                            {isSelected && <Check className="size-3.5 text-[#06B6D4]" />}
+                            {isExpanded ? (
+                              <ChevronUp className="size-3.5 text-[#06B6D4]" />
+                            ) : (
+                              <ChevronDown className="size-3.5 text-[#8B949E]" />
+                            )}
+                          </div>
+                        </div>
+                        <p className="text-[10px] font-mono font-bold text-[#06B6D4] mt-1">
+                          ⚡ {pkg.bookingsLimit}
+                        </p>
+                        <p className="text-[10px] text-[#8B949E] font-sans mt-1 leading-relaxed">
+                          {pkg.description}
+                        </p>
                       </div>
-                      <p className="text-[10px] font-mono font-bold text-[#00FFFF] mt-1">
-                        ⚡ {pkg.bookingsLimit}
-                      </p>
-                      <p className="text-[9px] text-white/55 font-sans mt-1 leading-relaxed">
-                        {pkg.description}
-                      </p>
-                    </div>
-                    <div className="mt-3 pt-2.5 border-t border-white/10">
-                      <span className="text-xs font-mono font-bold text-[#D9A441] block">
-                        {regionalTier === 'PAKISTAN'
-                          ? `PKR ${pkg.setupPrice.toLocaleString()}`
-                          : regionalTier === 'MENA'
-                          ? `$${pkg.setupPriceUsd} USD (~${Math.round(pkg.setupPriceUsd * 3.67)} AED)`
-                          : `$${pkg.setupPriceUsd} USD (~£${Math.round(pkg.setupPriceUsd * 0.79)})`}
-                      </span>
-                      <span className="text-[10px] font-mono text-emerald-300 block mt-0.5">
-                        {regionalTier === 'PAKISTAN'
-                          ? `Maint: PKR ${pkg.monthlyMaint.toLocaleString()} / mo (10%)`
-                          : `Maint: $${pkg.monthlyMaintUsd.toFixed(2)} / mo (10%)`}
-                      </span>
-                    </div>
-                  </button>
+                      <div className="mt-3 pt-2.5 border-t border-[#21262D]">
+                        <span className="text-xs font-mono font-bold text-[#D29922] block">
+                          {regionalTier === 'PAKISTAN'
+                            ? `PKR ${pkg.setupPrice.toLocaleString()}`
+                            : regionalTier === 'MENA'
+                            ? `$${pkg.setupPriceUsd} USD (~${Math.round(pkg.setupPriceUsd * 3.67)} AED)`
+                            : `$${pkg.setupPriceUsd} USD (~£${Math.round(pkg.setupPriceUsd * 0.79)})`}
+                        </span>
+                        <span className="text-[10px] font-mono text-[#3FB950] block mt-0.5">
+                          {regionalTier === 'PAKISTAN'
+                            ? `Monthly Fee: PKR ${pkg.monthlyMaint.toLocaleString()} / mo (10%)`
+                            : `Monthly Fee: $${pkg.monthlyMaintUsd.toFixed(2)} / mo (10%)`}
+                        </span>
+                      </div>
+                    </button>
+
+                    {/* Mobile Inline Slide: Opens IMMEDIATELY underneath the tapped package card */}
+                    {isExpanded && (
+                      <div className="lg:hidden rounded-xl border border-[#06B6D4] bg-[#0D1117] p-3.5 space-y-2 animate-in fade-in slide-in-from-top-1 duration-150">
+                        <div className="flex items-center justify-between border-b border-[#21262D] pb-1.5">
+                          <span className="text-[10px] font-mono font-bold uppercase text-[#06B6D4]">
+                            {pkg.name} · Included Details
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setExpandedPackageId(null)}
+                            className="min-h-[36px] px-2 text-[10px] font-mono text-[#8B949E] hover:text-[#F0F6FC]"
+                          >
+                            Hide ▲
+                          </button>
+                        </div>
+                        <div className="space-y-1.5">
+                          {pkgFeatures.map((feat, fIdx) => (
+                            <div
+                              key={fIdx}
+                              className={`flex items-center gap-2 text-xs ${
+                                feat.included ? 'text-[#F0F6FC]' : 'text-[#6E7681] line-through'
+                              }`}
+                            >
+                              {feat.included ? (
+                                <CheckCircle2 className="size-3.5 text-[#3FB950] shrink-0" />
+                              ) : (
+                                <X className="size-3.5 text-[#F85149] shrink-0" />
+                              )}
+                              <span className="font-sans">{feat.title}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>
 
+            {/* Desktop Expanded Panel for Selected Package */}
+            {expandedPackageId && (
+              <div className="hidden lg:block rounded-2xl border border-[#06B6D4] bg-[#0D1117] p-4 space-y-2.5 animate-in fade-in">
+                <div className="flex items-center justify-between border-b border-[#21262D] pb-2">
+                  <span className="text-xs font-mono font-bold text-[#06B6D4]">
+                    {PACKAGES.find((p) => p.id === expandedPackageId)?.name} — What&apos;s Included
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedPackageId(null)}
+                    className="text-[11px] font-mono text-[#8B949E] hover:text-[#F0F6FC]"
+                  >
+                    Hide Details ▲
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  {getSalonPackageFeatures(expandedPackageId, selectedLanguage).map((feat, fIdx) => (
+                    <div
+                      key={fIdx}
+                      className={`rounded-xl border p-2.5 flex items-center gap-2 ${
+                        feat.included
+                          ? 'border-[#30363D] bg-[#161B22] text-[#F0F6FC]'
+                          : 'border-[#21262D] bg-[#0D1117] text-[#6E7681] line-through'
+                      }`}
+                    >
+                      {feat.included ? (
+                        <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
+                      ) : (
+                        <X className="size-4 text-[#F85149] shrink-0" />
+                      )}
+                      <span className="font-sans">{feat.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Clear 10% Maintenance Explanation Card */}
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold text-emerald-300 flex items-center gap-1.5">
-                  <ShieldCheck className="size-4 text-emerald-400" />
+            <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-4 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-mono font-bold text-[#3FB950] flex items-center gap-1.5">
+                  <ShieldCheck className="size-4 text-[#3FB950]" />
                   <span>{T.maintHighlight}</span>
                 </span>
-                <span className="text-xs font-mono text-[#D9A441] font-bold">
+                <span className="text-xs font-mono text-[#D29922] font-bold">
                   {regionalTier === 'PAKISTAN'
                     ? `PKR ${currentPackage.monthlyMaint.toLocaleString()} / mo (10%)`
                     : `$${currentPackage.monthlyMaintUsd.toFixed(2)} USD / mo (10%)`}
                 </span>
               </div>
-              <p className="text-xs text-white/70 font-sans leading-relaxed">{T.maintExplain}</p>
+              <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">{T.maintExplain}</p>
             </div>
 
             {/* Payment Method Selector */}
-            <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 space-y-2">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold uppercase text-white/50 block">
+                <span className="text-[10px] font-mono font-bold uppercase text-[#8B949E] block">
                   Digital Payment Channel:
                 </span>
-                <span className="text-[9px] font-mono text-emerald-400 font-bold">
+                <span className="text-[9px] font-mono text-[#3FB950] font-bold">
                   {regionalTier === 'PAKISTAN' ? '🇵🇰 State Bank / Raast Compliant' : '🌐 Stripe Global Gateway'}
                 </span>
               </div>
@@ -904,10 +1050,10 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                     key={method}
                     type="button"
                     onClick={() => setPaymentMethod(method)}
-                    className={`p-2.5 rounded-lg border text-center transition text-[11px] ${
+                    className={`min-h-[48px] p-2.5 rounded-lg border text-center transition text-[11px] ${
                       paymentMethod === method
-                        ? 'border-[#00FFFF] bg-white/[0.08] text-[#00FFFF] font-bold'
-                        : 'border-white/10 text-white/60 hover:text-white'
+                        ? 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4] font-bold'
+                        : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC]'
                     }`}
                   >
                     {method}
@@ -916,12 +1062,12 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
               </div>
 
               {/* Query 1: Auto-Detected Self-Serve Recipient Routing */}
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono">
-                <span className="text-[#00FFFF] font-bold flex items-center gap-1.5">
-                  <Sparkles className="size-3.5 text-[#00FFFF]" />
+              <div className="pt-2 border-t border-[#21262D] flex items-center justify-between text-[11px] font-mono">
+                <span className="text-[#06B6D4] font-bold flex items-center gap-1.5">
+                  <Sparkles className="size-3.5 text-[#06B6D4]" />
                   <span>Routing: SELF_SERVE (Auto-Detected)</span>
                 </span>
-                <span className="text-white/60 text-[10px]">Direct Owner WhatsApp Alert Only</span>
+                <span className="text-[#8B949E] text-[10px]">Direct Owner WhatsApp Alert Only</span>
               </div>
             </div>
 
@@ -929,10 +1075,10 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
             <button
               onClick={handleConfirmPayment}
               disabled={isPaymentProcessing}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-3.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+              className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3.5 px-4 text-xs font-mono font-bold uppercase transition active:scale-95"
             >
               {isPaymentProcessing ? (
-                <span>Verifying Digital Webhook...</span>
+                <span>Confirming Payment...</span>
               ) : (
                 <>
                   <span>{T.payBtn}</span>
@@ -944,19 +1090,19 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
         </PortalCard>
       )}
 
-      {/* STEP 4: TERMINAL MULTI-DEVICE PAIRING (8-DIGIT OTP VS VISUAL QR) */}
+      {/* STEP 4: CONNECT SALON WHATSAPP (8-DIGIT CODE OR QR SCAN) */}
       {step === 4 && (
-        <PortalCard title={T.pairTitle} kicker="MULTI-DEVICE GATEWAY HANDSHAKE">
+        <PortalCard title={T.pairTitle} kicker="CONNECT YOUR SALON WHATSAPP">
           <div className="space-y-5 text-center">
             {/* Pairing Mode Switcher */}
-            <div className="flex items-center justify-center gap-1.5 p-1 rounded-xl bg-black/40 border border-white/10 max-w-md mx-auto">
+            <div className="flex items-center justify-center gap-1.5 p-1 rounded-xl bg-[#0D1117] border border-[#30363D] max-w-md mx-auto">
               <button
                 type="button"
                 onClick={() => setPairingMode('REMOTE_CODE')}
-                className={`flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold transition flex items-center justify-center gap-1.5 ${
+                className={`flex-1 min-h-[44px] py-2 px-3 rounded-lg text-xs font-mono font-bold transition flex items-center justify-center gap-1.5 ${
                   pairingMode === 'REMOTE_CODE'
-                    ? 'bg-[#00FFFF]/20 border border-[#00FFFF]/50 text-[#00FFFF] shadow-[0_0_12px_rgba(0,255,255,0.15)]'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-[#06B6D4] text-[#0D1117]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <Smartphone className="size-3.5" />
@@ -965,10 +1111,10 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
               <button
                 type="button"
                 onClick={() => setPairingMode('VISUAL_QR')}
-                className={`flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold transition flex items-center justify-center gap-1.5 ${
+                className={`flex-1 min-h-[44px] py-2 px-3 rounded-lg text-xs font-mono font-bold transition flex items-center justify-center gap-1.5 ${
                   pairingMode === 'VISUAL_QR'
-                    ? 'bg-[#D9A441]/20 border border-[#D9A441]/50 text-[#D9A441] shadow-[0_0_12px_rgba(217,164,65,0.15)]'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-[#3B2E0B] border border-[#9E6A03] text-[#D29922]'
+                    : 'text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 <QrCode className="size-3.5" />
@@ -978,23 +1124,26 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
 
             {/* 1. REMOTE SOLO ONBOARDING: 8-DIGIT WHATSAPP PAIRING CODE */}
             {pairingMode === 'REMOTE_CODE' && (
-              <div className="space-y-4 max-w-lg mx-auto text-left animate-in fade-in duration-200">
-                <div className="rounded-2xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-4 space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#00FFFF]">
-                    <Sparkles className="size-4" />
+              <div className={`space-y-4 max-w-lg mx-auto animate-in fade-in duration-200 ${isPwaRtl ? 'text-right' : 'text-left'}`}>
+                <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-2 overflow-hidden">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#06B6D4]">
+                    <Sparkles className="size-4 shrink-0" />
                     <span>WhatsApp 8-Digit Pairing Code Generated</span>
                   </div>
-                  <p className="text-xs text-white/70 font-sans leading-relaxed">
-                    Because you are onboarding directly from your mobile phone, you don't need a second screen. Enter this 8-digit code in your WhatsApp Linked Devices to authorize the WORKCRAFT cloud concierge.
+                  <p className="text-xs text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
+                    Because you are onboarding directly from your mobile phone, you don&apos;t need a second screen. Enter this 8-digit code in your WhatsApp Linked Devices to authorize the WORKCRAFT cloud concierge.
                   </p>
                 </div>
 
                 {/* 8-Digit Display Card */}
-                <div className="rounded-2xl border border-white/10 bg-black/60 p-5 text-center space-y-3">
-                  <span className="text-[10px] font-mono uppercase tracking-[.2em] text-white/45 block">
+                <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-5 text-center space-y-3 overflow-hidden">
+                  <span className="text-[10px] font-mono uppercase tracking-[.2em] text-[#6E7681] block">
                     YOUR SINGLE-USE PAIRING CODE
                   </span>
-                  <div className="text-3xl sm:text-4xl font-black font-mono tracking-widest text-[#00FFFF] drop-shadow-[0_0_10px_rgba(0,255,255,0.3)]">
+                  <div
+                    dir="ltr"
+                    className="text-3xl sm:text-4xl font-black font-mono tracking-widest text-[#06B6D4] break-all [overflow-wrap:break-word]"
+                  >
                     {pairingCode}
                   </div>
 
@@ -1005,38 +1154,44 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                         setIsCopiedCode(true);
                         setTimeout(() => setIsCopiedCode(false), 2500);
                       }}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-white/20 bg-white/[0.05] hover:bg-white/[0.1] px-4 py-2 text-xs font-mono font-bold text-white transition"
+                      className="min-h-[44px] inline-flex items-center gap-1.5 rounded-xl border border-[#30363D] bg-[#21262D] hover:border-[#06B6D4] px-4 py-2 text-xs font-mono font-bold text-[#F0F6FC] transition"
                     >
-                      {isCopiedCode ? <Check className="size-3.5 text-emerald-400" /> : <Smartphone className="size-3.5 text-[#00FFFF]" />}
+                      {isCopiedCode ? <Check className="size-3.5 text-[#3FB950]" /> : <Smartphone className="size-3.5 text-[#06B6D4]" />}
                       <span>{isCopiedCode ? 'Copied to Clipboard! ✓' : 'Copy 8-Digit Code'}</span>
                     </button>
                   </div>
 
-                  {/* Query 3: 1:1 Single-Use Node Binding Badge */}
-                  <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-left">
-                    <span className="text-[#00FFFF] flex items-center gap-1 font-bold">
-                      <ShieldCheck className="size-3 text-[#00FFFF]" />
-                      <span>1:1 Single-Salon Binding (Burned on Handshake)</span>
+                  {/* Plain-language single-salon protection badge */}
+                  <div className={`pt-2 border-t border-[#21262D] flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono ${isPwaRtl ? 'text-right' : 'text-left'}`}>
+                    <span className="text-[#06B6D4] flex items-center gap-1 font-bold">
+                      <ShieldCheck className="size-3 text-[#06B6D4] shrink-0" />
+                      <span>Locked to This Salon Only (1-Time Code)</span>
                     </span>
-                    <span className="text-emerald-400 font-bold">
-                      {isCodeVerified ? '🔥 BURNED & BOUND' : 'ACTIVE'}
+                    <span className="text-[#3FB950] font-bold">
+                      {isCodeVerified ? '✓ CONNECTED & SECURED' : 'READY'}
                     </span>
                   </div>
                 </div>
 
                 {/* Step-by-Step Instructions */}
-                <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-xs font-mono space-y-2">
-                  <span className="text-[10px] font-bold text-[#D9A441] uppercase block">
-                    3-Step Remote Pairing:
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 text-xs font-mono space-y-2 overflow-hidden">
+                  <span className="text-[10px] font-bold text-[#D29922] uppercase block">
+                    3 Easy Steps to Connect:
                   </span>
-                  <ol className="list-decimal list-inside space-y-1.5 text-white/75 font-sans">
+                  <ol className="list-decimal list-inside space-y-1.5 text-[#8B949E] font-sans">
                     <li>Open WhatsApp on this mobile phone.</li>
-                    <li>Tap <strong>Settings ➔ Linked Devices ➔ Link a Device</strong>.</li>
-                    <li>Tap <strong>"Link with phone number instead"</strong> and enter <strong className="text-[#00FFFF]">{pairingCode}</strong>.</li>
+                    <li>Tap <strong className="text-[#F0F6FC]">Settings ➔ Linked Devices ➔ Link a Device</strong>.</li>
+                    <li>
+                      Tap <strong className="text-[#F0F6FC]">&quot;Link with phone number instead&quot;</strong> and enter{' '}
+                      <strong dir="ltr" className="text-[#06B6D4] break-all [overflow-wrap:break-word]">
+                        {pairingCode}
+                      </strong>
+                      .
+                    </li>
                   </ol>
                 </div>
 
-                {/* Handshake Verification */}
+                {/* Connection Verification */}
                 <div className="space-y-2 pt-1">
                   {!isCodeVerified ? (
                     <button
@@ -1049,24 +1204,24 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                         }, 1200);
                       }}
                       disabled={isVerifyingCode}
-                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] py-3.5 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                      className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3.5 px-4 text-xs font-mono font-bold uppercase transition active:scale-95"
                     >
                       {isVerifyingCode ? (
-                        <span>Authenticating WhatsApp Handshake...</span>
+                        <span>Connecting WhatsApp...</span>
                       ) : (
                         <>
                           <CheckCircle2 className="size-4" />
-                          <span>Verify 8-Digit Code & Connect Terminal ➔</span>
+                          <span>Verify 8-Digit Code &amp; Connect WhatsApp ➔</span>
                         </>
                       )}
                     </button>
                   ) : (
-                    <div className="rounded-2xl border border-emerald-500/40 bg-emerald-950/30 p-4 space-y-4 animate-in zoom-in-95">
-                      <div className="flex items-center gap-2 text-emerald-300 font-mono font-bold text-xs">
-                        <CheckCircle2 className="size-5 text-emerald-400" />
-                        <span>MashaAllah! WhatsApp Terminal 100% Paired!</span>
+                    <div className="rounded-2xl border border-[#116329] bg-[#0D3822] p-4 space-y-4 animate-in zoom-in-95">
+                      <div className="flex items-center gap-2 text-[#3FB950] font-mono font-bold text-xs">
+                        <CheckCircle2 className="size-5 text-[#3FB950]" />
+                        <span>MashaAllah! Salon WhatsApp Connected!</span>
                       </div>
-                      <p className="text-xs text-white/70 font-sans leading-relaxed">
+                      <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                         Your {selectedCategory === 'LADIES' ? 'ladies beauty parlor' : 'salon'} WhatsApp is now connected. Print or share your official Customer Window Poster PDF below so walk-in &amp; existing clients know they can book on WhatsApp 24/7.
                       </p>
 
@@ -1090,16 +1245,18 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                         }
                       />
 
-                      {/* 1-Tap Mobile Home Screen Pop-up */}
-                      <div className="rounded-xl border border-white/15 bg-black/40 p-3.5 flex items-center justify-between gap-3">
+                      {/* 1-Tap Mobile Home Screen Shortcut */}
+                      <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="grid size-10 place-items-center rounded-xl bg-[#D9A441] text-[#12241C] font-mono font-black text-sm shrink-0 shadow-md">
-                            WC
-                          </div>
+                          <img
+                            src="/icon.svg"
+                            alt="WorkCraft Mobile App Icon"
+                            className="size-10 rounded-xl border border-[#9E6A03] shrink-0"
+                          />
                           <div>
-                            <p className="text-xs font-bold text-white">WORKCRAFT Salon Portal</p>
-                            <p className="text-[10px] text-white/55 font-sans">
-                              {isHomeShortcutInstalled ? 'App icon created on mobile home screen' : '1-Tap shortcut for mobile desktop'}
+                            <p className="text-xs font-bold text-[#F0F6FC]">WorkCraft</p>
+                            <p className="text-[10px] text-[#8B949E] font-sans">
+                              {isHomeShortcutInstalled ? 'Saved to phone home screen' : '1-Tap shortcut on your phone'}
                             </p>
                           </div>
                         </div>
@@ -1107,13 +1264,13 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                         <button
                           type="button"
                           onClick={() => setIsHomeShortcutInstalled(true)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition shrink-0 ${
+                          className={`min-h-[44px] px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition shrink-0 border ${
                             isHomeShortcutInstalled
-                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                              : 'bg-[#D9A441] text-[#12241C] hover:bg-[#e0b252]'
+                              ? 'bg-[#0D3822] text-[#3FB950] border-[#116329]'
+                              : 'bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] border-[#06B6D4]'
                           }`}
                         >
-                          {isHomeShortcutInstalled ? 'Installed ✓' : 'Install PWA'}
+                          {isHomeShortcutInstalled ? 'Saved ✓' : 'Save to Phone'}
                         </button>
                       </div>
 
@@ -1124,7 +1281,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                           setIsDashboardLaunched(true);
                           onPairingComplete(salonName);
                         }}
-                        className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#12241C] py-3.5 text-xs font-mono font-black uppercase transition active:scale-95 shadow-lg"
+                        className="w-full min-h-[48px] flex items-center justify-center gap-2 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3.5 px-4 text-xs font-mono font-bold uppercase transition active:scale-95"
                       >
                         <span>Launch {salonName} Dashboard →</span>
                       </button>
@@ -1137,11 +1294,11 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
             {/* 2. IN-PERSON QR SCAN (AGENT TABLET / LAPTOP) */}
             {pairingMode === 'VISUAL_QR' && (
               <div className="space-y-4 animate-in fade-in duration-200">
-                <p className="text-xs text-white/55 font-sans leading-relaxed max-w-lg mx-auto">
+                <p className="text-xs text-[#8B949E] font-sans leading-relaxed max-w-lg mx-auto">
                   {T.pairDesc}
                 </p>
 
-                <div className="mx-auto grid size-52 place-items-center rounded-2xl bg-white p-5 text-slate-900 shadow-[0_0_24px_rgba(0,255,255,0.2)] border-2 border-[#00FFFF]">
+                <div className="mx-auto grid size-52 place-items-center rounded-2xl bg-white p-5 text-slate-900 border-2 border-[#06B6D4]">
                   <svg viewBox="0 0 100 100" className="w-full h-full text-slate-950">
                     <rect x="5" y="5" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="4" rx="2" />
                     <rect x="11" y="11" width="12" height="12" fill="currentColor" rx="1" />
@@ -1155,7 +1312,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                     <circle cx="20" cy="50" r="3" fill="currentColor" />
                     <circle cx="50" cy="50" r="3" fill="currentColor" />
                     <circle cx="80" cy="50" r="3" fill="currentColor" />
-                    <rect x="42" y="42" width="16" height="16" fill="#D9A441" rx="3" />
+                    <rect x="42" y="42" width="16" height="16" fill="#D29922" rx="3" />
                   </svg>
                 </div>
 
@@ -1188,7 +1345,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                       setIsDashboardLaunched(true);
                       onPairingComplete(salonName);
                     }}
-                    className="rounded-xl bg-[#00FFFF] hover:bg-[#38e8e8] text-[#12241C] px-6 py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                    className="min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-6 py-3 text-xs font-mono font-bold uppercase transition active:scale-95"
                   >
                     {T.finishBtn}
                   </button>

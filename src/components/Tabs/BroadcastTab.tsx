@@ -622,44 +622,44 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
     activeContacts.length > 0 ? Math.round((currentIndex / activeContacts.length) * 100) : 0;
 
   return (
-    <div className="space-y-4 pb-12 max-w-full overflow-hidden">
+    <div className="space-y-4 pb-28 lg:pb-12 max-w-full overflow-hidden min-w-0">
       {/* ========================================================================= */}
       {/* QUERY 6: VIDEO DEAL ROI MATRIX FUNNEL (SENT 450 ➔ VIEWED 380 ➔ BOOKED 50) */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl border border-[#D9A441]/40 bg-[#102019] p-4 sm:p-5 space-y-3 shadow-xl">
+      <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 space-y-3 shadow-xl">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <TrendingUp className="size-4 text-[#D9A441]" />
-            <span className="text-xs font-mono font-black uppercase text-[#D9A441]">
-              Video Deal ROI Matrix · Real Business Return
+            <TrendingUp className="size-4 text-[#D29922]" />
+            <span className="text-xs font-mono font-black uppercase text-[#D29922]">
+              Video Deal Results · Sent to Booked
             </span>
           </div>
-          <span className="text-[10px] font-mono text-emerald-300 bg-emerald-950/50 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+          <span className="text-[10px] font-mono text-[#3FB950] bg-[#0D3822] border border-[#116329] px-2.5 py-0.5 rounded-md font-bold">
             13.2% Watch-to-Book Conversion
           </span>
         </div>
 
         <div className="grid grid-cols-3 gap-2.5 font-mono">
-          <div className="rounded-xl border border-white/10 bg-black/40 p-3 text-center">
-            <span className="text-[10px] text-white/50 uppercase block">SENT TO MEMBERS</span>
-            <p className="text-xl sm:text-2xl font-black text-white mt-0.5">450</p>
-            <span className="text-[10px] text-[#00FFFF]">WhatsApp Delivered</span>
+          <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 text-center">
+            <span className="text-[10px] text-[#8B949E] uppercase block">SENT TO MEMBERS</span>
+            <p className="text-xl sm:text-2xl font-black text-[#F0F6FC] mt-0.5">450</p>
+            <span className="text-[10px] text-[#06B6D4]">WhatsApp Delivered</span>
           </div>
-          <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-3 text-center">
-            <span className="text-[10px] text-[#00FFFF] uppercase block flex items-center justify-center gap-1">
+          <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 text-center">
+            <span className="text-[10px] text-[#06B6D4] uppercase flex items-center justify-center gap-1">
               <Eye className="size-3" />
               <span>OPENED &amp; WATCHED</span>
             </span>
-            <p className="text-xl sm:text-2xl font-black text-[#00FFFF] mt-0.5">380</p>
-            <span className="text-[10px] text-white/65">84.4% View Rate</span>
+            <p className="text-xl sm:text-2xl font-black text-[#06B6D4] mt-0.5">380</p>
+            <span className="text-[10px] text-[#8B949E]">84.4% View Rate</span>
           </div>
-          <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/30 p-3 text-center">
-            <span className="text-[10px] text-emerald-300 uppercase block flex items-center justify-center gap-1">
+          <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 text-center">
+            <span className="text-[10px] text-[#3FB950] uppercase flex items-center justify-center gap-1">
               <Calendar className="size-3" />
               <span>APPOINTMENTS BOOKED</span>
             </span>
-            <p className="text-xl sm:text-2xl font-black text-emerald-300 mt-0.5">50</p>
-            <span className="text-[10px] text-[#D9A441] font-bold">
+            <p className="text-xl sm:text-2xl font-black text-[#3FB950] mt-0.5">50</p>
+            <span className="text-[10px] text-[#D29922] font-bold">
               {billingConfig.symbol}{(salon.phone.startsWith('+92') ? 75000 : 2250).toLocaleString()} Revenue
             </span>
           </div>
@@ -669,14 +669,14 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
       {/* ========================================================================= */}
       {/* QUERY 4: DAY-1 QUICK WHATSAPP CONTACT IMPORTER                            */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl border border-white/10 bg-[#102019] p-4 space-y-3 shadow-lg">
+      <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 space-y-3 shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <span className="text-xs font-mono font-bold text-[#00FFFF] uppercase flex items-center gap-1.5">
+            <span className="text-xs font-mono font-bold text-[#06B6D4] uppercase flex items-center gap-1.5">
               <UsersRound className="size-4" />
               <span>Step 1: Day-1 Quick Client WhatsApp Import ({activeContacts.length} Ready)</span>
             </span>
-            <p className="text-[11px] text-white/60 font-sans mt-0.5">
+            <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
               Fastest ways to load your customer list on Day 1 of purchasing your package:
             </p>
           </div>
@@ -686,10 +686,10 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           <button
             type="button"
             onClick={handleSyncPairedWhatsappChats}
-            className="rounded-xl border border-emerald-500/40 bg-emerald-950/30 hover:bg-emerald-950/50 p-2.5 text-emerald-300 font-bold transition text-left"
+            className="min-h-[48px] rounded-xl border border-[#116329] bg-[#0D3822] hover:border-[#3FB950] p-3 text-[#3FB950] font-bold transition text-left"
           >
             ⚡ 1. Auto-Sync Paired WhatsApp
-            <span className="block text-[10px] text-white/55 font-sans font-normal mt-0.5">
+            <span className="block text-[10px] text-[#8B949E] font-sans font-normal mt-0.5">
               Pull recent client chats automatically
             </span>
           </button>
@@ -697,10 +697,10 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           <button
             type="button"
             onClick={() => vcfInputRef.current?.click()}
-            className="rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 p-2.5 text-[#00FFFF] font-bold transition text-left"
+            className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] hover:border-[#06B6D4] p-3 text-[#06B6D4] font-bold transition text-left"
           >
             📇 2. Import Phonebook (.vcf / .csv)
-            <span className="block text-[10px] text-white/55 font-sans font-normal mt-0.5">
+            <span className="block text-[10px] text-[#8B949E] font-sans font-normal mt-0.5">
               Upload exported phone contacts file
             </span>
           </button>
@@ -715,29 +715,29 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           <button
             type="button"
             onClick={() => setShowPasteBox(!showPasteBox)}
-            className="rounded-xl border border-[#D9A441]/40 bg-[#D9A441]/10 hover:bg-[#D9A441]/20 p-2.5 text-[#D9A441] font-bold transition text-left"
+            className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] hover:border-[#D29922] p-3 text-[#D29922] font-bold transition text-left"
           >
             📋 3. Quick Paste Numbers
-            <span className="block text-[10px] text-white/55 font-sans font-normal mt-0.5">
+            <span className="block text-[10px] text-[#8B949E] font-sans font-normal mt-0.5">
               Paste numbers separated by commas or lines
             </span>
           </button>
         </div>
 
         {showPasteBox && (
-          <div className="rounded-xl border border-white/15 bg-black/50 p-3 space-y-2">
+          <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 space-y-2">
             <textarea
               rows={2}
               value={pasteInput}
               onChange={(e) => setPasteInput(e.target.value)}
               placeholder="+923001234567, +971508923411, +447911123456"
-              className="w-full rounded-lg border border-white/15 bg-[#12241C] p-2 text-xs font-mono text-white"
+              className="w-full rounded-lg border border-[#30363D] bg-[#161B22] p-2.5 text-sm font-mono text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
             />
             <div className="flex justify-end gap-2">
               <button
                 type="button"
                 onClick={handleBulkPasteImport}
-                className="rounded-lg bg-[#D9A441] text-[#12241C] px-3 py-1.5 text-xs font-mono font-bold"
+                className="min-h-[44px] rounded-lg bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-1.5 text-xs font-mono font-bold transition"
               >
                 Import Numbers ✓
               </button>
@@ -746,7 +746,7 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
         )}
 
         {importStatusMsg && (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-3 py-2 text-[11px] font-mono text-emerald-200">
+          <div className="rounded-xl border border-[#116329] bg-[#0D3822] px-3 py-2 text-[11px] font-mono text-[#3FB950]">
             {importStatusMsg}
           </div>
         )}
@@ -755,14 +755,14 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
       {/* ========================================================================= */}
       {/* QUERY 3: BOTH VIDEO PLANS (1-VIDEO vs 4-VIDEO) + REGIONAL PAYMENT GATE    */}
       {/* ========================================================================= */}
-      <div className="rounded-2xl border border-[#D9A441]/40 bg-[#102019] p-4 sm:p-5 space-y-4 shadow-lg">
+      <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 space-y-4 shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <span className="text-xs font-mono font-bold text-[#D9A441] uppercase flex items-center gap-1.5">
+            <span className="text-xs font-mono font-bold text-[#D29922] uppercase flex items-center gap-1.5">
               <CreditCard className="size-4" />
               <span>Step 2: Choose Video Deal Plan &amp; Pay ({billingConfig.countryLabel})</span>
             </span>
-            <p className="text-[11px] text-white/65 font-sans mt-0.5">
+            <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
               Pricing &amp; payment methods adapt automatically from your WhatsApp number ({salon.phone}). Confirm payment first to unlock final video upload.
             </p>
           </div>
@@ -773,7 +773,7 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
                 setIsDealPaymentConfirmed(false);
                 setDealPaymentTid(null);
               }}
-              className="text-[10px] font-mono text-white/55 hover:text-white underline self-start"
+              className="min-h-[36px] text-[10px] font-mono text-[#8B949E] hover:text-[#F0F6FC] underline self-start"
             >
               Reset Payment Gate
             </button>
@@ -785,19 +785,19 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           <button
             type="button"
             onClick={() => setSelectedDealPlan('SINGLE_1')}
-            className={`rounded-2xl border p-3.5 text-left transition ${
+            className={`min-h-[48px] rounded-2xl border p-3.5 text-left transition ${
               selectedDealPlan === 'SINGLE_1'
-                ? 'border-[#D9A441] bg-[#D9A441]/15 ring-1 ring-[#D9A441]'
-                : 'border-white/10 bg-black/40 hover:border-white/25'
+                ? 'border-[#06B6D4] bg-[#21262D] ring-1 ring-[#06B6D4]'
+                : 'border-[#30363D] bg-[#0D1117] hover:border-[#484F58]'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-[#00FFFF] uppercase">Starter Option · 1 Video Once</span>
-              <span className="text-base font-mono font-black text-[#D9A441]">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-mono font-bold text-[#06B6D4] uppercase">Starter Option · 1 Video Once</span>
+              <span className="text-base font-mono font-black text-[#D29922]">
                 {billingConfig.symbol}{billingConfig.singlePrice.toLocaleString()}
               </span>
             </div>
-            <p className="text-[11px] text-white/70 font-sans mt-1">
+            <p className="text-[11px] text-[#8B949E] font-sans mt-1">
               Single promotional deal video blast to all imported clients (valid 7–10 days).
             </p>
           </button>
@@ -805,19 +805,19 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           <button
             type="button"
             onClick={() => setSelectedDealPlan('MONTHLY_4')}
-            className={`rounded-2xl border p-3.5 text-left transition ${
+            className={`min-h-[48px] rounded-2xl border p-3.5 text-left transition ${
               selectedDealPlan === 'MONTHLY_4'
-                ? 'border-[#D9A441] bg-[#D9A441]/15 ring-1 ring-[#D9A441]'
-                : 'border-white/10 bg-black/40 hover:border-white/25'
+                ? 'border-[#06B6D4] bg-[#21262D] ring-1 ring-[#06B6D4]'
+                : 'border-[#30363D] bg-[#0D1117] hover:border-[#484F58]'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-emerald-300 uppercase">Growth Option · 4 Videos / Month</span>
-              <span className="text-base font-mono font-black text-[#D9A441]">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-mono font-bold text-[#3FB950] uppercase">Growth Option · 4 Videos / Month</span>
+              <span className="text-base font-mono font-black text-[#D29922]">
                 {billingConfig.symbol}{billingConfig.monthly4Price.toLocaleString()}/mo
               </span>
             </div>
-            <p className="text-[11px] text-white/70 font-sans mt-1">
+            <p className="text-[11px] text-[#8B949E] font-sans mt-1">
               Up to 4 deal videos per month (weekly campaigns · best savings per blast).
             </p>
           </button>
@@ -825,9 +825,9 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
 
         {/* Payment Confirmation Gate */}
         {isDealPaymentConfirmed ? (
-          <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/35 p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-            <span className="text-emerald-300 font-bold flex items-center gap-2">
-              <CheckCircle2 className="size-4 text-emerald-400" />
+          <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+            <span className="text-[#3FB950] font-bold flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-[#3FB950] shrink-0" />
               <span>
                 Payment Received ({billingConfig.symbol}
                 {(selectedDealPlan === 'SINGLE_1'
@@ -837,11 +837,11 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
                 via {selectedPayChannel}) · Final Video Uploader Unlocked ✓
               </span>
             </span>
-            <span className="text-[#00FFFF]">TID: {dealPaymentTid}</span>
+            <span className="text-[#06B6D4] break-all [overflow-wrap:break-word]">TID: {dealPaymentTid}</span>
           </div>
         ) : (
-          <div className="rounded-xl border border-white/10 bg-black/40 p-3.5 space-y-3">
-            <span className="text-[10px] font-mono font-bold uppercase text-white/70 block">
+          <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-3">
+            <span className="text-[10px] font-mono font-bold uppercase text-[#8B949E] block">
               Select Country-Matched Payment Method ({billingConfig.countryLabel}):
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -850,14 +850,14 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
                   key={ch.id}
                   type="button"
                   onClick={() => setSelectedPayChannel(ch.id)}
-                  className={`rounded-xl border p-2.5 text-left text-xs font-mono transition ${
+                  className={`min-h-[48px] rounded-xl border p-2.5 text-left text-xs font-mono transition ${
                     selectedPayChannel === ch.id
-                      ? 'border-[#00FFFF] bg-[#00FFFF]/15 text-white'
-                      : 'border-white/10 bg-white/[0.02] text-white/65'
+                      ? 'border-[#06B6D4] bg-[#21262D] text-[#F0F6FC]'
+                      : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC]'
                   }`}
                 >
-                  <p className="font-bold text-[#00FFFF]">{ch.label}</p>
-                  <p className="text-[10px] text-white/55 mt-0.5">{ch.detail}</p>
+                  <p className="font-bold text-[#06B6D4]">{ch.label}</p>
+                  <p className="text-[10px] text-[#8B949E] mt-0.5">{ch.detail}</p>
                 </button>
               ))}
             </div>
@@ -865,7 +865,7 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               type="button"
               disabled={isPayingDeal}
               onClick={handleConfirmDealPayment}
-              className="w-full rounded-xl bg-gradient-to-r from-[#D9A441] to-amber-400 text-[#12241C] py-2.5 text-xs font-mono font-black uppercase transition active:scale-95"
+              className="w-full min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-2.5 px-4 text-xs font-mono font-black uppercase transition active:scale-95"
             >
               {isPayingDeal
                 ? 'Confirming Payment...'
@@ -881,47 +881,47 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
       {/* ========================================================================= */}
       {/* QUERY 2 & 4: SINGLE CUSTOM VIDEO UPLOADER (NO PRESET CLIPS) + 7-10 DAYS   */}
       {/* ========================================================================= */}
-      <div className="relative rounded-2xl border border-white/10 bg-[#102019] p-4 sm:p-5 space-y-4 shadow-lg">
+      <div className="relative rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 space-y-4 shadow-lg">
         {!isDealPaymentConfirmed && (
-          <div className="absolute inset-0 z-20 rounded-2xl bg-black/80 backdrop-blur-xs flex flex-col items-center justify-center p-5 text-center space-y-2">
-            <Lock className="size-7 text-[#D9A441]" />
-            <p className="text-sm font-black text-white">Final Video Upload Locked Until Payment Confirmed</p>
-            <p className="text-xs text-white/65 max-w-md font-sans">
+          <div className="absolute inset-0 z-20 rounded-2xl bg-[#0D1117]/85 backdrop-blur-xs flex flex-col items-center justify-center p-5 text-center space-y-2">
+            <Lock className="size-7 text-[#D29922]" />
+            <p className="text-sm font-black text-[#F0F6FC]">Final Video Upload Locked Until Payment Confirmed</p>
+            <p className="text-xs text-[#8B949E] max-w-md font-sans">
               Select the 1-Video ({billingConfig.symbol}{billingConfig.singlePrice.toLocaleString()}) or 4-Video ({billingConfig.symbol}{billingConfig.monthly4Price.toLocaleString()}) pack and confirm payment above to unlock final video upload.
             </p>
           </div>
         )}
 
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 font-bold text-white">
-            <Video className="size-4 text-[#00FFFF]" />
+          <div className="flex items-center gap-2 font-bold text-[#F0F6FC]">
+            <Video className="size-4 text-[#06B6D4]" />
             <span>Step 3: Upload Your Custom Deal Video &amp; Validation Days</span>
           </div>
-          <span className="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-            Single Uploader · Auto QA ≤60s
+          <span className="text-[10px] text-[#3FB950] font-mono bg-[#0D3822] px-2 py-0.5 rounded border border-[#116329]">
+            Single Uploader · Automatic Video Check ≤60s
           </span>
         </div>
 
         {/* 7 to 10 Validation Days Selector (1-Tap Chips — No Manual Typing) */}
-        <div className="rounded-xl border border-white/10 bg-black/40 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <span className="text-[10px] font-mono font-bold uppercase text-[#D9A441] block">
+            <span className="text-[10px] font-mono font-bold uppercase text-[#D29922] block">
               Select Deal Validation Window (7 to 10 Days):
             </span>
-            <span className="text-[11px] text-white/60 font-sans">
+            <span className="text-[11px] text-[#8B949E] font-sans">
               Deal applies automatically for {validationDays} days from broadcast launch.
             </span>
           </div>
-          <div className="flex items-center gap-1.5 font-mono text-xs">
+          <div className="flex items-center gap-1.5 font-mono text-xs flex-wrap">
             {([7, 8, 9, 10] as const).map((days) => (
               <button
                 key={days}
                 type="button"
                 onClick={() => setValidationDays(days)}
-                className={`rounded-xl border px-3 py-1.5 font-bold transition ${
+                className={`min-h-[40px] rounded-xl border px-3 py-1.5 font-bold transition ${
                   validationDays === days
-                    ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF]'
-                    : 'border-white/15 bg-white/[0.03] text-white/70 hover:text-white'
+                    ? 'border-[#06B6D4] bg-[#06B6D4] text-[#0D1117]'
+                    : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC]'
                 }`}
               >
                 {days} Days
@@ -941,18 +941,18 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="w-full py-4 px-4 border-2 border-dashed border-[#00FFFF]/40 hover:border-[#00FFFF] bg-black/35 rounded-2xl text-xs text-white/85 flex flex-col items-center justify-center gap-1.5 transition"
+          className="w-full min-h-[48px] py-4 px-4 border-2 border-dashed border-[#30363D] hover:border-[#06B6D4] bg-[#0D1117] rounded-2xl text-xs text-[#F0F6FC] flex flex-col items-center justify-center gap-1.5 transition"
         >
-          <Upload className="size-5 text-[#00FFFF]" />
-          <span className="font-bold">Tap to Upload Your Salon's Custom Deal Video (MP4 ≤ 60s, ≤ 50MB)</span>
-          <span className="text-[10px] text-white/50 font-mono">
+          <Upload className="size-5 text-[#06B6D4]" />
+          <span className="font-bold">Tap to Upload Your Salon&apos;s Custom Deal Video (MP4 ≤ 60s, ≤ 50MB)</span>
+          <span className="text-[10px] text-[#8B949E] font-mono">
             Headline &amp; QA boundaries are checked automatically after upload
           </span>
         </button>
 
         {/* Quick QA Simulation Chips for Owner Verification */}
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
-          <span className="text-white/50">Test Auto-QA Engine:</span>
+          <span className="text-[#8B949E]">Test Automatic Video Check:</span>
           <button
             type="button"
             onClick={() => {
@@ -961,7 +961,7 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               setVideoFile({ name: sampleName, duration: 42, sizeMb: 9.4, qaStatus: 'PASSED' });
               setHeadlines(autoDetectHeadlineFromFilename(sampleName, salon.name));
             }}
-            className="rounded-lg border border-emerald-500/40 bg-emerald-950/30 px-2.5 py-1 text-emerald-300 font-bold"
+            className="min-h-[40px] rounded-lg border border-[#116329] bg-[#0D3822] px-3 py-1 text-[#3FB950] font-bold hover:border-[#3FB950] transition"
           >
             ✓ Simulate Valid Clip (42s)
           </button>
@@ -971,7 +971,7 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               setQaRejectionNotice(buildOwnerLangRejection('DURATION'));
               setVideoFile({ name: 'long_salon_tour_85sec.mp4', duration: 85, sizeMb: 28.0, qaStatus: 'REJECTED' });
             }}
-            className="rounded-lg border border-rose-500/40 bg-rose-950/30 px-2.5 py-1 text-rose-300 font-bold"
+            className="min-h-[40px] rounded-lg border border-[#da3633] bg-[#4C1C1D] px-3 py-1 text-[#F85149] font-bold hover:border-[#F85149] transition"
           >
             ✕ Simulate Rejected Clip (85s &gt; 60s)
           </button>
@@ -981,32 +981,34 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
         {qaRejectionNotice && (
           <div
             dir={ownerLang === 'ur' || ownerLang === 'ar' ? 'rtl' : 'ltr'}
-            className="rounded-2xl border border-rose-500/50 bg-rose-950/40 p-4 space-y-1.5 text-xs"
+            className={`rounded-2xl border border-[#da3633] bg-[#4C1C1D] p-4 space-y-1.5 text-xs overflow-hidden break-words [overflow-wrap:break-word] ${
+              ownerLang === 'ur' || ownerLang === 'ar' ? 'text-right' : 'text-left'
+            }`}
           >
-            <div className="flex items-center gap-2 font-bold text-rose-300">
+            <div className="flex items-center gap-2 font-bold text-[#F85149]">
               <AlertTriangle className="size-4 shrink-0" />
               <span>
                 {qaRejectionNotice.title} (Sent in {ownerLang.toUpperCase()})
               </span>
             </div>
-            <p className="text-white/85 font-sans">{qaRejectionNotice.errorDetail}</p>
-            <p className="text-amber-300 font-sans font-bold">{qaRejectionNotice.fixSteps}</p>
+            <p className="text-[#F0F6FC] font-sans">{qaRejectionNotice.errorDetail}</p>
+            <p className="text-[#D29922] font-sans font-bold">{qaRejectionNotice.fixSteps}</p>
           </div>
         )}
 
         {videoFile && videoFile.qaStatus === 'PASSED' && (
-          <div className="bg-emerald-950/25 p-3 rounded-xl border border-emerald-500/40 flex items-center justify-between text-xs">
+          <div className="bg-[#0D3822] p-3 rounded-xl border border-[#116329] flex items-center justify-between text-xs gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
-              <FileVideo className="size-4 text-emerald-400 shrink-0" />
+              <FileVideo className="size-4 text-[#3FB950] shrink-0" />
               <div className="min-w-0">
-                <span className="font-bold text-white truncate block">{videoFile.name}</span>
-                <span className="text-[10px] text-white/60 font-mono">
+                <span className="font-bold text-[#F0F6FC] truncate block">{videoFile.name}</span>
+                <span className="text-[10px] text-[#8B949E] font-mono">
                   {videoFile.duration}s · {videoFile.sizeMb}MB · Valid {validationDays} Days
                 </span>
               </div>
             </div>
-            <span className="text-[10px] text-emerald-300 font-mono font-bold bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/40 shrink-0">
-              QA APPROVED ✓
+            <span className="text-[10px] text-[#3FB950] font-mono font-bold bg-[#161B22] px-2.5 py-1 rounded border border-[#116329] shrink-0">
+              Video Approved ✓
             </span>
           </div>
         )}
@@ -1015,16 +1017,16 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
       {/* ========================================================================= */}
       {/* QUERY 2 & 5: DYNAMIC CLIENT/SALON CAPTIONS + MENA WATCH-LANGUAGE PLAYER   */}
       {/* ========================================================================= */}
-      <div className="bg-[#102019] border border-white/10 rounded-2xl p-4 sm:p-5 space-y-4 shadow-lg">
+      <div className="bg-[#161B22] border border-[#30363D] rounded-2xl p-4 sm:p-5 space-y-4">
         <div className="flex items-center justify-between text-xs">
-          <div className="flex items-center gap-2 font-bold text-white">
-            <Sparkles className="size-4 text-[#D9A441]" />
+          <div className="flex items-center gap-2 font-bold text-[#F0F6FC]">
+            <Sparkles className="size-4 text-[#D29922]" />
             <span>Step 4: Auto-Detected Headline, Client/Salon Caption &amp; MENA Voice Switcher</span>
           </div>
         </div>
 
         {/* Regional Template Tabs */}
-        <div className="flex items-center gap-2 p-1 rounded-xl bg-black/40 border border-white/10 overflow-x-auto">
+        <div className="flex items-center gap-2 p-1 rounded-xl bg-[#0D1117] border border-[#30363D] overflow-x-auto">
           {[
             { id: 'roman_urdu' as const, label: 'Roman Urdu (+92/+91)', flag: '🇵🇰' },
             { id: 'arabic' as const, label: 'Arabic (+971/+966/+965)', flag: '🇦🇪' },
@@ -1034,10 +1036,10 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               key={tab.id}
               type="button"
               onClick={() => setActiveEditorTab(tab.id)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-mono font-bold transition shrink-0 ${
+              className={`min-h-[44px] flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-mono font-bold transition shrink-0 ${
                 activeEditorTab === tab.id
-                  ? 'bg-white/[0.08] text-[#00FFFF] border border-[#00FFFF]/40'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-[#06B6D4] text-[#0D1117] font-bold'
+                  : 'text-[#8B949E] hover:text-[#F0F6FC]'
               }`}
             >
               <span>{tab.flag}</span>
@@ -1047,12 +1049,12 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
         </div>
 
         {/* Dynamic {{client_name}} & {{salon_name}} Merge Tags + Auto Headline */}
-        <div className="space-y-3 p-3.5 rounded-xl border border-white/10 bg-black/40">
+        <div className="space-y-3 p-3.5 rounded-xl border border-[#30363D] bg-[#0D1117]">
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={() => handleInsertTag('{{client_name}}')}
-              className="px-3 py-1 rounded-lg border border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF] text-xs font-mono font-bold flex items-center gap-1"
+              className="min-h-[40px] px-3 py-1 rounded-lg border border-[#06B6D4] bg-[#21262D] text-[#06B6D4] text-xs font-mono font-bold flex items-center gap-1 hover:border-[#22D3EE]"
             >
               <User className="size-3" />
               <span>+ {'{{client_name}}'}</span>
@@ -1060,12 +1062,12 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
             <button
               type="button"
               onClick={() => handleInsertTag('{{salon_name}}')}
-              className="px-3 py-1 rounded-lg border border-[#D9A441]/40 bg-[#D9A441]/10 text-[#D9A441] text-xs font-mono font-bold flex items-center gap-1"
+              className="min-h-[40px] px-3 py-1 rounded-lg border border-[#9E6A03] bg-[#3B2E0B] text-[#D29922] text-xs font-mono font-bold flex items-center gap-1 hover:border-[#D29922]"
             >
               <Tag className="size-3" />
               <span>+ {'{{salon_name}}'}</span>
             </button>
-            <span className="text-[10px] text-white/50 font-sans">
+            <span className="text-[10px] text-[#8B949E] font-sans">
               Headline auto-detected from uploaded video:
             </span>
           </div>
@@ -1075,7 +1077,9 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
             dir={activeEditorTab === 'arabic' ? 'rtl' : 'ltr'}
             value={headlines[activeEditorTab]}
             onChange={(e) => setHeadlines((prev) => ({ ...prev, [activeEditorTab]: e.target.value }))}
-            className="w-full bg-[#12241C] border border-white/10 rounded-xl px-3.5 py-2 text-xs font-bold text-[#00FFFF]"
+            className={`w-full min-h-[48px] bg-[#161B22] border border-[#30363D] focus:border-[#06B6D4] focus:outline-none rounded-xl px-3.5 py-2 text-sm font-bold text-[#06B6D4] ${
+              activeEditorTab === 'arabic' ? 'text-right' : 'text-left'
+            }`}
           />
 
           <textarea
@@ -1084,25 +1088,27 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
             dir={activeEditorTab === 'arabic' ? 'rtl' : 'ltr'}
             value={templates[activeEditorTab]}
             onChange={(e) => setTemplates((prev) => ({ ...prev, [activeEditorTab]: e.target.value }))}
-            className="w-full bg-[#12241C] border border-white/10 rounded-xl p-3 text-xs text-white/90 resize-none font-sans"
+            className={`w-full min-h-[48px] bg-[#161B22] border border-[#30363D] focus:border-[#06B6D4] focus:outline-none rounded-xl p-3 text-sm text-[#F0F6FC] resize-none font-sans ${
+              activeEditorTab === 'arabic' ? 'text-right' : 'text-left'
+            }`}
           />
         </div>
 
         {/* Client WhatsApp Preview + Query 5 MENA Multilingual Video Watch Switcher */}
-        <div className="bg-black/70 p-4 rounded-2xl border border-white/15 space-y-3 max-w-md mx-auto shadow-2xl">
-          <div className="flex items-center justify-between gap-2 pb-2 border-b border-white/10">
-            <span className="text-[10px] font-mono text-[#00FFFF] uppercase font-bold">
+        <div className="bg-[#0D1117] p-4 rounded-2xl border border-[#30363D] space-y-3 max-w-md mx-auto overflow-hidden">
+          <div className="flex items-center justify-between gap-2 pb-2 border-b border-[#21262D]">
+            <span className="text-[10px] font-mono text-[#06B6D4] uppercase font-bold">
               Client Video Card Preview
             </span>
             <select
               value={previewContactId}
               onChange={(e) => setPreviewContactId(e.target.value)}
-              className="rounded-lg border border-white/20 bg-[#102019] px-2 py-1 text-[10px] font-mono text-[#00FFFF]"
+              className="min-h-[40px] rounded-lg border border-[#30363D] bg-[#161B22] px-2 py-1 text-xs font-mono text-[#06B6D4] focus:border-[#06B6D4] focus:outline-none"
             >
               {activeContacts.slice(0, 12).map((c) => {
                 const d = detectLanguageRoute(c.phone);
                 return (
-                  <option key={c.id} value={c.id} className="bg-[#102019] text-[#F5F2E9]">
+                  <option key={c.id} value={c.id} className="bg-[#161B22] text-[#F0F6FC]">
                     {d.flag} {c.name} ({c.phone})
                   </option>
                 );
@@ -1111,41 +1117,46 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           </div>
 
           {/* Query 5: MENA Multinational End-User Watch Language & Dubbing Switcher */}
-          <div className="rounded-xl border border-[#D9A441]/30 bg-[#D9A441]/10 p-2.5 space-y-2">
+          <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-2.5 space-y-2">
             <div className="flex items-center justify-between text-[10px] font-mono">
-              <span className="text-[#D9A441] font-bold flex items-center gap-1">
+              <span className="text-[#D29922] font-bold flex items-center gap-1">
                 <Globe className="size-3" />
                 <span>MENA Watch in My Language:</span>
               </span>
-              <span className="text-white/60">Owner Voice ➔ Client Language</span>
+              <span className="text-[#8B949E]">Owner Voice ➔ Client Language</span>
             </div>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1.5">
               {(Object.keys(MENA_VIDEO_SUBTITLES) as VideoWatchLang[]).map((wl) => (
                 <button
                   key={wl}
                   type="button"
                   onClick={() => setClientWatchLang(wl)}
-                  className={`rounded-lg px-2 py-1 text-[10px] font-mono font-bold border transition ${
+                  className={`min-h-[36px] rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold border transition ${
                     clientWatchLang === wl
-                      ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF]'
-                      : 'border-white/15 bg-black/40 text-white/65'
+                      ? 'border-[#06B6D4] bg-[#06B6D4] text-[#0D1117]'
+                      : 'border-[#30363D] bg-[#161B22] text-[#8B949E] hover:text-[#F0F6FC]'
                   }`}
                 >
                   {MENA_VIDEO_SUBTITLES[wl].label}
                 </button>
               ))}
             </div>
-            <div className="rounded-lg bg-black/60 border border-white/10 p-2 flex items-center justify-between gap-2 text-[11px]">
-              <p dir={clientWatchLang === 'ar' || clientWatchLang === 'ur' ? 'rtl' : 'ltr'} className="text-white/85 font-sans">
+            <div className="rounded-lg bg-[#161B22] border border-[#30363D] p-2.5 flex items-center justify-between gap-2 text-[11px] overflow-hidden">
+              <p
+                dir={clientWatchLang === 'ar' || clientWatchLang === 'ur' ? 'rtl' : 'ltr'}
+                className={`text-[#F0F6FC] font-sans min-w-0 break-words [overflow-wrap:break-word] ${
+                  clientWatchLang === 'ar' || clientWatchLang === 'ur' ? 'text-right' : 'text-left'
+                }`}
+              >
                 {MENA_VIDEO_SUBTITLES[clientWatchLang].script}
               </p>
               <button
                 type="button"
                 onClick={handlePlayMenaTranslatedVoice}
-                className={`rounded-lg px-2 py-1 text-[10px] font-mono font-bold shrink-0 border ${
+                className={`min-h-[36px] rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold shrink-0 border ${
                   isSpeakingDub
-                    ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 animate-pulse'
-                    : 'border-[#00FFFF]/40 bg-[#00FFFF]/10 text-[#00FFFF]'
+                    ? 'border-[#116329] bg-[#0D3822] text-[#3FB950] animate-pulse'
+                    : 'border-[#06B6D4] bg-[#21262D] text-[#06B6D4] hover:border-[#22D3EE]'
                 }`}
               >
                 <Volume2 className="size-3 inline mr-1" />
@@ -1154,44 +1165,49 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
             </div>
           </div>
 
-          <div className="space-y-1.5" dir={previewDetection.route === 'arabic' ? 'rtl' : 'ltr'}>
-            <p className="text-xs font-bold text-white">
+          <div
+            className={`space-y-1.5 overflow-hidden break-words [overflow-wrap:break-word] ${
+              previewDetection.route === 'arabic' ? 'text-right' : 'text-left'
+            }`}
+            dir={previewDetection.route === 'arabic' ? 'rtl' : 'ltr'}
+          >
+            <p className="text-xs font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word]">
               {resolveTemplateText(
                 headlines[previewDetection.route] || headlines.english,
                 selectedPreviewContact.name
               )}
             </p>
-            <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/25 text-xs text-emerald-100 font-sans space-y-2">
+            <div className="p-3 rounded-xl bg-[#0D3822] border border-[#116329] text-xs text-[#F0F6FC] font-sans space-y-2 overflow-hidden break-words [overflow-wrap:break-word]">
               <p>
                 {resolveTemplateText(
                   templates[previewDetection.route] || templates.english,
                   selectedPreviewContact.name
                 )}
               </p>
-              <p className="border-t border-emerald-500/20 pt-1.5 text-[10px] font-mono text-white/60">
+              <p className="border-t border-[#116329] pt-1.5 text-[10px] font-mono text-[#8B949E] break-words [overflow-wrap:break-word]">
                 {STOP_OPT_OUT_FOOTER[previewDetection.route] || STOP_OPT_OUT_FOOTER.english}
               </p>
             </div>
           </div>
 
           {/* Query 4 Interactive Test: End-User Replies STOP */}
-          <div className="pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
-            <span className="text-[10px] font-mono text-white/55">
+          <div className="pt-2 border-t border-[#21262D] flex flex-wrap items-center justify-between gap-2">
+            <span className="text-[10px] font-mono text-[#8B949E]">
               Client Privacy Shield ({stoppedContacts.length} Stopped)
             </span>
             <button
               type="button"
               disabled={activeContacts.length === 0}
               onClick={() => handleClientRepliesStop(selectedPreviewContact)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-rose-500/45 bg-rose-950/40 hover:bg-rose-950/70 disabled:opacity-40 px-2.5 py-1 text-[10px] font-mono font-bold text-rose-200 transition"
+              className="min-h-[40px] inline-flex items-center gap-1.5 rounded-lg border border-[#da3633] bg-[#4C1C1D] hover:border-[#F85149] disabled:opacity-40 px-3 py-1 text-[10px] font-mono font-bold text-[#F85149] transition"
             >
-              <Ban className="size-3 text-rose-400" />
+              <Ban className="size-3 text-[#F85149]" />
               <span>Simulate Client Replies &quot;STOP&quot;</span>
             </button>
           </div>
 
           {stopFeedbackMsg && (
-            <div className="rounded-xl border border-rose-500/40 bg-rose-950/35 p-2.5 text-[11px] font-sans text-rose-200">
+            <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] p-2.5 text-[11px] font-sans text-[#F0F6FC]">
               {stopFeedbackMsg}
             </div>
           )}
@@ -1201,30 +1217,30 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
       {/* ========================================================================= */}
       {/* STEP 5: ANTI-BAN 4s-9s DISPATCH QUEUE + QUERY 4 STOP PROTECTION           */}
       {/* ========================================================================= */}
-      <div className="bg-[#102019] border border-white/10 rounded-2xl p-4 sm:p-5 space-y-3 shadow-lg">
+      <div className="bg-[#161B22] border border-[#30363D] rounded-2xl p-4 sm:p-5 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 font-bold text-white">
-            <ShieldCheck className="size-4 text-emerald-400" />
-            <span>Step 5: Anti-Ban Broadcast Queue (4s–9s Stagger · {validationDays}-Day Deal)</span>
+          <div className="flex items-center gap-2 font-bold text-[#F0F6FC]">
+            <ShieldCheck className="size-4 text-[#3FB950]" />
+            <span>Step 5: Safe Sending Queue (4s–9s Spacing · {validationDays}-Day Deal)</span>
           </div>
           <div className="flex items-center gap-2 font-mono text-[10px]">
-            <span className="text-emerald-300 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 rounded">
+            <span className="text-[#3FB950] bg-[#0D3822] border border-[#116329] px-2 py-0.5 rounded">
               {activeContacts.length} Receiving
             </span>
-            <span className="text-rose-300 bg-rose-950/40 border border-rose-500/30 px-2 py-0.5 rounded">
+            <span className="text-[#F85149] bg-[#4C1C1D] border border-[#da3633] px-2 py-0.5 rounded">
               {stoppedContacts.length} Restricted (STOP)
             </span>
           </div>
         </div>
 
         {stoppedContacts.length > 0 && (
-          <div className="rounded-xl border border-rose-500/30 bg-rose-950/20 p-3 space-y-1.5 text-xs">
+          <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1.5 text-xs">
             <div className="flex flex-wrap items-center justify-between gap-1">
-              <span className="font-mono font-bold text-rose-300 text-[11px] flex items-center gap-1.5">
+              <span className="font-mono font-bold text-[#F85149] text-[11px] flex items-center gap-1.5">
                 <Ban className="size-3.5" />
                 <span>Stopped Numbers Blocked From Deal Videos ({stoppedContacts.length})</span>
               </span>
-              <span className="text-[10px] font-mono text-emerald-300">
+              <span className="text-[10px] font-mono text-[#3FB950]">
                 1-to-1 Bookings Still Work
               </span>
             </div>
@@ -1232,7 +1248,7 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               {stoppedContacts.slice(0, 8).map((c) => (
                 <span
                   key={c.id}
-                  className="inline-flex items-center gap-1 rounded-lg border border-rose-500/30 bg-black/40 px-2 py-0.5 text-[10px] font-mono text-rose-200"
+                  className="inline-flex items-center gap-1 rounded-lg border border-[#da3633] bg-[#0D1117] px-2 py-0.5 text-[10px] font-mono text-[#F85149]"
                 >
                   {c.name} ({c.phone})
                 </span>
@@ -1241,9 +1257,9 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
           </div>
         )}
 
-        <div className="w-full bg-black/50 h-3 rounded-full overflow-hidden border border-white/10">
+        <div className="w-full bg-[#0D1117] h-3 rounded-full overflow-hidden border border-[#30363D]">
           <div
-            className="bg-gradient-to-r from-[#00FFFF] via-emerald-400 to-[#D9A441] h-full transition-all duration-300"
+            className="bg-[#06B6D4] h-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -1254,9 +1270,9 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               type="button"
               disabled={!isDealPaymentConfirmed || !videoFile || videoFile.qaStatus !== 'PASSED'}
               onClick={() => setQueueStatus('running')}
-              className="flex-1 h-11 bg-gradient-to-r from-emerald-500 to-teal-500 disabled:opacity-40 text-[#12241C] font-mono font-black text-xs rounded-xl flex items-center justify-center gap-2 transition"
+              className="flex-1 min-h-[48px] bg-[#06B6D4] hover:bg-[#22D3EE] disabled:opacity-40 text-[#0D1117] font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition px-4"
             >
-              <Play className="size-4 fill-[#12241C]" />
+              <Play className="size-4 fill-[#0D1117]" />
               <span>
                 {!isDealPaymentConfirmed
                   ? 'Confirm Payment First'
@@ -1269,10 +1285,10 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
             <button
               type="button"
               onClick={() => setQueueStatus('paused')}
-              className="flex-1 h-11 bg-amber-500 text-[#12241C] font-mono font-black text-xs rounded-xl flex items-center justify-center gap-2"
+              className="flex-1 min-h-[48px] bg-[#3B2E0B] border border-[#9E6A03] text-[#D29922] font-mono font-bold text-xs rounded-xl flex items-center justify-center gap-2 px-4"
             >
-              <Pause className="size-4 fill-[#12241C]" />
-              <span>Pause ({delayCountdown}s jitter)</span>
+              <Pause className="size-4 fill-[#D29922]" />
+              <span>Pause (Sending next in {delayCountdown}s)</span>
             </button>
           )}
           <button
@@ -1282,20 +1298,20 @@ export const BroadcastTab: React.FC<BroadcastTabProps> = ({
               setCurrentIndex(0);
               setLogs([]);
             }}
-            className="px-3.5 h-11 bg-white/[0.05] border border-white/10 text-white rounded-xl"
+            className="px-4 min-h-[48px] bg-[#21262D] border border-[#30363D] hover:border-[#484F58] text-[#F0F6FC] rounded-xl"
           >
             <RotateCcw className="size-4" />
           </button>
         </div>
 
         {logs.length > 0 && (
-          <div className="bg-black/50 p-3 rounded-xl border border-white/10 font-mono text-[11px] max-h-36 overflow-y-auto space-y-1">
+          <div className="bg-[#0D1117] p-3 rounded-xl border border-[#30363D] font-mono text-[11px] max-h-36 overflow-y-auto space-y-1">
             {logs.map((log) => (
-              <div key={log.id} className="flex items-center justify-between gap-2 text-white/80">
-                <span className="truncate">
+              <div key={log.id} className="flex items-center justify-between gap-2 text-[#8B949E]">
+                <span className="truncate text-[#F0F6FC]">
                   {log.languageFlag} {log.recipientName} ({log.recipientPhone})
                 </span>
-                <span className="text-emerald-400 shrink-0">+{log.delaySeconds}s ✓</span>
+                <span className="text-[#3FB950] shrink-0">+{log.delaySeconds}s ✓</span>
               </div>
             ))}
           </div>

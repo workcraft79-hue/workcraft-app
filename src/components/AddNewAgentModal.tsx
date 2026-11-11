@@ -118,24 +118,24 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[85] grid place-items-center bg-black/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-[85] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[540px] rounded-3xl border border-[#D9A441]/40 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-[540px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-white/10 pb-3.5">
+        <div className="flex items-start justify-between border-b border-[#21262D] pb-3.5">
           <div className="flex items-center gap-3">
-            <div className="grid size-11 place-items-center rounded-2xl bg-[#D9A441]/15 border border-[#D9A441]/40 text-[#D9A441]">
+            <div className="grid size-11 place-items-center rounded-2xl bg-[#3B2E0B] border border-[#9E6A03] text-[#D29922] shrink-0">
               <UserPlus className="size-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D9A441]">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D29922]">
                 FOUNDER FIELD FORCE ENGINE (QUERY 3)
               </span>
-              <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-xl font-black text-[#F0F6FC] tracking-tight flex items-center gap-2">
                 <span>Add New Field Agent</span>
               </h3>
             </div>
@@ -146,7 +146,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               e.stopPropagation();
               onClose();
             }}
-            className="size-8 grid place-items-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/15 transition active:scale-95 shrink-0"
+            className="min-h-[44px] min-w-[44px] grid place-items-center rounded-xl bg-[#21262D] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition active:scale-95 shrink-0"
             title="Close Modal"
             aria-label="Close Modal"
           >
@@ -156,35 +156,35 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 
         {dispatchedSuccess ? (
           <div className="mt-5 space-y-4 animate-in fade-in">
-            <div className="rounded-2xl border border-emerald-500/40 bg-emerald-950/40 p-5 text-center space-y-3">
-              <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
+            <div className="rounded-2xl border border-[#116329] bg-[#0D3822] p-5 text-center space-y-3">
+              <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#161B22] border border-[#116329] text-[#3FB950]">
                 <CheckCircle2 className="size-8" />
               </div>
               <div className="space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-300 font-bold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#3FB950] font-bold">
                   SIM GATEWAY WHATSAPP DISPATCH CONFIRMED
                 </span>
-                <h4 className="text-lg font-bold text-white">
+                <h4 className="text-lg font-bold text-[#F0F6FC]">
                   Field Agent Invitation Dispatched!
                 </h4>
-                <p className="text-xs text-white/70 font-sans max-w-md mx-auto">
-                  Credentials and onboarding terminal link have been sent directly to <strong>{agentName}</strong> ({agentPhone}) via Central SIM Gateway (+92-300-WORKCRAFT-LOCAL).
+                <p className="text-xs text-[#8B949E] font-sans max-w-md mx-auto break-words [overflow-wrap:break-word]">
+                  Credentials and onboarding terminal link have been sent directly to <strong className="text-[#F0F6FC]">{agentName}</strong> (<span dir="ltr" className="text-[#F0F6FC]">{agentPhone}</span>) via Central SIM Gateway (+92-300-WORKCRAFT-LOCAL).
                 </p>
               </div>
 
               {/* Generated Credential Summary Card */}
-              <div className="grid grid-cols-2 gap-2 text-left font-mono text-xs bg-black/60 rounded-xl p-3 border border-emerald-500/30">
+              <div className="grid grid-cols-2 gap-2 text-left font-mono text-xs bg-[#0D1117] rounded-xl p-3 border border-[#30363D]">
                 <div>
-                  <span className="text-[10px] text-white/50 block">AGENT TERMINAL ID</span>
-                  <span className="text-sm font-bold text-[#00FFFF]">{generatedId}</span>
+                  <span className="text-[10px] text-[#8B949E] block">AGENT TERMINAL ID</span>
+                  <span className="text-sm font-bold text-[#06B6D4]">{generatedId}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-white/50 block">4-DIGIT SECURITY PIN</span>
-                  <span className="text-sm font-bold text-[#D9A441]">{generatedPin}</span>
+                  <span className="text-[10px] text-[#8B949E] block">4-DIGIT SECURITY PIN</span>
+                  <span className="text-sm font-bold text-[#D29922]">{generatedPin}</span>
                 </div>
-                <div className="col-span-2 pt-1 border-t border-white/10 flex items-center justify-between text-[11px]">
-                  <span className="text-white/60">Territory: {agentCity}</span>
-                  <span className="text-emerald-400 font-bold">✓ Non-Restricted Category</span>
+                <div className="col-span-2 pt-2 border-t border-[#21262D] flex items-center justify-between text-[11px] gap-2">
+                  <span className="text-[#8B949E] truncate">Territory: {agentCity}</span>
+                  <span className="text-[#3FB950] font-bold shrink-0">✓ Non-Restricted Category</span>
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                     });
                     onClose();
                   }}
-                  className="flex-1 rounded-xl bg-[#00FFFF] hover:bg-[#33ffff] text-[#12241C] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md flex items-center justify-center gap-1.5"
+                  className="flex-1 min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-3 text-xs font-mono font-bold uppercase transition active:scale-95 flex items-center justify-center gap-1.5"
                 >
                   <Smartphone className="size-4" />
                   <span>Open Day-1 Remote Enrollment Wizard →</span>
@@ -213,7 +213,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-xl bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] py-3 text-xs font-mono font-bold uppercase transition active:scale-95 shadow-md"
+                className="flex-1 min-h-[48px] rounded-xl bg-[#21262D] border border-[#30363D] hover:border-[#484F58] text-[#F0F6FC] px-4 py-3 text-xs font-mono font-bold uppercase transition active:scale-95"
               >
                 Close &amp; Return to Hub
               </button>
@@ -221,13 +221,13 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-            <p className="text-xs text-white/60 font-sans leading-relaxed">
-              Register a new field agent. The system automatically provisions a unique ID, generates a 4-digit PIN, and dispatches the terminal link to the agent's WhatsApp via the Central SIM Gateway.
+            <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+              Register a new field agent. The system automatically provisions a unique ID, generates a 4-digit PIN, and dispatches the terminal link to the agent&apos;s WhatsApp via the Central SIM Gateway.
             </p>
 
             {/* Field 1: Agent Name */}
             <div>
-              <label className="text-[11px] font-mono font-bold uppercase text-white/60 block mb-1">
+              <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] block mb-1.5">
                 1. Field Agent Full Name *
               </label>
               <input
@@ -236,18 +236,18 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                 placeholder="e.g. Zahid Hussain or Bilal Sheikh"
                 value={agentName}
                 onChange={(e) => setAgentName(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none focus:border-[#D9A441]"
+                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
               />
             </div>
 
             {/* Field 2: Country Selection (Query 4) */}
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="text-[11px] font-mono font-bold uppercase text-white/60 flex items-center gap-1.5">
-                  <Globe className="size-3.5 text-[#D9A441]" />
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E] flex items-center gap-1.5">
+                  <Globe className="size-3.5 text-[#D29922]" />
                   <span>2. Operational Country *</span>
                 </label>
-                <span className="text-[10px] font-mono text-[#D9A441] font-bold">
+                <span className="text-[10px] font-mono text-[#D29922] font-bold">
                   {agentCountry}
                 </span>
               </div>
@@ -257,10 +257,10 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                     key={preset.name}
                     type="button"
                     onClick={() => handleCountrySelect(preset)}
-                    className={`rounded-lg border px-2 py-1.5 text-xs font-mono transition flex items-center justify-center gap-1 ${
+                    className={`min-h-[44px] rounded-lg border px-2 py-1.5 text-xs font-mono transition flex items-center justify-center gap-1 ${
                       agentCountry === preset.name
-                        ? 'border-[#D9A441] bg-[#D9A441]/20 text-[#D9A441] font-bold'
-                        : 'border-white/10 bg-white/[0.03] text-white/60 hover:text-white'
+                        ? 'border-[#06B6D4] bg-[#06B6D4]/15 text-[#06B6D4] font-bold'
+                        : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]'
                     }`}
                   >
                     <span>{preset.flag}</span>
@@ -274,47 +274,47 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                 placeholder="Country Name (e.g. Pakistan, United Arab Emirates, Saudi Arabia, UK)"
                 value={agentCountry}
                 onChange={(e) => setAgentCountry(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs text-[#F5F2E9] font-sans focus:outline-none focus:border-[#D9A441]"
+                className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none focus:border-[#06B6D4]"
               />
             </div>
 
             {/* Field 3: Territory / City with Real-Time City vs Country Integrity Checking (Query 1) */}
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="text-[11px] font-mono font-bold uppercase text-white/60">
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E]">
                   3. Assigned Territory / City *
                 </label>
                 {cityConflict && (
-                  <span className="text-[10px] font-mono font-bold text-red-400 flex items-center gap-1">
-                    <AlertTriangle className="size-3 text-red-400" />
+                  <span className="text-[10px] font-mono font-bold text-[#F85149] flex items-center gap-1">
+                    <AlertTriangle className="size-3 text-[#F85149]" />
                     <span>Territory Conflict Detected</span>
                   </span>
                 )}
               </div>
               <div className="relative">
-                <MapPin className={`absolute left-3 top-3 size-4 ${cityConflict ? 'text-red-400' : 'text-[#D9A441]'}`} />
+                <MapPin className={`absolute left-3 top-3.5 size-4 ${cityConflict ? 'text-[#F85149]' : 'text-[#D29922]'}`} />
                 <input
                   type="text"
                   required
                   placeholder="e.g. Karachi South, Lahore West, Dubai Marina, London Central, Birmingham"
                   value={agentCity}
                   onChange={(e) => setAgentCity(e.target.value)}
-                  className={`w-full rounded-xl border pl-9.5 pr-3.5 py-2.5 text-sm text-[#F5F2E9] font-sans focus:outline-none transition ${
+                  className={`w-full min-h-[48px] rounded-xl border pl-9.5 pr-3.5 py-2.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] font-sans focus:outline-none transition ${
                     cityConflict
-                      ? 'border-red-500 bg-red-950/20 text-red-200 focus:border-red-400'
-                      : 'border-white/10 bg-white/[0.04] focus:border-[#D9A441]'
+                      ? 'border-[#da3633] bg-[#4C1C1D] text-[#F0F6FC] focus:border-[#F85149]'
+                      : 'border-[#30363D] bg-[#0D1117] focus:border-[#06B6D4]'
                   }`}
                 />
               </div>
 
               {/* Red Warning Banner if City doesn't match WhatsApp Country */}
               {cityConflict && (
-                <div className="mt-2 rounded-xl border border-red-500/50 bg-red-950/70 p-3 space-y-1 animate-in fade-in">
-                  <div className="flex items-center gap-1.5 text-red-300 font-mono text-xs font-bold">
-                    <AlertOctagon className="size-4 shrink-0 text-red-400" />
+                <div className="mt-2 rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 space-y-1 animate-in fade-in">
+                  <div className="flex items-center gap-1.5 text-[#F85149] font-mono text-xs font-bold">
+                    <AlertOctagon className="size-4 shrink-0 text-[#F85149]" />
                     <span>Geographic Integrity Conflict</span>
                   </div>
-                  <p className="text-xs text-red-200/90 font-sans leading-relaxed">
+                  <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
                     {cityConflict.en}
                   </p>
                 </div>
@@ -322,8 +322,8 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 
               {/* Quick Select Valid Territory Chips for Auto-Detected Country */}
               {validTerritories.length > 0 && (
-                <div className="mt-2 space-y-1">
-                  <span className="text-[10px] font-mono text-white/50 block">
+                <div className="mt-2 space-y-1.5">
+                  <span className="text-[10px] font-mono text-[#6E7681] block">
                     Quick-select valid {detectedCountry.name} territories:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -332,10 +332,10 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                         key={city}
                         type="button"
                         onClick={() => setAgentCity(`${city} Central`)}
-                        className={`rounded-lg px-2.5 py-1 text-xs font-mono transition border ${
+                        className={`min-h-[36px] rounded-lg px-2.5 py-1 text-xs font-mono transition border ${
                           agentCity.toLowerCase().includes(city.toLowerCase())
-                            ? 'border-[#00FFFF] bg-[#00FFFF]/20 text-[#00FFFF] font-bold'
-                            : 'border-white/10 bg-white/[0.03] text-white/70 hover:text-white hover:border-white/20'
+                            ? 'border-[#06B6D4] bg-[#06B6D4]/15 text-[#06B6D4] font-bold'
+                            : 'border-[#30363D] bg-[#0D1117] text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]'
                         }`}
                       >
                         {city}
@@ -348,15 +348,15 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
 
             {/* Field 4: WhatsApp Number with Real-Time Country Detection & Regional Language Preview */}
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="text-[11px] font-mono font-bold uppercase text-white/60">
+              <div className="flex items-center justify-between mb-1.5 gap-2">
+                <label className="text-[11px] font-mono font-bold uppercase text-[#8B949E]">
                   4. Agent WhatsApp Number *
                 </label>
-                <span className="text-[10px] font-mono font-bold text-[#00FFFF] flex items-center gap-1">
+                <span className="text-[10px] font-mono font-bold text-[#06B6D4] flex items-center gap-1">
                   <span>{detectedCountry.flag}</span>
                   <span>{detectedCountry.name}</span>
-                  <span className="text-white/40">·</span>
-                  <span className="text-[#D9A441]">
+                  <span className="text-[#6E7681]">·</span>
+                  <span className="text-[#D29922]">
                     {agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+92') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+91')
                       ? 'Urdu + English'
                       : agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+971') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+966') || agentPhone.replace(/[\s\-\(\)]/g, '').startsWith('+965')
@@ -366,7 +366,7 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                 </span>
               </div>
               <div className="relative">
-                <Smartphone className="absolute left-3 top-3 size-4 text-[#00FFFF]" />
+                <Smartphone className="absolute left-3 top-3.5 size-4 text-[#06B6D4]" />
                 <input
                   type="text"
                   required
@@ -380,58 +380,58 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
                       setAgentCountry(det.name);
                     }
                   }}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.04] pl-9.5 pr-3.5 py-2.5 text-sm font-mono text-[#00FFFF] focus:outline-none focus:border-[#00FFFF]"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] pl-9.5 pr-3.5 py-2.5 text-sm font-mono text-[#06B6D4] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                 />
               </div>
             </div>
 
             {/* Query 4 Compliance: Non-restricted Category Authorization Note */}
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 space-y-1">
+            <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3 space-y-1">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+                <span className="text-[#3FB950] font-bold flex items-center gap-1.5">
                   <ShieldCheck className="size-4" />
                   <span>Query 4: Category Authorization</span>
                 </span>
-                <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-bold text-[#3FB950] bg-[#161B22] border border-[#116329] px-2 py-0.5 rounded">
                   NON-RESTRICTED
                 </span>
               </div>
-              <p className="text-[11px] text-white/70 font-sans leading-relaxed">
+              <p className="text-[11px] text-[#F0F6FC] font-sans leading-relaxed">
                 Agent is authorized city-wide for <strong>ALL salon categories</strong> (men&apos;s barbershops, ladies&apos; beauty parlors, and unisex studios). No gender or parlor category restrictions applied.
               </p>
             </div>
 
             {/* Auto-Generated Credentials Preview */}
-            <div className="rounded-xl border border-[#D9A441]/30 bg-black/40 p-3.5 space-y-2">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-[#D9A441] font-bold uppercase flex items-center gap-1.5">
+                <span className="text-[#D29922] font-bold uppercase flex items-center gap-1.5">
                   <Lock className="size-3.5" />
                   <span>Auto-Generated System Credentials</span>
                 </span>
-                <span className="text-[10px] text-white/50">Simulated Sequence</span>
+                <span className="text-[10px] text-[#6E7681]">Simulated Sequence</span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/10">
-                  <span className="text-white/50 block text-[10px]">NEW AGENT ID</span>
-                  <span className="text-sm font-bold text-[#00FFFF]">{generatedId}</span>
+                <div className="rounded-lg bg-[#161B22] p-2.5 border border-[#30363D]">
+                  <span className="text-[#8B949E] block text-[10px]">NEW AGENT ID</span>
+                  <span className="text-sm font-bold text-[#06B6D4]">{generatedId}</span>
                 </div>
-                <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/10">
-                  <span className="text-white/50 block text-[10px]">SECURITY PIN</span>
-                  <span className="text-sm font-bold text-[#D9A441]">{generatedPin}</span>
+                <div className="rounded-lg bg-[#161B22] p-2.5 border border-[#30363D]">
+                  <span className="text-[#8B949E] block text-[10px]">SECURITY PIN</span>
+                  <span className="text-sm font-bold text-[#D29922]">{generatedPin}</span>
                 </div>
               </div>
             </div>
 
             {/* Outbound WhatsApp Invitation Preview */}
-            <div className="rounded-xl border border-[#00FFFF]/30 bg-[#00FFFF]/5 p-3.5 space-y-2">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
               <div className="flex items-center justify-between text-[10px] font-mono">
-                <span className="text-[#00FFFF] font-bold uppercase flex items-center gap-1">
+                <span className="text-[#06B6D4] font-bold uppercase flex items-center gap-1">
                   <Sparkles className="size-3" />
                   Central SIM Gateway Dispatch Preview
                 </span>
-                <span className="text-white/50">+92-300-WORKCRAFT</span>
+                <span className="text-[#6E7681]">+92-300-WORKCRAFT</span>
               </div>
-              <div className="rounded-lg bg-black/60 p-2.5 text-xs font-mono text-[#F5F2E9] border border-white/10 leading-relaxed">
+              <div className="rounded-lg bg-[#161B22] p-2.5 text-xs font-mono text-[#F0F6FC] border border-[#30363D] leading-relaxed break-all overflow-hidden [overflow-wrap:break-word]">
                 &ldquo;{whatsappMessage}&rdquo;
               </div>
             </div>
@@ -441,27 +441,27 @@ export const AddNewAgentModal: React.FC<AddNewAgentModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-xl border border-white/10 py-3 text-xs font-mono text-white/60 hover:text-white"
+                className="flex-1 min-h-[48px] rounded-xl border border-[#30363D] bg-[#21262D] py-3 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58] transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting || !!cityConflict}
-                className={`flex-[2] rounded-xl py-3 text-xs font-mono font-bold uppercase transition shadow-md flex items-center justify-center gap-2 ${
+                className={`flex-[2] min-h-[48px] rounded-xl py-3 px-3 text-xs font-mono font-bold uppercase transition flex items-center justify-center gap-2 ${
                   cityConflict
-                    ? 'bg-white/10 text-white/40 cursor-not-allowed border border-white/10'
-                    : 'bg-[#D9A441] hover:bg-[#e0b252] text-[#12241C] active:scale-95'
+                    ? 'bg-[#21262D] text-[#6E7681] cursor-not-allowed border border-[#30363D]'
+                    : 'bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] active:scale-95'
                 }`}
               >
                 {isSubmitting ? (
                   <>
-                    <Radio className="size-4 animate-spin text-[#12241C]" />
+                    <Radio className="size-4 animate-spin text-[#0D1117]" />
                     <span>Dispatching via SIM Gateway...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="size-4 text-[#12241C]" />
+                    <Send className="size-4 text-[#0D1117]" />
                     <span>Create Agent &amp; Dispatch WhatsApp Link →</span>
                   </>
                 )}

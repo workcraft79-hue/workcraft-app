@@ -47,7 +47,7 @@
     />
   </g>
 
-  <!-- Crisp High-Contrast WORKCRAFT Wordmark -->
+  <!-- Crisp High-Contrast Cyan-Blue WORKCRAFT Wordmark -->
   <text
     x="256"
     y="428"
@@ -55,7 +55,7 @@
     font-weight="900"
     font-size="60"
     letter-spacing="4"
-    fill="#FFFFFF"
+    fill="#00FFFF"
     text-anchor="middle"
   >WORKCRAFT</text>
 </svg>

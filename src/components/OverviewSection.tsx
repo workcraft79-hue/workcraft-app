@@ -74,8 +74,8 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
   ];
 
   return (
-    <div className="space-y-6">
-      {/* 1. TOP 4 PLAIN-ENGLISH DAILY CHECK CARDS (QUERY 1 — NO TECH JARGON, NO AGENT HUB) */}
+    <div className="space-y-6 pb-28 lg:pb-8 min-w-0">
+      {/* 1. TOP 4 PLAIN-ENGLISH DAILY CHECK CARDS */}
       <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         {[
           {
@@ -83,15 +83,15 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             detailKey: 'Salon connections',
             value: `${activeSalonCount} active`,
             badge: 'LIVE',
-            badgeClass: 'text-[#10B981] bg-[#10B981]/15 border-[#10B981]/40',
-            borderClass: 'border-[#10B981]/30 hover:border-[#10B981]/70',
-            bgClass: 'bg-[#10B981]/[0.05] hover:bg-[#10B981]/[0.10]',
+            badgeClass: 'text-[#3FB950] bg-[#0D3822] border-[#116329]',
+            borderClass: 'border-[#30363D] hover:border-[#484F58]',
+            bgClass: 'bg-[#161B22] hover:bg-[#21262D]',
             icon: UsersRound,
-            iconClass: 'text-[#10B981] bg-[#10B981]/20 border-[#10B981]/40',
-            valueClass: 'text-[#10B981]',
-            labelClass: 'text-[#10B981]/80',
+            iconClass: 'text-[#3FB950] bg-[#0D3822] border-[#116329]',
+            valueClass: 'text-[#3FB950]',
+            labelClass: 'text-[#8B949E]',
             hasPulse: true,
-            pulseColor: 'bg-[#10B981]',
+            pulseColor: 'bg-[#3FB950]',
             onClick: () => setDetailSheet('Salon connections'),
           },
           {
@@ -99,15 +99,15 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             detailKey: 'Maintenance queue',
             value: payment ? '2 due after 5th' : '3 due after 5th',
             badge: 'ACTION',
-            badgeClass: 'text-red-400 bg-red-500/15 border-red-500/40',
-            borderClass: 'border-red-500/30 hover:border-red-500/70',
-            bgClass: 'bg-red-500/[0.05] hover:bg-red-500/[0.10]',
+            badgeClass: 'text-[#F85149] bg-[#4C1C1D] border-[#da3633]',
+            borderClass: 'border-[#30363D] hover:border-[#da3633]/70',
+            bgClass: 'bg-[#161B22] hover:bg-[#21262D]',
             icon: AlertTriangle,
-            iconClass: 'text-red-400 bg-red-500/20 border-red-500/40',
-            valueClass: 'text-red-400',
-            labelClass: 'text-red-400/80',
+            iconClass: 'text-[#F85149] bg-[#4C1C1D] border-[#da3633]',
+            valueClass: 'text-[#F85149]',
+            labelClass: 'text-[#8B949E]',
             hasPulse: true,
-            pulseColor: 'bg-red-500',
+            pulseColor: 'bg-[#F85149]',
             onClick: () => setDetailSheet('Maintenance queue'),
           },
           {
@@ -115,15 +115,15 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             detailKey: 'Agent cash',
             value: `PKR ${kamranCashHeld.toLocaleString()}`,
             badge: 'AUTO-LIMIT',
-            badgeClass: 'text-[#00FFFF] bg-[#00FFFF]/15 border-[#00FFFF]/40',
-            borderClass: 'border-[#00FFFF]/30 hover:border-[#00FFFF]/70',
-            bgClass: 'bg-[#00FFFF]/[0.05] hover:bg-[#00FFFF]/[0.10]',
+            badgeClass: 'text-cyan-400 bg-[#06B6D4]/15 border-[#06B6D4]/40',
+            borderClass: 'border-[#30363D] hover:border-[#06B6D4]/60',
+            bgClass: 'bg-[#161B22] hover:bg-[#21262D]',
             icon: WalletCards,
-            iconClass: 'text-[#00FFFF] bg-[#00FFFF]/20 border-[#00FFFF]/40',
-            valueClass: 'text-[#00FFFF]',
-            labelClass: 'text-[#00FFFF]/80',
+            iconClass: 'text-cyan-400 bg-[#06B6D4]/15 border-[#06B6D4]/40',
+            valueClass: 'text-[#F0F6FC]',
+            labelClass: 'text-[#8B949E]',
             hasPulse: true,
-            pulseColor: 'bg-[#00FFFF]',
+            pulseColor: 'bg-[#06B6D4]',
             onClick: () => go('Revenue'),
           },
           {
@@ -131,15 +131,15 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             detailKey: 'Revenue status',
             value: 'PKR 108k verified',
             badge: 'SETTLED',
-            badgeClass: 'text-[#D9A441] bg-[#D9A441]/15 border-[#D9A441]/40',
-            borderClass: 'border-[#D9A441]/30 hover:border-[#D9A441]/70',
-            bgClass: 'bg-[#D9A441]/[0.05] hover:bg-[#D9A441]/[0.10]',
+            badgeClass: 'text-[#D29922] bg-[#3B2E0B] border-[#9E6A03]',
+            borderClass: 'border-[#30363D] hover:border-[#9E6A03]',
+            bgClass: 'bg-[#161B22] hover:bg-[#21262D]',
             icon: Receipt,
-            iconClass: 'text-[#D9A441] bg-[#D9A441]/20 border-[#D9A441]/40',
-            valueClass: 'text-[#D9A441]',
-            labelClass: 'text-[#D9A441]/80',
+            iconClass: 'text-[#D29922] bg-[#3B2E0B] border-[#9E6A03]',
+            valueClass: 'text-[#D29922]',
+            labelClass: 'text-[#8B949E]',
             hasPulse: false,
-            pulseColor: 'bg-[#D9A441]',
+            pulseColor: 'bg-[#D29922]',
             onClick: () => setDetailSheet('Revenue status'),
           },
         ].map((item) => {
@@ -148,14 +148,14 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             <button
               key={item.label}
               onClick={item.onClick}
-              className={`rounded-xl border ${item.borderClass} ${item.bgClass} p-4 text-left transition active:scale-[0.99] group shadow-md`}
+              className={`min-h-[48px] rounded-xl border ${item.borderClass} ${item.bgClass} p-4 text-left transition active:scale-[0.99] group`}
             >
-              <div className="flex items-center justify-between">
-                <span className={`grid size-8 place-items-center rounded-lg border ${item.iconClass}`}>
+              <div className="flex items-center justify-between gap-2">
+                <span className={`grid size-8 shrink-0 place-items-center rounded-lg border ${item.iconClass}`}>
                   <Icon className="size-4" />
                 </span>
                 <span
-                  className={`font-mono text-xs font-bold tracking-wider px-2 py-0.5 rounded-full border ${item.badgeClass} flex items-center gap-1.5`}
+                  className={`font-mono text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full border ${item.badgeClass} flex items-center gap-1.5`}
                 >
                   {item.hasPulse && <span className={`size-1.5 rounded-full ${item.pulseColor} animate-pulse`} />}
                   {item.badge}
@@ -172,62 +172,62 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
         })}
       </div>
 
-      {/* 2. QUERY 2: NEEDS YOUR ATTENTION TODAY (UNREAD VOICE MESSAGES + AGENT CASH HANDOVER ONLY) */}
+      {/* 2. NEEDS YOUR ATTENTION TODAY (UNREAD VOICE MESSAGES + AGENT CASH HANDOVER ONLY) */}
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Card A: Unread Salon Owner Voice Messages */}
         <button
           type="button"
           onClick={() => go('Voice')}
-          className="rounded-2xl border border-[#00FFFF]/35 bg-[#00FFFF]/[0.05] hover:bg-[#00FFFF]/[0.10] p-4 sm:p-5 text-left transition flex items-center justify-between gap-4 shadow-md group"
+          className="min-h-[48px] rounded-2xl border border-[#30363D] bg-[#161B22] hover:bg-[#21262D] hover:border-[#06B6D4]/50 p-4 sm:p-5 text-left transition flex items-center justify-between gap-4 group"
         >
           <div className="flex items-start gap-3.5 min-w-0">
-            <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF]/15 text-[#00FFFF]">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#06B6D4]/40 bg-[#06B6D4]/15 text-cyan-400">
               <Mic className="size-5" />
             </span>
             <div className="min-w-0 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-bold text-[#F5F2E9] group-hover:text-[#00FFFF] transition">
+                <span className="text-sm font-bold text-[#F0F6FC] group-hover:text-cyan-400 transition">
                   2 Unread Voice Messages
                 </span>
-                <span className="rounded-full border border-[#00FFFF]/40 bg-[#00FFFF]/20 px-2 py-0.5 text-[10px] font-mono font-bold text-[#00FFFF]">
+                <span className="rounded-full border border-[#06B6D4]/40 bg-[#06B6D4]/15 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-400">
                   NEW VOICE
                 </span>
               </div>
-              <p className="text-xs text-white/70 font-sans truncate">
+              <p className="text-xs text-[#8B949E] font-sans truncate">
                 From Seven Cuts Salon &amp; Noor Beauty Lounge · Tap to listen &amp; reply
               </p>
-              <p className="text-[11px] font-mono text-emerald-300">
+              <p className="text-[11px] font-mono text-[#3FB950]">
                 ✓ Deal videos are verified automatically by system
               </p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-xl border border-[#00FFFF]/40 bg-[#00FFFF] px-3 py-2 text-xs font-mono font-bold text-[#12241C] shrink-0">
+          <span className="min-h-[48px] inline-flex items-center gap-1 rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2 text-xs font-mono font-bold text-[#0D1117] shrink-0 transition">
             <span>Listen</span>
             <ArrowRight className="size-3.5" />
           </span>
         </button>
 
-        {/* Card B: Field Agent Cash Limit & Automatic Commission Settlement (Zero Manual Action) */}
-        <div className="rounded-2xl border border-[#D9A441]/40 bg-[#D9A441]/[0.06] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 shadow-md">
+        {/* Card B: Field Agent Cash Limit & Automatic Commission Settlement */}
+        <div className="rounded-2xl border border-[#30363D] bg-[#161B22] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
           <div className="flex items-start gap-3.5 min-w-0">
-            <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#D9A441]/40 bg-[#D9A441]/15 text-[#D9A441]">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]">
               <WalletCards className="size-5" />
             </span>
             <div className="min-w-0 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-bold text-[#F5F2E9]">
-                  Agent Cash Held: PKR {kamranCashHeld.toLocaleString()} / 50,000
+                <span className="text-sm font-bold text-[#F0F6FC]">
+                  Agent Cash Held: <span className="text-[#D29922]">PKR {kamranCashHeld.toLocaleString()}</span> / 50,000
                 </span>
-                <span className="rounded-full border border-amber-500/40 bg-amber-500/20 px-2 py-0.5 text-[10px] font-mono font-bold text-amber-300">
+                <span className="rounded-full border border-[#9E6A03] bg-[#3B2E0B] px-2 py-0.5 text-[10px] font-mono font-bold text-[#D29922]">
                   48H · 2-DEAL CAP
                 </span>
               </div>
-              <p className="text-xs text-white/70 font-sans leading-relaxed">
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
                 System automatically blocks a 3rd deal past 48h or PKR 50,000, auto-deducts from agent commission if overdue, and notifies the agent.
               </p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/35 bg-emerald-500/15 px-3 py-1.5 text-[10px] font-mono font-bold text-emerald-300 shrink-0 self-start sm:self-center">
+          <span className="inline-flex items-center gap-1.5 rounded-xl border border-[#116329] bg-[#0D3822] px-3 py-1.5 text-[10px] font-mono font-bold text-[#3FB950] shrink-0 self-start sm:self-center">
             <CheckCircle2 className="size-3.5" />
             <span>AUTO-ENFORCED</span>
           </span>
@@ -236,28 +236,28 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
 
       {/* 3. CORE EXECUTIVE GRID: SALONS NEEDING ATTENTION TODAY + 1-GLANCE MONEY SUMMARY */}
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Left Column: Query 3 — Salons Needing Attention Today */}
+        {/* Left Column: Salons Needing Attention Today */}
         <PortalCard title="Salons Needing Attention Today" kicker="PRIORITY FOLLOW-UP LIST">
           <div className="space-y-3">
             {attentionSalons.map((salon) => (
               <div
                 key={salon.name}
                 onClick={() => (onInspectSalon ? onInspectSalon(salon.name) : go('Salon Owner Dashboard'))}
-                className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] p-3 hover:border-[#00FFFF]/40 hover:bg-white/[0.07] transition cursor-pointer"
+                className="group min-h-[48px] flex items-center gap-3 rounded-xl border border-[#30363D] bg-[#0D1117] p-3 hover:border-[#06B6D4]/50 hover:bg-[#21262D] transition cursor-pointer"
                 title={`Open ${salon.name} Read-Only Health View`}
               >
-                <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-black/40 border border-[#D9A441]/30 text-[10px] font-mono font-bold text-[#D9A441] group-hover:border-[#00FFFF]/50 group-hover:text-[#00FFFF] transition">
+                <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#161B22] border border-[#30363D] text-[10px] font-mono font-bold text-[#D29922] group-hover:border-[#06B6D4]/50 group-hover:text-cyan-400 transition">
                   {salon.initials}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-xs font-bold text-[#F5F2E9] group-hover:text-[#00FFFF] transition">
+                  <p className="truncate text-xs font-bold text-[#F0F6FC] group-hover:text-cyan-400 transition">
                     {salon.name}
                   </p>
-                  <p className="text-[10px] font-mono text-white/60">
+                  <p className="text-[10px] font-mono text-[#6E7681]">
                     {salon.owner} · {salon.location}
                   </p>
                   <div className="mt-1 flex items-center gap-2">
-                    <span className="text-[10px] text-amber-300 font-sans">{salon.reason}</span>
+                    <span className="text-[10px] text-[#D29922] font-sans">{salon.reason}</span>
                     <a
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                         `${salon.name}, ${salon.location}`
@@ -265,9 +265,9 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1 text-[9px] font-mono font-bold text-[#00FFFF] hover:underline"
+                      className="inline-flex items-center gap-1 text-[9px] font-mono font-bold text-[#58A6FF] hover:underline"
                     >
-                      <MapPin className="size-3 text-[#D9A441]" />
+                      <MapPin className="size-3 text-[#D29922]" />
                       Map
                     </a>
                   </div>
@@ -276,27 +276,27 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
                   <span
                     className={`rounded px-2.5 py-1 text-[9px] font-mono font-bold border ${
                       salon.urgent
-                        ? 'border-amber-500/30 bg-amber-500/10 text-amber-300'
-                        : 'border-[#00FFFF]/30 bg-[#00FFFF]/10 text-[#00FFFF]'
+                        ? 'border-[#9E6A03] bg-[#3B2E0B] text-[#D29922]'
+                        : 'border-[#06B6D4]/40 bg-[#06B6D4]/15 text-cyan-400'
                     }`}
                   >
                     {salon.badge}
                   </span>
-                  <ArrowRight className="size-3.5 text-white/40 group-hover:text-[#00FFFF] group-hover:translate-x-0.5 transition" />
+                  <ArrowRight className="size-3.5 text-[#6E7681] group-hover:text-cyan-400 group-hover:translate-x-0.5 transition" />
                 </div>
               </div>
             ))}
 
             {/* Link to Full Directory */}
-            <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3.5 text-[11px] font-mono">
-              <span className="flex items-center gap-1.5 text-emerald-400">
-                <CheckCircle2 className="size-3.5" />
+            <div className="mt-4 flex items-center justify-between border-t border-[#21262D] pt-3.5 text-[11px] font-mono gap-2">
+              <span className="flex items-center gap-1.5 text-[#3FB950]">
+                <CheckCircle2 className="size-3.5 shrink-0" />
                 Remaining {Math.max(1, activeSalonCount - attentionSalons.length)} salons are 100% healthy
               </span>
               <button
                 type="button"
                 onClick={() => go('Contact / Clients')}
-                className="inline-flex items-center gap-1 font-bold text-[#00FFFF] hover:underline"
+                className="inline-flex items-center gap-1 font-bold text-[#58A6FF] hover:underline shrink-0"
               >
                 <span>View All {activeSalonCount} Salons</span>
                 <ArrowRight className="size-3.5" />
@@ -305,44 +305,44 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
           </div>
         </PortalCard>
 
-        {/* Right Column: Query 5 — 1-Glance Monthly Money Summary + Plain-English WhatsApp Message Queue */}
+        {/* Right Column: 1-Glance Monthly Money Summary + WhatsApp Message Queue */}
         <div className="space-y-6">
           <PortalCard title="This Month's Money Summary" kicker="REVENUE & COLLECTIONS AT A GLANCE">
             <div className="space-y-4">
               <div className="grid grid-cols-3 gap-2.5 font-mono">
-                <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/25 p-3">
-                  <span className="text-[10px] text-white/60 uppercase block">Collected</span>
-                  <p className="text-base sm:text-lg font-black text-emerald-300 mt-1">
+                <div className="rounded-xl border border-[#116329] bg-[#0D3822]/60 p-3">
+                  <span className="text-[10px] text-[#8B949E] uppercase block">Collected</span>
+                  <p className="text-base sm:text-lg font-black text-[#3FB950] mt-1">
                     PKR 108,000
                   </p>
-                  <span className="text-[9px] text-emerald-200/80 block mt-0.5">24 of 27 Paid</span>
+                  <span className="text-[9px] text-[#3FB950]/85 block mt-0.5">24 of 27 Paid</span>
                 </div>
 
-                <div className="rounded-xl border border-amber-500/30 bg-amber-950/25 p-3">
-                  <span className="text-[10px] text-white/60 uppercase block">Due After 5th</span>
-                  <p className="text-base sm:text-lg font-black text-amber-300 mt-1">
+                <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B]/60 p-3">
+                  <span className="text-[10px] text-[#8B949E] uppercase block">Due After 5th</span>
+                  <p className="text-base sm:text-lg font-black text-[#D29922] mt-1">
                     PKR 6,000
                   </p>
-                  <span className="text-[9px] text-amber-200/80 block mt-0.5">3 Salons Pending</span>
+                  <span className="text-[9px] text-[#D29922]/85 block mt-0.5">3 Salons Pending</span>
                 </div>
 
-                <div className="rounded-xl border border-[#D9A441]/40 bg-[#D9A441]/10 p-3">
-                  <span className="text-[10px] text-white/60 uppercase block">Agent Cash</span>
-                  <p className="text-base sm:text-lg font-black text-[#D9A441] mt-1">
+                <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3">
+                  <span className="text-[10px] text-[#8B949E] uppercase block">Agent Cash</span>
+                  <p className="text-base sm:text-lg font-black text-[#D29922] mt-1">
                     PKR {kamranCashHeld.toLocaleString()}
                   </p>
-                  <span className="text-[9px] text-[#D9A441]/90 block mt-0.5">Kamran Handover</span>
+                  <span className="text-[9px] text-[#6E7681] block mt-0.5">Kamran Handover</span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-xs">
-                <span className="text-white/75 font-sans">
-                  Monthly Software &amp; WhatsApp Cost: <strong className="text-emerald-400 font-mono">$0.00 / mo</strong>
+              <div className="flex items-center justify-between rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2.5 text-xs gap-2">
+                <span className="text-[#8B949E] font-sans">
+                  Monthly Software &amp; WhatsApp Cost: <strong className="text-[#3FB950] font-mono">$0.00 / mo</strong>
                 </span>
                 <button
                   type="button"
                   onClick={() => go('Revenue')}
-                  className="inline-flex items-center gap-1 font-mono font-bold text-[#D9A441] hover:underline shrink-0"
+                  className="inline-flex items-center gap-1 font-mono font-bold text-[#58A6FF] hover:underline shrink-0"
                 >
                   <span>Open Full Ledger</span>
                   <ArrowRight className="size-3.5" />
@@ -351,32 +351,32 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             </div>
           </PortalCard>
 
-          {/* Plain-English WhatsApp Delivery Health (Zero Developer Jargon) */}
+          {/* Plain-English WhatsApp Delivery Health */}
           <PortalCard title="WhatsApp Message Queue" kicker="AUTOMATIC SENDING STATUS">
             <div className="space-y-3">
               <div className="flex items-baseline justify-between">
                 <div>
-                  <p className="text-2xl font-bold text-[#F5F2E9] font-mono">1,284</p>
-                  <p className="text-[10px] font-mono text-white/55 mt-0.5">
+                  <p className="text-2xl font-bold text-[#F0F6FC] font-mono">1,284</p>
+                  <p className="text-[10px] font-mono text-[#6E7681] mt-0.5">
                     booking reminders &amp; VIP deal messages sending safely
                   </p>
                 </div>
-                <span className="text-sm font-bold text-[#D9A441] font-mono">68% Sent</span>
+                <span className="text-sm font-bold text-[#D29922] font-mono">68% Sent</span>
               </div>
 
-              <div className="h-2.5 w-full rounded-full bg-white/[0.06] overflow-hidden border border-white/10">
+              <div className="h-2.5 w-full rounded-full bg-[#0D1117] overflow-hidden border border-[#30363D]">
                 <div
-                  className="h-full bg-gradient-to-r from-[#D9A441] to-amber-400 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(217,164,65,0.6)]"
+                  className="h-full bg-[#06B6D4] rounded-full transition-all duration-500"
                   style={{ width: '68%' }}
                 />
               </div>
 
-              <div className="flex items-center justify-between text-[11px] text-white/70 font-sans pt-0.5">
-                <span className="flex items-center gap-1.5 text-emerald-400 font-mono text-[10px]">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#8B949E] font-sans pt-0.5">
+                <span className="flex items-center gap-1.5 text-[#3FB950] font-mono text-[10px]">
                   <ShieldCheck className="size-3.5" />
                   <span>Auto-spaced safely so salon WhatsApp lines stay protected</span>
                 </span>
-                <span className="text-[#00FFFF] font-mono text-[10px] font-bold">
+                <span className="text-cyan-400 font-mono text-[10px] font-bold">
                   <MessageSquare className="size-3 inline mr-1" />
                   100% Delivered
                 </span>

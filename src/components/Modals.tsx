@@ -146,99 +146,99 @@ export const FinancialReportModal: React.FC<FinancialReportModalProps> = ({ isOp
   const data = MONTHLY_REPORTS[selectedMonth] || MONTHLY_REPORTS['October 2026'];
 
   return (
-    <div className="fixed inset-0 z-[75] grid place-items-center bg-black/85 p-3 sm:p-5 backdrop-blur-md overflow-y-auto" onClick={onClose}>
+    <div className="fixed inset-0 z-[75] grid place-items-center bg-[#0D1117]/80 p-3 sm:p-5 backdrop-blur-md overflow-y-auto" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[620px] rounded-3xl border border-emerald-500/30 bg-[#102019] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto"
+        className="w-full max-w-[620px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 animate-in zoom-in-95 duration-150 my-6 max-h-[92vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-emerald-500/20 pb-4">
+        <div className="flex items-start justify-between border-b border-[#21262D] pb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D9A441]">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[.2em] text-[#D29922]">
                 FOUNDER EXECUTIVE AUDIT
               </span>
-              <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2 py-0.2 text-[9px] font-mono font-bold text-emerald-300">
+              <span className="rounded-full bg-[#0D3822] border border-[#116329] px-2 py-0.5 text-[9px] font-mono font-bold text-[#3FB950]">
                 AUDITED
               </span>
             </div>
-            <h3 className="mt-1 text-2xl font-black text-white tracking-tight">
+            <h3 className="mt-1 text-2xl font-black text-[#F0F6FC] tracking-tight">
               Platform &amp; Revenue Telemetry
             </h3>
           </div>
           <button
             onClick={onClose}
             aria-label="Close financial report"
-            className="rounded-lg p-1.5 text-emerald-500/60 hover:text-white transition"
+            className="min-h-[44px] min-w-[44px] grid place-items-center rounded-xl text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] transition"
           >
             <X className="size-5" />
           </button>
         </div>
 
         {/* Active Month Snapshot Header Banner */}
-        <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-xl border border-emerald-500/20 bg-black/40 p-3">
+        <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-xl border border-[#30363D] bg-[#0D1117] p-3">
           <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-              Active Billing Snapshot: <span className="text-[#D9A441]">October 2026</span>
+            <span className="size-2 rounded-full bg-[#3FB950] animate-pulse" />
+            <span className="text-xs font-mono font-bold text-[#F0F6FC] uppercase tracking-wider">
+              Active Billing Snapshot: <span className="text-[#D29922]">October 2026</span>
             </span>
           </div>
-          <span className="text-[10px] font-mono text-emerald-400/80 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md self-start sm:self-auto">
+          <span className="text-[10px] font-mono text-[#3FB950] bg-[#0D3822] border border-[#116329] px-2 py-0.5 rounded-md self-start sm:self-auto">
             Historical ledgers &amp; CSV exports archived in Revenue
           </span>
         </div>
 
-        {/* 5 Core Executive KPI Boxes (MRR Collected, Collected Dues, Dues at Risk, Paired Salons, Cash Entries) */}
+        {/* 5 Core Executive KPI Boxes */}
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono">
-          <div className="rounded-xl border border-[#D9A441]/40 bg-black/40 p-3">
-            <span className="text-[10px] text-emerald-500/70 uppercase">MRR Collected</span>
-            <p className="mt-1 text-lg font-bold text-[#D9A441]">{data.mrrCollected}</p>
-            <span className="text-[9px] text-emerald-400">Total Cleared</span>
+          <div className="rounded-xl border border-[#30363D] bg-[#21262D] p-3">
+            <span className="text-[10px] text-[#8B949E] uppercase">MRR Collected</span>
+            <p className="mt-1 text-lg font-bold text-[#D29922]">{data.mrrCollected}</p>
+            <span className="text-[9px] text-[#3FB950]">Total Cleared</span>
           </div>
 
-          <div className="rounded-xl border border-emerald-500/30 bg-black/40 p-3">
-            <span className="text-[10px] text-emerald-500/70 uppercase">Collected Dues</span>
-            <p className="mt-1 text-lg font-bold text-emerald-300">{data.collectedDues}</p>
-            <span className="text-[9px] text-emerald-400">0 Chargebacks</span>
+          <div className="rounded-xl border border-[#116329] bg-[#0D3822]/60 p-3">
+            <span className="text-[10px] text-[#8B949E] uppercase">Collected Dues</span>
+            <p className="mt-1 text-lg font-bold text-[#3FB950]">{data.collectedDues}</p>
+            <span className="text-[9px] text-[#3FB950]">0 Chargebacks</span>
           </div>
 
-          <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3">
-            <span className="text-[10px] text-amber-300/80 uppercase">Dues At Risk</span>
-            <p className="mt-1 text-lg font-bold text-amber-300">{data.duesAtRisk}</p>
-            <span className="text-[9px] text-amber-300">{data.atRiskSalonsCount} Salons Pending</span>
+          <div className="rounded-xl border border-[#9E6A03] bg-[#3B2E0B] p-3">
+            <span className="text-[10px] text-[#D29922] uppercase">Dues At Risk</span>
+            <p className="mt-1 text-lg font-bold text-[#D29922]">{data.duesAtRisk}</p>
+            <span className="text-[9px] text-[#D29922]">{data.atRiskSalonsCount} Salons Pending</span>
           </div>
 
-          <div className="rounded-xl border border-emerald-500/20 bg-black/40 p-3">
-            <span className="text-[10px] text-emerald-500/70 uppercase">Paired Salons</span>
-            <p className="mt-1 text-lg font-bold text-white">{data.pairedSalons} Active</p>
-            <span className="text-[9px] text-emerald-400">+12 Archived</span>
+          <div className="rounded-xl border border-[#30363D] bg-[#21262D] p-3">
+            <span className="text-[10px] text-[#8B949E] uppercase">Paired Salons</span>
+            <p className="mt-1 text-lg font-bold text-[#F0F6FC]">{data.pairedSalons} Active</p>
+            <span className="text-[9px] text-[#3FB950]">+12 Archived</span>
           </div>
 
-          <div className="rounded-xl border border-[#D9A441]/40 bg-black/40 p-3 col-span-2 sm:col-span-2">
-            <span className="text-[10px] text-emerald-500/70 uppercase">Physical Cash Entries</span>
-            <p className="mt-1 text-lg font-bold text-[#D9A441]">{data.cashEntries}</p>
-            <span className="text-[9px] text-emerald-400">Held by Field Agent Kamran · Biometric Hash Verified</span>
+          <div className="rounded-xl border border-[#30363D] bg-[#21262D] p-3 col-span-2 sm:col-span-2">
+            <span className="text-[10px] text-[#8B949E] uppercase">Physical Cash Entries</span>
+            <p className="mt-1 text-lg font-bold text-[#D29922]">{data.cashEntries}</p>
+            <span className="text-[9px] text-[#3FB950]">Held by Field Agent Kamran · Biometric Hash Verified</span>
           </div>
         </div>
 
         {/* Tab switcher: Revenue Stream vs Operational Health */}
-        <div className="mt-5 flex rounded-xl border border-emerald-500/20 bg-black/40 p-1">
+        <div className="mt-5 flex rounded-xl border border-[#30363D] bg-[#0D1117] p-1 gap-1">
           <button
             onClick={() => setActiveTab('revenue')}
-            className={`flex-1 rounded-lg py-2 text-xs font-mono font-bold transition ${
+            className={`flex-1 min-h-[48px] rounded-lg py-2 text-xs font-mono font-bold transition ${
               activeTab === 'revenue'
-                ? 'bg-[#D9A441] text-[#12241C] shadow-sm'
-                : 'text-emerald-500/70 hover:text-white'
+                ? 'bg-[#06B6D4] text-[#0D1117]'
+                : 'text-[#8B949E] hover:text-[#F0F6FC]'
             }`}
           >
             Revenue Stream Breakdown
           </button>
           <button
             onClick={() => setActiveTab('health')}
-            className={`flex-1 rounded-lg py-2 text-xs font-mono font-bold transition ${
+            className={`flex-1 min-h-[48px] rounded-lg py-2 text-xs font-mono font-bold transition ${
               activeTab === 'health'
-                ? 'bg-[#00FFFF] text-[#12241C] shadow-sm'
-                : 'text-emerald-500/70 hover:text-white'
+                ? 'bg-[#06B6D4] text-[#0D1117]'
+                : 'text-[#8B949E] hover:text-[#F0F6FC]'
             }`}
           >
             Operational Health &amp; Automation
@@ -249,122 +249,115 @@ export const FinancialReportModal: React.FC<FinancialReportModalProps> = ({ isOp
         {activeTab === 'revenue' && (
           <div className="mt-4 space-y-4 font-mono">
             {/* Section A: Payment Method Breakup */}
-            <div className="rounded-2xl border border-emerald-500/20 bg-black/30 p-4 space-y-3">
-              <div className="flex items-center justify-between border-b border-emerald-500/10 pb-2">
-                <span className="text-xs font-bold text-white uppercase tracking-wider">
+            <div className="rounded-2xl border border-[#30363D] bg-[#21262D] p-4 space-y-3">
+              <div className="flex items-center justify-between border-b border-[#30363D] pb-2">
+                <span className="text-xs font-bold text-[#F0F6FC] uppercase tracking-wider">
                   1. Payment Method Breakup ({data.month})
                 </span>
-                <span className="text-[10px] text-[#D9A441]">Total: {data.mrrCollected}</span>
+                <span className="text-[10px] text-[#D29922]">Total: {data.mrrCollected}</span>
               </div>
 
               <div className="space-y-2 text-xs">
-                {/* EasyPaisa */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">EasyPaisa Webhook</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">EasyPaisa Webhook</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       {data.methods.easypaisaSalons} salons · SMS webhook auto-match
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[#D9A441] font-bold">{data.methods.easypaisa}</span>
-                    <span className="block text-[9px] text-emerald-400">50.0% of total</span>
+                    <span className="text-[#D29922] font-bold">{data.methods.easypaisa}</span>
+                    <span className="block text-[9px] text-[#3FB950]">50.0% of total</span>
                   </div>
                 </div>
 
-                {/* JazzCash */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">JazzCash Webhook</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">JazzCash Webhook</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       {data.methods.jazzcashSalons} salons · SMS regex matching
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[#D9A441] font-bold">{data.methods.jazzcash}</span>
-                    <span className="block text-[9px] text-emerald-400">16.7% of total</span>
+                    <span className="text-[#D29922] font-bold">{data.methods.jazzcash}</span>
+                    <span className="block text-[9px] text-[#3FB950]">16.7% of total</span>
                   </div>
                 </div>
 
-                {/* Bank Account */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">Bank Account (IBFT)</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">Bank Account (IBFT)</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       {data.methods.bankSalons} salons · Manual OCR slip verification
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[#D9A441] font-bold">{data.methods.bank}</span>
-                    <span className="block text-[9px] text-emerald-400">10.2% of total</span>
+                    <span className="text-[#D29922] font-bold">{data.methods.bank}</span>
+                    <span className="block text-[9px] text-[#3FB950]">10.2% of total</span>
                   </div>
                 </div>
 
-                {/* Physical Cash */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">Field Agent Cash (Kamran)</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">Field Agent Cash (Kamran)</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       {data.methods.cashSalons} salons · Biometric thumbprint logged
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[#D9A441] font-bold">{data.methods.cash}</span>
-                    <span className="block text-[9px] text-amber-300">23.1% (Cash liability)</span>
+                    <span className="text-[#D29922] font-bold">{data.methods.cash}</span>
+                    <span className="block text-[9px] text-[#D29922]">23.1% (Cash liability)</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Section B: Product & Service Line Breakup */}
-            <div className="rounded-2xl border border-emerald-500/20 bg-black/30 p-4 space-y-3">
-              <div className="flex items-center justify-between border-b border-emerald-500/10 pb-2">
-                <span className="text-xs font-bold text-white uppercase tracking-wider">
+            <div className="rounded-2xl border border-[#30363D] bg-[#21262D] p-4 space-y-3">
+              <div className="flex items-center justify-between border-b border-[#30363D] pb-2">
+                <span className="text-xs font-bold text-[#F0F6FC] uppercase tracking-wider">
                   2. Revenue by Service Offering ({data.month})
                 </span>
-                <span className="text-[10px] text-[#00FFFF]">3 Product Lines</span>
+                <span className="text-[10px] text-cyan-400">3 Product Lines</span>
               </div>
 
               <div className="space-y-2 text-xs">
-                {/* Maintenance Paid */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">Maintenance Paid (10% SLA Recurring)</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">Maintenance Paid (10% SLA Recurring)</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       Starter (PKR 1.5k), Growth (PKR 2k), VIP (PKR 2.5k) · 100% digital self-pay
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-emerald-300 font-bold">{data.products.maintenancePaid}</span>
-                    <span className="block text-[9px] text-emerald-400">79.2% Recurring</span>
+                  <div className="text-right shrink-0 ml-2">
+                    <span className="text-[#3FB950] font-bold">{data.products.maintenancePaid}</span>
+                    <span className="block text-[9px] text-[#3FB950]">79.2% Recurring</span>
                   </div>
                 </div>
 
-                {/* New Services / Service Purchaser */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">New Salon Setups (One-Time Setup Fee)</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">New Salon Setups (One-Time Setup Fee)</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       {data.products.newServicesSalons} new salons onboarded (Starter PKR 15k, Growth PKR 20k, VIP PKR 25k)
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[#00FFFF] font-bold">{data.products.newServices}</span>
-                    <span className="block text-[9px] text-emerald-400">12.5% Expansion</span>
+                  <div className="text-right shrink-0 ml-2">
+                    <span className="text-cyan-400 font-bold">{data.products.newServices}</span>
+                    <span className="block text-[9px] text-[#3FB950]">12.5% Expansion</span>
                   </div>
                 </div>
 
-                {/* Deal Video */}
-                <div className="flex items-center justify-between rounded-xl bg-black/40 p-2.5 border border-emerald-500/10">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
                   <div>
-                    <span className="text-white font-bold">Deal Video Add-on Revenue</span>
-                    <p className="text-[10px] text-emerald-500/60 font-sans">
+                    <span className="text-[#F0F6FC] font-bold">Deal Video Add-on Revenue</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
                       {data.products.dealVideoSalons} salon campaigns (1 video @ PKR 1.5k or 4 videos @ PKR 4k / 7-10 day validity)
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[#D9A441] font-bold">{data.products.dealVideo}</span>
-                    <span className="block text-[9px] text-emerald-400">8.3% Deal Blasts</span>
+                  <div className="text-right shrink-0 ml-2">
+                    <span className="text-[#D29922] font-bold">{data.products.dealVideo}</span>
+                    <span className="block text-[9px] text-[#3FB950]">8.3% Deal Blasts</span>
                   </div>
                 </div>
               </div>
@@ -377,80 +370,80 @@ export const FinancialReportModal: React.FC<FinancialReportModalProps> = ({ isOp
           <div className="mt-4 space-y-4 font-mono">
             {/* Real Operational Health Stats */}
             <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/40 p-3.5 space-y-1">
-                <span className="text-[10px] text-emerald-400 uppercase">Platform Uptime</span>
-                <p className="text-xl font-bold text-white">99.98%</p>
-                <p className="text-[10px] text-emerald-500/70 font-sans">
+              <div className="rounded-xl border border-[#116329] bg-[#0D3822] p-3.5 space-y-1">
+                <span className="text-[10px] text-[#3FB950] uppercase">Platform Uptime</span>
+                <p className="text-xl font-bold text-[#F0F6FC]">99.98%</p>
+                <p className="text-[10px] text-[#8B949E] font-sans">
                   0 fatal socket crashes across 30 days
                 </p>
               </div>
 
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/40 p-3.5 space-y-1">
-                <span className="text-[10px] text-emerald-400 uppercase">Automation of Time</span>
-                <p className="text-xl font-bold text-[#00FFFF]">4.2 sec</p>
-                <p className="text-[10px] text-emerald-500/70 font-sans">
+              <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-1">
+                <span className="text-[10px] text-[#06B6D4] uppercase">Automation of Time</span>
+                <p className="text-xl font-bold text-[#06B6D4]">4.2 sec</p>
+                <p className="text-[10px] text-[#8B949E] font-sans">
                   Avg queue cadence · 4–9s anti-ban jitter
                 </p>
               </div>
             </div>
 
             {/* Messages Health */}
-            <div className="rounded-xl border border-emerald-500/20 bg-black/30 p-3.5 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-bold text-white">Messages Health &amp; Dispatch Deliverability</span>
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="size-2 rounded-full bg-[#3FB950] animate-pulse shrink-0" />
+                  <span className="text-xs font-bold text-[#F0F6FC] truncate">Messages Health &amp; Dispatch Deliverability</span>
                 </div>
-                <span className="text-xs font-bold text-emerald-300">100% HEALTH</span>
+                <span className="text-xs font-bold text-[#3FB950] shrink-0">100% HEALTH</span>
               </div>
               <div className="grid grid-cols-3 gap-2 text-xs pt-1">
-                <div className="bg-black/40 p-2 rounded-lg border border-emerald-500/10">
-                  <span className="text-[10px] text-emerald-500/70 block">Messages Queued</span>
-                  <span className="text-white font-bold text-sm">1,284 Today</span>
+                <div className="bg-[#161B22] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[10px] text-[#8B949E] block">Messages Queued</span>
+                  <span className="text-[#F0F6FC] font-bold text-sm">1,284 Today</span>
                 </div>
-                <div className="bg-black/40 p-2 rounded-lg border border-emerald-500/10">
-                  <span className="text-[10px] text-emerald-500/70 block">Delivery Success</span>
-                  <span className="text-emerald-300 font-bold text-sm">100.0%</span>
+                <div className="bg-[#161B22] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[10px] text-[#8B949E] block">Delivery Success</span>
+                  <span className="text-[#3FB950] font-bold text-sm">100.0%</span>
                 </div>
-                <div className="bg-black/40 p-2 rounded-lg border border-emerald-500/10">
-                  <span className="text-[10px] text-emerald-500/70 block">Packet Dropouts</span>
-                  <span className="text-emerald-400 font-bold text-sm">0 Drops</span>
+                <div className="bg-[#161B22] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[10px] text-[#8B949E] block">Packet Dropouts</span>
+                  <span className="text-[#3FB950] font-bold text-sm">0 Drops</span>
                 </div>
               </div>
             </div>
 
             {/* Voice Queue Health */}
-            <div className="rounded-xl border border-emerald-500/20 bg-black/30 p-3.5 space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Radio className="size-3.5 text-[#00FFFF]" />
-                  <span className="text-xs font-bold text-white">Voice Queue Health &amp; Resolution SLA</span>
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Radio className="size-3.5 text-[#06B6D4] shrink-0" />
+                  <span className="text-xs font-bold text-[#F0F6FC] truncate">Voice Queue Health &amp; Resolution SLA</span>
                 </div>
-                <span className="text-xs font-bold text-[#00FFFF]">15-MIN TARGET</span>
+                <span className="text-xs font-bold text-[#06B6D4] shrink-0">15-MIN TARGET</span>
               </div>
               <div className="grid grid-cols-3 gap-2 text-xs pt-1">
-                <div className="bg-black/40 p-2 rounded-lg border border-emerald-500/10">
-                  <span className="text-[10px] text-emerald-500/70 block">Active Voice Notes</span>
-                  <span className="text-white font-bold text-sm">2 In Queue</span>
+                <div className="bg-[#161B22] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[10px] text-[#8B949E] block">Active Voice Notes</span>
+                  <span className="text-[#F0F6FC] font-bold text-sm">2 In Queue</span>
                 </div>
-                <div className="bg-black/40 p-2 rounded-lg border border-emerald-500/10">
-                  <span className="text-[10px] text-emerald-500/70 block">Avg Response Time</span>
-                  <span className="text-emerald-300 font-bold text-sm">14m 15s</span>
+                <div className="bg-[#161B22] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[10px] text-[#8B949E] block">Avg Response Time</span>
+                  <span className="text-[#3FB950] font-bold text-sm">14m 15s</span>
                 </div>
-                <div className="bg-black/40 p-2 rounded-lg border border-emerald-500/10">
-                  <span className="text-[10px] text-emerald-500/70 block">Cloud Media Rent</span>
-                  <span className="text-emerald-400 font-bold text-sm">$0.00 / mo</span>
+                <div className="bg-[#161B22] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[10px] text-[#8B949E] block">Cloud Media Rent</span>
+                  <span className="text-[#3FB950] font-bold text-sm">$0.00 / mo</span>
                 </div>
               </div>
             </div>
 
             {/* SIM Gateway Telephony Health */}
-            <div className="rounded-xl border border-emerald-500/20 bg-black/30 p-3.5 space-y-1 text-xs">
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-1 text-xs">
               <div className="flex items-center justify-between">
-                <span className="text-white font-bold">Android Hardware SIM Gateway</span>
-                <span className="text-emerald-400 text-[10px]">CONNECTED</span>
+                <span className="text-[#F0F6FC] font-bold">Android Hardware SIM Gateway</span>
+                <span className="text-[#3FB950] text-[10px] font-bold">CONNECTED</span>
               </div>
-              <p className="text-[11px] text-emerald-500/70 font-sans leading-relaxed">
+              <p className="text-[11px] text-[#8B949E] font-sans leading-relaxed">
                 SIM 1 ping latency: 182ms. Dual-SIM hardware failover configured. Cloud telephony tolls avoided: 100% saved ($0 monthly bill).
               </p>
             </div>
@@ -472,45 +465,45 @@ export const PaymentRoutingModal: React.FC<PaymentRoutingModalProps> = ({ method
   if (!method) return null;
 
   return (
-    <div className="fixed inset-0 z-[75] grid place-items-center bg-black/80 p-4 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-[75] grid place-items-center bg-[#0D1117]/80 p-4 backdrop-blur-md" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[420px] rounded-2xl border border-emerald-500/30 bg-[#102019] p-5 shadow-2xl animate-in zoom-in-95 duration-150"
+        className="w-full max-w-[420px] rounded-2xl border border-[#30363D] bg-[#161B22] p-5 shadow-2xl animate-in zoom-in-95 duration-150"
       >
-        <div className="flex items-start justify-between border-b border-emerald-500/20 pb-3">
+        <div className="flex items-start justify-between border-b border-[#21262D] pb-3">
           <div>
-            <p className="text-[10px] font-mono font-bold uppercase tracking-[.18em] text-[#00FFFF]">
+            <p className="text-[10px] font-mono font-bold uppercase tracking-[.18em] text-[#06B6D4]">
               CHANNEL CONFIG
             </p>
-            <h3 className="mt-1 text-lg font-bold text-white">{method}</h3>
+            <h3 className="mt-1 text-lg font-bold text-[#F0F6FC]">{method}</h3>
           </div>
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="rounded-lg p-1.5 text-emerald-500/60 hover:text-white transition"
+            className="min-h-[44px] min-w-[44px] grid place-items-center rounded-lg text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] transition"
           >
             <X className="size-5" />
           </button>
         </div>
 
-        <div className="mt-4 space-y-3 font-mono text-xs">
-          <div className="rounded-xl border border-emerald-500/20 bg-black/40 p-3">
-            <p className="text-emerald-500/80">WEBHOOK ENDPOINT</p>
-            <p className="text-emerald-300 mt-1 truncate">https://api.workcraft.local/v1/payments/webhook</p>
+        <div className="mt-4 space-y-3 font-mono text-xs min-w-0">
+          <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 overflow-hidden">
+            <p className="text-[#8B949E]">WEBHOOK ENDPOINT</p>
+            <p className="text-[#58A6FF] mt-1 break-all [overflow-wrap:break-word]">https://api.workcraft.local/v1/payments/webhook</p>
           </div>
 
-          <label className="block text-emerald-500/80">
+          <label className="block text-[#8B949E]">
             SIMULATION SECRET
             <input
               defaultValue="sec_live_9942a0b4e872c"
               readOnly
-              className="mt-1 w-full rounded-lg border border-emerald-500/20 bg-black/40 px-3 py-2 text-white text-xs"
+              className="mt-1 w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#0D1117] px-3 py-2 text-[#F0F6FC] text-sm focus:outline-none focus:border-[#06B6D4]"
             />
           </label>
 
           <button
             onClick={onSave}
-            className="w-full mt-2 rounded-xl bg-[#00FFFF] px-4 py-2.5 text-xs font-mono font-bold text-[#12241C] uppercase hover:bg-[#38e8e8] transition"
+            className="w-full min-h-[48px] mt-2 rounded-xl bg-[#06B6D4] px-4 py-2.5 text-xs font-mono font-bold text-[#0D1117] uppercase hover:bg-[#22D3EE] transition active:scale-95"
           >
             Save Gateway Settings
           </button>
@@ -535,22 +528,22 @@ export const NotificationsDrawer: React.FC<NotificationsDrawerProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[75] flex justify-end bg-black/80 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-[75] flex justify-end bg-[#0D1117]/80 backdrop-blur-md" onClick={onClose}>
       <aside
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[420px] h-full bg-[#102019] border-l border-emerald-500/20 p-5 overflow-y-auto shadow-2xl flex flex-col space-y-4 animate-in slide-in-from-right duration-200"
+        className="w-full max-w-[420px] h-full bg-[#161B22] border-l border-[#30363D] p-5 pb-12 overflow-y-auto shadow-2xl flex flex-col space-y-4 animate-in slide-in-from-right duration-200"
       >
-        <div className="flex items-center justify-between border-b border-emerald-500/20 pb-3">
+        <div className="flex items-center justify-between border-b border-[#21262D] pb-3">
           <div>
-            <p className="text-[10px] font-mono font-bold uppercase tracking-[.18em] text-[#00FFFF]">
+            <p className="text-[10px] font-mono font-bold uppercase tracking-[.18em] text-[#06B6D4]">
               SYSTEM FEED
             </p>
-            <h3 className="text-lg font-bold text-white">Event Notifications</h3>
+            <h3 className="text-lg font-bold text-[#F0F6FC]">Event Notifications</h3>
           </div>
           <button
             onClick={onClose}
             aria-label="Close notifications"
-            className="rounded-lg p-1.5 text-emerald-500/60 hover:text-white transition"
+            className="min-h-[44px] min-w-[44px] grid place-items-center rounded-lg text-[#8B949E] hover:text-[#F0F6FC] hover:bg-[#21262D] transition"
           >
             <X className="size-5" />
           </button>
@@ -566,13 +559,13 @@ export const NotificationsDrawer: React.FC<NotificationsDrawerProps> = ({
                   if (onOpenVoiceTicker) onOpenVoiceTicker();
                 }
               }}
-              className="rounded-xl border border-emerald-500/20 bg-black/30 p-3.5 space-y-1 hover:border-[#00FFFF]/30 transition cursor-pointer"
+              className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-1 hover:border-[#06B6D4]/50 transition cursor-pointer"
             >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs font-bold text-white">{notif.title}</span>
-                <span className="font-mono text-[10px] text-emerald-500/60">{notif.time}</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono text-xs font-bold text-[#F0F6FC]">{notif.title}</span>
+                <span className="font-mono text-[10px] text-[#6E7681] shrink-0">{notif.time}</span>
               </div>
-              <p className="text-xs text-emerald-500/80 font-sans leading-relaxed">{notif.description}</p>
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">{notif.description}</p>
             </div>
           ))}
         </div>
