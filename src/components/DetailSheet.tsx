@@ -350,17 +350,24 @@ export const DetailSheet: React.FC<DetailSheetProps> = ({
                 </span>
               </div>
               <div className="space-y-1.5 text-xs">
-                <div className="flex items-center justify-between bg-[#0D1117] p-2.5 rounded-lg border border-[#30363D]">
-                  <span className="text-[#F0F6FC]">EasyPaisa SMS Webhooks (14 Salons)</span>
-                  <span className="text-[#D29922] font-bold">PKR 78,000</span>
+                <div className="flex items-center justify-between gap-2 bg-[#0D1117] p-2.5 rounded-lg border border-[#06B6D4]/50">
+                  <div className="min-w-0">
+                    <span className="text-[#F0F6FC] font-bold block">Official Bank Account (IBFT / Raast / Overseas)</span>
+                    <span className="text-[10px] text-[#8B949E] font-sans block">12 salons · Local IBFT + Overseas setup &amp; 10% maint auto-deposits</span>
+                  </div>
+                  <span className="text-[#D29922] font-bold shrink-0">PKR 78,000</span>
                 </div>
-                <div className="flex items-center justify-between bg-[#0D1117] p-2.5 rounded-lg border border-[#30363D]">
-                  <span className="text-[#F0F6FC]">Direct Bank Transfer / IBFT (7 Salons)</span>
-                  <span className="text-[#D29922] font-bold">PKR 48,000</span>
+                <div className="flex items-center justify-between gap-2 bg-[#0D1117] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[#F0F6FC]">EasyPaisa SMS Webhooks (7 Local Salons)</span>
+                  <span className="text-[#D29922] font-bold shrink-0">PKR 36,000</span>
                 </div>
-                <div className="flex items-center justify-between bg-[#0D1117] p-2.5 rounded-lg border border-[#30363D]">
-                  <span className="text-[#F0F6FC]">JazzCash SMS Webhook (5 Salons)</span>
-                  <span className="text-[#D29922] font-bold">PKR 30,000</span>
+                <div className="flex items-center justify-between gap-2 bg-[#0D1117] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[#F0F6FC]">JazzCash SMS Webhook (4 Local Salons)</span>
+                  <span className="text-[#D29922] font-bold shrink-0">PKR 22,000</span>
+                </div>
+                <div className="flex items-center justify-between gap-2 bg-[#0D1117] p-2.5 rounded-lg border border-[#30363D]">
+                  <span className="text-[#F0F6FC]">Stripe Connect Overseas Split (3 Salons → Bank)</span>
+                  <span className="text-[#D29922] font-bold shrink-0">PKR 20,000</span>
                 </div>
               </div>
             </div>

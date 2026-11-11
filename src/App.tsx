@@ -781,7 +781,7 @@ export default function App() {
                 onSilentRecovered={(d) => showToast(`🛡️ Auto-recovered ${d.areaName} cleanly`)}
               >
                 {activeTab === 'Voice' ? (
-                  <VoiceSection />
+                  <VoiceSection onClose={() => handleTabChange('Overview')} />
                 ) : activeTab === 'Overview' ? (
                   <OverviewSection
                     payment={isPaymentPaid}

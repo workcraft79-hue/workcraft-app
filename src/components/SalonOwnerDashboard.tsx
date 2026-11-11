@@ -1415,53 +1415,70 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
   // QUERY 2 (NEW): FOUNDER READ-ONLY INSPECTOR (NO LIVE QUEUE / NO OWNER CONTROLS)
   // ============================================================================
   if (isFounderInspector) {
+    const currentSalonIdx = Math.max(
+      0,
+      salonsState.findIndex((s) => s.id === currentSalon.id)
+    );
+    const currentSerialLabel = `#${String(currentSalonIdx + 1).padStart(2, '0')} · [WC-${101 + currentSalonIdx}]`;
+
     return (
-      <div className="space-y-6 max-w-5xl mx-auto pb-28 lg:pb-10 min-w-0">
-        <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
-          <div className="flex items-center gap-2.5 text-[#D29922] font-bold">
-            <Eye className="size-4 shrink-0 text-[#D29922]" />
-            <span>
-              👑 FOUNDER READ-ONLY INSPECTOR · Live Queue &amp; Salon Owner Controls Hidden from Founder
-            </span>
-          </div>
-          <div className="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-            <select
-              value={selectedSalonId}
-              onChange={(e) => setSelectedSalonId(e.target.value)}
-              className="min-h-[44px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-1.5 text-xs text-[#06B6D4] font-bold focus:outline-none focus:border-[#06B6D4]"
-            >
-              {salonsState.map((s) => (
-                <option key={s.id} value={s.id} className="bg-[#161B22] text-[#F0F6FC]">
-                  {s.name} ({s.location}) — {s.plan}
-                </option>
-              ))}
-            </select>
+      <div className="space-y-6 max-w-5xl mx-auto pb-28 lg:pb-10 min-w-0 overflow-hidden">
+        <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-4 space-y-3 font-mono text-xs min-w-0 overflow-hidden">
+          <div className="flex items-start justify-between gap-2.5 min-w-0">
+            <div className="flex items-start gap-2 text-[#D29922] font-bold min-w-0 flex-1">
+              <Eye className="size-4 shrink-0 text-[#D29922] mt-0.5" />
+              <span className="break-words [overflow-wrap:break-word] leading-relaxed">
+                👑 FOUNDER READ-ONLY INSPECTOR · Live Queue &amp; Salon Owner Controls Hidden from Founder
+              </span>
+            </div>
             {onClose && (
               <button
+                type="button"
                 onClick={onClose}
-                className="min-h-[44px] rounded-xl bg-[#21262D] hover:border-[#06B6D4] px-3 py-1.5 text-[#F0F6FC] text-xs font-bold transition flex items-center gap-1.5 border border-[#30363D]"
+                aria-label="Close Salon Health View"
+                title="Back to Overview"
+                className="min-h-[44px] min-w-[44px] rounded-xl bg-[#21262D] hover:border-[#06B6D4] text-[#F0F6FC] text-sm font-bold transition grid place-items-center border border-[#30363D] shrink-0"
               >
-                <span>Back to Overview</span>
-                ✕
+                <X className="size-4" />
               </button>
             )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 min-w-0">
+            <div className="flex items-center gap-2 min-w-0 w-full sm:flex-1">
+              <span className="rounded-lg border border-[#06B6D4]/40 bg-[#0D1117] px-2.5 py-2 text-[11px] font-bold text-[#06B6D4] shrink-0">
+                {currentSerialLabel}
+              </span>
+              <select
+                value={selectedSalonId}
+                onChange={(e) => setSelectedSalonId(e.target.value)}
+                className="w-full min-w-0 max-w-full flex-1 min-h-[44px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3 py-2 text-xs text-[#06B6D4] font-bold focus:outline-none focus:border-[#06B6D4] truncate"
+              >
+                {salonsState.map((s, idx) => (
+                  <option key={s.id} value={s.id} className="bg-[#161B22] text-[#F0F6FC]">
+                    #{String(idx + 1).padStart(2, '0')} · [WC-{101 + idx}] {s.name} ({s.location}) — {s.plan}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
         <PortalCard
-          title={`${currentSalon.name} — Connection Health & Billing Summary`}
+          title={`${currentSerialLabel} · ${currentSalon.name} — Connection Health & Billing Summary`}
           kicker={`REGION: ${regionConfig.regionLabel.toUpperCase()} · READ-ONLY`}
+          onClose={onClose}
         >
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono">
-              <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5">
+          <div className="space-y-5 min-w-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 font-mono min-w-0">
+              <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-3.5 min-w-0 overflow-hidden">
                 <span className="text-[10px] text-[#8B949E] uppercase block">SALON OWNER</span>
-                <p className="text-sm font-bold text-[#F0F6FC] mt-1">{currentSalon.owner}</p>
-                <p className="text-[11px] text-[#06B6D4] mt-0.5">{currentSalon.phone}</p>
+                <p className="text-sm font-bold text-[#F0F6FC] mt-1 break-words [overflow-wrap:break-word]">{currentSalon.owner}</p>
+                <p className="text-[11px] text-[#06B6D4] mt-0.5 break-all [overflow-wrap:break-word]">{currentSalon.phone}</p>
               </div>
-              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5">
+              <div className="rounded-2xl border border-[#9E6A03] bg-[#3B2E0B] p-3.5 min-w-0 overflow-hidden">
                 <span className="text-[10px] text-[#D29922] uppercase block">ACTIVE PACKAGE</span>
-                <p className="text-sm font-bold text-[#F0F6FC] mt-1">{currentSalon.plan}</p>
+                <p className="text-sm font-bold text-[#F0F6FC] mt-1 break-words [overflow-wrap:break-word]">{currentSalon.plan}</p>
                 <p className="text-[11px] text-[#8B949E] mt-0.5">
                   Setup: {regionConfig.symbol}{currentPackage.setupFee.toLocaleString()}
                 </p>

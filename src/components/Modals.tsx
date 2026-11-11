@@ -57,12 +57,12 @@ const MONTHLY_REPORTS: Record<string, MonthData> = {
     pairedSalons: 27,
     cashEntries: 'PKR 25,000',
     methods: {
-      easypaisa: 'PKR 54,000',
-      easypaisaSalons: 12,
-      jazzcash: 'PKR 18,000',
+      easypaisa: 'PKR 24,000',
+      easypaisaSalons: 6,
+      jazzcash: 'PKR 13,000',
       jazzcashSalons: 4,
-      bank: 'PKR 11,000',
-      bankSalons: 3,
+      bank: 'PKR 46,000',
+      bankSalons: 9,
       cash: 'PKR 25,000',
       cashSalons: 5,
     },
@@ -84,12 +84,12 @@ const MONTHLY_REPORTS: Record<string, MonthData> = {
     pairedSalons: 24,
     cashEntries: 'PKR 20,000',
     methods: {
-      easypaisa: 'PKR 50,000',
-      easypaisaSalons: 11,
-      jazzcash: 'PKR 16,000',
-      jazzcashSalons: 4,
-      bank: 'PKR 13,000',
-      bankSalons: 3,
+      easypaisa: 'PKR 22,000',
+      easypaisaSalons: 6,
+      jazzcash: 'PKR 12,000',
+      jazzcashSalons: 3,
+      bank: 'PKR 45,000',
+      bankSalons: 9,
       cash: 'PKR 20,000',
       cashSalons: 4,
     },
@@ -111,12 +111,12 @@ const MONTHLY_REPORTS: Record<string, MonthData> = {
     pairedSalons: 21,
     cashEntries: 'PKR 15,000',
     methods: {
-      easypaisa: 'PKR 45,000',
-      easypaisaSalons: 10,
-      jazzcash: 'PKR 14,000',
+      easypaisa: 'PKR 19,000',
+      easypaisaSalons: 5,
+      jazzcash: 'PKR 10,500',
       jazzcashSalons: 3,
-      bank: 'PKR 11,500',
-      bankSalons: 3,
+      bank: 'PKR 41,000',
+      bankSalons: 8,
       cash: 'PKR 15,000',
       cashSalons: 3,
     },
@@ -258,42 +258,42 @@ export const FinancialReportModal: React.FC<FinancialReportModalProps> = ({ isOp
               </div>
 
               <div className="space-y-2 text-xs">
-                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#06B6D4]/50">
                   <div>
-                    <span className="text-[#F0F6FC] font-bold">EasyPaisa Webhook</span>
+                    <span className="text-[#F0F6FC] font-bold">Official Bank Account (IBFT / Raast / Overseas)</span>
                     <p className="text-[10px] text-[#8B949E] font-sans">
-                      {data.methods.easypaisaSalons} salons · SMS webhook auto-match
+                      {data.methods.bankSalons} salons · Local IBFT + Overseas package &amp; 10% maint auto-deposits
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[#D29922] font-bold">{data.methods.easypaisa}</span>
-                    <span className="block text-[9px] text-[#3FB950]">50.0% of total</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
-                  <div>
-                    <span className="text-[#F0F6FC] font-bold">JazzCash Webhook</span>
-                    <p className="text-[10px] text-[#8B949E] font-sans">
-                      {data.methods.jazzcashSalons} salons · SMS regex matching
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[#D29922] font-bold">{data.methods.jazzcash}</span>
-                    <span className="block text-[9px] text-[#3FB950]">16.7% of total</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
-                  <div>
-                    <span className="text-[#F0F6FC] font-bold">Bank Account (IBFT)</span>
-                    <p className="text-[10px] text-[#8B949E] font-sans">
-                      {data.methods.bankSalons} salons · Manual OCR slip verification
-                    </p>
-                  </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0 ml-2">
                     <span className="text-[#D29922] font-bold">{data.methods.bank}</span>
-                    <span className="block text-[9px] text-[#3FB950]">10.2% of total</span>
+                    <span className="block text-[9px] text-cyan-400">42.6% PRIMARY RAIL</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
+                  <div>
+                    <span className="text-[#F0F6FC] font-bold">EasyPaisa Webhook (Local Pakistan)</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
+                      {data.methods.easypaisaSalons} local salons · SMS webhook auto-match
+                    </p>
+                  </div>
+                  <div className="text-right shrink-0 ml-2">
+                    <span className="text-[#D29922] font-bold">{data.methods.easypaisa}</span>
+                    <span className="block text-[9px] text-[#3FB950]">22.2% of total</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between rounded-xl bg-[#0D1117] p-2.5 border border-[#30363D]">
+                  <div>
+                    <span className="text-[#F0F6FC] font-bold">JazzCash Webhook (Local Pakistan)</span>
+                    <p className="text-[10px] text-[#8B949E] font-sans">
+                      {data.methods.jazzcashSalons} local salons · SMS regex matching
+                    </p>
+                  </div>
+                  <div className="text-right shrink-0 ml-2">
+                    <span className="text-[#D29922] font-bold">{data.methods.jazzcash}</span>
+                    <span className="block text-[9px] text-[#3FB950]">12.0% of total</span>
                   </div>
                 </div>
 
@@ -304,7 +304,7 @@ export const FinancialReportModal: React.FC<FinancialReportModalProps> = ({ isOp
                       {data.methods.cashSalons} salons · Biometric thumbprint logged
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0 ml-2">
                     <span className="text-[#D29922] font-bold">{data.methods.cash}</span>
                     <span className="block text-[9px] text-[#D29922]">23.1% (Cash liability)</span>
                   </div>

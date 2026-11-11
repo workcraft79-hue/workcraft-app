@@ -3,7 +3,11 @@ import { Mic, Volume2, Video, CheckCircle2, Play, Clock, Sparkles, Send, ShieldC
 import { PortalCard } from './PortalCard';
 import { VoiceRecorder } from './VoiceRecorder';
 
-export const VoiceSection: React.FC = () => {
+interface VoiceSectionProps {
+  onClose?: () => void;
+}
+
+export const VoiceSection: React.FC<VoiceSectionProps> = ({ onClose }) => {
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
   const [replySent, setReplySent] = useState(false);
   const [founderInputText, setFounderInputText] = useState(
@@ -53,7 +57,7 @@ export const VoiceSection: React.FC = () => {
   return (
     <div className="space-y-6 pb-28 lg:pb-8 min-w-0">
       {/* Voice Hub Header Card */}
-      <PortalCard title="Voice Ticker & Audio Feed" kicker="AUTONOMOUS AUDIO CONVERSION">
+      <PortalCard title="Voice Ticker & Audio Feed" kicker="AUTONOMOUS AUDIO CONVERSION" onClose={onClose}>
         <div className="space-y-4">
           <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
             Private audio-to-audio communications between salon owners and the founder. All voice recordings are transmitted through the local WhatsApp SIM socket without exposing personal phone numbers (+92-300-WORKCRAFT-LOCAL).

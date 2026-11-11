@@ -1755,6 +1755,105 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
   const [isEnrollThumbScanning, setIsEnrollThumbScanning] = useState(false);
   const [isLegalStampScanning, setIsLegalStampScanning] = useState(false);
   const [cityValidationError, setCityValidationError] = useState<{ en: string; ur: string; ar: string } | null>(null);
+  const [enrollSelfiePreviewUrl, setEnrollSelfiePreviewUrl] = useState<string | null>(null);
+  const [isCameraActive, setIsCameraActive] = useState(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [step2BiometricError, setStep2BiometricError] = useState<string | null>(null);
+  const [step4BiometricError, setStep4BiometricError] = useState<string | null>(null);
+  const selfieVideoRef = React.useRef<HTMLVideoElement | null>(null);
+  const selfieStreamRef = React.useRef<MediaStream | null>(null);
+  const selfieFileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const stopSelfieCamera = React.useCallback(() => {
+    if (selfieStreamRef.current) {
+      selfieStreamRef.current.getTracks().forEach((track) => track.stop());
+      selfieStreamRef.current = null;
+    }
+    if (selfieVideoRef.current) {
+      selfieVideoRef.current.srcObject = null;
+    }
+    setIsCameraActive(false);
+  }, []);
+
+  const startSelfieCamera = async () => {
+    setCameraError(null);
+    setStep2BiometricError(null);
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setCameraError(
+        enrollmentLang === 'ur_roman'
+          ? 'براؤزر میں لائیو کیمرہ دستیاب نہیں، براہِ کرم نیچے سے موبائل کیمرہ کھولیں۔'
+          : enrollmentLang === 'ar'
+          ? 'الكاميرا المباشرة غير متاحة، يرجى استخدام كاميرا الهاتف أدناه.'
+          : 'Live camera API unavailable here. Use the Phone Camera button below to snap your selfie.'
+      );
+      selfieFileInputRef.current?.click();
+      return;
+    }
+    try {
+      stopSelfieCamera();
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user' },
+        audio: false,
+      });
+      selfieStreamRef.current = stream;
+      setEnrollSelfieDone(false);
+      setIsCameraActive(true);
+    } catch {
+      setCameraError(
+        enrollmentLang === 'ur_roman'
+          ? 'کیمرہ اجازت نہیں ملی — براہِ کرم موبائل کیمرہ بٹن سے تصویر لیں۔'
+          : enrollmentLang === 'ar'
+          ? 'تم رفض إذن الكاميرا — يرجى استخدام زر كاميرا الهاتف لالتقاط الصورة.'
+          : 'Camera permission blocked in preview — tap "Use Phone Camera" below to capture a real selfie.'
+      );
+    }
+  };
+
+  const captureSelfieFrame = () => {
+    const videoEl = selfieVideoRef.current;
+    if (!videoEl || videoEl.videoWidth === 0) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = videoEl.videoWidth;
+    canvas.height = videoEl.videoHeight;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      setEnrollSelfiePreviewUrl(dataUrl);
+      setEnrollSelfieDone(true);
+      setStep2BiometricError(null);
+      stopSelfieCamera();
+    }
+  };
+
+  const handleSelfieFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setEnrollSelfiePreviewUrl(reader.result);
+        setEnrollSelfieDone(true);
+        setCameraError(null);
+        setStep2BiometricError(null);
+        stopSelfieCamera();
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  React.useEffect(() => {
+    if (isCameraActive && selfieVideoRef.current && selfieStreamRef.current) {
+      selfieVideoRef.current.srcObject = selfieStreamRef.current;
+      selfieVideoRef.current.play().catch(() => {});
+    }
+  }, [isCameraActive]);
+
+  React.useEffect(() => {
+    if (!isRemoteEnrollmentWizardOpen || enrollmentStep !== 2) {
+      stopSelfieCamera();
+    }
+  }, [isRemoteEnrollmentWizardOpen, enrollmentStep, stopSelfieCamera]);
 
 
 
@@ -6288,46 +6387,118 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </p>
                 </div>
 
-                {/* Live Selfie Viewfinder */}
-                <div className="rounded-2xl bg-[#0D1117] border border-[#30363D] p-4 text-center space-y-2">
-                  <div className="mx-auto size-32 rounded-2xl border-2 border-[#06B6D4] bg-[#161B22] grid place-items-center relative overflow-hidden">
-                    {enrollSelfieDone ? (
-                      <div className="text-center">
-                        <Check className="size-10 text-[#3FB950] mx-auto stroke-[3]" />
-                        <span className="text-[9px] font-mono text-[#3FB950] block mt-1 font-bold">
-                          {enrollmentLang === 'ur_roman' ? 'تصویر محفوظ' : enrollmentLang === 'ar' ? 'تم التقاط الصورة' : 'PHOTO VERIFIED'}
+                {/* Live Selfie Viewfinder (Real Front Camera + Native Phone Camera Fallback) */}
+                <div className="rounded-2xl bg-[#0D1117] border border-[#30363D] p-4 text-center space-y-3">
+                  <div className="mx-auto size-40 rounded-2xl border-2 border-[#06B6D4] bg-[#161B22] grid place-items-center relative overflow-hidden">
+                    {isCameraActive ? (
+                      <video
+                        ref={selfieVideoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        className="w-full h-full object-cover scale-x-[-1]"
+                      />
+                    ) : enrollSelfieDone && enrollSelfiePreviewUrl ? (
+                      <>
+                        <img
+                          src={enrollSelfiePreviewUrl}
+                          alt="Captured Agent Selfie"
+                          className="w-full h-full object-cover"
+                        />
+                        <span className="absolute bottom-1.5 left-1.5 right-1.5 rounded-md bg-[#0D3822]/90 border border-[#116329] px-1.5 py-0.5 text-[9px] font-mono font-bold text-[#3FB950]">
+                          {enrollmentLang === 'ur_roman' ? '✓ تصویر محفوظ' : enrollmentLang === 'ar' ? '✓ تم التقاط الصورة' : '✓ SELFIE VERIFIED'}
                         </span>
-                      </div>
+                      </>
                     ) : (
-                      <div className="text-center">
-                        <Camera className="size-8 text-[#06B6D4] mx-auto opacity-80 animate-pulse" />
-                        <span className="text-[8px] font-mono text-[#8B949E] block mt-1">CAMERA READY</span>
+                      <div className="text-center px-3">
+                        <Camera className="size-8 text-[#06B6D4] mx-auto opacity-80" />
+                        <span className="text-[9px] font-mono text-[#8B949E] block mt-1.5">
+                          {enrollmentLang === 'ur_roman'
+                            ? 'لائیو کیمرہ کھولنے کے لیے نیچے دبائیں'
+                            : enrollmentLang === 'ar'
+                            ? 'اضغط لفتح الكاميرا المباشرة'
+                            : 'TAP TO OPEN LIVE CAMERA'}
+                        </span>
                       </div>
                     )}
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEnrollSelfieDone(true);
-                    }}
-                    className="min-h-[44px] rounded-xl bg-[#21262D] hover:bg-[#30363D] border border-[#30363D] px-4 py-2 text-xs font-mono text-[#F0F6FC] transition flex items-center gap-1.5 mx-auto"
-                  >
-                    <Camera className="size-3.5 text-[#06B6D4]" />
-                    <span>
-                      {enrollSelfieDone
-                        ? (enrollmentLang === 'ur_roman' ? 'دوبارہ تصویر لیں' : enrollmentLang === 'ar' ? 'إعادة التقاط الصورة' : 'Re-Take Selfie')
-                        : (enrollmentLang === 'ur_roman' ? 'تصویر کھینچیں' : enrollmentLang === 'ar' ? 'التقاط الصورة الآن' : 'Snap Live Selfie')}
-                    </span>
-                  </button>
+                  <input
+                    ref={selfieFileInputRef}
+                    type="file"
+                    accept="image/*"
+                    capture="user"
+                    onChange={handleSelfieFileSelect}
+                    className="hidden"
+                  />
+
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {isCameraActive ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={captureSelfieFrame}
+                          className="min-h-[44px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2 text-xs font-mono font-bold text-[#0D1117] transition flex items-center gap-1.5"
+                        >
+                          <Camera className="size-4" />
+                          <span>
+                            {enrollmentLang === 'ur_roman'
+                              ? 'ابھی تصویر کھینچیں'
+                              : enrollmentLang === 'ar'
+                              ? 'التقاط الصورة الآن'
+                              : 'Capture Selfie Photo'}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={stopSelfieCamera}
+                          className="min-h-[44px] rounded-xl border border-[#30363D] bg-[#21262D] px-3.5 py-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] transition"
+                        >
+                          {enrollmentLang === 'ur_roman' ? 'بند کریں' : enrollmentLang === 'ar' ? 'إغلاق' : 'Stop Camera'}
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          onClick={startSelfieCamera}
+                          className="min-h-[44px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] px-4 py-2 text-xs font-mono font-bold text-[#0D1117] transition flex items-center gap-1.5"
+                        >
+                          <Camera className="size-4" />
+                          <span>
+                            {enrollSelfieDone
+                              ? (enrollmentLang === 'ur_roman' ? 'دوبارہ لائیو تصویر لیں' : enrollmentLang === 'ar' ? 'إعادة فتح الكاميرا' : 'Re-Open Live Camera')
+                              : (enrollmentLang === 'ur_roman' ? 'لائیو کیمرہ کھولیں' : enrollmentLang === 'ar' ? 'فتح الكاميرا المباشرة' : 'Open Live Selfie Camera')}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => selfieFileInputRef.current?.click()}
+                          className="min-h-[44px] rounded-xl bg-[#21262D] hover:bg-[#30363D] border border-[#30363D] px-3.5 py-2 text-xs font-mono text-[#F0F6FC] transition flex items-center gap-1.5"
+                        >
+                          <Camera className="size-3.5 text-[#06B6D4]" />
+                          <span>
+                            {enrollmentLang === 'ur_roman' ? 'فون کیمرہ استعمال کریں' : enrollmentLang === 'ar' ? 'استخدام كاميرا الهاتف' : 'Use Phone Camera'}
+                          </span>
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {cameraError && (
+                    <p className="text-[11px] font-mono text-[#D29922] bg-[#3B2E0B] border border-[#9E6A03] rounded-xl p-2.5 leading-relaxed">
+                      {cameraError}
+                    </p>
+                  )}
                 </div>
 
-                {/* Hardware Optical Thumbprint Scanner */}
+                {/* Hardware Optical Thumbprint Scanner (MANDATORY) */}
                 <div className="rounded-2xl bg-[#0D1117] border border-[#30363D] p-4 text-center space-y-2">
                   <button
                     type="button"
                     onClick={() => {
                       setIsEnrollThumbScanning(true);
+                      setStep2BiometricError(null);
                       setTimeout(() => {
                         setIsEnrollThumbScanning(false);
                         setEnrollThumbDone(true);
@@ -6359,14 +6530,24 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                         ) : (
                           <>✓ Thumbprint Stored: <span dir="ltr">{enrollThumbHash}</span></>
                         ))
-                      : (enrollmentLang === 'ur_roman' ? 'انگوٹھے کا نشان لگانے کے لیے دبائیں' : enrollmentLang === 'ar' ? 'اضغط للمسح البيومتري' : 'Touch sensor to scan thumbprint')}
+                      : (enrollmentLang === 'ur_roman' ? 'لازمی: انگوٹھے کا نشان لگانے کے لیے دبائیں' : enrollmentLang === 'ar' ? 'إلزامي: اضغط لمسح بصمة الإبهام' : 'Mandatory: Touch sensor to scan thumbprint')}
                   </span>
                 </div>
+
+                {step2BiometricError && (
+                  <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 text-xs font-mono text-[#F85149] flex items-start gap-2">
+                    <AlertOctagon className="size-4 shrink-0 mt-0.5" />
+                    <span className="break-words [overflow-wrap:break-word]">{step2BiometricError}</span>
+                  </div>
+                )}
 
                 <div className="pt-2 flex justify-between gap-2">
                   <button
                     type="button"
-                    onClick={() => setEnrollmentStep(1)}
+                    onClick={() => {
+                      stopSelfieCamera();
+                      setEnrollmentStep(1);
+                    }}
                     className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
                   >
                     {enrollmentLang === 'ur_roman' ? '← پیچھے' : enrollmentLang === 'ar' ? '← السابق' : '← Back'}
@@ -6374,12 +6555,37 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <button
                     type="button"
                     onClick={() => {
-                      setEnrollSelfieDone(true);
-                      setEnrollThumbDone(true);
-                      if (!enrollThumbHash) setEnrollThumbHash('SHA256: 3c9f-88a1-agent-thumb-enrolled');
+                      if (!enrollSelfieDone || !enrollThumbDone) {
+                        const missingMsg =
+                          enrollmentLang === 'ur_roman'
+                            ? !enrollSelfieDone && !enrollThumbDone
+                              ? 'لائیو سیلفی تصویر اور انگوٹھے کا بایومیٹرک اسکین دونوں لازمی ہیں۔ آگے بڑھنے سے پہلے مکمل کریں۔'
+                              : !enrollSelfieDone
+                              ? 'لائیو سیلفی تصویر لازمی ہے — براہِ کرم کیمرہ سے تصویر کھینچیں۔'
+                              : 'انگوٹھے کا بایومیٹرک اسکین ایجنٹ کے لیے لازمی ہے — براہِ کرم انگوٹھا اسکین کریں۔'
+                            : enrollmentLang === 'ar'
+                            ? !enrollSelfieDone && !enrollThumbDone
+                              ? 'التقاط الصورة الشخصية ومسح بصمة الإبهام إلزاميان قبل المتابعة.'
+                              : !enrollSelfieDone
+                              ? 'التقاط الصورة الشخصية إلزامي قبل المتابعة.'
+                              : 'مسح بصمة الإبهام البيومترية إلزامي للوكيل قبل الانتقال للخطوة التالية.'
+                            : !enrollSelfieDone && !enrollThumbDone
+                            ? 'Both Live Selfie Photo and Hardware Thumbprint Biometric are mandatory before proceeding.'
+                            : !enrollSelfieDone
+                            ? 'Live Selfie Photo is mandatory — please capture your selfie using the camera first.'
+                            : 'Hardware Thumbprint Biometric is mandatory for agents — please scan your thumbprint first.';
+                        setStep2BiometricError(missingMsg);
+                        return;
+                      }
+                      setStep2BiometricError(null);
+                      stopSelfieCamera();
                       setEnrollmentStep(3);
                     }}
-                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                    className={`min-h-[48px] rounded-xl px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5 ${
+                      enrollSelfieDone && enrollThumbDone
+                        ? 'bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117]'
+                        : 'bg-[#21262D] text-[#8B949E] border border-[#30363D] hover:border-[#da3633]'
+                    }`}
                   >
                     <span>{enrollmentLang === 'ur_roman' ? 'اگلا: ادائیگی کا طریقہ ←' : enrollmentLang === 'ar' ? 'التالي: طريقة الدفع ←' : 'Next: Payout Destination →'}</span>
                   </button>
@@ -6902,7 +7108,10 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     <input
                       type="checkbox"
                       checked={enrollAgreedTerms}
-                      onChange={(e) => setEnrollAgreedTerms(e.target.checked)}
+                      onChange={(e) => {
+                        setEnrollAgreedTerms(e.target.checked);
+                        setStep4BiometricError(null);
+                      }}
                       className="mt-1 size-4 rounded border-[#30363D] bg-[#0D1117] text-[#D29922] focus:ring-0 shrink-0"
                     />
                     <div className="space-y-1 min-w-0">
@@ -6928,16 +7137,16 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                     </div>
                   </label>
 
-                  {/* Optical Biometric Legal Stamp Scanner */}
+                  {/* Optical Biometric Legal Stamp Scanner (MANDATORY) */}
                   <div className="p-3 rounded-xl bg-[#0D1117] border border-[#30363D] flex flex-wrap items-center justify-between gap-3 overflow-hidden">
                     <div className="flex items-center gap-2.5 text-xs font-mono min-w-0 flex-1">
-                      <Fingerprint className="size-5 text-[#06B6D4] shrink-0" />
+                      <Fingerprint className={`size-5 shrink-0 ${enrollLegalBiometricStamped ? 'text-[#3FB950]' : 'text-[#06B6D4]'}`} />
                       <div className="min-w-0 flex-1">
                         <span className="text-[#F0F6FC] font-bold block">
-                          {enrollmentLang === 'ur_roman' ? 'قانونی بایومیٹرک مہر' : enrollmentLang === 'ar' ? 'البصمة القانونية' : 'Legal Biometric Stamp'}
+                          {enrollmentLang === 'ur_roman' ? 'قانونی بایومیٹرک مہر (لازمی)' : enrollmentLang === 'ar' ? 'البصمة القانونية (إلزامي)' : 'Legal Biometric Stamp (Mandatory)'}
                         </span>
-                        <span dir="ltr" className="text-[10px] text-[#3FB950] block break-all overflow-hidden [overflow-wrap:break-word]">
-                          {enrollLegalStampHash || (enrollmentLang === 'ur_roman' ? 'مہر لگانے کے لیے بٹن دبائیں' : 'Pending biometric signature')}
+                        <span dir="ltr" className={`text-[10px] block break-all overflow-hidden [overflow-wrap:break-word] ${enrollLegalBiometricStamped ? 'text-[#3FB950]' : 'text-[#D29922]'}`}>
+                          {enrollLegalStampHash || (enrollmentLang === 'ur_roman' ? 'مہر لگانے کے لیے بٹن دبائیں' : enrollmentLang === 'ar' ? 'اضغط لتسجيل البصمة القانونية' : 'Pending mandatory biometric signature')}
                         </span>
                       </div>
                     </div>
@@ -6945,20 +7154,32 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       type="button"
                       onClick={() => {
                         setIsLegalStampScanning(true);
+                        setStep4BiometricError(null);
                         setTimeout(() => {
                           setIsLegalStampScanning(false);
                           setEnrollLegalBiometricStamped(true);
                           setEnrollLegalStampHash('SHA256: 7f81-810a-agent-legal-stamped');
                         }, 900);
                       }}
-                      className="min-h-[44px] px-3 py-1.5 rounded-lg bg-[#3B2E0B] hover:bg-[#3B2E0B]/80 text-[#D29922] border border-[#9E6A03] text-xs font-mono font-bold transition shrink-0"
+                      className={`min-h-[44px] px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition shrink-0 border ${
+                        enrollLegalBiometricStamped
+                          ? 'bg-[#0D3822] text-[#3FB950] border-[#116329]'
+                          : 'bg-[#3B2E0B] hover:bg-[#3B2E0B]/80 text-[#D29922] border-[#9E6A03]'
+                      }`}
                     >
-                      {isLegalStampScanning ? 'Scanning...' : enrollLegalBiometricStamped ? '✓ Re-Stamp' : 'Stamp Thumbprint'}
+                      {isLegalStampScanning ? 'Scanning...' : enrollLegalBiometricStamped ? '✓ Stamped' : 'Stamp Thumbprint'}
                     </button>
                   </div>
                 </div>
 
-                {/* Step 4 Navigation Buttons with Full Localization */}
+                {step4BiometricError && (
+                  <div className="rounded-xl border border-[#da3633] bg-[#4C1C1D] p-3 text-xs font-mono text-[#F85149] flex items-start gap-2">
+                    <AlertOctagon className="size-4 shrink-0 mt-0.5" />
+                    <span className="break-words [overflow-wrap:break-word]">{step4BiometricError}</span>
+                  </div>
+                )}
+
+                {/* Step 4 Navigation Buttons with Mandatory Checkbox + Biometric Gating */}
                 <div className="pt-2 flex justify-between gap-2">
                   <button
                     type="button"
@@ -6970,9 +7191,29 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <button
                     type="button"
                     onClick={() => {
-                      setEnrollAgreedTerms(true);
-                      setEnrollLegalBiometricStamped(true);
-                      if (!enrollLegalStampHash) setEnrollLegalStampHash('SHA256: 7f81-810a-agent-legal-stamped');
+                      if (!enrollAgreedTerms || !enrollLegalBiometricStamped) {
+                        const missingLegalMsg =
+                          enrollmentLang === 'ur_roman'
+                            ? !enrollAgreedTerms && !enrollLegalBiometricStamped
+                              ? 'اقرار نامے پر ٹک لگانا اور قانونی انگوٹھے کی بایومیٹرک مہر لگانا دونوں لازمی ہیں۔'
+                              : !enrollAgreedTerms
+                              ? 'پہلے قانونی اقرار نامے کے باکس پر نشان لگائیں۔'
+                              : 'بایومیٹرک انگوٹھے کی مہر لازمی ہے — "Stamp Thumbprint" بٹن دبا کر مہر لگائیں۔'
+                            : enrollmentLang === 'ar'
+                            ? !enrollAgreedTerms && !enrollLegalBiometricStamped
+                              ? 'الموافقة على الإقرار القانوني وتوثيق بصمة الإبهام القانونية إلزاميان.'
+                              : !enrollAgreedTerms
+                              ? 'يرجى تحديد مربع الموافقة على الإقرار القانوني أولاً.'
+                              : 'البصمة القانونية إلزامية للوكيل — يرجى الضغط على زر البصمة قبل التفعيل.'
+                            : !enrollAgreedTerms && !enrollLegalBiometricStamped
+                            ? 'You must both check the Legal Declaration box AND scan your Legal Biometric Stamp before activating.'
+                            : !enrollAgreedTerms
+                            ? 'Please check the Legal Declaration agreement box first.'
+                            : 'Legal Biometric Thumbprint Stamp is mandatory — tap "Stamp Thumbprint" before activating.';
+                        setStep4BiometricError(missingLegalMsg);
+                        return;
+                      }
+                      setStep4BiometricError(null);
                       // Add to enrolledAgentsList
                       setEnrolledAgentsList((prev) => [
                         ...prev.filter(a => a.name !== enrollAgentName),
@@ -7002,7 +7243,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                       ]);
                       setEnrollmentStep(5);
                     }}
-                    className="min-h-[48px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5"
+                    className={`min-h-[48px] rounded-xl px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5 ${
+                      enrollAgreedTerms && enrollLegalBiometricStamped
+                        ? 'bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117]'
+                        : 'bg-[#21262D] text-[#8B949E] border border-[#30363D] hover:border-[#da3633]'
+                    }`}
                   >
                     <span>{enrollmentLang === 'ur_roman' ? 'تصدیق اور ایکٹیویشن ←' : enrollmentLang === 'ar' ? 'تأكيد التسجيل والتفعيل ←' : 'Complete Enrollment & Activate →'}</span>
                   </button>

@@ -178,10 +178,13 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
                     </span>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-bold text-[#06B6D4]">
+                        <span className="font-mono text-xs font-bold text-[#D29922] shrink-0">
+                          #{String(idx + 1).padStart(2, '0')}
+                        </span>
+                        <span className="font-mono text-xs font-bold text-[#06B6D4] shrink-0">
                           [WC-{101 + idx}]
                         </span>
-                        <h5 className="text-base font-semibold text-[#F0F6FC] tracking-tight">
+                        <h5 className="text-base font-semibold text-[#F0F6FC] tracking-tight break-words [overflow-wrap:break-word]">
                           {salon.name}
                         </h5>
                       </div>
@@ -483,30 +486,118 @@ export const TabsSection: React.FC<TabsSectionProps> = ({
               </div>
             </div>
 
+            {/* Channel Collection Breakdown (Bank Account Primary + Local Wallets + Overseas) */}
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#21262D] pb-2.5">
+                <div>
+                  <h4 className="text-xs font-mono font-bold text-[#D29922] uppercase tracking-wider">
+                    Revenue Collection Breakdown by Channel
+                  </h4>
+                  <p className="text-[11px] text-[#8B949E] font-sans mt-0.5">
+                    Overseas package purchases &amp; 10% monthly maintenance settle automatically into the local Pakistan bank account alongside local IBFT/Raast transfers.
+                  </p>
+                </div>
+                <span className="rounded bg-[#0D3822] border border-[#116329] px-2.5 py-1 text-[10px] font-mono font-bold text-[#3FB950] shrink-0">
+                  PKR 108,000 VERIFIED
+                </span>
+              </div>
+
+              <div className="grid gap-2.5 sm:grid-cols-2 font-mono text-xs">
+                <div className="rounded-xl border border-[#06B6D4]/50 bg-[#161B22] p-3.5 space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[#F0F6FC] font-bold">1. Official Bank Account (IBFT / Raast / Overseas)</span>
+                    <span className="rounded bg-[#06B6D4]/15 border border-[#06B6D4]/40 px-2 py-0.5 text-[10px] font-bold text-cyan-400 shrink-0">
+                      48.1% · PRIMARY
+                    </span>
+                  </div>
+                  <p className="text-lg font-black text-[#D29922]">PKR 52,000</p>
+                  <p className="text-[11px] text-[#8B949E] font-sans">
+                    11 salons · Local Bank IBFT (PKR 24,000) + Overseas Package &amp; 10% Maint Auto-Deposits (PKR 28,000)
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[#F0F6FC] font-bold">2. EasyPaisa (Local Pakistan)</span>
+                    <span className="rounded bg-[#21262D] border border-[#30363D] px-2 py-0.5 text-[10px] font-bold text-[#3FB950] shrink-0">
+                      24.1%
+                    </span>
+                  </div>
+                  <p className="text-lg font-black text-[#D29922]">PKR 26,000</p>
+                  <p className="text-[11px] text-[#8B949E] font-sans">
+                    6 local salons · Instant SMS webhook auto-match
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[#F0F6FC] font-bold">3. JazzCash (Local Pakistan)</span>
+                    <span className="rounded bg-[#21262D] border border-[#30363D] px-2 py-0.5 text-[10px] font-bold text-[#3FB950] shrink-0">
+                      13.0%
+                    </span>
+                  </div>
+                  <p className="text-lg font-black text-[#D29922]">PKR 14,000</p>
+                  <p className="text-[11px] text-[#8B949E] font-sans">
+                    4 local salons · Local wallet SMS regex verification
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-[#30363D] bg-[#161B22] p-3.5 space-y-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[#F0F6FC] font-bold">4. Stripe Connect (Overseas 20/80 Split)</span>
+                    <span className="rounded bg-[#3B2E0B] border border-[#9E6A03] px-2 py-0.5 text-[10px] font-bold text-[#D29922] shrink-0">
+                      14.8%
+                    </span>
+                  </div>
+                  <p className="text-lg font-black text-[#D29922]">PKR 16,000</p>
+                  <p className="text-[11px] text-[#8B949E] font-sans">
+                    3 overseas salons · 80% net settled into local WorkCraft bank account
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Payment Verification Gateways */}
             <div className="space-y-3">
               <h4 className="text-xs font-mono font-bold text-[#D29922] uppercase tracking-wider">
                 Automated Webhook Channels &amp; Reconciliation
               </h4>
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  { name: 'EasyPaisa Webhook', desc: 'Auto-unlocks salon analytics instantly upon incoming SMS payload matching tenant ID.', status: 'Webhook Ready' },
-                  { name: 'JazzCash Webhook', desc: 'Simulates transaction regex string parser with fallback to manual founder review.', status: 'Webhook Ready' },
-                  { name: 'Stripe Connect (Overseas 20/80 Split)', desc: 'Same-currency direct split outside Pakistan: 20% paid straight to Agent local bank/Stripe in deal currency, 80% to WorkCraft (zero double FX conversion loss).', status: 'Direct Split' },
+                  {
+                    name: 'Bank Account (IBFT / Raast / Overseas Wire)',
+                    desc: 'Primary settlement hub: receives local Pakistan IBFT/Raast transfers plus automatic deposits from overseas package & 10% maintenance payments.',
+                    status: 'Primary Rail',
+                  },
+                  {
+                    name: 'EasyPaisa Webhook',
+                    desc: 'Local Pakistan wallet: auto-unlocks salon analytics instantly upon incoming SMS payload matching tenant ID.',
+                    status: 'Webhook Ready',
+                  },
+                  {
+                    name: 'JazzCash Webhook',
+                    desc: 'Local Pakistan wallet: transaction regex string parser with fallback to instant founder verification.',
+                    status: 'Webhook Ready',
+                  },
+                  {
+                    name: 'Stripe Connect (Overseas 20/80 Split)',
+                    desc: 'Same-currency direct split outside Pakistan: 20% paid straight to Agent in deal currency, 80% routed directly into WorkCraft local bank account.',
+                    status: 'Direct Split',
+                  },
                 ].map((item) => (
                   <button
                     key={item.name}
                     onClick={() => setPaymentRouting(item.name)}
                     className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] p-4 text-left transition hover:border-[#06B6D4] group"
                   >
-                    <div className="flex items-center justify-between">
-                      <CreditCard className="size-5 text-[#D29922] group-hover:scale-105 transition-transform" />
-                      <span className="rounded bg-[#21262D] px-2 py-0.5 text-[10px] font-mono text-[#F0F6FC] border border-[#30363D]">
+                    <div className="flex items-center justify-between gap-2">
+                      <CreditCard className="size-5 text-[#D29922] group-hover:scale-105 transition-transform shrink-0" />
+                      <span className="rounded bg-[#21262D] px-2 py-0.5 text-[10px] font-mono text-[#F0F6FC] border border-[#30363D] shrink-0">
                         {item.status}
                       </span>
                     </div>
-                    <p className="mt-3 text-sm font-bold text-[#F0F6FC]">{item.name}</p>
-                    <p className="mt-1 text-[11px] text-[#8B949E] font-sans leading-relaxed">
+                    <p className="mt-3 text-sm font-bold text-[#F0F6FC] break-words [overflow-wrap:break-word]">{item.name}</p>
+                    <p className="mt-1 text-[11px] text-[#8B949E] font-sans leading-relaxed break-words [overflow-wrap:break-word]">
                       {item.desc}
                     </p>
                   </button>
