@@ -264,12 +264,9 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
       }
 
       ctx.textAlign = 'left';
-      ctx.fillStyle = '#F5F2E9';
-      ctx.font = '900 30px sans-serif';
-      ctx.fillText('WORKCRAFT', 214, 142);
       ctx.fillStyle = '#00FFFF';
-      ctx.font = 'bold 18px monospace';
-      ctx.fillText('L O C A L', 214, 174);
+      ctx.font = 'bold 20px monospace';
+      ctx.fillText('OFFICIAL BOOKING', 214, 155);
 
       // Top-Right QR Code Card + Salon Owner WhatsApp Number Directly Under QR Code
       const qrBoxX = canvas.width - 390;
@@ -560,11 +557,8 @@ export const SalonWindowPosterPdf: React.FC<SalonWindowPosterPdfProps> = ({
                   className="size-11 object-contain"
                 />
                 <div className="leading-tight">
-                  <span className="block text-sm font-black tracking-wide text-[#F5F2E9]">
-                    WORKCRAFT
-                  </span>
-                  <span className="block text-[10px] font-mono font-bold tracking-[0.28em] text-[#00FFFF]">
-                    LOCAL
+                  <span className="block text-[11px] font-mono font-bold tracking-[0.2em] text-[#00FFFF]">
+                    OFFICIAL BOOKING
                   </span>
                 </div>
               </div>

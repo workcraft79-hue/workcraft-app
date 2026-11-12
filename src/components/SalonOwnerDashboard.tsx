@@ -31,6 +31,9 @@ import {
   Receipt,
   Award,
   Printer,
+  Edit2,
+  Trash2,
+  UserCheck,
 } from 'lucide-react';
 import { PortalCard } from './PortalCard';
 import { BroadcastTab } from './Tabs/BroadcastTab';
@@ -546,6 +549,7 @@ interface SalonOwnerDashboardProps {
   selectedSalonName?: string;
   ownerName?: string;
   phone?: string;
+  salonCategory?: 'MENS' | 'LADIES';
   isFounderInspector?: boolean;
   onOpenSimulator?: () => void;
   onClose?: () => void;
@@ -553,6 +557,7 @@ interface SalonOwnerDashboardProps {
 
 export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
   selectedSalonName,
+  salonCategory,
   isFounderInspector = false,
   onClose,
 }) => {
@@ -1000,21 +1005,94 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
     ? '7–10 Day VIP Validation Campaign Active (25% OFF Mon–Thu)'
     : 'Mon–Thu Normal Days · Standard Menu Rates Applied';
 
-  // Rate Card State (Separate Individual Services matching Onboarding — Salon Owner Only Edit)
-  const [services, setServices] = useState([
-    { id: 's1', name: 'Master Haircut', price: 800, active: true },
-    { id: 's2', name: 'Skin Fade', price: 600, active: true },
-    { id: 's3', name: 'Beard Trim & Sculpt', price: 600, active: true },
-    { id: 's4', name: 'Hot Towel Shave', price: 500, active: true },
-    { id: 's5', name: 'Hair Color & Gloss', price: 1500, active: true },
-    { id: 's6', name: 'Charcoal Deep Detox Facial', price: 2500, active: true },
-    { id: 's7', name: 'Keratin Hair Protein', price: 6000, active: true },
-    { id: 's8', name: 'Herbal Head Massage', price: 600, active: true },
-  ]);
+  const isLadies =
+    salonCategory === 'LADIES' ||
+    currentSalon.name.toLowerCase().includes('parlor') ||
+    currentSalon.name.toLowerCase().includes('ladies') ||
+    currentSalon.name.toLowerCase().includes('beauty') ||
+    (typeof window !== 'undefined' && localStorage.getItem('wcl_salon_category') === 'LADIES');
+
+  // Rate Card State strictly locked to the onboarded category (Men's Salon vs Ladies Parlor)
+  const [services, setServices] = useState(() => {
+    if (isLadies) {
+      return [
+        { id: 'l1', name: 'Signature Party Makeup & Styling', price: 4500, active: true },
+        { id: 'l2', name: 'Barat / Walima Bridal Package', price: 35000, active: true },
+        { id: 'l3', name: 'Hydra-Facial & Skin Polish', price: 3500, active: true },
+        { id: 'l4', name: 'Keratin Hair Rebonding / Smoothing', price: 12000, active: true },
+        { id: 'l5', name: 'Mani-Pedi Classic Spa', price: 2000, active: true },
+        { id: 'l6', name: 'Full Face Threading & Waxing', price: 1200, active: true },
+        { id: 'l7', name: 'Deep Conditioning Hair Spa', price: 2500, active: true },
+      ];
+    }
+    return [
+      { id: 's1', name: 'Master Haircut & Skin Fade', price: 800, active: true },
+      { id: 's2', name: 'Classic Beard Trim & Sculpt', price: 400, active: true },
+      { id: 's3', name: 'Hot Towel Steam Shave', price: 500, active: true },
+      { id: 's4', name: 'Hair Color & Camo', price: 1500, active: true },
+      { id: 's5', name: 'Charcoal Deep Detox Facial', price: 2500, active: true },
+      { id: 's6', name: 'Keratin Hair Protein', price: 6000, active: true },
+      { id: 's7', name: 'Herbal Mint Head Massage', price: 500, active: true },
+      { id: 's8', name: 'Groom Signature Package', price: 12000, active: true },
+    ];
+  });
 
   const [isAddingCustom, setIsAddingCustom] = useState(false);
   const [customServiceName, setCustomServiceName] = useState('');
   const [customServicePrice, setCustomServicePrice] = useState('1500');
+
+  // Query 8: Barbers & Stylists Management State (Synced with Onboarding & LocalStorage)
+  const [barbersList, setBarbersList] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('wcl_salon_barbers');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return ['Master Aslam', 'Tariq Mehmood', 'Ali Raza', 'Bilal Tariq'];
+  });
+  const [newBarberDashboardInput, setNewBarberDashboardInput] = useState('');
+  const [editingBarberIndex, setEditingBarberIndex] = useState<number | null>(null);
+  const [editingBarberName, setEditingBarberName] = useState('');
+
+  const handleAddBarberDashboard = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newBarberDashboardInput.trim()) return;
+    const updated = [...barbersList, newBarberDashboardInput.trim()];
+    setBarbersList(updated);
+    setNewBarberDashboardInput('');
+    try {
+      localStorage.setItem('wcl_salon_barbers', JSON.stringify(updated));
+    } catch {}
+    setMaintToast(`✓ Barber "${newBarberDashboardInput.trim()}" added to active roster & voice engine.`);
+    setTimeout(() => setMaintToast(null), 4000);
+  };
+
+  const handleSaveEditBarber = (index: number) => {
+    if (!editingBarberName.trim()) return;
+    const oldName = barbersList[index];
+    const updated = [...barbersList];
+    updated[index] = editingBarberName.trim();
+    setBarbersList(updated);
+    setEditingBarberIndex(null);
+    setEditingBarberName('');
+    try {
+      localStorage.setItem('wcl_salon_barbers', JSON.stringify(updated));
+    } catch {}
+    setMaintToast(`✓ Barber "${oldName}" updated to "${editingBarberName.trim()}".`);
+    setTimeout(() => setMaintToast(null), 4000);
+  };
+
+  const handleDeleteBarberDashboard = (name: string) => {
+    const updated = barbersList.filter((b) => b !== name);
+    setBarbersList(updated);
+    try {
+      localStorage.setItem('wcl_salon_barbers', JSON.stringify(updated));
+    } catch {}
+    setMaintToast(`✓ Barber "${name}" removed from salon roster.`);
+    setTimeout(() => setMaintToast(null), 4000);
+  };
 
   // Query 2 Voice Booking Announcement (Speaks in Owner's Own Voice Language)
   const triggerVoiceBookingAnnouncement = (
@@ -2165,6 +2243,126 @@ export const SalonOwnerDashboard: React.FC<SalonOwnerDashboardProps> = ({
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Query 8: Barbers & Stylists Staff Management Card (Owner Editable 24/7) */}
+            <div className="rounded-2xl border border-[#30363D] bg-[#0D1117] p-4 space-y-3.5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#21262D] pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="size-8 rounded-lg bg-[#3B2E0B] border border-[#9E6A03] grid place-items-center text-[#D29922]">
+                    <Scissors className="size-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[#F0F6FC] flex items-center gap-2">
+                      <span>Manage Barbers &amp; Stylists Staff</span>
+                      <span className="rounded-md bg-[#21262D] border border-[#30363D] px-2 py-0.5 text-[10px] font-mono font-bold text-[#06B6D4]">
+                        {barbersList.length} Active Staff
+                      </span>
+                    </h4>
+                    <p className="text-[11px] text-[#8B949E] font-sans">
+                      Add, edit, or remove your salon barbers. Changes automatically feed into WhatsApp booking assignment and voice dispatch announcements.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Barbers Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {barbersList.map((barber, bIdx) => {
+                  const isEditing = editingBarberIndex === bIdx;
+                  return (
+                    <div
+                      key={bIdx}
+                      className="rounded-xl border border-[#30363D] bg-[#161B22] p-3 flex items-center justify-between gap-2"
+                    >
+                      {isEditing ? (
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          <input
+                            type="text"
+                            value={editingBarberName}
+                            onChange={(e) => setEditingBarberName(e.target.value)}
+                            className="min-h-[38px] flex-1 rounded-lg border border-[#06B6D4] bg-[#0D1117] px-2.5 py-1 text-xs text-[#F0F6FC] focus:outline-none"
+                            placeholder="Barber name"
+                            autoFocus
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleSaveEditBarber(bIdx)}
+                            className="min-h-[38px] px-2.5 py-1 rounded-lg bg-[#06B6D4] text-[#0D1117] text-xs font-mono font-bold hover:bg-[#22D3EE] transition"
+                          >
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingBarberIndex(null);
+                              setEditingBarberName('');
+                            }}
+                            className="min-h-[38px] px-2 py-1 rounded-lg border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC] text-xs font-mono"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="size-6 rounded-md bg-[#21262D] border border-[#30363D] grid place-items-center text-[10px] font-mono font-bold text-[#D29922] shrink-0">
+                              #{bIdx + 1}
+                            </span>
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold text-[#F0F6FC] truncate">{barber}</p>
+                              <span className="text-[10px] font-mono text-[#3FB950] flex items-center gap-1">
+                                <span className="size-1.5 rounded-full bg-[#3FB950]" />
+                                <span>Chair #{bIdx + 1} · Ready</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingBarberIndex(bIdx);
+                                setEditingBarberName(barber);
+                              }}
+                              className="size-8 grid place-items-center rounded-lg border border-[#30363D] bg-[#0D1117] hover:border-[#06B6D4] text-[#8B949E] hover:text-[#06B6D4] transition"
+                              title="Rename Barber"
+                            >
+                              <Edit2 className="size-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteBarberDashboard(barber)}
+                              className="size-8 grid place-items-center rounded-lg border border-[#30363D] bg-[#0D1117] hover:border-[#F85149] text-[#8B949E] hover:text-[#F85149] transition"
+                              title="Remove Barber"
+                            >
+                              <Trash2 className="size-3.5" />
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Add New Barber Input Form */}
+              <form onSubmit={handleAddBarberDashboard} className="flex flex-col sm:flex-row gap-2 pt-1">
+                <input
+                  type="text"
+                  value={newBarberDashboardInput}
+                  onChange={(e) => setNewBarberDashboardInput(e.target.value)}
+                  placeholder="Enter new barber / stylist name (e.g. Master Kamran or Salman)"
+                  className="flex-1 min-h-[44px] rounded-xl border border-[#30363D] bg-[#161B22] px-3.5 py-2 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                />
+                <button
+                  type="submit"
+                  className="min-h-[44px] rounded-xl bg-[#D29922] hover:bg-[#e0b252] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase transition flex items-center justify-center gap-1.5 shrink-0"
+                >
+                  <Plus className="size-4" />
+                  <span>+ Add Barber to Staff</span>
+                </button>
+              </form>
             </div>
 
             {/* QUERY 5: 2-Hour Pre-Appointment "Are You Coming?" Auto-Check & Waitlist Shield */}

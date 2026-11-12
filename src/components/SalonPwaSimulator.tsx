@@ -26,6 +26,8 @@ import {
   X,
   ChevronDown,
   ChevronUp,
+  Scissors,
+  MessageSquare,
 } from 'lucide-react';
 import { PortalCard } from './PortalCard';
 import { SalonOwnerDashboard } from './SalonOwnerDashboard';
@@ -116,6 +118,35 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
   const [isAddingService, setIsAddingService] = useState(false);
   const [customName, setCustomName] = useState('');
   const [customPrice, setCustomPrice] = useState('1500');
+
+  // Barbers & Stylists Roster State (Query 8)
+  const [barbersRoster, setBarbersRoster] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('wcl_salon_barbers');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return ['Master Aslam', 'Zahid Hussain', 'Ali Raza'];
+  });
+  const [newBarberInput, setNewBarberInput] = useState('');
+
+  const handleAddBarber = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newBarberInput.trim()) return;
+    const updated = [...barbersRoster, newBarberInput.trim()];
+    setBarbersRoster(updated);
+    setNewBarberInput('');
+    try {
+      localStorage.setItem('wcl_salon_barbers', JSON.stringify(updated));
+    } catch {}
+  };
+
+  const handleRemoveBarber = (name: string) => {
+    const updated = barbersRoster.filter((b) => b !== name);
+    setBarbersRoster(updated);
+    try {
+      localStorage.setItem('wcl_salon_barbers', JSON.stringify(updated));
+    } catch {}
+  };
 
   // Remote 8-Digit WhatsApp Pairing vs In-Person QR State
   const [pairingMode, setPairingMode] = useState<'REMOTE_CODE' | 'VISUAL_QR'>('REMOTE_CODE');
@@ -824,36 +855,51 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
               <form onSubmit={handleAddCustomService} className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono font-bold text-[#D29922] uppercase">
-                    New Service ({selectedCategory === 'MENS' ? T.mensTab : T.ladiesTab})
+                    {selectedLanguage === 'URDU'
+                      ? `نئی سروس (${selectedCategory === 'MENS' ? 'مینس' : 'لیڈیز'})`
+                      : selectedLanguage === 'ARABIC'
+                      ? `خدمة جديدة (${selectedCategory === 'MENS' ? 'رجالي' : 'نسائي'})`
+                      : `New Service (${selectedCategory === 'MENS' ? T.mensTab : T.ladiesTab})`}
                   </span>
                   <button
                     type="button"
                     onClick={() => setIsAddingService(false)}
                     className="min-h-[36px] px-2 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC]"
                   >
-                    Cancel
+                    {selectedLanguage === 'URDU' ? 'منسوخ کریں' : selectedLanguage === 'ARABIC' ? 'إلغاء' : 'Cancel'}
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div className="sm:col-span-2">
-                    <label className="text-[10px] font-mono text-[#8B949E] block mb-1">Service Name</label>
+                    <label className="text-[10px] font-mono text-[#8B949E] block mb-1">
+                      {selectedLanguage === 'URDU' ? 'سروس کا نام' : selectedLanguage === 'ARABIC' ? 'اسم الخدمة' : 'Service Name'}
+                    </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Keratin Beard Glow or Express Bleach"
+                      placeholder={
+                        selectedLanguage === 'URDU'
+                          ? 'مثلاً: کیراٹین بیئرڈ گلو یا ہائیڈرا فیشل'
+                          : selectedLanguage === 'ARABIC'
+                          ? 'مثال: هيدرا فيشل أو علاج كيراتين اللحية'
+                          : 'e.g. Keratin Beard Glow or Express Bleach'
+                      }
                       value={customName}
                       onChange={(e) => setCustomName(e.target.value)}
                       className="w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-sm text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-mono text-[#8B949E] block mb-1">Price (PKR)</label>
+                    <label className="text-[10px] font-mono text-[#8B949E] block mb-1">
+                      {selectedLanguage === 'URDU' ? 'قیمت (PKR)' : selectedLanguage === 'ARABIC' ? 'السعر' : 'Price'}
+                    </label>
                     <input
                       type="number"
                       required
+                      dir="ltr"
                       value={customPrice}
                       onChange={(e) => setCustomPrice(e.target.value)}
-                      className="w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-sm font-mono font-bold text-[#D29922] focus:outline-none focus:border-[#06B6D4]"
+                      className="w-full min-h-[48px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-sm font-mono font-bold text-[#D29922] focus:outline-none focus:border-[#06B6D4] text-left"
                     />
                   </div>
                 </div>
@@ -861,10 +907,82 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                   type="submit"
                   className="min-h-[48px] rounded-lg bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] px-4 py-2 text-xs font-mono font-bold uppercase transition"
                 >
-                  Append Service
+                  {selectedLanguage === 'URDU' ? 'سروس شامل کریں' : selectedLanguage === 'ARABIC' ? 'إضافة الخدمة' : 'Append Service'}
                 </button>
               </form>
             )}
+
+            {/* Query 8: Barbers & Stylists Roster Card (Pre-Onboarding Setup) */}
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-3">
+              <div className="flex items-center justify-between border-b border-[#21262D] pb-2">
+                <span className="text-xs font-mono font-bold text-[#D29922] flex items-center gap-1.5">
+                  <Scissors className="size-3.5 text-[#D29922]" />
+                  <span>
+                    {selectedLanguage === 'URDU'
+                      ? 'سیلون باربرز / عملے کی فہرست'
+                      : selectedLanguage === 'ARABIC'
+                      ? 'قائمة الحلاقين / فريق العمل'
+                      : 'Barbers & Stylists Staff Roster'}
+                  </span>
+                </span>
+                <span className="text-[10px] font-mono text-[#06B6D4] bg-[#21262D] px-2 py-0.5 rounded border border-[#30363D]">
+                  {barbersRoster.length} {selectedLanguage === 'URDU' ? 'باربرز' : selectedLanguage === 'ARABIC' ? 'حلاقين' : 'Barbers'}
+                </span>
+              </div>
+              <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
+                {selectedLanguage === 'URDU'
+                  ? 'اپنے سیلون کے باربرز یا ہیئر ڈریسرز کے نام شامل کریں۔ واٹس ایپ بوٹ گاہکوں کو بکنگ کے وقت انھی کے نام دکھائے گا اور آواز سے اناؤنس کرے گا۔'
+                  : selectedLanguage === 'ARABIC'
+                  ? 'أضف أسماء الحلاقين أو مصففي الشعر في صالونك. سيتم اقتراحهم للعملاء عند الحجز عبر واتساب والإعلان الصوتي عند وصولهم.'
+                  : 'Add your salon barbers or stylists. WhatsApp bot will suggest them to clients during booking and announce their chair bookings aloud.'}
+              </p>
+
+              {/* Roster Badges List */}
+              <div className="flex flex-wrap gap-2">
+                {barbersRoster.map((barber, bIdx) => (
+                  <div
+                    key={bIdx}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[#30363D] bg-[#161B22] px-2.5 py-1 text-xs font-mono font-bold text-[#F0F6FC]"
+                  >
+                    <span>Chair #{bIdx + 1}: {barber}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveBarber(barber)}
+                      className="size-4 grid place-items-center rounded text-[#8B949E] hover:text-[#F85149] hover:bg-[#21262D] transition ml-1"
+                      title="Remove"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Add Barber Inline Form */}
+              <form onSubmit={handleAddBarber} className="flex gap-2 pt-1">
+                <input
+                  type="text"
+                  value={newBarberInput}
+                  onChange={(e) => setNewBarberInput(e.target.value)}
+                  placeholder={
+                    selectedLanguage === 'URDU'
+                      ? 'نیا باربر شامل کریں (مثلاً: اویس رضا)'
+                      : selectedLanguage === 'ARABIC'
+                      ? 'اسم الحلاق الجديد (مثال: طارق علي)'
+                      : 'Add new barber (e.g. Tariq Ali)'
+                  }
+                  className="flex-1 min-h-[44px] rounded-lg border border-[#30363D] bg-[#161B22] px-3 py-1.5 text-xs text-[#F0F6FC] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                />
+                <button
+                  type="submit"
+                  className="min-h-[44px] rounded-lg bg-[#21262D] border border-[#30363D] hover:border-[#06B6D4] text-[#06B6D4] px-3 py-1.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1 shrink-0"
+                >
+                  <Plus className="size-3.5" />
+                  <span>
+                    {selectedLanguage === 'URDU' ? 'شامل کریں' : selectedLanguage === 'ARABIC' ? 'إضافة' : 'Add'}
+                  </span>
+                </button>
+              </form>
+            </div>
 
             <button
               onClick={() => setStep(3)}
@@ -923,15 +1041,23 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                       </div>
                       <div className="mt-3 pt-2.5 border-t border-[#21262D]">
                         <span className="text-xs font-mono font-bold text-[#D29922] block">
-                          {regionalTier === 'PAKISTAN'
-                            ? `PKR ${pkg.setupPrice.toLocaleString()}`
-                            : regionalTier === 'MENA'
-                            ? `$${pkg.setupPriceUsd} USD (~${Math.round(pkg.setupPriceUsd * 3.67)} AED)`
-                            : `$${pkg.setupPriceUsd} USD (~£${Math.round(pkg.setupPriceUsd * 0.79)})`}
+                          {regionalTier === 'PAKISTAN' ? (
+                            `PKR ${pkg.setupPrice.toLocaleString()}`
+                          ) : regionalTier === 'MENA' ? (
+                            <span className="inline-flex items-center gap-1.5 flex-wrap">
+                              <span className="text-[#F0F6FC] font-black">{Math.round(pkg.setupPriceUsd * 3.67)} AED</span>
+                              <span className="text-[10px] text-[#06B6D4] bg-[#21262D] px-1.5 py-0.5 rounded border border-[#30363D] font-bold">د.إ</span>
+                              <span className="text-[10px] text-[#8B949E]">(${pkg.setupPriceUsd} USD)</span>
+                            </span>
+                          ) : (
+                            `$${pkg.setupPriceUsd} USD (~£${Math.round(pkg.setupPriceUsd * 0.79)})`
+                          )}
                         </span>
                         <span className="text-[10px] font-mono text-[#3FB950] block mt-0.5">
                           {regionalTier === 'PAKISTAN'
                             ? `Monthly Fee: PKR ${pkg.monthlyMaint.toLocaleString()} / mo (10%)`
+                            : regionalTier === 'MENA'
+                            ? `Monthly Fee: ${Math.round(pkg.monthlyMaintUsd * 3.67)} AED / mo (10%)`
                             : `Monthly Fee: $${pkg.monthlyMaintUsd.toFixed(2)} / mo (10%)`}
                         </span>
                       </div>
@@ -1023,10 +1149,33 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                 <span className="text-xs font-mono text-[#D29922] font-bold">
                   {regionalTier === 'PAKISTAN'
                     ? `PKR ${currentPackage.monthlyMaint.toLocaleString()} / mo (10%)`
-                    : `$${currentPackage.monthlyMaintUsd.toFixed(2)} USD / mo (10%)`}
+                    : regionalTier === 'MENA'
+                    ? `${Math.round(currentPackage.monthlyMaintUsd * 3.67)} AED / mo (10%)`
+                    : `£${(currentPackage.monthlyMaintUsd * 0.79).toFixed(2)} / mo (10%)`}
                 </span>
               </div>
               <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">{T.maintExplain}</p>
+            </div>
+
+            {/* Queries 6 & 7: Multi-Branch Dedicated WhatsApp Line Policy */}
+            <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3 text-xs font-mono space-y-1.5">
+              <span className="text-[#06B6D4] font-bold flex items-center gap-1.5">
+                <Smartphone className="size-3.5 text-[#06B6D4]" />
+                <span>
+                  {selectedLanguage === 'URDU'
+                    ? 'ملٹی برانچ سیلون پالیسی: ہر برانچ کا الگ واٹس ایپ نمبر'
+                    : selectedLanguage === 'ARABIC'
+                    ? 'سياسة الفروع المتعددة: رقم واتساب مخصص لكل فرع'
+                    : 'Multi-Branch Policy: 1 Dedicated WhatsApp Number Per Branch'}
+                </span>
+              </span>
+              <p className="text-[11px] text-[#8B949E] font-sans leading-relaxed">
+                {selectedLanguage === 'URDU'
+                  ? 'اگر آپ کے سیلون کی ایک سے زیادہ برانچز ہیں، تو ہر برانچ کا اپنا الگ واٹس ایپ نمبر ہونا لازمی ہے۔ اس سے ہر دکان کے باربرز کو ڈائریکٹ بکنگ الرٹس ملتے ہیں اور 10 فیصد ماہانہ مینٹیننس کا حساب کتاب شفاف رہتا ہے۔'
+                  : selectedLanguage === 'ARABIC'
+                  ? 'إذا كان لصالونك فروع متعددة، فيجب تزويد كل فرع برقم واتساب مستقل. هذا يضمن توجيه تنبيهات الحلاقة مباشرة لكل فرع وفواتير صيانة شهرية منفصلة بنسبة 10%.'
+                  : 'Each salon branch requires its own dedicated WhatsApp number. This ensures direct booking alerts to each location’s staff, separate customer queues, and transparent 10% monthly maintenance billing.'}
+              </p>
             </div>
 
             {/* Payment Method Selector */}
@@ -1222,8 +1371,59 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                         <span>MashaAllah! Salon WhatsApp Connected!</span>
                       </div>
                       <p className="text-xs text-[#F0F6FC] font-sans leading-relaxed">
-                        Your {selectedCategory === 'LADIES' ? 'ladies beauty parlor' : 'salon'} WhatsApp is now connected. Print or share your official Customer Window Poster PDF below so walk-in &amp; existing clients know they can book on WhatsApp 24/7.
+                        Your {selectedCategory === 'LADIES' ? 'ladies beauty parlor' : 'salon'} WhatsApp is now connected. Two automated messages have been sent to your WhatsApp number:
                       </p>
+
+                      {/* Query 13: WhatsApp Dispatch 1 - Welcome Note & Paid Package Confirmation */}
+                      <div className="rounded-xl border border-[#30363D] bg-[#0D1117] p-3.5 space-y-2 text-left font-mono text-xs overflow-hidden">
+                        <div className="flex items-center justify-between text-[10px] text-[#3FB950] border-b border-[#21262D] pb-1.5">
+                          <span className="font-bold flex items-center gap-1.5">
+                            <MessageSquare className="size-3.5" />
+                            <span>WhatsApp Message 1 · Welcome &amp; Package Paid</span>
+                          </span>
+                          <span className="text-[#8B949E]">Delivered ✓✓</span>
+                        </div>
+                        <div className="rounded-lg bg-[#161B22] p-2.5 border-l-2 border-[#3FB950] space-y-1">
+                          <p className="text-[#F0F6FC] text-xs font-sans">
+                            {selectedLanguage === 'URDU' ? (
+                              <>
+                                السلام علیکم! <strong>{salonName}</strong> کو ورک کرافٹ میں خوش آمدید۔ آپ کا <strong>{currentPackage.name}</strong> پیکج اور سیٹ اپ فیس (<strong>{regionalTier === 'PAKISTAN' ? `PKR ${currentPackage.setupPrice.toLocaleString()}` : `$${currentPackage.setupPriceUsd} USD`}</strong>) کی تصدیق ہو گئی ہے۔ واٹس ایپ خودکار بکنگ اب 24 گھنٹے لائیو ہے۔
+                              </>
+                            ) : selectedLanguage === 'ARABIC' ? (
+                              <>
+                                مرحباً بك في وورك كرافت! تم تأكيد دفع باقة <strong>{currentPackage.name}</strong> ورسوم التأسيس بنجاح لصالون <strong>{salonName}</strong>. الرد الآلي والحجز الذكي عبر واتساب مفعل الآن 24/7.
+                              </>
+                            ) : (
+                              <>
+                                Assalamu Alaikum! Welcome to WorkCraft. Your <strong>{currentPackage.name}</strong> package setup payment of <strong>{regionalTier === 'PAKISTAN' ? `PKR ${currentPackage.setupPrice.toLocaleString()}` : `$${currentPackage.setupPriceUsd} USD`}</strong> is confirmed. 24/7 WhatsApp AI concierge is now live for <strong>{salonName}</strong>.
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Query 13: WhatsApp Dispatch 2 - Generated Private Dashboard Installation Link */}
+                      <div className="rounded-xl border border-[#06B6D4]/40 bg-[#0D1117] p-3.5 space-y-2 text-left font-mono text-xs overflow-hidden">
+                        <div className="flex items-center justify-between text-[10px] text-[#06B6D4] border-b border-[#21262D] pb-1.5">
+                          <span className="font-bold flex items-center gap-1.5">
+                            <Smartphone className="size-3.5" />
+                            <span>WhatsApp Message 2 · Dashboard Installation Link</span>
+                          </span>
+                          <span className="text-[#8B949E]">Delivered ✓✓</span>
+                        </div>
+                        <div className="rounded-lg bg-[#161B22] p-2.5 border-l-2 border-[#06B6D4] space-y-1.5">
+                          <p className="text-xs text-[#F0F6FC] font-sans">
+                            {selectedLanguage === 'URDU'
+                              ? 'اپنا ذاتی سیلون اونر ڈیش بورڈ انسٹال کرنے کے لیے نیچے دیے گئے لنک پر کلک کریں اور ہوم اسکرین پر شارٹ کٹ آئیکن شامل کریں:'
+                              : selectedLanguage === 'ARABIC'
+                              ? 'لتثبيت لوحة تحكم مالك الصالون وإضافة اختصار إلى الشاشة الرئيسية، اضغط على الرابط التالي:'
+                              : 'Tap your secure link to install the Salon Owner Dashboard and add the shortcut icon to your phone home screen:'}
+                          </p>
+                          <div className="p-2 rounded bg-[#0D1117] border border-[#30363D] text-[11px] text-[#06B6D4] break-all font-mono">
+                            https://portal.workcraft.local/?role=salon_owner&amp;paired=true
+                          </div>
+                        </div>
+                      </div>
 
                       {/* 1-Click Branded Window Poster & Cabin Pamphlet PDF (Query 6) */}
                       <SalonWindowPosterPdf
@@ -1256,7 +1456,9 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                           <div>
                             <p className="text-xs font-bold text-[#F0F6FC]">WorkCraft</p>
                             <p className="text-[10px] text-[#8B949E] font-sans">
-                              {isHomeShortcutInstalled ? 'Saved to phone home screen' : '1-Tap shortcut on your phone'}
+                              {isHomeShortcutInstalled
+                                ? (selectedLanguage === 'URDU' ? 'ہوم اسکرین پر محفوظ ہو گیا ✓' : selectedLanguage === 'ARABIC' ? 'تم الحفظ على الشاشة الرئيسية ✓' : 'Saved to phone home screen ✓')
+                                : (selectedLanguage === 'URDU' ? 'فون کی ہوم اسکرین پر شارٹ کٹ بنائیں' : selectedLanguage === 'ARABIC' ? 'إنشاء اختصار على الشاشة' : '1-Tap shortcut icon on your phone')}
                             </p>
                           </div>
                         </div>
@@ -1270,7 +1472,7 @@ export const SalonPwaSimulator: React.FC<SalonPwaSimulatorProps> = ({
                               : 'bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] border-[#06B6D4]'
                           }`}
                         >
-                          {isHomeShortcutInstalled ? 'Saved ✓' : 'Save to Phone'}
+                          {isHomeShortcutInstalled ? 'Saved ✓' : 'Install Shortcut'}
                         </button>
                       </div>
 

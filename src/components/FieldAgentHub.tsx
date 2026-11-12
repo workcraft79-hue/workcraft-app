@@ -72,7 +72,7 @@ interface FieldAgentHubProps {
     phone?: string;
     city?: string;
   };
-  userRole?: 'FOUNDER' | 'FIELD_AGENT';
+  userRole?: 'FOUNDER' | 'FIELD_AGENT' | 'SALON_OWNER';
   onActiveCountriesChange?: (countries: Array<{ code: string; label: string; flag: string }>) => void;
 }
 
@@ -2159,9 +2159,19 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
 
 
 
-  // Query 1: Auto-open enrollment when launched via direct WhatsApp link
+  // Query 1: Auto-open enrollment once for new agents, never for already enrolled agents
   React.useEffect(() => {
     if (initialAutoOpenEnrollment || initialEnrollAgentData) {
+      // Check if this agent terminal has already completed Day-1 enrollment
+      const isAlreadyEnrolled =
+        typeof window !== 'undefined' &&
+        localStorage.getItem('wcl_agent_enrolled_v1') === 'true';
+
+      // If already enrolled and running in agent mode without new URL query parameters, keep wizard closed
+      if (isAlreadyEnrolled && userRole === 'FIELD_AGENT' && !initialEnrollAgentData?.id) {
+        return;
+      }
+
       if (initialEnrollAgentData?.name) {
         setEnrollAgentName(initialEnrollAgentData.name);
         setEnrollPayoutTitle(initialEnrollAgentData.name);
@@ -2182,7 +2192,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       setIsRemoteEnrollmentWizardOpen(true);
       setEnrollmentStep(1);
     }
-  }, [initialAutoOpenEnrollment, initialEnrollAgentData]);
+  }, [initialAutoOpenEnrollment, initialEnrollAgentData, userRole]);
 
   // PWA Home Screen Installation Prompt (Query 18)
   const [showPwaInstallModal, setShowPwaInstallModal] = useState(false);
@@ -5792,7 +5802,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               )}
 
               {/* Query 3: Outside-Pakistan Same-Currency Direct 20% / 80% Split Checkout */}
-              {!detectedCountry.isDomestic && (
+              {!detectedCountry.isDomestic && (userRole as string) !== 'SALON_OWNER' && (
                 <div className="p-3.5 rounded-xl border border-[#06B6D4]/40 bg-[#0D1117] space-y-2 font-mono text-xs">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-[#06B6D4] font-bold">
                     <span className="flex items-center gap-1.5">
@@ -5830,10 +5840,11 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                 <input
                   type="text"
                   required
+                  dir="ltr"
                   value={drawerSenderDetails || `${ownerName} (${phone})`}
                   onChange={(e) => setDrawerSenderDetails(e.target.value)}
                   placeholder={`${ownerName} (${phone})`}
-                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-xs font-mono text-[#3FB950] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4]"
+                  className="w-full min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-3.5 py-2 text-xs font-mono text-[#3FB950] placeholder:text-[#484F58] focus:outline-none focus:border-[#06B6D4] text-left"
                 />
                 <span className="text-[10px] text-[#6E7681] block mt-0.5">
                   {t.payerDetailsHint}
@@ -7565,6 +7576,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                           guarantorPhone: enrollGuarantorPhone || undefined,
                         },
                       ]);
+                      if (typeof window !== 'undefined') {
+                        localStorage.setItem('wcl_agent_enrolled_v1', 'true');
+                      }
                       setEnrollmentStep(5);
                     }}
                     className={`min-h-[48px] rounded-xl px-5 py-2.5 text-xs font-mono font-bold uppercase transition flex items-center gap-1.5 ${
@@ -7654,6 +7668,9 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   <button
                     type="button"
                     onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        localStorage.setItem('wcl_agent_enrolled_v1', 'true');
+                      }
                       setIsRemoteEnrollmentWizardOpen(false);
                       setActiveHubView('ONBOARDING');
                       setCurrentStep(1);
@@ -7665,7 +7682,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   </button>
                   <button
                     type="button"
-                    onClick={() => setIsRemoteEnrollmentWizardOpen(false)}
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        localStorage.setItem('wcl_agent_enrolled_v1', 'true');
+                      }
+                      setIsRemoteEnrollmentWizardOpen(false);
+                    }}
                     className="min-h-[48px] rounded-xl border border-[#30363D] bg-[#0D1117] px-4 py-3 text-xs font-mono text-[#8B949E] hover:text-[#F0F6FC] hover:border-[#484F58]"
                   >
                     {enrollmentLang === 'ur_roman' ? 'بند کریں اور واپس جائیں' : enrollmentLang === 'ar' ? 'إغلاق والعودة' : 'Close & Return'}
@@ -7678,7 +7700,7 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 5. HOME SCREEN APP SHORTCUT MODAL (UNIFIED WORKCRAFT LABEL) */}
+      {/* 5. HOME SCREEN APP SHORTCUT MODAL (UNIFIED WORKCRAFT LABEL - LOCALIZED) */}
       {/* ========================================================================= */}
       {showPwaInstallModal && (
         <div
@@ -7687,9 +7709,12 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[480px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 space-y-4"
+            dir={enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'rtl' : 'ltr'}
+            className={`w-full max-w-[480px] rounded-3xl border border-[#30363D] bg-[#161B22] p-5 sm:p-6 shadow-2xl animate-in zoom-in-95 space-y-4 ${
+              enrollmentLang === 'ur_roman' || enrollmentLang === 'ar' ? 'text-right' : 'text-left'
+            }`}
           >
-            <div className="flex items-start justify-between border-b border-[#21262D] pb-3">
+            <div className="flex items-start justify-between border-b border-[#21262D] pb-3 gap-2">
               <div className="flex items-center gap-3">
                 <img
                   src="/icon.svg"
@@ -7697,41 +7722,93 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
                   className="size-[60px] rounded-2xl border border-[#9E6A03] shrink-0"
                 />
                 <div>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#3FB950]">
-                    PHONE HOME SCREEN SHORTCUT
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#3FB950] block">
+                    {enrollmentLang === 'ur_roman'
+                      ? 'موبائل ہوم اسکرین شارٹ کٹ'
+                      : enrollmentLang === 'ar'
+                      ? 'اختصار الشاشة الرئيسية للهاتف'
+                      : 'PHONE HOME SCREEN SHORTCUT'}
                   </span>
                   <h3 className="text-lg font-black text-[#F0F6FC]">
-                    Save &quot;WorkCraft&quot; to Phone Home Screen
+                    {enrollmentLang === 'ur_roman'
+                      ? 'اپنے فون پر "WorkCraft" محفوظ کریں'
+                      : enrollmentLang === 'ar'
+                      ? 'حفظ تطبيق "WorkCraft" على الشاشة'
+                      : 'Save "WorkCraft" to Phone Home Screen'}
                   </h3>
-                  <span className="text-[10px] font-mono text-[#06B6D4]">
-                    Gold W + Cyan-Blue WORKCRAFT · Unified Label: WorkCraft
+                  <span className="text-[10px] font-mono text-[#06B6D4] block">
+                    {enrollmentLang === 'ur_roman'
+                      ? 'گولڈ ڈبلیو + نیلا ورک کرافٹ · یونیفائیڈ لیبل: WorkCraft'
+                      : enrollmentLang === 'ar'
+                      ? 'شعار ذهبي W + أزرق سماوي · الاسم الموحد: WorkCraft'
+                      : 'Gold W + Cyan-Blue WORKCRAFT · Unified Label: WorkCraft'}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setShowPwaInstallModal(false)}
-                className="min-h-[44px] min-w-[44px] rounded-lg grid place-items-center text-[#8B949E] hover:text-[#F0F6FC] transition"
+                className="min-h-[44px] min-w-[44px] rounded-lg grid place-items-center text-[#8B949E] hover:text-[#F0F6FC] transition shrink-0"
               >
                 <X className="size-5" />
               </button>
             </div>
 
             <p className="text-xs text-[#8B949E] font-sans leading-relaxed">
-              Your phone asks for one quick confirmation tap before placing the WorkCraft icon on your home screen:
+              {enrollmentLang === 'ur_roman'
+                ? 'آپ کا فون ہوم اسکرین پر ورک کرافٹ کا آئیکن لگانے سے پہلے ایک فوری تصدیقی ٹیپ مانگتا ہے:'
+                : enrollmentLang === 'ar'
+                ? 'يتطلب هاتفك نقرة تأكيد سريعة لإضافة أيقونة وورك كرافت إلى الشاشة الرئيسية:'
+                : 'Your phone asks for one quick confirmation tap before placing the WorkCraft icon on your home screen:'}
             </p>
 
             <div className="space-y-2.5 font-mono text-xs">
               <div className="rounded-xl bg-[#0D1117] p-3 border border-[#30363D] space-y-1">
-                <span className="text-[#06B6D4] font-bold block">📱 Android (Chrome / Samsung Internet):</span>
+                <span className="text-[#06B6D4] font-bold block">
+                  {enrollmentLang === 'ur_roman'
+                    ? '📱 اینڈرائیڈ (Chrome / Samsung Internet):'
+                    : enrollmentLang === 'ar'
+                    ? '📱 أندرويد (Chrome / Samsung Internet):'
+                    : '📱 Android (Chrome / Samsung Internet):'}
+                </span>
                 <p className="text-[#8B949E] font-sans text-[11px]">
-                  Tap the button below or tap Chrome menu (⋮) ➔ select <strong className="text-[#F0F6FC]">&quot;Install app&quot;</strong> or <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong>.
+                  {enrollmentLang === 'ur_roman' ? (
+                    <>
+                      نیچے دیا گیا بٹن دبائیں یا کروم مینو (⋮) کھول کر <strong className="text-[#F0F6FC]">&quot;Install app&quot;</strong> یا <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong> منتخب کریں۔
+                    </>
+                  ) : enrollmentLang === 'ar' ? (
+                    <>
+                      اضغط على الزر أدناه أو من قائمة Chrome (⋮) اختر <strong className="text-[#F0F6FC]">&quot;تثبيت التطبيق&quot;</strong> أو <strong className="text-[#F0F6FC]">&quot;إضافة إلى الشاشة الرئيسية&quot;</strong>.
+                    </>
+                  ) : (
+                    <>
+                      Tap the button below or tap Chrome menu (⋮) ➔ select <strong className="text-[#F0F6FC]">&quot;Install app&quot;</strong> or <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong>.
+                    </>
+                  )}
                 </p>
               </div>
 
               <div className="rounded-xl bg-[#0D1117] p-3 border border-[#30363D] space-y-1">
-                <span className="text-[#D29922] font-bold block">🍎 iPhone / iPad (Safari):</span>
+                <span className="text-[#D29922] font-bold block">
+                  {enrollmentLang === 'ur_roman'
+                    ? '🍎 آئی فون / آئی پیڈ (Safari):'
+                    : enrollmentLang === 'ar'
+                    ? '🍎 آيفون / آيباد (Safari):'
+                    : '🍎 iPhone / iPad (Safari):'}
+                </span>
                 <p className="text-[#8B949E] font-sans text-[11px]">
-                  Tap the Safari <strong className="text-[#F0F6FC]">Share icon (<Share2 className="size-3 inline" />)</strong> at the bottom bar ➔ scroll and tap <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong>.
+                  {enrollmentLang === 'ur_roman' ? (
+                    <>
+                      سفاری میں نیچے شیئر کا بٹن (<Share2 className="size-3 inline mx-1" />) دبائیں اور اسکرول کر کے <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong> منتخب کریں۔
+                    </>
+                  ) : enrollmentLang === 'ar' ? (
+                    <>
+                      في Safari اضغط على أيقونة المشاركة (<Share2 className="size-3 inline mx-1" />) بالأسفل ثم اختر <strong className="text-[#F0F6FC]">&quot;إضافة إلى الصفحة الرئيسية&quot;</strong>.
+                    </>
+                  ) : (
+                    <>
+                      Tap the Safari <strong className="text-[#F0F6FC]">Share icon (<Share2 className="size-3 inline" />)</strong> at the bottom bar ➔ scroll and tap <strong className="text-[#F0F6FC]">&quot;Add to Home Screen&quot;</strong>.
+                    </>
+                  )}
                 </p>
               </div>
             </div>
@@ -7745,7 +7822,13 @@ export const FieldAgentHub: React.FC<FieldAgentHubProps> = ({
               className="w-full min-h-[48px] rounded-xl bg-[#06B6D4] hover:bg-[#22D3EE] text-[#0D1117] py-3 text-xs font-mono font-black uppercase transition flex items-center justify-center gap-2"
             >
               <Download className="size-4" />
-              <span>Save &quot;WorkCraft&quot; Shortcut Now</span>
+              <span>
+                {enrollmentLang === 'ur_roman'
+                  ? 'ابھی "WorkCraft" شارٹ کٹ محفوظ کریں'
+                  : enrollmentLang === 'ar'
+                  ? 'حفظ اختصار "WorkCraft" الآن'
+                  : 'Save "WorkCraft" Shortcut Now'}
+              </span>
             </button>
           </div>
         </div>
